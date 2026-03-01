@@ -6,14 +6,20 @@ use Illuminate\Foundation\Configuration\Middleware;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
+        web: __DIR__ . '/../routes/web.php',
         //declare api routes 
-        api: __DIR__.'/../routes/api.php',
-        
-        commands: __DIR__.'/../routes/console.php',
+        api: __DIR__ . '/../routes/api.php',
+
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
-    //-----------
+    //declare role middleware 
+    ->withMiddleware(function ($middleware) {
+        $middleware->alias([
+            'role' => \App\Http\Middleware\RoleMiddleware::class,
+        ]);
+    })
+
     ->withMiddleware(function (Middleware $middleware): void {
         //
     })
