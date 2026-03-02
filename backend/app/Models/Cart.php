@@ -5,8 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use app\Models\CartItem;
-use app\Models\User;
+use App\Models\CartItem;
+use App\Models\User;
 
 class Cart extends Model
 {

@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use app\Models\Order;
-use app\Models\Product;
+use App\Models\Order;
+use App\Models\Product;
 
 class OrderItem extends Model
 {
