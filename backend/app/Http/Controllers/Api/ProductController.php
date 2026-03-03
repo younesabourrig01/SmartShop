@@ -71,6 +71,7 @@ class ProductController extends Controller
 
             foreach ($request->file('images') as $image) {
 
+                // Symbolic Link -> command (php artisan storage:link)
                 $path = $image->store('products', 'public');
 
                 $product->images()->create([
