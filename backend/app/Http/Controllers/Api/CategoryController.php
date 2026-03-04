@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Support\Facades\Storage;
 
 class CategoryController extends Controller
 {
@@ -20,9 +21,23 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255|unique:categories,name'
+            'name' => 'required|string|max:255|unique:categories,name',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'description' => 'nullable|string',
         ]);
-        $category = Category::create($request->only('name'));
+
+        $imagePath = null;
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('categories', 'public');
+        }
+
+        $category = Category::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'image' => $imagePath
+        ]);
+
         return response()->json([
             'status' => 'success',
             'message' => 'Category Created successfuly',
@@ -44,11 +59,26 @@ class CategoryController extends Controller
         $request->validate([
             // verify if the new name exests with auther ids and ignore the current one we update
             'name' => 'required|string|max:255|unique:categories,name,' . $id,
+            'description' => 'nullable|string',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $category->update([
-            'name' => $request->name,
-        ]);
+        $data = [
+            'name' => $request->name ?? $category->name,
+            'description' => $request->description ?? $category->description,
+        ];
+
+        if ($request->hasFile('image')) {
+
+            if ($category->image) {
+                Storage::disk('public')->delete($category->image);
+            }
+
+            $data['image'] = $request->file('image')
+                ->store('categories', 'public');
+        }
+
+        $category->update($data);
 
         return response()->json([
             'status' => 'success',

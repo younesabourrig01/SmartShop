@@ -9,7 +9,9 @@ use App\Models\Product;
 class Category extends Model
 {
     protected $fillable = [
-        'name'
+        'name',
+        'image',
+        'description'
     ];
     public function products(): HasMany
     {
