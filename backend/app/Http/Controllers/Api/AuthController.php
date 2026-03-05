@@ -105,6 +105,7 @@ class AuthController extends Controller
             'email' => $request->email ?? $user->email,
         ];
 
+        // dd($request->file('image'));
         if ($request->hasFile('image')) {
 
             if ($user->image) {
@@ -116,7 +117,7 @@ class AuthController extends Controller
         }
 
         $user->update($data);
-
+        $user->refresh();
         return response()->json([
             'status' => 'success',
             'message' => 'Profile updated successfully',
