@@ -10,11 +10,14 @@ use App\Models\User;
 
 class Cart extends Model
 {
+    protected $fillable = [
+        "user_id",
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function cartItem(): HasMany
+    public function cartItems(): HasMany
     {
         return $this->hasMany(CartItem::class);
     }

@@ -23,9 +23,9 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //cart routes
     Route::get('/cart', [CartController::class, 'index']);
-    // Route::post('/add', [CartController::class, 'add']);
-    // Route::put('/update', [CartController::class, 'update']);
-    // Route::put('/clear', [CartController::class, 'clear']);
+    Route::post('/add', [CartController::class, 'add']);
+    Route::put('/update', [CartController::class, 'update']);
+    Route::delete('/clear', [CartController::class, 'clear']);
 
     // --- 3. ADMIN ONLY ROUTES ---
     Route::middleware('role:admin')->group(function () {
