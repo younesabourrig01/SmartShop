@@ -12,7 +12,7 @@ class CategoryController extends Controller
     public function index()
     {
         // whithCount generate products_count -> show how many product category has
-        $categories = Category::whithCount('products')->get();
+        $categories = Category::withCount('products')->get();
         return response()->json([
             'status' => 'success',
             'data' => $categories,

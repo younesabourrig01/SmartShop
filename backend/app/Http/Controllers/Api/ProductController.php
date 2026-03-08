@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
-use App\Models\ProductImage;
-use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -99,7 +97,6 @@ class ProductController extends Controller
             'stock' => 'sometimes|integer|min:0',
             'category_id' => 'sometimes|exists:categories,id',
             'images' => 'nullable|array',
-            'images.*' => 'image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
         $product->update($request->only([
@@ -109,26 +106,6 @@ class ProductController extends Controller
             'stock',
             'category_id'
         ]));
-
-        $currentImagesCount = $product->images()->count();
-
-        if ($request->hasFile('images')) {
-            $newImagesCount = count($request->file('images'));
-            if ($currentImagesCount + $newImagesCount > 5) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Maximum 5 images allowed per product'
-                ], 422);
-            }
-
-            foreach ($request->file('images') as $image) {
-                $path = $image->store('products', 'public');
-                $product->images()->create([
-                    'image' => $path
-                ]);
-            }
-        }
-
         return response()->json([
             'status' => 'success',
             'message' => 'Product updated successfully',
@@ -145,18 +122,6 @@ class ProductController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Product deleted successfully'
-        ]);
-    }
-
-    // delete single image
-    public function deleteImage($id)
-    {
-        $image = ProductImage::findOrFail($id);
-        Storage::disk('public')->delete($image->image);
-        $image->delete();
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Image deleted'
         ]);
     }
 }

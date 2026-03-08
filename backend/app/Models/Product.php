@@ -19,7 +19,7 @@ class Product extends Model
         'description',
         'price',
         'stock',
-        'category_id'
+        'category_id',
     ];
 
     //delete images drom Db wen delete Product
