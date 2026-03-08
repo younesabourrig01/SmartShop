@@ -10,11 +10,16 @@ use App\Models\User;
 
 class Order extends Model
 {
+    protected $fillable = [
+        'user_id',
+        'status',
+        'total'
+    ];
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
-    public function orderItem():HasMany
+    public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
     }

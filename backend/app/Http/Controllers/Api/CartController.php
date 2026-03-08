@@ -15,12 +15,7 @@ class CartController extends Controller
             ->with('cartItems.product')
             ->first();
 
-        $total = 0;
-        if ($cart) {
-            foreach ($cart->cartItems as $item) {
-                $total += $item->product->price * $item->quantity;
-            }
-        }
+        $total = $cart->getTotal();
         return response()->json([
             'status' => 'success',
             'data' => $cart,
