@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 # -------------------------
 
 # Auth
+Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -23,7 +24,7 @@ Route::apiResource('products', ProductController::class)
 
 # Categories (public)
 Route::apiResource('categories', CategoryController::class)
-    ->only(['index']);
+    ->only(['index', 'show']);
 
 
 
@@ -43,7 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
     # -------------------------
-    # CART (resource style)
+    # CART 
     # -------------------------
     Route::apiResource('cart', CartController::class)
         ->only(['index', 'store', 'update', 'destroy']);
@@ -79,7 +80,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         # categories CRUD
         Route::apiResource('categories', CategoryController::class)
-            ->except(['index']);
+            ->except(['index', 'show']);
 
 
         # product images
