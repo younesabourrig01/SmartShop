@@ -3,24 +3,80 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\EmailOtp;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Resend;
 
 class AuthController extends Controller
 {
-    //Register
+    // send verification code
+    public function sendOtp(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|min:3',
+            'email' => 'required|email'
+        ]);
+
+        $otp = rand(100000, 999999);
+
+        EmailOtp::updateOrCreate(
+            ['email' => $request->email],
+            [
+                'otp' => $otp,
+                'expires_at' => now()->addMinutes(10)
+            ]
+        );
+
+        $resend = Resend::client(env('RESEND_API_KEY'));
+
+        $resend->emails->send([
+            'from' => 'SmartShop <onboarding@resend.dev>',
+            'to' => [$request->email],
+            'subject' => 'SmartShop Verification Code',
+            'html' => "<strong>Your OTP code is: $otp</strong>",
+            //quick fix to sertificate 
+            'curl' => [
+                CURLOPT_SSL_VERIFYPEER => false,
+                CURLOPT_SSL_VERIFYHOST => false,
+            ],
+        ]);
+
+        return response()->json([
+            'message' => 'OTP sent successfully'
+        ]);
+    }
+    //Register by verification
     public function register(Request $request)
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6',
+            'email' => 'required|email',
+            'password' => 'required',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'otp' => 'required'
         ]);
 
+        $otpRecord = EmailOtp::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->first();
+
+        if (!$otpRecord) {
+            return response()->json([
+                'message' => 'Invalid OTP'
+            ], 400);
+        }
+
+        if ($otpRecord->expires_at < now()) {
+            return response()->json([
+                'message' => 'OTP expired'
+            ], 400);
+        }
+
+        // image upload logic
         $imagePath = null;
 
         if ($request->hasFile('image')) {
@@ -30,15 +86,18 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'password' => Hash::make($request->password),
             'image' => $imagePath,
+            'email_verified_at' => now()
         ]);
 
-        $token = $user->createToken('api-token')->plainTextToken;
+        $otpRecord->delete();
+
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
-            'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'user' => $user
         ]);
     }
 
