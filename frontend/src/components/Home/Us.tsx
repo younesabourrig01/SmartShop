@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, MeshDistortMaterial, Sphere } from '@react-three/drei';
 import { ShoppingBag, ArrowRight, Search } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
 import logo from '../../assets/smartShopLogo.png';
 
 // The "First" Logo Animation Scene
@@ -80,13 +81,15 @@ const LogoScene = () => {
 };
 
 const Us: React.FC = () => {
+  const { t, i18n } = useTranslation();
+
   return (
     <section className="relative w-full">
       {/* Main Container Card - Balanced Rounded Corners & Shadow */}
-      <div className="w-full bg-white rounded-[3.5rem] shadow-2xl border border-slate-50 p-8 md:p-16 overflow-hidden flex flex-col items-center">
+      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-8 md:p-16 overflow-hidden flex flex-col items-center">
         
         {/* Hero Top Content: Dual Layout */}
-        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-12 mb-16 z-10">
+        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-12 mb-16 z-10 text-start rtl:text-right">
           
           {/* Left: Text Content */}
           <motion.div 
@@ -99,19 +102,18 @@ const Us: React.FC = () => {
             {/* Minimalist Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-slate-50 rounded-full border border-slate-100 transition-all hover:bg-white hover:shadow-sm">
               <span className="w-2 h-2 rounded-full bg-[#01b0d3] animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Welcome to the future</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('us.welcome')}</span>
             </div>
 
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter">
-              Experience <br />
+              {t('us.title_1')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] via-[#01b0d3] to-[#43dabb]">
-                Innovation.
+                {t('us.title_2')}
               </span>
             </h1>
             
             <p className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed max-w-xl">
-              Curating the next generation of premium electronics. We bring you 
-              state-of-the-art technology with an experience that feels like magic.
+              {t('us.description')}
             </p>
             
             <div className="flex flex-col sm:flex-row items-center gap-8 pt-4">
@@ -122,7 +124,7 @@ const Us: React.FC = () => {
                 className="px-10 py-5 bg-[#0046be] text-white font-black text-xl rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] flex items-center justify-center gap-3 group"
               >
                 <ShoppingBag size={24} />
-                <span>Shop Products</span>
+                <span>{t('us.shop_products')}</span>
               </motion.button>
 
               {/* Secondary CTA */}
@@ -130,8 +132,8 @@ const Us: React.FC = () => {
                 whileHover={{ x: 6 }}
                 className="flex items-center gap-2 text-slate-900 font-black text-xl group cursor-pointer"
               >
-                <span>Our Story</span>
-                <ArrowRight size={24} className="text-[#01b0d3] group-hover:translate-x-1 transition-transform" />
+                <span>{t('us.our_story')}</span>
+                <ArrowRight size={24} className={`text-[#01b0d3] group-hover:translate-x-1 transition-transform rtl:rotate-180`} />
               </motion.button>
             </div>
           </motion.div>
@@ -158,23 +160,23 @@ const Us: React.FC = () => {
         >
           <div className="relative bg-slate-50 p-2.5 rounded-[2.5rem] shadow-inner flex flex-col md:flex-row items-center gap-4 border border-slate-100/50">
             <div className="flex-1 w-full relative flex items-center">
-               <div className="absolute left-7 text-slate-400">
+               <div className={`absolute ${i18n.language === 'ar' ? 'right-7' : 'left-7'} text-slate-400`}>
                   <Search size={24} />
                </div>
                <input 
                  type="text" 
-                 placeholder="Quick search products..."
-                 className="w-full py-5 pl-16 pr-8 bg-transparent rounded-[1.8rem] text-lg font-bold text-slate-800 placeholder-slate-400 outline-none"
+                 placeholder={t('us.search_placeholder')}
+                 className={`w-full py-5 ${i18n.language === 'ar' ? 'pr-16 pl-8' : 'pl-16 pr-8'} bg-transparent rounded-[1.8rem] text-lg font-bold text-slate-800 placeholder-slate-400 outline-none`}
                />
             </div>
             <button className="w-full md:w-auto px-10 py-5 bg-[#0046be] text-white font-black text-lg rounded-[2rem] shadow-lg hover:shadow-2xl transition-all cursor-pointer">
-              Search Smart
+              {t('us.search_button')}
             </button>
           </div>
 
           {/* Trending Bar */}
           <div className="flex justify-center gap-6 mt-6">
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Trending:</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('us.trending')}:</span>
             {["Razer", "iPhone 15", "Gaming PC"].map(tag => (
               <button key={tag} className="text-[10px] font-black uppercase tracking-widest text-[#0046be] opacity-70 hover:opacity-100 transition-opacity cursor-pointer">#{tag}</button>
             ))}

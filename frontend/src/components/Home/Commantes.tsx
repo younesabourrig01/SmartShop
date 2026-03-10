@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 
@@ -42,13 +43,14 @@ const commentsData = [
 
 // E-commerce Statistics Component for the Left Side
 const StatsDisplay = () => {
+  const { t } = useTranslation();
   const stats = [
-    { label: "Happy Customers", value: "50k+", icon: "😊", color: "from-[#0046be] to-[#01b0d3]" },
-    { label: "Products", value: "10k+", icon: "📦", color: "from-[#43dabb] to-[#218a74]" },
-    { label: "Expert Support", value: "24/7", icon: "🛠️", color: "from-[#1a5e7b] to-[#164e63]" },
-    { label: "Fast Delivery", value: "Global", icon: "🚀", color: "from-[#0046be] to-[#43dabb]" },
-    { label: "Quality", value: "Premium", icon: "🏆", color: "from-[#01b0d3] to-[#43dabb]" },
-    { label: "Satisfaction", value: "99.9%", icon: "⭐", color: "from-[#218a74] to-[#1a5e7b]" }
+    { label: t('commantes.stats.customers'), value: "50k+", icon: "😊", color: "from-[#0046be] to-[#01b0d3]" },
+    { label: t('commantes.stats.products'), value: "10k+", icon: "📦", color: "from-[#43dabb] to-[#218a74]" },
+    { label: t('commantes.stats.support'), value: "24/7", icon: "🛠️", color: "from-[#1a5e7b] to-[#164e63]" },
+    { label: t('commantes.stats.delivery'), value: t('slider.hero_title').includes(' حصلت') ? 'عالمي' : 'Global', icon: "🚀", color: "from-[#0046be] to-[#43dabb]" },
+    { label: t('commantes.stats.quality'), value: t('commantes.stats.quality'), icon: "🏆", color: "from-[#01b0d3] to-[#43dabb]" },
+    { label: t('commantes.stats.satisfaction'), value: "99.9%", icon: "⭐", color: "from-[#218a74] to-[#1a5e7b]" }
   ];
 
   return (
@@ -89,7 +91,7 @@ const StatsDisplay = () => {
           </div>
         </div>
         <p className="text-xs font-bold text-slate-600">
-          Joined by <span className="text-[#0046be]">12,000+</span> shoppers
+          {t('commantes.joined')}
         </p>
       </motion.div>
     </div>
@@ -97,20 +99,21 @@ const StatsDisplay = () => {
 };
 
 const Commantes: React.FC = () => {
+  const { t } = useTranslation();
   const [index, setIndex] = useState(0);
 
   return (
-    <section className="py-10">
+    <section className="">
       {/* Outer Card Wrapper - Now Split Layout */}
       <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-6 md:p-12 overflow-hidden flex flex-col md:flex-row gap-12 min-h-[700px] relative">
         
         {/* LEFT PART: Statistics & Header */}
-        <div className="w-full md:w-[45%] flex flex-col gap-6 relative">
+        <div className="w-full md:w-[45%] flex flex-col gap-6 relative text-start rtl:text-right">
           <div className="z-10">
             <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2">
-              What Our <br />
+              {t('commantes.title')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] to-[#01b0d3]">
-                Clients Say.
+                {t('commantes.subtitle')}
               </span>
             </h2>
           </div>
@@ -126,8 +129,8 @@ const Commantes: React.FC = () => {
               whileHover={{ x: 10 }}
               className="flex items-center gap-3 text-[#0046be] font-black text-xl hover:opacity-80 transition-all group cursor-pointer"
             >
-              <span>Read more testimonials</span>
-              <ArrowRight size={24} className="group-hover:translate-x-1 duration-300" />
+              <span>{t('commantes.read_more')}</span>
+              <ArrowRight size={24} className={`group-hover:translate-x-1 transition-transform duration-300 rtl:rotate-180`} />
             </motion.button>
           </div>
         </div>
