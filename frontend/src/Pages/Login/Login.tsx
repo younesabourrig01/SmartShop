@@ -1,0 +1,167 @@
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Mail, Lock, LogIn, ShieldCheck, ArrowLeft } from 'lucide-react';
+
+const Login: React.FC = () => {
+  const { t, i18n } = useTranslation();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    email: '',
+    password: '',
+  });
+
+  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+  const validate = () => {
+    const newErrors: { [key: string]: string } = {};
+    if (!formData.email) {
+      newErrors.email = t('login_page.errors.email_req');
+    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      newErrors.email = t('login_page.errors.email_inv');
+    }
+
+    if (!formData.password) {
+      newErrors.password = t('login_page.errors.pass_req');
+    } else if (formData.password.length < 6) {
+      newErrors.password = t('login_page.errors.pass_min');
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (validate()) {
+      console.log('Login Submitted:', formData);
+      alert('Login successful! (Demo)');
+      navigate('/');
+    }
+  };
+
+  const isRtl = i18n.language === 'ar';
+
+  return (
+    <div className={`flex items-center justify-center bg-slate-50 p-4 md:p-8 py-12 md:py-20 ${isRtl ? 'rtl' : 'ltr'}`}>
+      {/* Background blobs for depth */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-3xl animate-pulse" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-100/50 rounded-full blur-3xl animate-pulse delay-700" />
+      </div>
+
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-[600px]"
+      >
+
+
+        {/* Left Side: Message Panel */}
+        <div className="w-full md:w-5/12 bg-blue-600 relative overflow-hidden flex flex-col justify-center p-8 md:p-12 text-white">
+          <div className="absolute inset-0 opacity-20 pointer-events-none">
+            <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat" />
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-900/40 rounded-full blur-3xl" />
+          </div>
+
+          <div className="relative z-10">
+            <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6">
+              {t('login_page.welcome')} <span className="text-blue-200">SmartShop</span>
+            </h1>
+            <p className="text-lg text-blue-100 mb-8 font-light">
+              {t('login_page.welcome_desc')}
+            </p>
+            <div className="flex items-start gap-4 p-4 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20">
+              <ShieldCheck className="text-blue-200 shrink-0 mt-1" size={24} />
+              <div className={isRtl ? 'text-right' : 'text-left'}>
+                <h3 className="font-semibold text-white mb-1">{t('register_page.verify_account')}</h3>
+                <p className="text-sm text-blue-100 opacity-90">
+                  {t('register_page.verify_account_desc')}
+                </p>
+              </div>
+            </div>
+          </div>
+
+
+          <div className="mt-auto relative z-10 pt-12 hidden md:block">
+            <Link to="/" className={`mt-8 inline-flex items-center gap-2 text-blue-100 hover:text-white transition-colors`}>
+              {isRtl ? <ArrowLeft size={18} className="rotate-180" /> : <ArrowLeft size={18} />}
+              <span>{t('login_page.back_to_home')}</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Right Side: Form Panel */}
+        <div className="w-full md:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-white">
+          <div className={`mb-10 ${isRtl ? 'text-right' : 'text-left'}`}>
+            <h2 className="text-3xl font-bold text-slate-900 mb-2">{t('login_page.login_title')}</h2>
+            <p className="text-slate-500">{t('login_page.sign_in_desc')}</p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Email Input */}
+            <div className="space-y-2">
+              <label className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? 'flex-row-reverse' : ''}`}>
+                <Mail size={16} className="text-blue-500" />
+                {t('login_page.email_address')}
+              </label>
+              <input
+                type="email"
+                dir="ltr"
+                className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? 'text-right' : 'text-left'} ${
+                  errors.email ? 'border-red-500 bg-red-50' : 'border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50'
+                }`}
+                placeholder="john@example.com"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+              {errors.email && <p className={`text-xs text-red-500 font-medium ${isRtl ? 'text-right' : 'text-left'} pl-1 pt-1`}>{errors.email}</p>}
+            </div>
+
+            {/* Password Input */}
+            <div className="space-y-2">
+              <label className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? 'flex-row-reverse' : ''}`}>
+                <Lock size={16} className="text-blue-500" />
+                {t('login_page.password')}
+              </label>
+              <input
+                type="password"
+                dir="ltr"
+                className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? 'text-right' : 'text-left'} ${
+                  errors.password ? 'border-red-500 bg-red-50' : 'border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50'
+                }`}
+                placeholder="••••••••"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              />
+              {errors.password && <p className={`text-xs text-red-500 font-medium ${isRtl ? 'text-right' : 'text-left'} pl-1 pt-1`}>{errors.password}</p>}
+            </div>
+
+            <div className="pt-4">
+              <button
+                type="submit"
+                className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 flex items-center justify-center gap-2"
+              >
+                <LogIn size={20} />
+                {t('login_page.login_button')}
+              </button>
+            </div>
+
+            <div className="pt-6 text-center">
+              <p className="text-slate-500 text-sm">
+                {t('login_page.no_account')}{' '}
+                <Link to="/register" className="text-blue-600 font-bold hover:underline transition-all">
+                  {t('login_page.register_link')}
+                </Link>
+              </p>
+            </div>
+          </form>
+        </div>
+      </motion.div>
+    </div>
+  );
+};
+
+export default Login;
