@@ -8,6 +8,8 @@ use App\Http\Controllers\Api\ProductImageController;
 use App\Http\Controllers\Api\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\ReviewController;
+use App\Http\Controllers\Api\WishlistController;
 
 # -------------------------
 # 1. PUBLIC ROUTES
@@ -41,6 +43,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::patch('/updateProfile', [AuthController::class, 'updateProfile']);
 
+    # Product's reviews
+    Route::get('/products/{product}/reviews', [ReviewController::class, 'productReviews']);
+    Route::post('/products/{product}/reviews', [ReviewController::class, 'store']);
+    Route::delete('/products/{product}/reviews', [ReviewController::class, 'destroy']);
+
+    #wishlist  
+    Route::get('/wishlist', [WishlistController::class, 'index']);
+    Route::post('/wishlist/{product}', [WishlistController::class, 'store']);
+    Route::delete('/wishlist/{product}', [WishlistController::class, 'destroy']);
+    Route::get('/products/{product}/in-wishlist', [WishlistController::class, 'inWishlist']);
 
 
     # -------------------------

@@ -24,11 +24,11 @@ class AuthController extends Controller
         $otp = rand(100000, 999999);
 
         EmailOtp::updateOrCreate(
-            ['email' => $request->email],
-            [
-                'otp' => $otp,
-                'expires_at' => now()->addMinutes(10)
-            ]
+        ['email' => $request->email],
+        [
+            'otp' => $otp,
+            'expires_at' => now()->addMinutes(10)
+        ]
         );
 
         $resend = Resend::client(env('RESEND_API_KEY'));
@@ -102,10 +102,16 @@ class AuthController extends Controller
     }
 
     // Login
-    public function login(Request $request)
-    {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+    public function login(Request $request)    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if (!Auth::attempt($validated)) {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ], 401);
         }
 
         $user = Auth::user();
@@ -114,8 +120,7 @@ class AuthController extends Controller
         return response()->json([
             'user' => $user,
             'token' => $token
-        ]);
-    }
+        ]);    }
 
     //Logout
     public function logout(Request $request)
@@ -195,4 +200,3 @@ class AuthController extends Controller
         ]);
     }
 }
-
