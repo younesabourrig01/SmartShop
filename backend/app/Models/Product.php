@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\Category;
 use App\Models\OrderItem;
 use App\Models\ProductImage;
+use App\Models\Review;
+use App\Models\WishlistItem;
 
 class Product extends Model
 {
@@ -46,5 +48,13 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
+    }
+    public function wishListItems(): HasMany
+    {
+        return $this->hasMany(WishlistItem::class);
     }
 }
