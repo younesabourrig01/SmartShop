@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, ChevronDown } from 'lucide-react';
+import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, ChevronDown, Heart } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/smartShopLogo.png';
@@ -76,6 +76,11 @@ const Navbar: React.FC = () => {
         
         <ul className="flex gap-8">
           <li>
+            <Link to="/" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative after:absolute after:bottom-[-4px] after:left-1/2 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full hover:after:-translate-x-1/2">
+              {t('nav.home')}
+            </Link>
+          </li>
+          <li>
             <Link to="/products" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative after:absolute after:bottom-[-4px] after:left-1/2 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full hover:after:-translate-x-1/2">
               {t('nav.products')}
             </Link>
@@ -146,6 +151,12 @@ const Navbar: React.FC = () => {
           </div>
         </button>
 
+        {/* Wishlist Icon */}
+        <button className="p-2 text-slate-500 hover:text-pink-500 hover:bg-pink-50/80 rounded-full transition-all duration-300 relative group">
+          <Heart size={22} className="group-hover:fill-pink-500 transition-all" />
+          <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
+        </button>
+
         {/* Cart Icon */}
         <button className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 rounded-full transition-all duration-300 relative group">
           <ShoppingCart size={22} />
@@ -176,6 +187,7 @@ const Navbar: React.FC = () => {
       {isMobileMenuOpen && (
         <div className="absolute top-full left-0 right-0 bg-white border-b border-slate-200 p-4 flex flex-col gap-4 shadow-lg md:hidden">
           <div className="flex flex-col gap-2">
+            <Link to="/" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.home')}</Link>
             <Link to="/products" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.products')}</Link>
             <Link to="/categories" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.categories')}</Link>
             <Link to="/contact" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.contact')}</Link>

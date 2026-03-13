@@ -6,6 +6,7 @@ const resources = {
   en: {
     translation: {
       "nav": {
+        "home": "Home",
         "products": "Products",
         "categories": "Categories",
         "contact": "Contact",
@@ -135,12 +136,44 @@ const resources = {
           "pass_req": "Password is required",
           "pass_min": "Password must be at least 6 characters"
         }
+      },
+      "product_page": {
+        "back_to_products": "Back to Products",
+        "not_found": "Product Not Found",
+        "in_stock": "In Stock",
+        "out_of_stock": "Out of Stock",
+        "description": "Description",
+        "add_to_cart": "Add to Cart",
+        "wishlist": "Add to Wishlist",
+        "free_shipping": "Free Shipping",
+        "on_orders_above": "On orders above",
+        "returns": "Easy Returns",
+        "days_return": "days return policy",
+        "you_may_like": "You May Also Like"
+      },
+      "products": {
+        "banner": {
+          "title": "Upgrade to the M3 Generation",
+          "subtitle": "Get up to $200 trade-in credit when you upgrade your old MacBook.",
+          "cta": "Explore Now"
+        }
+      },
+      "reviews": {
+        "title": "Customer Reviews",
+        "subtitle": "See what others are saying about this product",
+        "write_review": "Write a Review",
+        "rating": "Your Rating",
+        "comment": "Your Comment",
+        "placeholder": "What did you think about the product?",
+        "submit": "Post Review",
+        "success": "Review posted successfully!"
       }
     }
   },
   ar: {
     translation: {
       "nav": {
+        "home": "الرئيسية",
         "products": "المنتجات",
         "categories": "الفئات",
         "contact": "اتصل بنا",
@@ -270,12 +303,44 @@ const resources = {
           "pass_req": "كلمة المرور مطلوبة",
           "pass_min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
         }
+      },
+      "product_page": {
+        "back_to_products": "العودة للمنتجات",
+        "not_found": "المنتج غير موجود",
+        "in_stock": "متوفر",
+        "out_of_stock": "غير متوفر",
+        "description": "الوصف",
+        "add_to_cart": "أضف إلى السلة",
+        "wishlist": "أضف للمفضلة",
+        "free_shipping": "شحن مجاني",
+        "on_orders_above": "للطلبات فوق",
+        "returns": "إرجاع سهل",
+        "days_return": "يوم سياسة الإرجاع",
+        "you_may_like": "قد يعجبك أيضاً"
+      },
+      "products": {
+        "banner": {
+          "title": "قم بالترقية إلى جيل M3",
+          "subtitle": "احصل على رصيد استبدال يصل إلى 200 دولار عند ترقية جهاز MacBook القديم الخاص بك.",
+          "cta": "استكشف الآن"
+        }
+      },
+      "reviews": {
+        "title": "تقييمات العملاء",
+        "subtitle": "شاهد ماذا يقول الآخرون عن هذا المنتج",
+        "write_review": "اكتب تقييماً",
+        "rating": "تقييمك",
+        "comment": "تعليقك",
+        "placeholder": "ما رأيك في المنتج؟",
+        "submit": "نشر التقييم",
+        "success": "تم نشر التقييم بنجاح!"
       }
     }
   },
   fr: {
     translation: {
       "nav": {
+        "home": "Accueil",
         "products": "Produits",
         "categories": "Catégories",
         "contact": "Contact",
@@ -405,12 +470,44 @@ const resources = {
           "pass_req": "Mot de passe requis",
           "pass_min": "Le mot de passe doit contenir au moins 6 caractères"
         }
+      },
+      "product_page": {
+        "back_to_products": "Retour aux Produits",
+        "not_found": "Produit non trouvé",
+        "in_stock": "En Stock",
+        "out_of_stock": "En rupture de stock",
+        "description": "Description",
+        "add_to_cart": "Ajouter au panier",
+        "wishlist": "Ajouter aux favoris",
+        "free_shipping": "Livraison Gratuite",
+        "on_orders_above": "Sur les commandes supérieures à",
+        "returns": "Retours Faciles",
+        "days_return": "jours de politique de retour",
+        "you_may_like": "Vous pourriez aussi aimer"
+      },
+      "products": {
+        "banner": {
+          "title": "Passez à la génération M3",
+          "subtitle": "Obtenez jusqu'à 200 $ de crédit de reprise lors de la mise à niveau de votre ancien MacBook.",
+          "cta": "Explorer maintenant"
+        }
+      },
+      "reviews": {
+        "title": "Avis Clients",
+        "subtitle": "Découvrez ce que les autres disent de ce produit",
+        "write_review": "Écrire un avis",
+        "rating": "Votre Note",
+        "comment": "Votre Commentaire",
+        "placeholder": "Qu'avez-vous pensé du produit ?",
+        "submit": "Publier l'avis",
+        "success": "Avis publié avec succès !"
       }
     }
   },
   es: {
     translation: {
       "nav": {
+        "home": "Inicio",
         "products": "Productos",
         "categories": "Categorías",
         "contact": "Contacto",
@@ -541,6 +638,37 @@ const resources = {
         "pass_req": "Contraseña requerida",
         "pass_min": "La contraseña debe tener al menos 6 caracteres"
       }
+    },
+    "product_page": {
+      "back_to_products": "Volver a Productos",
+      "not_found": "Producto no encontrado",
+      "in_stock": "En Stock",
+      "out_of_stock": "Agotado",
+      "description": "Descripción",
+      "add_to_cart": "Añadir al carrito",
+      "wishlist": "Añadir a deseos",
+      "free_shipping": "Envío Gratis",
+      "on_orders_above": "En pedidos superiores a",
+      "returns": "Devoluciones Fáciles",
+      "days_return": "días de política de devolución",
+      "you_may_like": "También te puede interesar"
+    },
+    "products": {
+      "banner": {
+        "title": "Actualízate a la Generación M3",
+        "subtitle": "Obtén hasta $200 de crédito de canje al actualizar tu viejo MacBook.",
+        "cta": "Explorar ahora"
+      }
+    },
+    "reviews": {
+      "title": "Opiniones de Clientes",
+      "subtitle": "Mira lo que otros dicen sobre este producto",
+      "write_review": "Escribir una Opinión",
+      "rating": "Tu Calificación",
+      "comment": "Tu Comentario",
+      "placeholder": "¿Qué te pareció el producto?",
+      "submit": "Publicar Opinión",
+      "success": "¡Opinión publicada con éxito!"
     }
   }
 };
