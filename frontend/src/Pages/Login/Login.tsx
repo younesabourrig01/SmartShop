@@ -80,7 +80,7 @@ const Login: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-[600px]"
+        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-150"
       >
         {/* Left Side: Message Panel */}
         <div className="w-full md:w-5/12 bg-blue-600 relative overflow-hidden flex flex-col justify-center p-8 md:p-12 text-white">
