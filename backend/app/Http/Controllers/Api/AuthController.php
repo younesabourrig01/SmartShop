@@ -104,8 +104,15 @@ class AuthController extends Controller
     // Login
     public function login(Request $request)
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required|string|min:6'
+        ]);
+
+        if (!Auth::attempt($validated)) {
+            return response()->json([
+                'message' => 'Invalid credentials'
+            ], 401);
         }
 
         $user = Auth::user();
@@ -117,6 +124,7 @@ class AuthController extends Controller
             'message' => 'logged in'
         ]);
     }
+
 
     //Logout
     public function logout(Request $request)
@@ -196,4 +204,3 @@ class AuthController extends Controller
         ]);
     }
 }
-

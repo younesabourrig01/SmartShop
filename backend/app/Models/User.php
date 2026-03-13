@@ -7,6 +7,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Cart;
 use App\Models\Order;
+use App\Models\Review;
+use App\Models\Wishlist;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Laravel\Sanctum\HasApiTokens;
@@ -58,8 +60,16 @@ class User extends Authenticatable
     {
         return $this->hasOne(Cart::class);
     }
+    public function wishlist(): HasOne
+    {
+        return $this->hasOne(Wishlist::class);
+    }
     public function orders(): HasMany
     {
         return $this->hasMany(Order::class);
+    }
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(Review::class);
     }
 }
