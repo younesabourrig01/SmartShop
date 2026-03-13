@@ -1,5 +1,6 @@
 import React, { Suspense } from 'react';
 import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Float, MeshDistortMaterial, Sphere } from '@react-three/drei';
 import { ShoppingBag, ArrowRight, Search } from 'lucide-react';
@@ -118,14 +119,16 @@ const Us: React.FC = () => {
             
             <div className="flex flex-col sm:flex-row items-center gap-8 pt-4">
               {/* Primary CTA */}
-              <motion.button 
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.98 }}
-                className="px-10 py-5 bg-[#0046be] text-white font-black text-xl rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] flex items-center justify-center gap-3 group"
-              >
-                <ShoppingBag size={24} />
-                <span>{t('us.shop_products')}</span>
-              </motion.button>
+              <Link to="/products">
+                <motion.button 
+                  whileHover={{ scale: 1.05, y: -4 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="px-10 py-5 bg-[#0046be] text-white font-black text-xl rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] flex items-center justify-center gap-3 group"
+                >
+                  <ShoppingBag size={24} />
+                  <span>{t('us.shop_products')}</span>
+                </motion.button>
+              </Link>
 
               {/* Secondary CTA */}
               <motion.button 
