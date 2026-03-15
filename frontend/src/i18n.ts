@@ -143,6 +143,13 @@ const resources = {
           "pass_min": "Password must be at least 6 characters"
         }
       },
+      "notFound": {
+        "oops": "Oops!",
+        "title": "Not Found.",
+        "message": "The page you're looking for doesn't exist or has been moved. Let's get you back on track.",
+        "returnHome": "Return Home",
+        "goBack": "Go Back"
+      },
       "product_page": {
         "back_to_products": "Back to Products",
         "not_found": "Product Not Found",
@@ -157,11 +164,43 @@ const resources = {
         "days_return": "days return policy",
         "you_may_like": "You May Also Like"
       },
+      "categories": {
+        "banner": {
+          "title": "Explore Our Categories",
+          "subtitle": "Discover the best products from our wide range of carefully curated categories.",
+          "cta": "View All Products"
+        },
+        "items": {
+          "electronics": "Electronics",
+          "fashion": "Fashion",
+          "home": "Home & Garden",
+          "audio": "Audio & Music",
+          "accessories": "Accessories",
+          "gaming": "Gaming",
+          "count": "Items"
+        }
+      },
       "products": {
+        "title": "Our Products",
+        "description": "Discover our curated collection of premium tech and electronics.",
         "banner": {
           "title": "Upgrade to the M3 Generation",
           "subtitle": "Get up to $200 trade-in credit when you upgrade your old MacBook.",
           "cta": "Explore Now"
+        },
+        "filter": {
+          "title": "Filter & Sort",
+          "subtitle": "Refine your browsing experience",
+          "category": "Category",
+          "sort_by": "Sort By",
+          "all_categories": "All Categories",
+          "electronics": "Electronics",
+          "fashion": "Fashion",
+          "home": "Home & Garden",
+          "newest": "Newest Arrivals",
+          "popular": "Most Popular",
+          "price_low": "Price: Low to High",
+          "price_high": "Price: High to Low"
         }
       },
       "dashboard": {
@@ -337,6 +376,13 @@ const resources = {
           "pass_min": "يجب أن تكون كلمة المرور 6 أحرف على الأقل"
         }
       },
+      "notFound": {
+        "oops": "عذراً!",
+        "title": "الصفحة غير موجودة.",
+        "message": "الصفحة التي تبحث عنها غير موجودة أو تم نقلها. دعنا نعيدك إلى المسار الصحيح.",
+        "returnHome": "العودة للرئيسية",
+        "goBack": "العودة للخلف"
+      },
       "product_page": {
         "back_to_products": "العودة للمنتجات",
         "not_found": "المنتج غير موجود",
@@ -351,11 +397,43 @@ const resources = {
         "days_return": "يوم سياسة الإرجاع",
         "you_may_like": "قد يعجبك أيضاً"
       },
+      "categories": {
+        "banner": {
+          "title": "استكشف فئاتنا",
+          "subtitle": "اكتشف أفضل المنتجات من مجموعتنا الواسعة من الفئات المختارة بعناية.",
+          "cta": "عرض جميع المنتجات"
+        },
+        "items": {
+          "electronics": "إلكترونيات",
+          "fashion": "أزياء",
+          "home": "المنزل والحديقة",
+          "audio": "أجهزة الصوت",
+          "accessories": "إكسسوارات",
+          "gaming": "ألعاب",
+          "count": "عناصر"
+        }
+      },
       "products": {
+        "title": "منتجاتنا",
+        "description": "اكتشف مجموعتنا المختارة من التقنيات والإلكترونيات المميزة.",
         "banner": {
           "title": "قم بالترقية إلى جيل M3",
           "subtitle": "احصل على رصيد استبدال يصل إلى 200 دولار عند ترقية جهاز MacBook القديم الخاص بك.",
           "cta": "استكشف الآن"
+        },
+        "filter": {
+          "title": "التصفية والفرز",
+          "subtitle": "حسّن تجربة التصفح الخاصة بك",
+          "category": "الفئة",
+          "sort_by": "التصنيف حسب",
+          "all_categories": "جميع الفئات",
+          "electronics": "إلكترونيات",
+          "fashion": "أزياء",
+          "home": "المنزل والحديقة",
+          "newest": "أحدث المنتجات",
+          "popular": "الأكثر رواجاً",
+          "price_low": "السعر: من الأقل إلى الأعلى",
+          "price_high": "السعر: من الأعلى إلى الأقل"
         }
       },
       "reviews": {
@@ -523,6 +601,13 @@ const resources = {
           "img_size": "La taille de l'image doit être inférieure à 2 Mo"
         }
       },
+      "notFound": {
+        "oops": "Oups !",
+        "title": "Page Non Trouvée.",
+        "message": "La page que vous recherchez n'existe pas ou a été déplacée. Revenons sur le bon chemin.",
+        "returnHome": "Retour à l'accueil",
+        "goBack": "Retour"
+      },
       "login_page": {
         "welcome": "Bon retour",
         "welcome_desc": "Vous nous avez manqué ! Connectez-vous pour accéder à votre compte.",
@@ -555,11 +640,43 @@ const resources = {
         "days_return": "jours de politique de retour",
         "you_may_like": "Vous pourriez aussi aimer"
       },
+      "categories": {
+        "banner": {
+          "title": "Explorez Nos Catégories",
+          "subtitle": "Découvrez les meilleurs produits parmi notre large gamme de catégories soigneusement sélectionnées.",
+          "cta": "Voir Tous les Produits"
+        },
+        "items": {
+          "electronics": "Électronique",
+          "fashion": "Mode",
+          "home": "Maison & Jardin",
+          "audio": "Audio & Musique",
+          "accessories": "Accessoires",
+          "gaming": "Jeux Vidéo",
+          "count": "Articles"
+        }
+      },
       "products": {
+        "title": "Nos Produits",
+        "description": "Découvrez notre collection de technologies et d'électronique haut de gamme.",
         "banner": {
           "title": "Passez à la génération M3",
           "subtitle": "Obtenez jusqu'à 200 $ de crédit de reprise lors de la mise à niveau de votre ancien MacBook.",
           "cta": "Explorer maintenant"
+        },
+        "filter": {
+          "title": "Filtrer et Trier",
+          "subtitle": "Affinez votre expérience de navigation",
+          "category": "Catégorie",
+          "sort_by": "Trier par",
+          "all_categories": "Toutes les catégories",
+          "electronics": "Électronique",
+          "fashion": "Mode",
+          "home": "Maison & Jardin",
+          "newest": "Nouveaux arrivages",
+          "popular": "Les plus populaires",
+          "price_low": "Prix : Croissant",
+          "price_high": "Prix : Décroissant"
         }
       },
       "reviews": {
@@ -745,6 +862,13 @@ const resources = {
         "pass_min": "La contraseña debe tener al menos 6 caracteres"
       }
     },
+    "notFound": {
+      "oops": "¡Vaya!",
+      "title": "Página No Encontrada.",
+      "message": "La página que buscas no existe o ha sido movida. Volvamos al camino correcto.",
+      "returnHome": "Volver al Inicio",
+      "goBack": "Volver"
+    },
     "product_page": {
       "back_to_products": "Volver a Productos",
       "not_found": "Producto no encontrado",
@@ -759,11 +883,43 @@ const resources = {
       "days_return": "días de política de devolución",
       "you_may_like": "También te puede interesar"
     },
+    "categories": {
+      "banner": {
+        "title": "Explora Nuestras Categorías",
+        "subtitle": "Descubre los mejores productos de nuestra amplia gama de categorías cuidadosamente seleccionadas.",
+        "cta": "Ver Todos los Productos"
+      },
+      "items": {
+        "electronics": "Electrónica",
+        "fashion": "Moda",
+        "home": "Hogar y Jardín",
+        "audio": "Audio y Música",
+        "accessories": "Accesorios",
+        "gaming": "Juegos",
+        "count": "Artículos"
+      }
+    },
     "products": {
+      "title": "Nuestros Productos",
+      "description": "Descubre nuestra colección cuidadosamente seleccionada de tecnología y electrónica premium.",
       "banner": {
         "title": "Actualízate a la Generación M3",
         "subtitle": "Obtén hasta $200 de crédito de canje al actualizar tu viejo MacBook.",
         "cta": "Explorar ahora"
+      },
+      "filter": {
+        "title": "Filtrar y Ordenar",
+        "subtitle": "Refine su experiencia de navegación",
+        "category": "Categoría",
+        "sort_by": "Ordenar por",
+        "all_categories": "Todas las categorías",
+        "electronics": "Electrónica",
+        "fashion": "Moda",
+        "home": "Hogar y Jardín",
+        "newest": "Nuevas llegadas",
+        "popular": "Más populares",
+        "price_low": "Precio: De menor a mayor",
+        "price_high": "Precio: De mayor a menor"
       }
     },
     "reviews": {

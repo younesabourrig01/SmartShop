@@ -13,7 +13,9 @@ import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
 import ManageCategories from "./Pages/Dashboard/ManageCategories/ManageCategories";
 import Users from "./Pages/Dashboard/ManageUsers/Users";
 import DashboardSettings from "./Pages/Dashboard/DashboardSettings";
+import CategoriesPage from "./Pages/Categories/CategoriesPage";
 import Contact from "./Pages/Contact/Contact";
+import NotFound from "./Pages/NotFound/NotFound";
 import { UserRoute, AdminRoute } from "./components/ProtectRoutes/ProtectRoute";
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
+          <Route path="/categories" element={<CategoriesPage />} />
           <Route path="/product/:id" element={<ShowProduct />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
@@ -84,6 +87,7 @@ function App() {
               </AdminRoute>
             }
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
       <Footer />
