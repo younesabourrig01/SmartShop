@@ -75,11 +75,11 @@ const Users: React.FC = () => {
             <Package size={20} />
             {t('dashboard.sidebar.products')}
           </button>
-          <button onClick={() => toast("Categories page...")} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => navigate('/dashboard/categories')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Layers size={20} />
             {t('dashboard.sidebar.categories')}
           </button>
-          <button onClick={() => toast("Settings page...")} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => navigate('/dashboard/settings')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
             {t('dashboard.sidebar.settings')}
           </button>

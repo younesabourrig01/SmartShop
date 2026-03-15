@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, Plus, Trash2, Package, DollarSign, List, FileText, CheckCircle2 } from 'lucide-react';
+import { X, Upload, Trash2, Package, DollarSign, List, FileText, CheckCircle2 } from 'lucide-react';
 
 interface ProductFormProps {
   isOpen: boolean;
@@ -63,7 +63,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
           <div className="sticky top-0 bg-white/80 backdrop-blur-md px-8 py-6 border-b border-slate-100 flex justify-between items-center z-10">
             <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-3">
               <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
-                <Plus size={24} />
+                <Package size={24} />
               </div>
               {title}
             </h2>

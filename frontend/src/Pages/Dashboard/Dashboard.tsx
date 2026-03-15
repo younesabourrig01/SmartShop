@@ -75,11 +75,11 @@ const Dashboard: React.FC = () => {
             <Package size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.products')}
           </button>
-          <button onClick={() => toast("Categories page...")} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => navigate('/dashboard/categories')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Layers size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.categories')}
           </button>
-          <button onClick={() => toast("Settings page...")} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => navigate('/dashboard/settings')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.settings')}
           </button>
@@ -151,7 +151,7 @@ const Dashboard: React.FC = () => {
                 </div>
             </div>
             {/* Added Categories Card */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast("Viewing Categories...")}>
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/categories')}>
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 bg-green-50 text-green-600 rounded-xl">
                     <Layers size={24} />
