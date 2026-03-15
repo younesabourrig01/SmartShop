@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, Package, DollarSign, List, FileText, CheckCircle2 } from 'lucide-react';
+import Loader from '../Loader/Loader';
 
 interface ProductFormProps {
   isOpen: boolean;
@@ -12,7 +13,17 @@ interface ProductFormProps {
 const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData, title }) => {
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      onClose();
+    }, 1500);
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -76,7 +87,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
           </div>
 
           {/* Form Content */}
-          <form className="p-8 space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="p-8 space-y-8" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Product Name */}
               <div className="space-y-2">
@@ -203,8 +214,10 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
               </button>
               <button
                 type="submit"
-                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+                disabled={isLoading}
+                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-70"
               >
+                {isLoading && <Loader />}
                 {initialData ? "Update Product" : "Create Product"}
               </button>
             </div>

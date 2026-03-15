@@ -18,6 +18,7 @@ import {
   Menu,
   Filter
 } from "lucide-react";
+import Loader from "../../../components/Loader/Loader";
 import { useAuth } from "../../../context/AuthContext";
 import { logout } from "../../../api/auth";
 import toast from "react-hot-toast";
@@ -52,7 +53,20 @@ const ManageProducts: React.FC = () => {
     }
   ];
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  const handleDelete = (id: number, name: string) => {
+    setDeletingId(id);
+    toast.loading(`Deleting ${name}...`, { duration: 1500 });
+    setTimeout(() => {
+      setDeletingId(null);
+      toast.success(`${name} deleted successfully`);
+    }, 1500);
+  };
+
   const handleLogout = async () => {
+    setIsLoading(true);
     try {
       await logout();
       clearAuth();
@@ -60,6 +74,8 @@ const ManageProducts: React.FC = () => {
       navigate("/login");
     } catch (error) {
       toast.error("Logout failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -101,8 +117,12 @@ const ManageProducts: React.FC = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-100">
-          <button onClick={handleLogout} className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm">
-            <LogOut size={20} />
+          <button 
+            onClick={handleLogout} 
+            disabled={isLoading}
+            className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm disabled:opacity-70"
+          >
+            {isLoading ? <Loader color="#dc2626" /> : <LogOut size={20} />}
             {t('dashboard.sidebar.logout')}
           </button>
         </div>
@@ -206,11 +226,12 @@ const ManageProducts: React.FC = () => {
                             <Edit3 size={18} />
                           </button>
                           <button 
-                            onClick={() => toast(`Deleted ${product.name}`)}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            onClick={() => handleDelete(product.id, product.name)}
+                            disabled={deletingId === product.id}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-100 rounded-lg transition-all disabled:opacity-50"
                             title="Delete"
                           >
-                            <Trash2 size={18} />
+                            {deletingId === product.id ? <Loader size={18} color="#ef4444" /> : <Trash2 size={18} />}
                           </button>
                         </div>
                         <button className="md:hidden p-2 text-gray-400 hover:text-gray-600 bg-gray-50 rounded-lg group-hover:hidden">

@@ -18,6 +18,7 @@ import {
 import { sendOtp, registerUser } from "../../api/auth";
 import toast from "react-hot-toast";
 import { Password } from "../../components/SuggestedPassword/Password";
+import Loader from "../../components/Loader/Loader";
 
 interface FormData {
   name: string;
@@ -45,6 +46,7 @@ const Register: React.FC = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [isLoading, setIsLoading] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const validateStep1 = () => {
@@ -95,6 +97,7 @@ const Register: React.FC = () => {
   const handelSendOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep1()) {
+      setIsLoading(true);
       try {
         const res = await sendOtp({
           name: formData.name,
@@ -107,6 +110,8 @@ const Register: React.FC = () => {
       } catch (error: any) {
         toast.error(error.response.data.message);
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -131,6 +136,7 @@ const Register: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (validateStep2()) {
+      setIsLoading(true);
       try {
         const res = await registerUser({
           name: formData.name,
@@ -144,6 +150,8 @@ const Register: React.FC = () => {
         navigate("/login");
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     }
   };
@@ -303,6 +311,7 @@ const Register: React.FC = () => {
                     <input
                       type="text"
                       dir={isRtl ? "rtl" : "ltr"}
+                      disabled={isLoading}
                       className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${
                         errors.name
                           ? "border-red-500 bg-red-50"
@@ -334,6 +343,7 @@ const Register: React.FC = () => {
                     <input
                       type="email"
                       dir="ltr"
+                      disabled={isLoading}
                       className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right" : "text-left"} ${
                         errors.email
                           ? "border-red-500 bg-red-50"
@@ -359,8 +369,10 @@ const Register: React.FC = () => {
                   >
                     <button
                       onClick={handelSendOtp}
-                      className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50 disabled:translate-y-0 disabled:shadow-none"
+                      disabled={isLoading}
+                      className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50 disabled:translate-y-0 disabled:shadow-none flex items-center justify-center gap-2"
                     >
+                      {isLoading && <Loader />}
                       {t("register_page.next_step")}
                     </button>
                     <Link
@@ -438,6 +450,7 @@ const Register: React.FC = () => {
                         type="text"
                         maxLength={6}
                         dir="ltr"
+                        disabled={isLoading}
                         className={`w-full px-4 py-3 rounded-xl border text-center text-2xl tracking-[0.5em] font-bold outline-none transition-all ${
                           errors.otp
                             ? "border-red-500 bg-red-50"
@@ -473,6 +486,7 @@ const Register: React.FC = () => {
                         <input
                           type={showPassword ? "text" : "password"}
                           dir="ltr"
+                          disabled={isLoading}
                           className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
                             errors.password
                               ? "border-red-500 bg-red-50"
@@ -522,6 +536,7 @@ const Register: React.FC = () => {
                         <input
                           type={showConfirmPassword ? "text" : "password"}
                           dir="ltr"
+                          disabled={isLoading}
                           className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
                             errors.confirmPassword
                               ? "border-red-500 bg-red-50"
@@ -587,6 +602,7 @@ const Register: React.FC = () => {
                           <input
                             type="file"
                             accept="image/jpeg,image/png,image/jpg"
+                            disabled={isLoading}
                             className="absolute inset-0 opacity-0 cursor-pointer"
                             onChange={handleFileChange}
                           />
@@ -619,8 +635,10 @@ const Register: React.FC = () => {
                     <div className="pt-4 flex flex-col gap-3">
                       <button
                         type="submit"
-                        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95"
+                        disabled={isLoading}
+                        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-70 disabled:translate-y-0 flex items-center justify-center gap-2"
                       >
+                        {isLoading && <Loader />}
                         {t("register_page.complete_registration")}
                       </button>
                       <button

@@ -18,6 +18,7 @@ import {
   Menu,
   X
 } from "lucide-react";
+import Loader from "../../components/Loader/Loader";
 
 interface Order {
   id: number;
@@ -40,9 +41,11 @@ const Dashboard: React.FC = () => {
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handelLogout = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await logout();
       clearAuth();
@@ -51,6 +54,8 @@ const Dashboard: React.FC = () => {
     } catch (error) {
       console.error(error);
       toast.error("Logout failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -88,9 +93,10 @@ const Dashboard: React.FC = () => {
         <div className="p-4 border-t border-gray-100 overflow-hidden whitespace-nowrap">
           <button 
             onClick={(e) => handelLogout(e as any)}
-            className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm"
+            disabled={isLoading}
+            className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm disabled:opacity-70"
           >
-            <LogOut size={20} className="min-w-[20px]" />
+            {isLoading ? <Loader color="#dc2626" /> : <LogOut size={20} className="min-w-[20px]" />}
             {t('dashboard.sidebar.logout')}
           </button>
         </div>
@@ -114,10 +120,11 @@ const Dashboard: React.FC = () => {
           <div className="flex items-center gap-6">
             <button 
               onClick={(e) => handelLogout(e as any)}
-              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 font-bold"
+              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 font-bold disabled:opacity-70"
               title="Logout"
+              disabled={isLoading}
             >
-              <LogOut size={20} />
+              {isLoading ? <Loader color="#ef4444" /> : <LogOut size={20} />}
               <span className="hidden lg:block text-sm">{t('dashboard.sidebar.logout')}</span>
             </button>
           </div>

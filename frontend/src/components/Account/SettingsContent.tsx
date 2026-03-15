@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
 import { useAuth } from "../../context/AuthContext";
 import ProfileForm from "./ProfileForm";
+import Loader from "../Loader/Loader";
 
 interface SettingsContentProps {
   backLabel: string;
@@ -19,6 +20,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [password, setPassword] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDeleteAccount = (e: React.FormEvent) => {
     e.preventDefault();
@@ -26,9 +28,11 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
       toast.error("Please enter your password to confirm");
       return;
     }
+    setIsDeleting(true);
     // Simulation of account deletion
     toast.loading("Deleting account...", { duration: 2000 });
     setTimeout(() => {
+        setIsDeleting(false);
         toast.success("Account deleted successfully");
         setIsDeleteModalOpen(false);
         navigate("/login");
@@ -161,8 +165,10 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-4 px-6 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200"
+                    disabled={isDeleting}
+                    className="flex-1 py-4 px-6 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200 flex items-center justify-center gap-2 disabled:opacity-70"
                   >
+                    {isDeleting && <Loader />}
                     Delete Forever
                   </button>
                 </div>

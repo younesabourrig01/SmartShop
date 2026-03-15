@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 
 const commentsData = [
   {
@@ -102,6 +102,14 @@ const Commantes: React.FC = () => {
   const { t } = useTranslation();
   const [index, setIndex] = useState(0);
 
+  const handleNext = () => {
+    setIndex((prev) => (prev + 1) % commentsData.length);
+  };
+
+  const handlePrev = () => {
+    setIndex((prev) => (prev - 1 + commentsData.length) % commentsData.length);
+  };
+
   return (
     <section className="">
       {/* Outer Card Wrapper - Now Split Layout */}
@@ -143,19 +151,41 @@ const Commantes: React.FC = () => {
             
             {/* Main Slider Content */}
             <div className="flex-1 relative w-full flex justify-center items-center h-[450px]">
+              {/* Navigation Arrows for Mobile/Tablet context */}
+              <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-between px-2 sm:px-4 z-40 lg:hidden pointer-events-none">
+                <button 
+                  onClick={handlePrev}
+                  className="p-3 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-slate-100 text-slate-800 pointer-events-auto active:scale-95 transition-all"
+                >
+                  <ChevronLeft size={24} />
+                </button>
+                <button 
+                  onClick={handleNext}
+                  className="p-3 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-slate-100 text-slate-800 pointer-events-auto active:scale-95 transition-all"
+                >
+                  <ChevronRight size={24} />
+                </button>
+              </div>
+
               <AnimatePresence mode="popLayout" initial={false}>
                 {commentsData.map((data, i) => {
                   let position = i - index;
                   // Infinite loop logic
                   if (position < -Math.floor(commentsData.length / 2)) position += commentsData.length;
                   if (position > Math.floor(commentsData.length / 2)) position -= commentsData.length;
-
+ 
                   const isVisible = Math.abs(position) <= 1;
                   if (!isVisible) return null;
 
                   return (
                     <motion.div
                       key={data.id}
+                      drag="x"
+                      dragConstraints={{ left: 0, right: 0 }}
+                      onDragEnd={(_, info) => {
+                        if (info.offset.x > 100) handlePrev();
+                        else if (info.offset.x < -100) handleNext();
+                      }}
                       initial={{ opacity: 0, scale: 0.6, x: position * 200 }}
                       animate={{ 
                         opacity: position === 0 ? 1 : 0.3,
@@ -168,10 +198,10 @@ const Commantes: React.FC = () => {
                       }}
                       exit={{ opacity: 0, scale: 0.5, x: position * -200 }}
                       transition={{ type: "spring", stiffness: 220, damping: 25 }}
-                      className="absolute w-[280px] sm:w-[350px] md:w-[420px]"
+                      className="absolute w-[280px] sm:w-[350px] md:w-[420px] cursor-grab active:cursor-grabbing"
                     >
                       <div className="w-full bg-[#1a5e7b] rounded-[2.5rem] p-10 md:p-12 flex flex-col items-center gap-6 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.6)] border border-white/10 text-white select-none">
-                        <div className="relative">
+                        <div className="relative pointer-events-none">
                           <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-[6px] border-[#43dabb] overflow-hidden shadow-2xl">
                             <img 
                               src={data.avatar} 
@@ -182,7 +212,7 @@ const Commantes: React.FC = () => {
                           <div className="absolute inset-0 rounded-full border-t border-white/40 pointer-events-none"></div>
                         </div>
 
-                        <div className="text-center mt-2">
+                        <div className="text-center mt-2 pointer-events-none">
                           <h3 className="text-xl md:text-2xl font-black tracking-tight mb-1">
                             {data.name}
                           </h3>
@@ -191,7 +221,7 @@ const Commantes: React.FC = () => {
                           </p>
                         </div>
 
-                        <div className="mt-4 px-2">
+                        <div className="mt-4 px-2 pointer-events-none">
                            <p className="text-center italic text-sm md:text-lg leading-relaxed opacity-85 font-medium line-clamp-4">
                             "{data.comment}"
                            </p>
@@ -203,19 +233,19 @@ const Commantes: React.FC = () => {
               </AnimatePresence>
             </div>
 
-            {/* DOTS NAVIGATION - Matching reference image style */}
+            {/* DOTS NAVIGATION - Enhanced for mobile as per reference */}
             <div className="mt-8 flex justify-center items-center">
-              <div className="flex bg-slate-100/80 backdrop-blur-sm p-4 rounded-full gap-3 px-6 border border-slate-200 shadow-sm">
+              <div className="flex bg-white p-4 rounded-full gap-3 px-6 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.1)] border border-slate-100">
                 {commentsData.map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setIndex(i)}
-                    className="relative flex items-center justify-center cursor-pointer transition-all duration-300"
+                    className="relative flex items-center justify-center cursor-pointer transition-all duration-300 active:scale-95"
                   >
                     <motion.div
                       animate={{
-                        width: index === i ? 24 : 10,
-                        backgroundColor: index === i ? "#0046be" : "#cbd5e1",
+                        width: index === i ? 28 : 10,
+                        backgroundColor: index === i ? "#0046be" : "#e2e8f0",
                       }}
                       className="h-2.5 rounded-full"
                     />

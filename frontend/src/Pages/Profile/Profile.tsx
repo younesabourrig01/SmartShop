@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { logout } from "../../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
@@ -10,8 +10,9 @@ import {
   LogOut, 
   Package, 
   ExternalLink,
-  ShoppingBag
+  ShoppingBag,
 } from "lucide-react";
+import Loader from "../../components/Loader/Loader";
 import mainLogo from "../../assets/MainLogo.png";
 
 interface Order {
@@ -34,9 +35,11 @@ const Profile: React.FC = () => {
   const navigate = useNavigate();
   const { user, clearAuth } = useAuth();
   const { t } = useTranslation();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       const res = await logout();
       clearAuth();
@@ -45,6 +48,8 @@ const Profile: React.FC = () => {
     } catch (error) {
       console.error(error);
       toast.error("Logout failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -128,7 +133,7 @@ const Profile: React.FC = () => {
 
               <button onClick={handleLogout} className="flex items-center gap-4 w-full p-6 hover:bg-rose-50/50 transition-all group">
                 <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-rose-600 group-hover:text-white transition-all shadow-sm">
-                  <LogOut size={20} />
+                  {isLoading ? <Loader color="#f43f5e" /> : <LogOut size={20} />}
                 </div>
                 <div className="text-left flex-1">
                   <p className="font-bold text-slate-900 leading-none">{t('profile.nav.logout', 'Log out')}</p>

@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, User, Mail } from 'lucide-react';
+import Loader from '../Loader/Loader';
 
 interface ProfileFormProps {
   isOpen: boolean;
@@ -11,7 +12,17 @@ interface ProfileFormProps {
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData, title }) => {
   const [preview, setPreview] = useState<string | null>(initialData?.image || null);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      onClose();
+    }, 1500);
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -63,7 +74,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
           </div>
 
           {/* Form Content */}
-          <form className="p-8 space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="p-8 space-y-8" onSubmit={handleSubmit}>
             {/* Image Section */}
             <div className="flex flex-col items-center gap-4">
                <div className="relative group">
@@ -143,8 +154,10 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
               </button>
               <button
                 type="submit"
-                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+                disabled={isLoading}
+                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-70"
               >
+                {isLoading && <Loader />}
                 Save Changes
               </button>
             </div>

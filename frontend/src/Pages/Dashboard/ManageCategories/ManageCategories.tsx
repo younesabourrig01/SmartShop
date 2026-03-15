@@ -21,6 +21,7 @@ import {
 import { useAuth } from "../../../context/AuthContext";
 import { logout } from "../../../api/auth";
 import toast from "react-hot-toast";
+import Loader from "../../../components/Loader/Loader";
 import CategoryForm from "../../../components/Dashboard/CategoryForm";
 
 const ManageCategories: React.FC = () => {
@@ -28,8 +29,19 @@ const ManageCategories: React.FC = () => {
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
+  const [deletingId, setDeletingId] = useState<number | null>(null);
+
+  const handleDelete = (id: number, name: string) => {
+    setDeletingId(id);
+    toast.loading(`Deleting ${name}...`, { duration: 1500 });
+    setTimeout(() => {
+      setDeletingId(null);
+      toast.success(`${name} deleted successfully`);
+    }, 1500);
+  };
 
   const mockCategories = [
     {
@@ -56,6 +68,7 @@ const ManageCategories: React.FC = () => {
   ];
 
   const handleLogout = async () => {
+    setIsLoading(true);
     try {
       await logout();
       clearAuth();
@@ -63,6 +76,8 @@ const ManageCategories: React.FC = () => {
       navigate("/login");
     } catch (error) {
       toast.error("Logout failed");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -104,8 +119,12 @@ const ManageCategories: React.FC = () => {
         </nav>
 
         <div className="p-4 border-t border-gray-100">
-          <button onClick={handleLogout} className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm">
-            <LogOut size={20} />
+          <button 
+            onClick={handleLogout} 
+            disabled={isLoading}
+            className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm disabled:opacity-70"
+          >
+            {isLoading ? <Loader color="#dc2626" /> : <LogOut size={20} />}
             {t('dashboard.sidebar.logout')}
           </button>
         </div>
@@ -200,11 +219,12 @@ const ManageCategories: React.FC = () => {
                             <Edit3 size={18} />
                           </button>
                           <button 
-                            onClick={() => toast(`Deleted ${category.name}`)}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            onClick={() => handleDelete(category.id, category.name)}
+                            disabled={deletingId === category.id}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all disabled:opacity-50"
                             title="Delete"
                           >
-                            <Trash2 size={18} />
+                            {deletingId === category.id ? <Loader size={18} color="#ef4444" /> : <Trash2 size={18} />}
                           </button>
                         </div>
                         <button className="md:hidden p-2 text-gray-400 hover:text-gray-600 bg-gray-50 rounded-lg group-hover:hidden">

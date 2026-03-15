@@ -1,6 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, Layers, FileText } from 'lucide-react';
+import Loader from '../Loader/Loader';
 
 interface CategoryFormProps {
   isOpen: boolean;
@@ -11,7 +12,17 @@ interface CategoryFormProps {
 
 const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialData, title }) => {
   const [preview, setPreview] = useState<string | null>(initialData?.image || null);
+  const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      onClose();
+    }, 1500);
+  };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -63,7 +74,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
           </div>
 
           {/* Form Content */}
-          <form className="p-8 space-y-8" onSubmit={(e) => e.preventDefault()}>
+          <form className="p-8 space-y-8" onSubmit={handleSubmit}>
             {/* Category Name */}
             <div className="space-y-2">
               <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
@@ -143,8 +154,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
               </button>
               <button
                 type="submit"
-                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2"
+                disabled={isLoading}
+                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-70"
               >
+                {isLoading && <Loader />}
                 {initialData ? "Update Category" : "Create Category"}
               </button>
             </div>
