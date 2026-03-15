@@ -67,7 +67,7 @@ const Dashboard: React.FC = () => {
             <LayoutDashboard size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.dashboard')}
           </button>
-          <button onClick={() => toast("Users page...")} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => navigate('/dashboard/users')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Users size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.users')}
           </button>
@@ -126,7 +126,7 @@ const Dashboard: React.FC = () => {
         <div className="p-8 space-y-8">
           {/* Quick Action Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => toast("Viewing Users...")}>
+            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/users')}>
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
                     <Users size={24} />

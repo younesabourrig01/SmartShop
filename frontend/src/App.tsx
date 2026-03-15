@@ -10,6 +10,7 @@ import Profile from "./Pages/Profile/Profile";
 import Settings from "./Pages/Profile/Settings";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
+import Users from "./Pages/Dashboard/ManageUsers/Users";
 import Contact from "./Pages/Contact/Contact";
 import { UserRoute, AdminRoute } from "./components/ProtectRoutes/ProtectRoute";
 
@@ -54,6 +55,14 @@ function App() {
             element={
               <AdminRoute>
                 <ManageProducts />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/dashboard/users"
+            element={
+              <AdminRoute>
+                <Users />
               </AdminRoute>
             }
           />

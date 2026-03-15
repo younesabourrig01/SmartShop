@@ -2,53 +2,48 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { 
-  Package, 
-  Plus, 
+  Users as UsersIcon, 
   Search, 
   MoreVertical, 
   Edit3, 
   Trash2, 
   Eye, 
   LayoutDashboard, 
-  Users, 
+  Package, 
   Layers, 
   Settings, 
   LogOut,
   X,
   Menu,
-  Filter
+  Filter,
+  UserPlus
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { logout } from "../../../api/auth";
 import toast from "react-hot-toast";
-import ProductForm from "../../../components/Dashboard/ProductForm";
 
-const ManageProducts: React.FC = () => {
+const Users: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
 
-  const mockProducts = [
+  const mockUsers = [
     {
       id: 1,
-      name: "iPhone 15 Pro",
-      category: "Electronics",
-      price: 999.99,
-      stock: 45,
-      image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&q=80",
-      description: "Experience the next level of mobile technology with the iPhone 15 Pro."
+      name: "John Doe",
+      email: "john.doe@example.com",
+      role: "Admin",
+      status: "Active",
+      avatar: "JD"
     },
     {
       id: 2,
-      name: "Sony WH-1000XM5",
-      category: "Audio",
-      price: 349.00,
-      stock: 120,
-      image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80",
-      description: "Industry-leading noise canceling headphones with exceptional sound quality."
+      name: "Jane Smith",
+      email: "jane.smith@example.com",
+      role: "User",
+      status: "Inactive",
+      avatar: "JS"
     }
   ];
 
@@ -63,16 +58,6 @@ const ManageProducts: React.FC = () => {
     }
   };
 
-  const openAddForm = () => {
-    setEditingProduct(null);
-    setIsFormOpen(true);
-  };
-
-  const openEditForm = (product: any) => {
-    setEditingProduct(product);
-    setIsFormOpen(true);
-  };
-
   return (
     <div className="flex bg-gray-50 text-gray-800 font-sans min-h-[calc(100vh-76px)]">
       {/* Sidebar - Reusing Dashboard side bar style */}
@@ -82,11 +67,11 @@ const ManageProducts: React.FC = () => {
             <LayoutDashboard size={20} />
             {t('dashboard.sidebar.dashboard')}
           </button>
-          <button onClick={() => navigate('/dashboard/users')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
-            <Users size={20} />
+          <button className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
+            <UsersIcon size={20} />
             {t('dashboard.sidebar.users')}
           </button>
-          <button className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
+          <button onClick={() => navigate('/dashboard/products')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Package size={20} />
             {t('dashboard.sidebar.products')}
           </button>
@@ -116,14 +101,14 @@ const ManageProducts: React.FC = () => {
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <h1 className="text-2xl font-extrabold text-gray-900">Manage Products</h1>
+            <h1 className="text-2xl font-extrabold text-gray-900">Manage Users</h1>
           </div>
           <button 
-            onClick={openAddForm}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+             onClick={() => toast("Add user functionality coming soon")}
+             className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
           >
-            <Plus size={20} />
-            Add Product
+            <UserPlus size={20} />
+            Add User
           </button>
         </header>
 
@@ -134,7 +119,7 @@ const ManageProducts: React.FC = () => {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
                 type="text" 
-                placeholder="Search products..." 
+                placeholder="Search users..." 
                 className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
               />
             </div>
@@ -146,68 +131,64 @@ const ManageProducts: React.FC = () => {
             </div>
           </div>
 
-          {/* Products Table */}
+          {/* Users Table */}
           <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
                   <tr>
-                    <th className="px-8 py-5">Product</th>
-                    <th className="px-8 py-5">Category</th>
-                    <th className="px-8 py-5">Price</th>
-                    <th className="px-8 py-5">Stock</th>
+                    <th className="px-8 py-5">User</th>
+                    <th className="px-8 py-5">Role</th>
+                    <th className="px-8 py-5">Status</th>
                     <th className="px-8 py-5 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {mockProducts.map((product) => (
-                    <tr key={product.id} className="hover:bg-gray-50/50 transition-colors group">
+                  {mockUsers.map((user) => (
+                    <tr key={user.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
-                          <img 
-                            src={product.image} 
-                            alt={product.name} 
-                            className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100"
-                          />
+                          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-600 border border-indigo-100">
+                            {user.avatar}
+                          </div>
                           <div>
-                            <p className="text-sm font-extrabold text-gray-900 leading-tight">{product.name}</p>
-                            <p className="text-[10px] text-gray-400 font-bold uppercase mt-0.5">ID: {product.id}</p>
+                            <p className="text-sm font-extrabold text-gray-900 leading-tight">{user.name}</p>
+                            <p className="text-xs text-gray-400 font-medium">{user.email}</p>
                           </div>
                         </div>
                       </td>
                       <td className="px-8 py-5">
-                        <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-wider">
-                          {product.category}
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
+                          user.role === 'Admin' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'
+                        }`}>
+                          {user.role}
                         </span>
                       </td>
                       <td className="px-8 py-5">
-                        <span className="text-sm font-extrabold text-gray-900">${product.price.toFixed(2)}</span>
-                      </td>
-                      <td className="px-8 py-5">
                         <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full ${product.stock > 20 ? 'bg-green-500' : 'bg-red-500'}`}></div>
-                          <span className="text-sm font-bold text-gray-600">{product.stock} units</span>
+                          <div className={`w-2 h-2 rounded-full ${user.status === 'Active' ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                          <span className="text-sm font-bold text-gray-600">{user.status}</span>
                         </div>
                       </td>
                       <td className="px-8 py-5 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button 
-                            onClick={() => toast(`Viewing ${product.name}`)}
+                            onClick={() => toast(`Viewing ${user.name}`)}
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                             title="Show Details"
                           >
                             <Eye size={18} />
                           </button>
                           <button 
-                            onClick={() => openEditForm(product)}
+                            onClick={() => toast(`Updating ${user.name}`)}
                             className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
                             title="Update"
                           >
                             <Edit3 size={18} />
                           </button>
                           <button 
-                            onClick={() => toast(`Deleted ${product.name}`)}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all"
+                            onClick={() => toast(`Deleted ${user.name}`)}
+                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-100 rounded-lg transition-all"
                             title="Delete"
                           >
                             <Trash2 size={18} />
@@ -224,21 +205,13 @@ const ManageProducts: React.FC = () => {
             </div>
             {/* Pagination Placeholder */}
             <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Showing 2 of 2 Products</p>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Showing {mockUsers.length} of {mockUsers.length} Users</p>
             </div>
           </div>
         </div>
       </main>
-
-      {/* Product Form Modal */}
-      <ProductForm 
-        isOpen={isFormOpen} 
-        onClose={() => setIsFormOpen(false)} 
-        initialData={editingProduct}
-        title={editingProduct ? "Update Product" : "Add New Product"}
-      />
     </div>
   );
 };
 
-export default ManageProducts;
+export default Users;
