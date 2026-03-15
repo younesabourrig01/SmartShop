@@ -4,7 +4,7 @@ import { Send, MapPin, Phone, Mail, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 const ContactUs: React.FC = () => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const [result, setResult] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -37,10 +37,10 @@ const ContactUs: React.FC = () => {
 
   return (
     <section className="">
-      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden flex flex-col md:flex-row min-h-[600px]">
+      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden flex flex-col lg:flex-row min-h-[600px]">
         
         {/* LEFT PART: Info & Branding */}
-        <div className="w-full md:w-1/2 bg-[#0046be] p-8 md:p-16 text-white flex flex-col justify-center relative overflow-hidden text-start rtl:text-right">
+        <div className="w-full lg:w-1/2 bg-[#0046be] p-8 md:p-12 lg:p-16 text-white flex flex-col justify-center relative overflow-hidden text-start rtl:text-right">
           {/* Decorative background elements */}
           <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -mr-20 -mt-20 blur-3xl"></div>
           <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#01b0d3]/20 rounded-full -ml-20 -mb-20 blur-3xl"></div>
@@ -51,7 +51,7 @@ const ContactUs: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-6">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tighter leading-none mb-6">
                 {t('contact.who_are_we')}
               </h2>
               <p className="text-lg md:text-xl opacity-90 font-medium leading-relaxed max-w-md">
@@ -102,7 +102,7 @@ const ContactUs: React.FC = () => {
         </div>
 
         {/* RIGHT PART: Contact Form */}
-        <div className="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center bg-white text-start rtl:text-right">
+        <div className="w-full lg:w-1/2 p-8 md:p-12 lg:p-16 flex flex-col justify-center bg-white text-start rtl:text-right">
           <div className="max-w-md w-full mx-auto">
             <h3 className="text-3xl font-black text-slate-900 mb-2 uppercase tracking-tight">{t('contact.get_in_touch')}</h3>
             <p className="text-slate-500 font-medium mb-8">{t('contact.form_description')}</p>

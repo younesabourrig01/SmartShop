@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, ChevronDown, Heart } from 'lucide-react';
+import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, ChevronDown, Heart, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import logo from '../../assets/smartShopLogo.png';
 
 const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisualDarkMode, setIsVisualDarkMode] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -163,6 +165,9 @@ const Navbar: React.FC = () => {
           <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
         </button>
 
+        {/* regester/login buttons or profile icone */}
+        {!user?(
+
         <div className="hidden sm:flex items-center gap-2">
           <Link to="/login" className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 border border-slate-200 text-slate-700 hover:bg-slate-50 hover:-translate-y-0.5">
             <LogIn size={16} />
@@ -173,7 +178,26 @@ const Navbar: React.FC = () => {
             <span>{t('nav.register')}</span>
           </Link>
         </div>
-
+        ):(
+          <div className="hidden sm:flex items-center gap-2">
+            <Link 
+              to={user.role === 'admin' ? '/dashboard' : '/profile'} 
+              className="flex items-center gap-2 px-4 py-2 rounded-full font-medium text-sm transition-all duration-300 border border-slate-200 text-slate-700 hover:bg-slate-50 hover:-translate-y-0.5"
+            >
+              {user.image ? (
+                <img 
+                  src={`http://127.0.0.1:8000/storage/${user.image}`} 
+                  alt="Profile" 
+                  className="w-6 h-6 rounded-full object-cover border border-slate-200"
+                />
+              ) : (
+                <User size={16} />
+              )}
+              <span>{user.role === 'admin' ? t('nav.dashboard', 'Dashboard') : t('nav.profile')}</span>
+            </Link>
+          </div>
+        )
+        }
         {/* Mobile menu button */}
         <button 
           className="md:hidden p-2 text-slate-500 hover:bg-slate-100 rounded-full"
@@ -193,12 +217,35 @@ const Navbar: React.FC = () => {
             <Link to="/contact" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.contact')}</Link>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-2 pt-4 border-t border-slate-100">
-            <Link to="/login" className="flex justify-center items-center gap-2 px-4 py-2 rounded-full font-medium text-sm border border-slate-200 text-slate-700 bg-transparent" onClick={() => setIsMobileMenuOpen(false)}>
-              <LogIn size={16} /> {t('nav.login')}
-            </Link>
-            <Link to="/register" className="flex justify-center items-center gap-2 px-4 py-2 rounded-full font-medium text-sm bg-blue-600 text-white" onClick={() => setIsMobileMenuOpen(false)}>
-              <UserPlus size={16} /> {t('nav.register')}
-            </Link>
+            {!user ? (
+              <>
+                <Link to="/login" className="flex justify-center items-center gap-2 px-4 py-2 rounded-full font-medium text-sm border border-slate-200 text-slate-700 bg-transparent" onClick={() => setIsMobileMenuOpen(false)}>
+                  <LogIn size={16} /> {t('nav.login')}
+                </Link>
+                <Link to="/register" className="flex justify-center items-center gap-2 px-4 py-2 rounded-full font-medium text-sm bg-blue-600 text-white" onClick={() => setIsMobileMenuOpen(false)}>
+                  <UserPlus size={16} /> {t('nav.register')}
+                </Link>
+              </>
+            ) : (
+            <div className="flex flex-col gap-2">
+              <Link 
+                to={user.role === 'admin' ? '/dashboard' : '/profile'} 
+                className="flex justify-center items-center gap-2 px-4 py-3 rounded-xl font-bold text-sm border border-slate-200 text-slate-700 bg-transparent" 
+                onClick={() => setIsMobileMenuOpen(false)}
+              >
+                {user.image ? (
+                  <img 
+                    src={`http://127.0.0.1:8000/storage/${user.image}`} 
+                    alt="Profile" 
+                    className="w-6 h-6 rounded-full object-cover border border-slate-200"
+                  />
+                ) : (
+                  <User size={16} />
+                )}
+                {user.role === 'admin' ? t('nav.dashboard', 'Dashboard') : t('nav.profile')}
+              </Link>
+            </div>
+            )}
           </div>
         </div>
       )}

@@ -33,10 +33,10 @@ const Slider: React.FC = () => {
         {/* Hero Banner Area */}
         <div className="relative w-full h-[280px] bg-gradient-to-r from-[#0046be] via-[#007cc2] to-[#01b0d3] p-10 md:px-16 flex items-center justify-between text-start rtl:text-right">
           <div className="max-w-4xl z-10 text-pretty">
-            <h1 className="text-white text-5xl md:text-6xl lg:text-8xl font-black mb-5 tracking-tighter leading-[0.95]">
+            <h1 className="text-white text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black mb-5 tracking-tighter leading-[0.95]">
               {t('slider.hero_title')}
             </h1>
-            <p className="text-white text-xl md:text-3xl font-bold opacity-95">
+            <p className="text-white text-lg md:text-2xl font-bold opacity-95">
               {t('slider.hero_subtitle')}
             </p>
           </div>
@@ -52,7 +52,7 @@ const Slider: React.FC = () => {
         </div>
 
         {/* Categories Slider Area */}
-        <div className="w-full p-12 md:px-16 text-start rtl:text-right">
+        <div className="w-full p-8 md:p-12 lg:px-16 text-start rtl:text-right">
           <h2 className="text-2xl md:text-4xl font-black text-slate-900 mb-12 flex items-center gap-4">
             {t('slider.category_title')}
           </h2>
@@ -61,7 +61,7 @@ const Slider: React.FC = () => {
             {/* Navigation Arrows */}
             <button 
               onClick={() => scroll('left')}
-              className="absolute -left-12 top-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full border border-slate-100 shadow-2xl flex items-center justify-center text-slate-800 hover:text-blue-600 hover:border-blue-200 transition-all duration-500 z-20 cursor-pointer active:scale-90 opacity-0 group-hover/slider:opacity-100"
+              className="absolute left-0 lg:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-white rounded-full border border-slate-100 shadow-2xl flex items-center justify-center text-slate-800 hover:text-blue-600 hover:border-blue-200 transition-all duration-500 z-20 cursor-pointer active:scale-90 opacity-0 group-hover/slider:opacity-100"
             >
               <ChevronLeft size={32} />
             </button>
@@ -96,7 +96,7 @@ const Slider: React.FC = () => {
 
             <button 
               onClick={() => scroll('right')}
-              className="absolute -right-12 top-1/2 -translate-y-1/2 w-16 h-16 bg-white rounded-full border border-slate-100 shadow-2xl flex items-center justify-center text-slate-800 hover:text-blue-600 hover:border-blue-200 transition-all duration-500 z-20 cursor-pointer active:scale-90 opacity-0 group-hover/slider:opacity-100"
+              className="absolute right-0 lg:-right-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-white rounded-full border border-slate-100 shadow-2xl flex items-center justify-center text-slate-800 hover:text-blue-600 hover:border-blue-200 transition-all duration-500 z-20 cursor-pointer active:scale-90 opacity-0 group-hover/slider:opacity-100"
             >
               <ChevronRight size={32} />
             </button>

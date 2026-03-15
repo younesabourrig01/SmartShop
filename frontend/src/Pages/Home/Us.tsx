@@ -87,10 +87,10 @@ const Us: React.FC = () => {
   return (
     <section className="relative w-full">
       {/* Main Container Card - Balanced Rounded Corners & Shadow */}
-      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-8 md:p-16 overflow-hidden flex flex-col items-center">
+      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-6 md:p-10 lg:p-16 overflow-hidden flex flex-col items-center">
         
         {/* Hero Top Content: Dual Layout */}
-        <div className="w-full flex flex-col md:flex-row items-center justify-between gap-12 mb-16 z-10 text-start rtl:text-right">
+        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12 mb-16 z-10 text-start rtl:text-right">
           
           {/* Left: Text Content */}
           <motion.div 
@@ -98,7 +98,7 @@ const Us: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="w-full md:w-1/2 space-y-8"
+            className="w-full lg:w-1/2 space-y-8"
           >
             {/* Minimalist Badge */}
             <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-slate-50 rounded-full border border-slate-100 transition-all hover:bg-white hover:shadow-sm">
@@ -106,7 +106,7 @@ const Us: React.FC = () => {
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('us.welcome')}</span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter">
               {t('us.title_1')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] via-[#01b0d3] to-[#43dabb]">
                 {t('us.title_2')}
@@ -117,7 +117,7 @@ const Us: React.FC = () => {
               {t('us.description')}
             </p>
             
-            <div className="flex flex-col sm:flex-row items-center gap-8 pt-4">
+            <div className="flex flex-col xl:flex-row items-center gap-6 pt-4">
               {/* Primary CTA */}
               <Link to="/products">
                 <motion.button 
@@ -147,7 +147,7 @@ const Us: React.FC = () => {
             whileInView={{ opacity: 1, scale: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1.2 }}
-            className="w-full md:w-1/2 relative flex items-center justify-center"
+            className="w-full lg:w-1/2 relative flex items-center justify-center"
           >
             <LogoScene />
           </motion.div>

@@ -5,11 +5,13 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Mail, Lock, LogIn, ShieldCheck, ArrowLeft } from "lucide-react";
 import { login } from "../../api/auth";
+import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 
 const Login: React.FC = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const { setAuth } = useAuth();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -47,8 +49,7 @@ const Login: React.FC = () => {
         const token = res.data.token;
         const user = res.data.user;
 
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
+        setAuth(user, token);
 
         toast.success(res.data.message);
         setErrors({});

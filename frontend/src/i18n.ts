@@ -11,7 +11,9 @@ const resources = {
         "categories": "Categories",
         "contact": "Contact",
         "login": "Login",
-        "register": "Register"
+        "register": "Register",
+        "profile": "Profile",
+        "dashboard": "Dashboard"
       },
       "us": {
         "welcome": "Welcome to the future",
@@ -67,7 +69,11 @@ const resources = {
         "message": "Message",
         "send_message": "Send Message",
         "sending": "Sending....",
-        "success": "Form Submitted Successfully"
+        "success": "Form Submitted Successfully",
+        "our_story_title": "Our Story",
+        "our_story_desc": "Founded in the heart of innovation, SmartShop began with a simple mission: to make premium technology accessible to everyone. We believe that technology should empower, inspire, and connect people across the globe.",
+        "find_us": "Find Us",
+        "visit_us": "Visit our physical store in Agadir"
       },
       "footer": {
         "description": "Elevating your tech experience with premium products and clinical precision. Join the future of electronics today.",
@@ -158,15 +164,36 @@ const resources = {
           "cta": "Explore Now"
         }
       },
-      "reviews": {
-        "title": "Customer Reviews",
-        "subtitle": "See what others are saying about this product",
-        "write_review": "Write a Review",
-        "rating": "Your Rating",
-        "comment": "Your Comment",
-        "placeholder": "What did you think about the product?",
-        "submit": "Post Review",
-        "success": "Review posted successfully!"
+      "dashboard": {
+        "welcome": "Welcome back, Admin 👋",
+        "sidebar": {
+          "dashboard": "Dashboard",
+          "users": "Users",
+          "products": "Products",
+          "categories": "Categories",
+          "settings": "Settings",
+          "logout": "Logout"
+        },
+        "stats": {
+          "total_users": "Total Users",
+          "total_products": "Total Products",
+          "total_categories": "Total Categories",
+          "see_all": "See all Users",
+          "manage_all": "Manage All"
+        },
+        "transactions": {
+          "title": "Recent Transactions",
+          "export": "Export PDF",
+          "id": "Transaction ID",
+          "customer": "Customer",
+          "amount": "Amount",
+          "date": "Date",
+          "status": "Status",
+          "action": "Action",
+          "completed": "completed",
+          "pending": "pending",
+          "cancelled": "cancelled"
+        }
       }
     }
   },
@@ -178,7 +205,9 @@ const resources = {
         "categories": "الفئات",
         "contact": "اتصل بنا",
         "login": "تسجيل الدخول",
-        "register": "إنشاء حساب"
+        "register": "إنشاء حساب",
+        "profile": "الملف الشخصي",
+        "dashboard": "لوحة التحكم"
       },
       "us": {
         "welcome": "مرحباً بكم في المستقبل",
@@ -234,7 +263,11 @@ const resources = {
         "message": "الرسالة",
         "send_message": "إرسال الرسالة",
         "sending": "جاري الإرسال...",
-        "success": "تم إرسال النموذج بنجاح"
+        "success": "تم إرسال النموذج بنجاح",
+        "our_story_title": "قصتنا",
+        "our_story_desc": "تأسست سمارت شوب في قلب الابتكار ، وبدأت بمهمة بسيطة: جعل التكنولوجيا المتميزة في متناول الجميع. نحن نؤمن بأن التكنولوجيا يجب أن تمكن وتلهم وتربط الناس في جميع أنحاء العالم.",
+        "find_us": "تجدنا",
+        "visit_us": "قم بزيارة متجرنا في أكادير"
       },
       "footer": {
         "description": "نرفع مستوى تجربتك التقنية بمنتجات متميزة ودقة سريرية. انضم إلى مستقبل الإلكترونيات اليوم.",
@@ -334,6 +367,37 @@ const resources = {
         "placeholder": "ما رأيك في المنتج؟",
         "submit": "نشر التقييم",
         "success": "تم نشر التقييم بنجاح!"
+      },
+      "dashboard": {
+        "welcome": "مرحباً بك مجدداً، أيها المسؤول 👋",
+        "sidebar": {
+          "dashboard": "لوحة القيادة",
+          "users": "المستخدمين",
+          "products": "المنتجات",
+          "categories": "الفئات",
+          "settings": "الإعدادات",
+          "logout": "تسجيل الخروج"
+        },
+        "stats": {
+          "total_users": "إجمالي المستخدمين",
+          "total_products": "إجمالي المنتجات",
+          "total_categories": "إجمالي الفئات",
+          "see_all": "عرض الكل",
+          "manage_all": "إدارة الكل"
+        },
+        "transactions": {
+          "title": "المعاملات الأخيرة",
+          "export": "تصدير PDF",
+          "id": "رقم المعاملة",
+          "customer": "العميل",
+          "amount": "المبلغ",
+          "date": "التاريخ",
+          "status": "الحالة",
+          "action": "الإجراء",
+          "completed": "مكتمل",
+          "pending": "قيد الانتظار",
+          "cancelled": "ملغى"
+        }
       }
     }
   },
@@ -345,7 +409,9 @@ const resources = {
         "categories": "Catégories",
         "contact": "Contact",
         "login": "Connexion",
-        "register": "S'inscrire"
+        "register": "S'inscrire",
+        "profile": "Profil",
+        "dashboard": "Tableau de Bord"
       },
       "us": {
         "welcome": "Bienvenue dans le futur",
@@ -401,7 +467,11 @@ const resources = {
         "message": "Message",
         "send_message": "Envoyer",
         "sending": "Envoi en cours...",
-        "success": "Formulaire envoyé avec succès"
+        "success": "Formulaire envoyé avec succès",
+        "our_story_title": "Notre Histoire",
+        "our_story_desc": "Fondé au cœur de l'innovation, SmartShop a commencé avec une mission simple : rendre la technologie premium accessible à tous. Nous pensons que la technologie doit responsabiliser, inspirer et connecter les gens à travers le monde.",
+        "find_us": "Nous Trouver",
+        "visit_us": "Visitez notre boutique physique à Agadir"
       },
       "footer": {
         "description": "Élevez votre expérience tech avec des produits premium. Rejoignez le futur de l'électronique dès aujourd'hui.",
@@ -501,6 +571,37 @@ const resources = {
         "placeholder": "Qu'avez-vous pensé du produit ?",
         "submit": "Publier l'avis",
         "success": "Avis publié avec succès !"
+      },
+      "dashboard": {
+        "welcome": "Bon retour, Admin 👋",
+        "sidebar": {
+          "dashboard": "Tableau de Bord",
+          "users": "Utilisateurs",
+          "products": "Produits",
+          "categories": "Catégories",
+          "settings": "Paramètres",
+          "logout": "Déconnexion"
+        },
+        "stats": {
+          "total_users": "Total Utilisateurs",
+          "total_products": "Total Produits",
+          "total_categories": "Total Catégories",
+          "see_all": "Voir tout",
+          "manage_all": "Tout gérer"
+        },
+        "transactions": {
+          "title": "Transactions Récentes",
+          "export": "Exporter PDF",
+          "id": "ID Transaction",
+          "customer": "Client",
+          "amount": "Montant",
+          "date": "Date",
+          "status": "Statut",
+          "action": "Action",
+          "completed": "terminé",
+          "pending": "en attente",
+          "cancelled": "annulé"
+        }
       }
     }
   },
@@ -512,7 +613,9 @@ const resources = {
         "categories": "Categorías",
         "contact": "Contacto",
         "login": "Acceso",
-        "register": "Registrarse"
+        "register": "Registrarse",
+        "profile": "Perfil",
+        "dashboard": "Tablero"
       },
       "us": {
         "welcome": "Bienvenido al futuro",
@@ -565,10 +668,14 @@ const resources = {
         "form_description": "Completa el formulario y te responderemos en 24 horas.",
         "full_name": "Nombre Completo",
         "email_address": "Correo Electrónico",
-        "message": "Mensaje",
+        "message": "Message",
         "send_message": "Enviar Mensaje",
         "sending": "Enviando...",
-        "success": "Formulario enviado con éxito"
+        "success": "Formulario enviado con éxito",
+        "our_story_title": "Nuestra Historia",
+        "our_story_desc": "Fundada en el corazón de la innovación, SmartShop comenzó con una misión simple: hacer que la tecnología de primera calidad sea accesible para todos. Creemos que la tecnología debe empoderar, inspirar y conectar a las personas en todo el mundo.",
+        "find_us": "Encuéntranos",
+        "visit_us": "Visite nuestra tienda física en Agadir"
       },
       "footer": {
         "description": "Elevando su experiencia tecnológica con productos premium. Únase al futuro de la electrónica hoy.",
@@ -619,8 +726,7 @@ const resources = {
           "img_type": "Solo JPG, JPEG y PNG",
           "img_size": "Máximo 2MB"
         }
-      }
-    },
+      },
     "login_page": {
       "welcome": "Bienvenido de nuevo",
       "welcome_desc": "¡Te extrañamos! Inicia sesión para acceder a tu cuenta.",
@@ -669,6 +775,38 @@ const resources = {
       "placeholder": "¿Qué te pareció el producto?",
       "submit": "Publicar Opinión",
       "success": "¡Opinión publicada con éxito!"
+      },
+      "dashboard": {
+        "welcome": "Bienvenido de nuevo, Admin 👋",
+        "sidebar": {
+          "dashboard": "Tablero",
+          "users": "Usuarios",
+          "products": "Productos",
+          "categories": "Categorías",
+          "settings": "Ajustes",
+          "logout": "Cerrar sesión"
+        },
+        "stats": {
+          "total_users": "Total Usuarios",
+          "total_products": "Total Productos",
+          "total_categories": "Total Categorías",
+          "see_all": "Ver todo",
+          "manage_all": "Gestionar todo"
+        },
+        "transactions": {
+          "title": "Transacciones Recientes",
+          "export": "Exportar PDF",
+          "id": "ID de Transacción",
+          "customer": "Cliente",
+          "amount": "Monto",
+          "date": "Fecha",
+          "status": "Estado",
+          "action": "Acción",
+          "completed": "completado",
+          "pending": "pendiente",
+          "cancelled": "cancelado"
+        }
+      }
     }
   }
 };

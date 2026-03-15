@@ -7,7 +7,10 @@ import Login from "./Pages/Login/Login";
 import Products from "./Pages/Products/Products";
 import ShowProduct from "./Pages/ShowProduct/ShowProduct";
 import Profile from "./Pages/Profile/Profile";
+import Settings from "./Pages/Profile/Settings";
 import Dashboard from "./Pages/Dashboard/Dashboard";
+import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
+import Contact from "./Pages/Contact/Contact";
 import { UserRoute, AdminRoute } from "./components/ProtectRoutes/ProtectRoute";
 
 function App() {
@@ -19,6 +22,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/product/:id" element={<ShowProduct />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route
@@ -30,10 +34,26 @@ function App() {
             }
           />
           <Route
+            path="/profile/settings"
+            element={
+              <UserRoute>
+                <Settings />
+              </UserRoute>
+            }
+          />
+          <Route
             path="/dashboard"
             element={
               <AdminRoute>
                 <Dashboard />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/dashboard/products"
+            element={
+              <AdminRoute>
+                <ManageProducts />
               </AdminRoute>
             }
           />

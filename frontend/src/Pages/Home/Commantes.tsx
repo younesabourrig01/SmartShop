@@ -105,12 +105,12 @@ const Commantes: React.FC = () => {
   return (
     <section className="">
       {/* Outer Card Wrapper - Now Split Layout */}
-      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-6 md:p-12 overflow-hidden flex flex-col md:flex-row gap-12 min-h-[700px] relative">
+      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-6 md:p-10 lg:p-12 overflow-hidden flex flex-col lg:flex-row gap-12 min-h-[700px] relative">
         
         {/* LEFT PART: Statistics & Header */}
-        <div className="w-full md:w-[45%] flex flex-col gap-6 relative text-start rtl:text-right">
+        <div className="w-full lg:w-[45%] flex flex-col gap-6 relative text-start rtl:text-right">
           <div className="z-10">
-            <h2 className="text-3xl md:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter leading-none mb-2">
               {t('commantes.title')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] to-[#01b0d3]">
                 {t('commantes.subtitle')}
@@ -136,7 +136,7 @@ const Commantes: React.FC = () => {
         </div>
 
         {/* RIGHT PART: The Testimonial Slider */}
-        <div className="w-full md:w-[55%] flex flex-col justify-center items-center relative min-h-[500px]">
+        <div className="w-full lg:w-[55%] flex flex-col justify-center items-center relative min-h-[500px]">
           
           {/* Slider Layout */}
           <div className="relative w-full h-full flex flex-col items-center">
@@ -168,7 +168,7 @@ const Commantes: React.FC = () => {
                       }}
                       exit={{ opacity: 0, scale: 0.5, x: position * -200 }}
                       transition={{ type: "spring", stiffness: 220, damping: 25 }}
-                      className="absolute w-[300px] md:w-[420px]"
+                      className="absolute w-[280px] sm:w-[350px] md:w-[420px]"
                     >
                       <div className="w-full bg-[#1a5e7b] rounded-[2.5rem] p-10 md:p-12 flex flex-col items-center gap-6 shadow-[0_30px_80px_-15px_rgba(0,0,0,0.6)] border border-white/10 text-white select-none">
                         <div className="relative">
