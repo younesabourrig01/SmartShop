@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, ChevronDown, Heart, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
@@ -11,7 +12,9 @@ const Navbar: React.FC = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisualDarkMode, setIsVisualDarkMode] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isLinksOpen, setIsLinksOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
+  const linksDropdownRef = useRef<HTMLDivElement>(null);
 
   const languages = [
     { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/us.png' },
@@ -39,9 +42,12 @@ const Navbar: React.FC = () => {
       if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
         setIsLangOpen(false);
       }
+      if (linksDropdownRef.current && !linksDropdownRef.current.contains(event.target as Node)) {
+        setIsLinksOpen(false);
+      }
     };
 
-    if (isLangOpen) {
+    if (isLangOpen || isLinksOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -66,34 +72,70 @@ const Navbar: React.FC = () => {
       </div>
 
       {/* Middle: Search & Links */}
-      <div className="hidden md:flex flex-1 items-center justify-center gap-8">
-        <div className="relative flex items-center w-full max-w-sm group">
+      <div className="flex-1 flex items-center justify-center gap-2 md:gap-8 px-2">
+        <div className="relative flex items-center w-full max-w-[150px] sm:max-w-xs md:max-w-lg group">
           <Search size={18} className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} text-slate-400 group-focus-within:text-blue-500 transition-colors duration-300 pointer-events-none`} />
           <input
             type="text"
-            className={`w-full ${i18n.language === 'ar' ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-2 bg-slate-100 border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-full text-sm text-slate-900 placeholder-slate-500 outline-none transition-all duration-300`}
-            placeholder={t('hero.search', { defaultValue: 'Search products, brands and more...' })}
+            className={`w-full ${i18n.language === 'ar' ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-2 bg-slate-100 border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-full text-[10px] sm:text-xs md:text-sm text-slate-900 placeholder-slate-500 outline-none transition-all duration-300`}
+            placeholder={t('hero.search', { defaultValue: 'Search...' })}
           />
         </div>
         
-        <ul className="flex gap-8">
+        {/* Medium Screens Dropdown */}
+        <div className="hidden md:flex lg:hidden relative" ref={linksDropdownRef}>
+          <button 
+            onClick={() => setIsLinksOpen(!isLinksOpen)}
+            className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-slate-600 hover:text-blue-600 hover:bg-blue-50 transition-all font-medium text-sm"
+          >
+            <span>{t('nav.links', 'Explore')}</span>
+            <ChevronDown size={14} className={`transition-transform duration-300 ${isLinksOpen ? 'rotate-180' : ''}`} />
+          </button>
+
+          <AnimatePresence>
+            {isLinksOpen && (
+              <motion.div 
+                initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                className={`absolute top-full mt-2 ${i18n.language === 'ar' ? 'right-0' : 'left-0'} bg-white rounded-2xl shadow-2xl border border-slate-100 p-2 w-48 z-[60]`}
+              >
+                <Link to="/" className="block px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all" onClick={() => setIsLinksOpen(false)}>
+                  {t('nav.home')}
+                </Link>
+                <Link to="/products" className="block px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all" onClick={() => setIsLinksOpen(false)}>
+                  {t('nav.products')}
+                </Link>
+                <Link to="/categories" className="block px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all" onClick={() => setIsLinksOpen(false)}>
+                  {t('nav.categories')}
+                </Link>
+                <Link to="/contact" className="block px-4 py-2 rounded-xl text-sm font-bold text-slate-600 hover:bg-blue-50 hover:text-blue-600 transition-all" onClick={() => setIsLinksOpen(false)}>
+                  {t('nav.contact')}
+                </Link>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Large Screens Links */}
+        <ul className="hidden lg:flex gap-6 shrink-0">
           <li>
-            <Link to="/" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative after:absolute after:bottom-[-4px] after:left-1/2 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full hover:after:-translate-x-1/2">
+            <Link to="/" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative text-sm">
               {t('nav.home')}
             </Link>
           </li>
           <li>
-            <Link to="/products" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative after:absolute after:bottom-[-4px] after:left-1/2 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full hover:after:-translate-x-1/2">
+            <Link to="/products" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative text-sm">
               {t('nav.products')}
             </Link>
           </li>
           <li>
-            <Link to="/categories" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative after:absolute after:bottom-[-4px] after:left-1/2 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full hover:after:-translate-x-1/2">
+            <Link to="/categories" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative text-sm">
               {t('nav.categories')}
             </Link>
           </li>
           <li>
-            <Link to="/contact" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative after:absolute after:bottom-[-4px] after:left-1/2 after:w-0 after:h-0.5 after:bg-blue-500 after:transition-all after:duration-300 hover:after:w-full hover:after:-translate-x-1/2">
+            <Link to="/contact" className="text-slate-600 font-medium hover:text-slate-900 transition-colors relative text-sm">
               {t('nav.contact')}
             </Link>
           </li>
