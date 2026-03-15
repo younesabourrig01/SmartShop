@@ -179,7 +179,7 @@ const Navbar: React.FC = () => {
         {/* Visual-only Theme Toggle Button */}
         <button 
           onClick={() => setIsVisualDarkMode(!isVisualDarkMode)}
-          className="relative p-2 rounded-full text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-[0_0_12px_rgba(59,130,246,0.2)] active:scale-95"
+          className="hidden md:relative p-2 rounded-full text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 overflow-hidden group transition-all duration-500 ease-in-out hover:shadow-[0_0_12px_rgba(59,130,246,0.2)] active:scale-95"
           aria-label="Toggle theme visual"
           title="Toggle theme"
         >
@@ -196,13 +196,13 @@ const Navbar: React.FC = () => {
         </button>
 
         {/* Wishlist Icon */}
-        <button className="p-2 text-slate-500 hover:text-pink-500 hover:bg-pink-50/80 rounded-full transition-all duration-300 relative group">
+        <button className="hidden md:flex p-2 text-slate-500 hover:text-pink-500 hover:bg-pink-50/80 rounded-full transition-all duration-300 relative group">
           <Heart size={22} className="group-hover:fill-pink-500 transition-all" />
           <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
         </button>
 
         {/* Cart Icon */}
-        <button className="p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 rounded-full transition-all duration-300 relative group">
+        <button className="hidden md:flex p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 rounded-full transition-all duration-300 relative group">
           <ShoppingCart size={22} />
           <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
         </button>
@@ -257,6 +257,38 @@ const Navbar: React.FC = () => {
             <Link to="/products" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.products')}</Link>
             <Link to="/categories" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.categories')}</Link>
             <Link to="/contact" className="py-2 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>{t('nav.contact')}</Link>
+            
+            <div className="flex items-center gap-4 py-3 mt-2 border-t border-slate-100">
+               {/* Dark Mode toggle in mobile menu */}
+               <button 
+                onClick={() => setIsVisualDarkMode(!isVisualDarkMode)}
+                className="flex items-center gap-3 text-slate-700 font-medium"
+               >
+                <div className="relative w-10 h-10 bg-slate-100 rounded-xl flex items-center justify-center text-slate-600">
+                    <Sun size={20} className={`absolute transition-all duration-500 transform ${isVisualDarkMode ? 'rotate-[360deg] opacity-0 scale-50' : 'rotate-0 opacity-100 scale-100'}`} />
+                    <Moon size={20} className={`absolute transition-all duration-500 transform ${isVisualDarkMode ? 'rotate-0 opacity-100 scale-100' : '-rotate-90 opacity-0 scale-50'}`} />
+                </div>
+                <span>{isVisualDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+               </button>
+
+               {/* Wishlist item in mobile menu */}
+               <button className="flex items-center gap-3 text-slate-700 font-medium">
+                <div className="relative w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500">
+                    <Heart size={20} />
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">0</span>
+                </div>
+                <span>Wishlist</span>
+               </button>
+
+               {/* Cart item in mobile menu */}
+               <button className="flex items-center gap-3 text-slate-700 font-medium">
+                <div className="relative w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+                    <ShoppingCart size={20} />
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">0</span>
+                </div>
+                <span>Cart</span>
+               </button>
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-2 pt-4 border-t border-slate-100">
             {!user ? (
