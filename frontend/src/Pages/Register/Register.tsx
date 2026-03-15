@@ -12,9 +12,12 @@ import {
   ArrowLeft,
   X,
   CheckCircle2,
+  Eye,
+  EyeOff,
 } from "lucide-react";
 import { sendOtp, registerUser } from "../../api/auth";
 import toast from "react-hot-toast";
+import { Password } from "../../components/SuggestedPassword/Password";
 
 interface FormData {
   name: string;
@@ -37,6 +40,9 @@ const Register: React.FC = () => {
     confirmPassword: "",
     image: null,
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -379,234 +385,272 @@ const Register: React.FC = () => {
                 </div>
               </motion.div>
             ) : (
-              <motion.div
-                key="step2-form"
-                initial={{ opacity: 0, x: isRtl ? -20 : 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: isRtl ? 20 : -20 }}
-                transition={{ duration: 0.3 }}
-                className="w-full"
-              >
-                <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-                  <h2 className="text-3xl font-bold text-slate-900 mb-2">
-                    {t("register_page.final_step")}
-                  </h2>
-                  <p className="text-slate-500">
-                    {t("register_page.complete_profile")}
-                  </p>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div
-                    className={`grid grid-cols-2 gap-4 ${isRtl ? "text-right" : "text-left"}`}
-                  >
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                        {t("register_page.name_label")}
-                      </label>
-                      <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium">
-                        {formData.name}
-                      </div>
-                    </div>
-                    <div className="space-y-1">
-                      <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                        {t("register_page.email_label")}
-                      </label>
-                      <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
-                        {formData.email}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* OTP Input */}
-                  <div className="space-y-2">
-                    <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-                    >
-                      <ShieldCheck size={16} className="text-blue-500" />
-                      {t("register_page.otp")}
-                    </label>
-                    <input
-                      type="text"
-                      maxLength={6}
-                      dir="ltr"
-                      className={`w-full px-4 py-3 rounded-xl border text-center text-2xl tracking-[0.5em] font-bold outline-none transition-all ${
-                        errors.otp
-                          ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
-                      }`}
-                      placeholder="000000"
-                      value={formData.otp}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          otp: e.target.value.replace(/\D/g, ""),
-                        })
-                      }
-                    />
-                    {errors.otp && (
-                      <p
-                        className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
-                      >
-                        {errors.otp}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Password Input */}
-                  <div className="space-y-2">
-                    <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-                    >
-                      <Lock size={16} className="text-blue-500" />
-                      {t("register_page.password")}
-                    </label>
-                    <input
-                      type="password"
-                      dir="ltr"
-                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right" : "text-left"} ${
-                        errors.password
-                          ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
-                      }`}
-                      placeholder="••••••••"
-                      value={formData.password}
-                      onChange={(e) =>
-                        setFormData({ ...formData, password: e.target.value })
-                      }
-                    />
-                    {errors.password && (
-                      <p
-                        className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
-                      >
-                        {errors.password}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Confirm Password Input */}
-                  <div className="space-y-2">
-                    <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-                    >
-                      <ShieldCheck size={16} className="text-blue-500" />
-                      {t("register_page.confirm_password")}
-                    </label>
-                    <input
-                      type="password"
-                      dir="ltr"
-                      className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right" : "text-left"} ${
-                        errors.confirmPassword
-                          ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
-                      }`}
-                      placeholder="••••••••"
-                      value={formData.confirmPassword}
-                      onChange={(e) =>
-                        setFormData({
-                          ...formData,
-                          confirmPassword: e.target.value,
-                        })
-                      }
-                    />
-                    {errors.confirmPassword && (
-                      <p
-                        className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
-                      >
-                        {errors.confirmPassword}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Image Input */}
-                  <div className="space-y-2">
-                    <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
-                    >
-                      <ImageIcon size={16} className="text-blue-500" />
-                      {t("register_page.profile_picture")}
-                    </label>
-                    <div
-                      className={`flex items-center gap-4 ${isRtl ? "flex-row-reverse" : ""}`}
-                    >
-                      <div className="relative group shrink-0">
-                        <div className="w-16 h-16 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-400">
-                          {previewUrl ? (
-                            <img
-                              src={previewUrl}
-                              alt="Preview"
-                              className="w-full h-full object-cover"
-                            />
-                          ) : (
-                            <ImageIcon size={24} className="text-slate-400" />
-                          )}
-                        </div>
-                        <input
-                          type="file"
-                          accept="image/jpeg,image/png,image/jpg"
-                          className="absolute inset-0 opacity-0 cursor-pointer"
-                          onChange={handleFileChange}
-                        />
-                      </div>
-                      <div
-                        className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}
-                      >
-                        <p className="text-xs text-slate-500">
-                          {t("register_page.img_specs")}
-                        </p>
-                        {formData.image && (
-                          <div
-                            className={`flex items-center gap-1 text-xs text-green-600 font-bold mt-1 ${isRtl ? "flex-row-reverse" : ""}`}
-                          >
-                            <CheckCircle2 size={12} />
-                            <span className="truncate">
-                              {formData.image.name}
-                            </span>
-                          </div>
-                        )}
-                        {errors.image && (
-                          <p className="text-xs text-red-500 font-medium mt-1">
-                            {errors.image}
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="pt-4 flex flex-col gap-3">
-                    <button
-                      type="submit"
-                      className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95"
-                    >
-                      {t("register_page.complete_registration")}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={handleBack}
-                      className={`w-full flex justify-center items-center gap-2 text-slate-500 font-bold py-2 hover:text-slate-800 transition-colors ${isRtl ? "flex-row-reverse" : ""}`}
-                    >
-                      {isRtl ? (
-                        <ArrowLeft size={16} className="rotate-180" />
-                      ) : (
-                        <ArrowLeft size={18} />
-                      )}
-                      {t("register_page.go_back")}
-                    </button>
-                  </div>
-
-                  <div className="pt-4 text-center">
-                    <p className="text-slate-500 text-sm">
-                      {t("register_page.already_have_account")}{" "}
-                      <Link
-                        to="/login"
-                        className="text-blue-600 font-bold hover:underline transition-all"
-                      >
-                        {t("register_page.login_here")}
-                      </Link>
+              <>
+                <Password />
+                <motion.div
+                  key="step2-form"
+                  initial={{ opacity: 0, x: isRtl ? -20 : 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: isRtl ? 20 : -20 }}
+                  transition={{ duration: 0.3 }}
+                  className="w-full"
+                >
+                  <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
+                    <h2 className="text-3xl font-bold text-slate-900 mb-2">
+                      {t("register_page.final_step")}
+                    </h2>
+                    <p className="text-slate-500">
+                      {t("register_page.complete_profile")}
                     </p>
                   </div>
-                </form>
-              </motion.div>
+
+                  <form onSubmit={handleSubmit} className="space-y-5">
+                    <div
+                      className={`grid grid-cols-2 gap-4 ${isRtl ? "text-right" : "text-left"}`}
+                    >
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                          {t("register_page.name_label")}
+                        </label>
+                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium">
+                          {formData.name}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                          {t("register_page.email_label")}
+                        </label>
+                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
+                          {formData.email}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* OTP Input */}
+                    <div className="space-y-2">
+                      <label
+                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      >
+                        <ShieldCheck size={16} className="text-blue-500" />
+                        {t("register_page.otp")}
+                      </label>
+                      <input
+                        type="text"
+                        maxLength={6}
+                        dir="ltr"
+                        className={`w-full px-4 py-3 rounded-xl border text-center text-2xl tracking-[0.5em] font-bold outline-none transition-all ${
+                          errors.otp
+                            ? "border-red-500 bg-red-50"
+                            : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                        }`}
+                        placeholder="000000"
+                        value={formData.otp}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            otp: e.target.value.replace(/\D/g, ""),
+                          })
+                        }
+                      />
+                      {errors.otp && (
+                        <p
+                          className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
+                        >
+                          {errors.otp}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Password Input */}
+                    <div className="space-y-2">
+                      <label
+                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      >
+                        <Lock size={16} className="text-blue-500" />
+                        {t("register_page.password")}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          dir="ltr"
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
+                            errors.password
+                              ? "border-red-500 bg-red-50"
+                              : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                          }`}
+                          placeholder="••••••••"
+                          value={formData.password}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              password: e.target.value,
+                            })
+                          }
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowPassword(!showPassword)}
+                          className={`absolute top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500 p-2 transition-colors ${
+                            isRtl ? "left-2" : "right-2"
+                          }`}
+                        >
+                          {showPassword ? (
+                            <EyeOff size={20} />
+                          ) : (
+                            <Eye size={20} />
+                          )}
+                        </button>
+                      </div>
+                      {errors.password && (
+                        <p
+                          className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
+                        >
+                          {errors.password}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Confirm Password Input */}
+                    <div className="space-y-2">
+                      <label
+                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      >
+                        <ShieldCheck size={16} className="text-blue-500" />
+                        {t("register_page.confirm_password")}
+                      </label>
+                      <div className="relative">
+                        <input
+                          type={showConfirmPassword ? "text" : "password"}
+                          dir="ltr"
+                          className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
+                            errors.confirmPassword
+                              ? "border-red-500 bg-red-50"
+                              : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                          }`}
+                          placeholder="••••••••"
+                          value={formData.confirmPassword}
+                          onChange={(e) =>
+                            setFormData({
+                              ...formData,
+                              confirmPassword: e.target.value,
+                            })
+                          }
+                        />
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setShowConfirmPassword(!showConfirmPassword)
+                          }
+                          className={`absolute top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500 p-2 transition-colors ${
+                            isRtl ? "left-2" : "right-2"
+                          }`}
+                        >
+                          {showConfirmPassword ? (
+                            <EyeOff size={20} />
+                          ) : (
+                            <Eye size={20} />
+                          )}
+                        </button>
+                      </div>
+                      {errors.confirmPassword && (
+                        <p
+                          className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
+                        >
+                          {errors.confirmPassword}
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Image Input */}
+                    <div className="space-y-2">
+                      <label
+                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      >
+                        <ImageIcon size={16} className="text-blue-500" />
+                        {t("register_page.profile_picture")}
+                      </label>
+                      <div
+                        className={`flex items-center gap-4 ${isRtl ? "flex-row-reverse" : ""}`}
+                      >
+                        <div className="relative group shrink-0">
+                          <div className="w-16 h-16 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-400">
+                            {previewUrl ? (
+                              <img
+                                src={previewUrl}
+                                alt="Preview"
+                                className="w-full h-full object-cover"
+                              />
+                            ) : (
+                              <ImageIcon size={24} className="text-slate-400" />
+                            )}
+                          </div>
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/jpg"
+                            className="absolute inset-0 opacity-0 cursor-pointer"
+                            onChange={handleFileChange}
+                          />
+                        </div>
+                        <div
+                          className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}
+                        >
+                          <p className="text-xs text-slate-500">
+                            {t("register_page.img_specs")}
+                          </p>
+                          {formData.image && (
+                            <div
+                              className={`flex items-center gap-1 text-xs text-green-600 font-bold mt-1 ${isRtl ? "flex-row-reverse" : ""}`}
+                            >
+                              <CheckCircle2 size={12} />
+                              <span className="truncate">
+                                {formData.image.name}
+                              </span>
+                            </div>
+                          )}
+                          {errors.image && (
+                            <p className="text-xs text-red-500 font-medium mt-1">
+                              {errors.image}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="pt-4 flex flex-col gap-3">
+                      <button
+                        type="submit"
+                        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95"
+                      >
+                        {t("register_page.complete_registration")}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={handleBack}
+                        className={`w-full flex justify-center items-center gap-2 text-slate-500 font-bold py-2 hover:text-slate-800 transition-colors ${isRtl ? "flex-row-reverse" : ""}`}
+                      >
+                        {isRtl ? (
+                          <ArrowLeft size={16} className="rotate-180" />
+                        ) : (
+                          <ArrowLeft size={18} />
+                        )}
+                        {t("register_page.go_back")}
+                      </button>
+                    </div>
+
+                    <div className="pt-4 text-center">
+                      <p className="text-slate-500 text-sm">
+                        {t("register_page.already_have_account")}{" "}
+                        <Link
+                          to="/login"
+                          className="text-blue-600 font-bold hover:underline transition-all"
+                        >
+                          {t("register_page.login_here")}
+                        </Link>
+                      </p>
+                    </div>
+                  </form>
+                </motion.div>
+              </>
             )}
           </AnimatePresence>
         </div>

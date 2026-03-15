@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\WishlistController;
+use App\Http\Controllers\Api\PasswordController;
 
 # -------------------------
 # 1. PUBLIC ROUTES
@@ -19,6 +20,9 @@ use App\Http\Controllers\Api\WishlistController;
 Route::post('/send-otp', [AuthController::class, 'sendOtp']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
+#generated password
+Route::get('/generated-password', [PasswordController::class, 'getPassword']);
 
 # Products (public)
 Route::apiResource('products', ProductController::class)

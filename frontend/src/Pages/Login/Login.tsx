@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Mail, Lock, LogIn, ShieldCheck, ArrowLeft } from "lucide-react";
+import { Mail, Lock, LogIn, ShieldCheck, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { login } from "../../api/auth";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
@@ -16,6 +16,8 @@ const Login: React.FC = () => {
     email: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -176,20 +178,31 @@ const Login: React.FC = () => {
                 <Lock size={16} className="text-blue-500" />
                 {t("login_page.password")}
               </label>
-              <input
-                type="password"
-                dir="ltr"
-                className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right" : "text-left"} ${
-                  errors.password
-                    ? "border-red-500 bg-red-50"
-                    : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
-                }`}
-                placeholder="••••••••"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-              />
+              <div className="relative">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  dir="ltr"
+                  className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
+                    errors.password
+                      ? "border-red-500 bg-red-50"
+                      : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                  }`}
+                  placeholder="••••••••"
+                  value={formData.password}
+                  onChange={(e) =>
+                    setFormData({ ...formData, password: e.target.value })
+                  }
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className={`absolute top-1/2 -translate-y-1/2 text-slate-400 hover:text-blue-500 p-2 transition-colors ${
+                    isRtl ? "left-2" : "right-2"
+                  }`}
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
               {errors.password && (
                 <p
                   className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
