@@ -196,16 +196,16 @@ const Navbar: React.FC = () => {
         </button>
 
         {/* Wishlist Icon */}
-        <button className="hidden md:flex p-2 text-slate-500 hover:text-pink-500 hover:bg-pink-50/80 rounded-full transition-all duration-300 relative group">
+        <Link to="/wishlist" className="hidden md:flex p-2 text-slate-500 hover:text-pink-500 hover:bg-pink-50/80 rounded-full transition-all duration-300 relative group">
           <Heart size={22} className="group-hover:fill-pink-500 transition-all" />
           <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
-        </button>
+        </Link>
 
         {/* Cart Icon */}
-        <button className="hidden md:flex p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 rounded-full transition-all duration-300 relative group">
+        <Link to="/cart" className="hidden md:flex p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 rounded-full transition-all duration-300 relative group">
           <ShoppingCart size={22} />
           <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
-        </button>
+        </Link>
 
         {/* regester/login buttons or profile icone */}
         {!user?(
@@ -272,22 +272,22 @@ const Navbar: React.FC = () => {
                </button>
 
                {/* Wishlist item in mobile menu */}
-               <button className="flex items-center gap-3 text-slate-700 font-medium">
+               <Link to="/wishlist" className="flex items-center gap-3 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="relative w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500">
                     <Heart size={20} />
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">0</span>
                 </div>
                 <span>Wishlist</span>
-               </button>
+               </Link>
 
                {/* Cart item in mobile menu */}
-               <button className="flex items-center gap-3 text-slate-700 font-medium">
+               <Link to="/cart" className="flex items-center gap-3 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="relative w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
                     <ShoppingCart size={20} />
                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">0</span>
                 </div>
                 <span>Cart</span>
-               </button>
+               </Link>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-2 pt-4 border-t border-slate-100">

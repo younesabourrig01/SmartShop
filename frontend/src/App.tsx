@@ -14,6 +14,8 @@ import ManageCategories from "./Pages/Dashboard/ManageCategories/ManageCategorie
 import Users from "./Pages/Dashboard/ManageUsers/Users";
 import DashboardSettings from "./Pages/Dashboard/DashboardSettings";
 import CategoriesPage from "./Pages/Categories/CategoriesPage";
+import Wishlist from "./Pages/Wishlist/Wishlist";
+import Cart from "./Pages/Cart/Cart";
 import Contact from "./Pages/Contact/Contact";
 import NotFound from "./Pages/NotFound/NotFound";
 import { UserRoute, AdminRoute } from "./components/ProtectRoutes/ProtectRoute";
@@ -36,6 +38,22 @@ function App() {
             element={
               <UserRoute>
                 <Profile />
+              </UserRoute>
+            }
+          />
+          <Route
+            path="/wishlist"
+            element={
+              <UserRoute>
+                <Wishlist />
+              </UserRoute>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <UserRoute>
+                <Cart />
               </UserRoute>
             }
           />

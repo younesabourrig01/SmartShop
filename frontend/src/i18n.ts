@@ -162,7 +162,8 @@ const resources = {
         "on_orders_above": "On orders above",
         "returns": "Easy Returns",
         "days_return": "days return policy",
-        "you_may_like": "You May Also Like"
+        "you_may_like": "You May Also Like",
+        "price_label": "Price"
       },
       "categories": {
         "banner": {
@@ -232,6 +233,30 @@ const resources = {
           "completed": "completed",
           "pending": "pending",
           "cancelled": "cancelled"
+        },
+        "wishlist": {
+          "title": "My Wishlist",
+          "items": "items saved to your wishlist",
+          "back": "Back to Shop",
+          "add_to_cart": "Add to Cart",
+          "empty": "Your wishlist is empty",
+          "empty_desc": "Save items you love to find them easily later.",
+          "explore": "Explore Products"
+        },
+        "cart": {
+          "title": "Shopping Cart",
+          "items_count": "items in your tray",
+          "back": "Back to Shop",
+          "clear": "Clear Cart",
+          "summary": "Order Summary",
+          "subtotal": "Subtotal",
+          "shipping": "Shipping",
+          "free": "FREE",
+          "total": "Total",
+          "checkout": "Checkout Now",
+          "empty": "Your cart is empty",
+          "empty_desc": "Looks like you haven't added anything to your cart yet. Let's find something amazing for you!",
+          "start_shopping": "Start Shopping"
         }
       }
     }
@@ -395,7 +420,8 @@ const resources = {
         "on_orders_above": "للطلبات فوق",
         "returns": "إرجاع سهل",
         "days_return": "يوم سياسة الإرجاع",
-        "you_may_like": "قد يعجبك أيضاً"
+        "you_may_like": "قد يعجبك أيضاً",
+        "price_label": "السعر"
       },
       "categories": {
         "banner": {
@@ -475,6 +501,30 @@ const resources = {
           "completed": "مكتمل",
           "pending": "قيد الانتظار",
           "cancelled": "ملغى"
+        },
+        "wishlist": {
+          "title": "قائمة رغباتي",
+          "items": "عناصر محفوظة في قائمة رغباتك",
+          "back": "العودة للمتجر",
+          "add_to_cart": "أضف للسلة",
+          "empty": "قائمة رغباتك فارغة",
+          "empty_desc": "احفظ العناصر التي تحبها لتجدها بسهولة لاحقاً.",
+          "explore": "استكشف المنتجات"
+        },
+        "cart": {
+          "title": "سلة التسوق",
+          "items_count": "عناصر في سلتك",
+          "back": "العودة للمتجر",
+          "clear": "مسح السلة",
+          "summary": "ملخص الطلب",
+          "subtotal": "المجموع الفرعي",
+          "shipping": "الشحن",
+          "free": "مجاني",
+          "total": "المجموع",
+          "checkout": "إتمام الشراء",
+          "empty": "سلة التسوق فارغة",
+          "empty_desc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد. دعنا نجد شيئاً رائعاً لك!",
+          "start_shopping": "ابدأ التسوق"
         }
       }
     }
@@ -638,7 +688,8 @@ const resources = {
         "on_orders_above": "Sur les commandes supérieures à",
         "returns": "Retours Faciles",
         "days_return": "jours de politique de retour",
-        "you_may_like": "Vous pourriez aussi aimer"
+        "you_may_like": "Vous pourriez aussi aimer",
+        "price_label": "Prix"
       },
       "categories": {
         "banner": {
@@ -718,6 +769,30 @@ const resources = {
           "completed": "terminé",
           "pending": "en attente",
           "cancelled": "annulé"
+        },
+        "wishlist": {
+          "title": "Ma Liste de Souhaits",
+          "items": "articles enregistrés dans votre liste",
+          "back": "Retour à la Boutique",
+          "add_to_cart": "Ajouter au Panier",
+          "empty": "Votre liste de souhaits est vide",
+          "empty_desc": "Enregistrez les articles que vous aimez pour les retrouver facilement plus tard.",
+          "explore": "Explorer les Produits"
+        },
+        "cart": {
+          "title": "Panier",
+          "items_count": "articles dans votre panier",
+          "back": "Retour à la Boutique",
+          "clear": "Vider le Panier",
+          "summary": "Résumé de la Commande",
+          "subtotal": "Sous-total",
+          "shipping": "Livraison",
+          "free": "GRATUIT",
+          "total": "Total",
+          "checkout": "Commander",
+          "empty": "Votre panier est vide",
+          "empty_desc": "Il semble que vous n'ayez encore rien ajouté à votre panier. Trouvons quelque chose d'incroyable pour vous !",
+          "start_shopping": "Commencer vos achats"
         }
       }
     }
@@ -881,7 +956,8 @@ const resources = {
       "on_orders_above": "En pedidos superiores a",
       "returns": "Devoluciones Fáciles",
       "days_return": "días de política de devolución",
-      "you_may_like": "También te puede interesar"
+      "you_may_like": "También te puede interesar",
+      "price_label": "Precio"
     },
     "categories": {
       "banner": {
@@ -962,10 +1038,35 @@ const resources = {
           "pending": "pendiente",
           "cancelled": "cancelado"
         }
+      },
+        "wishlist": {
+          "title": "Mi Lista de Deseos",
+          "items": "artículos guardados en tu lista",
+          "back": "Volver a la Tienda",
+          "add_to_cart": "Añadir al Carrito",
+          "empty": "Tu lista de deseos está vacía",
+          "empty_desc": "Guarda los artículos que te gustan para encontrarlos fácilmente más tarde.",
+          "explore": "Explorar Productos"
+        },
+        "cart": {
+          "title": "Carrito de Compras",
+          "items_count": "artículos en tu bandeja",
+          "back": "Volver a la Tienda",
+          "clear": "Vaciar Carrito",
+          "summary": "Resumen del Pedido",
+          "subtotal": "Subtotal",
+          "shipping": "Envío",
+          "free": "GRATIS",
+          "total": "Total",
+          "checkout": "Pagar Ahora",
+          "empty": "Tu carrito está vacío",
+          "empty_desc": "Parece que aún no has añadido nada a tu carrito. ¡Encontremos algo increíble para ti!",
+          "start_shopping": "Empezar a Comprar"
+        }
       }
     }
   }
-};
+;
 
 i18n
   .use(LanguageDetector)
