@@ -6,13 +6,16 @@ import { AuthProvider } from "./context/AuthContext";
 import "./index.css";
 import "./i18n";
 import App from "./App.tsx";
+import { CategoryProvider } from "./context/CategoryContext.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <AuthProvider>
-        <Toaster position="top-right" />
-        <App />
+        <CategoryProvider>
+          <Toaster position="top-right" />
+          <App />
+        </CategoryProvider>
       </AuthProvider>
     </BrowserRouter>
   </StrictMode>,

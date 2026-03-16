@@ -1,8 +1,4 @@
-import axios from "axios";
-
-const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
-});
+import API from "./client";
 
 // token wen login
 API.interceptors.request.use((config) => {
