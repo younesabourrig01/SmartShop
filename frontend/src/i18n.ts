@@ -113,6 +113,8 @@ const resources = {
         "img_specs": "JPG, PNG or JPEG. Max 2MB.",
         "complete_registration": "Complete Registration",
         "go_back": "Go Back to Step 1",
+        "address": "Address",
+        "phone_number": "Phone Number",
         "errors": {
           "name_req": "Name is required",
           "name_min": "Name must be at least 3 characters",
@@ -122,7 +124,9 @@ const resources = {
           "pass_req": "Password is required",
           "pass_match": "Passwords do not match",
           "img_type": "Only JPG, JPEG, and PNG are allowed",
-          "img_size": "Image size must be less than 2MB"
+          "img_size": "Image size must be less than 2MB",
+          "adress_req": "Address is required",
+          "phone_req": "Phone number is required"
         }
       },
       "login_page": {
@@ -371,6 +375,8 @@ const resources = {
         "img_specs": "JPG أو PNG أو JPEG. بحد أقصى 2 ميجابايت.",
         "complete_registration": "إتمام التسجيل",
         "go_back": "العودة للخطوة 1",
+        "address": "العنوان",
+        "phone_number": "رقم الهاتف",
         "errors": {
           "name_req": "الاسم مطلوب",
           "name_min": "يجب أن يكون الاسم 3 أحرف على الأقل",
@@ -380,7 +386,9 @@ const resources = {
           "pass_req": "كلمة المرور مطلوبة",
           "pass_match": "كلمات المرور غير متطابقة",
           "img_type": "مسموح فقط بصيغ JPG و JPEG و PNG",
-          "img_size": "حجم الصورة يجب أن يكون أقل من 2 ميجابايت"
+          "img_size": "حجم الصورة يجب أن يكون أقل من 2 ميجابايت",
+          "adress_req": "العنوان مطلوب",
+          "phone_req": "رقم الهاتف مطلوب"
         }
       },
       "login_page": {
@@ -639,6 +647,8 @@ const resources = {
         "img_specs": "JPG, PNG ou JPEG. Max 2 Mo.",
         "complete_registration": "Finaliser l'inscription",
         "go_back": "Retour à l'étape 1",
+        "address": "Adresse",
+        "phone_number": "Numéro de Téléphone",
         "errors": {
           "name_req": "Nom requis",
           "name_min": "Le nom doit comporter au moins 3 caractères",
@@ -648,7 +658,9 @@ const resources = {
           "pass_req": "Mot de passe requis",
           "pass_match": "Les mots de passe ne correspondent pas",
           "img_type": "Seuls JPG, JPEG et PNG sont autorisés",
-          "img_size": "La taille de l'image doit être inférieure à 2 Mo"
+          "img_size": "La taille de l'image doit être inférieure à 2 Mo",
+          "adress_req": "L'adresse est requise",
+          "phone_req": "Le numéro de téléphone est requis"
         }
       },
       "notFound": {
@@ -907,6 +919,8 @@ const resources = {
         "img_specs": "JPG, PNG o JPEG. Máx. 2MB.",
         "complete_registration": "Completar registro",
         "go_back": "Volver al paso 1",
+        "address": "Dirección",
+        "phone_number": "Número de Teléfono",
         "errors": {
           "name_req": "Nombre requerido",
           "name_min": "Mínimo 3 caracteres",
@@ -916,7 +930,9 @@ const resources = {
           "pass_req": "Contraseña requerida",
           "pass_match": "Las contraseñas no coinciden",
           "img_type": "Solo JPG, JPEG y PNG",
-          "img_size": "Máximo 2MB"
+          "img_size": "Máximo 2MB",
+          "adress_req": "La dirección es requerida",
+          "phone_req": "El número de teléfono es requerido"
         }
       },
     "login_page": {

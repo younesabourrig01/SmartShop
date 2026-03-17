@@ -14,6 +14,8 @@ import {
   CheckCircle2,
   Eye,
   EyeOff,
+  MapPin,
+  Phone,
 } from "lucide-react";
 import { sendOtp, registerUser } from "../../api/auth";
 import toast from "react-hot-toast";
@@ -23,6 +25,8 @@ import Loader from "../../components/Loader/Loader";
 interface FormData {
   name: string;
   email: string;
+  adress: string;
+  phone_number: string;
   otp: string;
   password: string;
   confirmPassword: string;
@@ -36,6 +40,8 @@ const Register: React.FC = () => {
   const [formData, setFormData] = useState<FormData>({
     name: "",
     email: "",
+    adress: "",
+    phone_number: "",
     otp: "",
     password: "",
     confirmPassword: "",
@@ -61,6 +67,14 @@ const Register: React.FC = () => {
       newErrors.email = t("register_page.errors.email_req");
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = t("register_page.errors.email_inv");
+    }
+
+    if (!formData.adress) {
+      newErrors.adress = t("register_page.errors.adress_req");
+    }
+
+    if (!formData.phone_number) {
+      newErrors.phone_number = t("register_page.errors.phone_req");
     }
 
     setErrors(newErrors);
@@ -141,6 +155,8 @@ const Register: React.FC = () => {
         const res = await registerUser({
           name: formData.name,
           email: formData.email,
+          adress: formData.adress,
+          phone_number: formData.phone_number,
           password: formData.password,
           otp: formData.otp,
         });
@@ -364,6 +380,70 @@ const Register: React.FC = () => {
                     )}
                   </div>
 
+                  {/* Address Input */}
+                  <div className="space-y-2">
+                    <label
+                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                    >
+                      <MapPin size={16} className="text-blue-500" />
+                      {t("register_page.address")}
+                    </label>
+                    <input
+                      type="text"
+                      dir={isRtl ? "rtl" : "ltr"}
+                      disabled={isLoading}
+                      className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${
+                        errors.adress
+                          ? "border-red-500 bg-red-50"
+                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                      }`}
+                      placeholder="123 Main St, City"
+                      value={formData.adress}
+                      onChange={(e) =>
+                        setFormData({ ...formData, adress: e.target.value })
+                      }
+                    />
+                    {errors.adress && (
+                      <p
+                        className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
+                      >
+                        {errors.adress}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Phone Number Input */}
+                  <div className="space-y-2">
+                    <label
+                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                    >
+                      <Phone size={16} className="text-blue-500" />
+                      {t("register_page.phone_number")}
+                    </label>
+                    <input
+                      type="tel"
+                      dir="ltr"
+                      disabled={isLoading}
+                      className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right" : "text-left"} ${
+                        errors.phone_number
+                          ? "border-red-500 bg-red-50"
+                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                      }`}
+                      placeholder="+1 234 567 8900"
+                      value={formData.phone_number}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone_number: e.target.value })
+                      }
+                    />
+                    {errors.phone_number && (
+                      <p
+                        className={`text-xs text-red-500 font-medium ${isRtl ? "text-right" : "text-left"} pl-1 pt-1`}
+                      >
+                        {errors.phone_number}
+                      </p>
+                    )}
+                  </div>
+
                   <div
                     className={`pt-4 flex flex-col sm:flex-row gap-4 ${isRtl ? "sm:flex-row-reverse" : ""}`}
                   >
@@ -434,6 +514,22 @@ const Register: React.FC = () => {
                         </label>
                         <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
                           {formData.email}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                          {t("register_page.address")}
+                        </label>
+                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
+                          {formData.adress}
+                        </div>
+                      </div>
+                      <div className="space-y-1">
+                        <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+                          {t("register_page.phone_number")}
+                        </label>
+                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
+                          {formData.phone_number}
                         </div>
                       </div>
                     </div>

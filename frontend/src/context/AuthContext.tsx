@@ -5,6 +5,8 @@ interface User {
   id: number;
   name: string;
   email: string;
+  address: string;
+  phone_number: string;
   role: string;
   image?: string;
   [key: string]: unknown;
