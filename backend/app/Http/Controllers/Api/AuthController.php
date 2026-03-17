@@ -55,6 +55,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'required',
             'email' => 'required|email',
+            'adress' => 'required|string',
+            'phone_number' => 'required|string',
             'password' => 'required',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'otp' => 'required'
@@ -86,6 +88,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'adress' => $request->adress,
+            'phone_number' => $request->phone_number,
             'password' => Hash::make($request->password),
             'image' => $imagePath,
             'email_verified_at' => now()
@@ -165,6 +169,8 @@ class AuthController extends Controller
         $request->validate([
             'name' => 'sometimes|string|max:255',
             'email' => 'sometimes|email|unique:users,email,' . $user->id,
+            'adress' => 'sometimes|string',
+            'phone_number' => 'sometimes|string',
             'image' => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
