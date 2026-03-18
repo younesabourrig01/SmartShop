@@ -1,29 +1,82 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import { Heart, Trash2, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import PageLoader from '../../components/Loader/PageLoader';
+import { getWishlist, removeFromWishlist } from '../../api/wishlist';
+import { addToCart } from '../../api/cart';
+import { Product } from '../../context/ProductContext';
+import { useWishlist } from '../../context/WishlistContext';
+import { useCart } from '../../context/CartContext';
+import toast from 'react-hot-toast';
 
 const Wishlist: React.FC = () => {
   const { t } = useTranslation();
 
-  // Static wishlist products for design
-  const wishlistProducts = [
-    {
-      id: 1,
-      title: "MacBook Pro M3",
-      price: "1,999",
-      image: "https://images.unsplash.com/photo-1517336712461-a49a8d5b4ad8?q=80&w=1000&auto=format&fit=crop",
-      category: t('categories.items.electronics', 'Electronics')
-    },
-    {
-      id: 2,
-      title: "iPhone 15 Pro Max",
-      price: "1,199",
-      image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?q=80&w=1000&auto=format&fit=crop",
-      category: t('categories.items.electronics', 'Electronics')
+  const [wishlistProducts, setWishlistProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isRemoving, setIsRemoving] = useState<number | string | null>(null);
+  const [isAddingToCart, setIsAddingToCart] = useState<number | string | null>(null);
+
+  const { refreshWishlistCount } = useWishlist();
+  const { refreshCartCount } = useCart();
+
+  const fetchWishlist = () => {
+    setLoading(true);
+    getWishlist()
+      .then((res) => {
+        const data = res.data?.data || (Array.isArray(res.data) ? res.data : []);
+        setWishlistProducts(data);
+      })
+      .catch((err) => {
+        console.error("Failed to fetch wishlist", err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    fetchWishlist();
+  }, []);
+
+  const handleRemove = async (productId: number | string) => {
+    setIsRemoving(productId);
+    try {
+      await removeFromWishlist(productId);
+      toast.success(t('product_page.removed_from_wishlist_success') || 'Removed from wishlist');
+      setWishlistProducts(prev => prev.filter(p => p.id !== productId));
+      refreshWishlistCount();
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to remove from wishlist');
+    } finally {
+      setIsRemoving(null);
     }
-  ];
+  };
+
+  const handleAddToCart = async (productId: number | string) => {
+    setIsAddingToCart(productId);
+    try {
+      const res = await addToCart(productId, 1);
+      if (res.data.status === 'success') {
+        toast.success(t('product_page.added_to_cart_success') || 'Added to cart!');
+        refreshCartCount();
+      } else {
+        toast.error(res.data.message || 'Failed to add to cart');
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to add to cart');
+    } finally {
+      setIsAddingToCart(null);
+    }
+  };
+
+  if (loading) {
+    return <PageLoader />;
+  }
 
   return (
     <div className="min-h-screen bg-[#f0f2f5] pt-28 pb-20">
@@ -68,21 +121,27 @@ const Wishlist: React.FC = () => {
                 {/* Image Section */}
                 <div className="relative aspect-square overflow-hidden bg-slate-50">
                   <img 
-                    src={product.image} 
-                    alt={product.title} 
+                    src={product.images?.[0]?.url || 'https://via.placeholder.com/300'} 
+                    alt={product.name} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute top-4 right-4">
                     <button 
-                      className="p-3 bg-white/90 backdrop-blur-md text-slate-400 hover:text-red-500 rounded-2xl shadow-lg transition-all duration-300 hover:scale-110 active:scale-90"
+                      onClick={() => handleRemove(product.id)}
+                      disabled={isRemoving === product.id}
+                      className="p-3 bg-white/90 backdrop-blur-md text-slate-400 hover:text-red-500 rounded-2xl shadow-lg transition-all duration-300 hover:scale-110 active:scale-90 disabled:opacity-50"
                       title="Remove from wishlist"
                     >
-                      <Trash2 size={20} />
+                      {isRemoving === product.id ? (
+                        <div className="w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <Trash2 size={20} />
+                      )}
                     </button>
                   </div>
                   <div className="absolute bottom-4 left-4">
                     <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 shadow-sm">
-                      {product.category}
+                      {product.category?.name || 'Uncategorized'}
                     </span>
                   </div>
                 </div>
@@ -91,7 +150,7 @@ const Wishlist: React.FC = () => {
                 <div className="p-8 flex flex-col flex-grow">
                   <Link to={`/product/${product.id}`}>
                     <h3 className="text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2">
-                      {product.title}
+                      {product.name}
                     </h3>
                   </Link>
                   
@@ -103,8 +162,16 @@ const Wishlist: React.FC = () => {
                       <span className="text-2xl font-black text-slate-900">${product.price}</span>
                     </div>
                     
-                    <button className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300">
-                      <ShoppingCart size={18} />
+                    <button 
+                      onClick={() => handleAddToCart(product.id)}
+                      disabled={isAddingToCart === product.id}
+                      className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 disabled:opacity-50"
+                    >
+                      {isAddingToCart === product.id ? (
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      ) : (
+                        <ShoppingCart size={18} />
+                      )}
                       {t('wishlist.add_to_cart', 'Add')}
                     </button>
                   </div>

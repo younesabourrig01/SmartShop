@@ -17,12 +17,12 @@ use App\Http\Controllers\Api\PasswordController;
 # -------------------------
 
 # Auth
-Route::post('/send-otp', [AuthController::class, 'sendOtp']);
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/send-otp', [AuthController::class , 'sendOtp']);
+Route::post('/register', [AuthController::class , 'register']);
+Route::post('/login', [AuthController::class , 'login']);
 
 #generated password
-Route::get('/generated-password', [PasswordController::class, 'getPassword']);
+Route::get('/generated-password', [PasswordController::class , 'getPassword']);
 
 # Products (public)
 Route::apiResource('products', ProductController::class)
@@ -41,68 +41,70 @@ Route::middleware('auth:sanctum')->group(function () {
 
     # profile
     Route::get('/profile', function (Request $request) {
-        return $request->user();
+            return $request->user();
+        }
+        );
+        Route::delete('/deleteAccount', [AuthController::class , 'deleteAccount']);
+        Route::post('/logout', [AuthController::class , 'logout']);
+        Route::patch('/updateProfile', [AuthController::class , 'updateProfile']);
+
+        # Product's reviews
+        Route::get('/products/{product}/reviews', [ReviewController::class , 'productReviews']);
+        Route::post('/products/{product}/reviews', [ReviewController::class , 'store']);
+        Route::delete('/products/{product}/reviews', [ReviewController::class , 'destroy']);
+
+        #wishlist  
+        Route::get('/wishlist', [WishlistController::class , 'index']);
+        Route::post('/wishlist/{product}', [WishlistController::class , 'store']);
+        Route::delete('/wishlist/{product}', [WishlistController::class , 'destroy']);
+        Route::get('/products/{product}/in-wishlist', [WishlistController::class , 'inWishlist']);
+
+
+        # -------------------------
+        # CART 
+        # -------------------------
+        Route::apiResource('cart', CartController::class)
+            ->only(['index', 'store']);
+
+        Route::delete('/cart', [CartController::class , 'destroy']);
+        Route::put('/cart', [CartController::class , 'update']);
+
+        # -------------------------
+        # ORDER (checkout)
+        # -------------------------
+        Route::post('/order', [OrderController::class , 'checkout']);
+
+
+
+        # -------------------------
+        # 3. ADMIN ROUTES
+        # -------------------------
+        Route::middleware('role:admin')->prefix('admin')->group(function () {
+
+            # users
+            Route::get('/users', [AuthController::class , 'index']);
+
+            # orders
+            Route::get('/orders', [OrderController::class , 'index']);
+            Route::get('/orders/date/{date}', [OrderController::class , 'ordersByDate']);
+            Route::patch('/orders/{id}/status', [OrderController::class , 'updateStatus']);
+            Route::get('/orders/report/{date}', [OrderController::class , 'downloadReport']);
+
+
+            # products CRUD
+            Route::apiResource('products', ProductController::class)
+                ->except(['index', 'show']);
+
+
+            # categories CRUD
+            Route::apiResource('categories', CategoryController::class)
+                ->except(['index', 'show']);
+
+
+            # product images
+            Route::post('/products/{product}/images', [ProductImageController::class , 'store']);
+            Route::delete('/product-images/{id}', [ProductImageController::class , 'destroy']);
+
+        }
+        );
     });
-    Route::delete('/deleteAccount', [AuthController::class, 'deleteAccount']);
-    Route::post('/logout', [AuthController::class, 'logout']);
-    Route::patch('/updateProfile', [AuthController::class, 'updateProfile']);
-
-    # Product's reviews
-    Route::get('/products/{product}/reviews', [ReviewController::class, 'productReviews']);
-    Route::post('/products/{product}/reviews', [ReviewController::class, 'store']);
-    Route::delete('/products/{product}/reviews', [ReviewController::class, 'destroy']);
-
-    #wishlist  
-    Route::get('/wishlist', [WishlistController::class, 'index']);
-    Route::post('/wishlist/{product}', [WishlistController::class, 'store']);
-    Route::delete('/wishlist/{product}', [WishlistController::class, 'destroy']);
-    Route::get('/products/{product}/in-wishlist', [WishlistController::class, 'inWishlist']);
-
-
-    # -------------------------
-    # CART 
-    # -------------------------
-    Route::apiResource('cart', CartController::class)
-        ->only(['index', 'store', 'update', 'destroy']);
-
-
-
-    # -------------------------
-    # ORDER (checkout)
-    # -------------------------
-    Route::post('/order', [OrderController::class, 'checkout']);
-
-
-
-    # -------------------------
-    # 3. ADMIN ROUTES
-    # -------------------------
-    Route::middleware('role:admin')->prefix('admin')->group(function () {
-
-        # users
-        Route::get('/users', [AuthController::class, 'index']);
-
-        # orders
-        Route::get('/orders', [OrderController::class, 'index']);
-        Route::get('/orders/date/{date}', [OrderController::class, 'ordersByDate']);
-        Route::patch('/orders/{id}/status', [OrderController::class, 'updateStatus']);
-        Route::get('/orders/report/{date}', [OrderController::class, 'downloadReport']);
-
-
-        # products CRUD
-        Route::apiResource('products', ProductController::class)
-            ->except(['index', 'show']);
-
-
-        # categories CRUD
-        Route::apiResource('categories', CategoryController::class)
-            ->except(['index', 'show']);
-
-
-        # product images
-        Route::post('/products/{product}/images', [ProductImageController::class, 'store']);
-        Route::delete('/product-images/{id}', [ProductImageController::class, 'destroy']);
-
-    });
-
-});

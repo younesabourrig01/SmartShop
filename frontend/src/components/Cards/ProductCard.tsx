@@ -1,5 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { Loader2, ShoppingCart } from 'lucide-react';
+import { addToCart } from '../../api/cart';
+import { useCart } from '../../context/CartContext';
 
 interface ProductCardProps {
   id: string | number;
@@ -9,6 +13,30 @@ interface ProductCardProps {
 }
 
 const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) => {
+  const [isAdding, setIsAdding] = useState(false);
+  const { refreshCartCount } = useCart();
+
+  const handleAddToCart = async (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    setIsAdding(true);
+    try {
+      const response = await addToCart(id, 1);
+      if (response.data.status === 'success') {
+        toast.success('Product added to cart!');
+        refreshCartCount();
+      } else {
+        toast.error(response.data.message || 'Failed to add to cart');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred while adding to cart');
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
   return (
     <Link to={`/product/${id}`} className="block h-full">
       <div className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 flex flex-col cursor-pointer active:scale-95 h-full">
@@ -32,8 +60,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
             <span className="text-xl font-black text-slate-900">
               ${price}
             </span>
-            <button className="p-2 rounded-full bg-slate-50 text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></svg>
+            <button 
+              disabled={isAdding}
+              onClick={handleAddToCart}
+              className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 disabled:opacity-50 shadow-md transform hover:scale-110 active:scale-95"
+            >
+              {isAdding ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <ShoppingCart size={18} />
+              )}
             </button>
           </div>
         </div>

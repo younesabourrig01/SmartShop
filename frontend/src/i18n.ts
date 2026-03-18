@@ -167,7 +167,11 @@ const resources = {
         "returns": "Easy Returns",
         "days_return": "days return policy",
         "you_may_like": "You May Also Like",
-        "price_label": "Price"
+        "price_label": "Price",
+        "added_to_cart_success": "Product added to cart!",
+        "added_to_cart_error": "Failed to add product to cart",
+        "added_to_wishlist_success": "Product added to wishlist!",
+        "removed_from_wishlist_success": "Product removed from wishlist!"
       },
       "categories": {
         "banner": {
@@ -429,7 +433,11 @@ const resources = {
         "returns": "إرجاع سهل",
         "days_return": "يوم سياسة الإرجاع",
         "you_may_like": "قد يعجبك أيضاً",
-        "price_label": "السعر"
+        "price_label": "السعر",
+        "added_to_cart_success": "تم إضافة المنتج إلى السلة!",
+        "added_to_cart_error": "فشل إضافة المنتج إلى السلة",
+        "added_to_wishlist_success": "تم إضافة المنتج إلى المفضلة!",
+        "removed_from_wishlist_success": "تم إزالة المنتج من المفضلة!"
       },
       "categories": {
         "banner": {
@@ -701,7 +709,11 @@ const resources = {
         "returns": "Retours Faciles",
         "days_return": "jours de politique de retour",
         "you_may_like": "Vous pourriez aussi aimer",
-        "price_label": "Prix"
+        "price_label": "Prix",
+        "added_to_cart_success": "Produit ajouté au panier !",
+        "added_to_cart_error": "Échec de l'ajout du produit au panier",
+        "added_to_wishlist_success": "Produit ajouté aux favoris !",
+        "removed_from_wishlist_success": "Produit retiré des favoris !"
       },
       "categories": {
         "banner": {

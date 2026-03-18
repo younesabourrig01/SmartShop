@@ -22,7 +22,7 @@ class CartController extends Controller
             'total' => $total
         ]);
     }
-    public function add(Request $request)
+    public function store(Request $request)
     {
         $request->validate([
             'product_id' => 'required|exists:products,id',
@@ -101,7 +101,7 @@ class CartController extends Controller
             'message' => 'Cart updated successfully'
         ]);
     }
-    public function clear(Request $request)
+    public function destroy(Request $request)
     {
         $user = $request->user();
         $cart = $user->cart()->first();

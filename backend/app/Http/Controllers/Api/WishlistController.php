@@ -11,10 +11,12 @@ class WishlistController extends Controller
     {
         $wishlist = $request->user()
             ->wishlist()
-            ->with('wishlistItems.product')
+            ->with('wishlistItems.product.images', 'wishlistItems.product.category')
             ->first();
 
-        return response()->json($wishlist);
+        $products = $wishlist ? $wishlist->wishlistItems->map(fn($item) => $item->product) : [];
+
+        return response()->json($products);
     }
     public function store(Request $request, $productId)
     {

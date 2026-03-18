@@ -4,11 +4,15 @@ import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, Chev
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import logo from '../../assets/smartShopLogo.png';
 
 const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
   const { user } = useAuth();
+  const { cartCount } = useCart();
+  const { wishlistCount } = useWishlist();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVisualDarkMode, setIsVisualDarkMode] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
@@ -195,16 +199,14 @@ const Navbar: React.FC = () => {
           </div>
         </button>
 
-        {/* Wishlist Icon */}
         <Link to="/wishlist" className="hidden md:flex p-2 text-slate-500 hover:text-pink-500 hover:bg-pink-50/80 rounded-full transition-all duration-300 relative group">
           <Heart size={22} className="group-hover:fill-pink-500 transition-all" />
-          <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
+          <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">{wishlistCount}</span>
         </Link>
 
-        {/* Cart Icon */}
         <Link to="/cart" className="hidden md:flex p-2 text-slate-500 hover:text-blue-600 hover:bg-blue-50/80 rounded-full transition-all duration-300 relative group">
           <ShoppingCart size={22} />
-          <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">0</span>
+          <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white">{cartCount}</span>
         </Link>
 
         {/* regester/login buttons or profile icone */}
@@ -275,7 +277,7 @@ const Navbar: React.FC = () => {
                <Link to="/wishlist" className="flex items-center gap-3 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="relative w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500">
                     <Heart size={20} />
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">0</span>
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">{wishlistCount}</span>
                 </div>
                 <span>Wishlist</span>
                </Link>
@@ -284,7 +286,7 @@ const Navbar: React.FC = () => {
                <Link to="/cart" className="flex items-center gap-3 text-slate-700 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
                 <div className="relative w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
                     <ShoppingCart size={20} />
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">0</span>
+                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white">{cartCount}</span>
                 </div>
                 <span>Cart</span>
                </Link>

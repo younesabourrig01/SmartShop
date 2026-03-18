@@ -2,11 +2,16 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
-import { ShoppingCart, ArrowLeft, CheckCircle2, XCircle } from 'lucide-react';
+import { ShoppingCart, ArrowLeft, CheckCircle2, XCircle, Loader2, Heart } from 'lucide-react';
+import toast from 'react-hot-toast';
 import Reviews from '../../components/Reviews/Reviews';
 import ProductCard from '../../components/Cards/ProductCard';
 import { ProductContext, type Product } from '../../context/ProductContext';
 import { getProduct } from '../../api/products';
+import { addToCart } from '../../api/cart';
+import { storeWishlist, removeFromWishlist, isInWishlist } from '../../api/wishlist';
+import { useCart } from '../../context/CartContext';
+import { useWishlist } from '../../context/WishlistContext';
 import PageLoader from '../../components/Loader/PageLoader';
 
 const ShowProduct: React.FC = () => {
@@ -18,6 +23,12 @@ const ShowProduct: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [isAdding, setIsAdding] = useState(false);
+  const [inWishlist, setInWishlist] = useState(false);
+  const [isWishlisting, setIsWishlisting] = useState(false);
+
+  const { refreshCartCount } = useCart();
+  const { refreshWishlistCount } = useWishlist();
 
   useEffect(() => {
     if (!id) return;
@@ -42,7 +53,52 @@ const ShowProduct: React.FC = () => {
         setError(true);
         setLoading(false);
       });
+
+    // Check wishlist status
+    isInWishlist(id)
+      .then((res) => setInWishlist(res.data.in_wishlist))
+      .catch(console.error);
   }, [id]);
+
+  const handleAddToCart = async () => {
+    if (!product) return;
+    
+    setIsAdding(true);
+    try {
+      const response = await addToCart(product.id, 1);
+      if (response.data.status === 'success') {
+        toast.success((t('product_page.added_to_cart_success') as string) || 'Product added to cart!');
+        refreshCartCount();
+      } else {
+        toast.error((t('product_page.added_to_cart_error') as string) || response.data.message || 'Failed to add product');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('An error occurred while adding to cart');
+    } finally {
+      setIsAdding(false);
+    }
+  };
+
+  const handleToggleWishlist = async () => {
+    if (!product) return;
+    setIsWishlisting(true);
+    try {
+      if (inWishlist) {
+        await removeFromWishlist(product.id);
+        toast.success((t('product_page.removed_from_wishlist_success') as string) || 'Removed from wishlist');
+      } else {
+        await storeWishlist(product.id);
+        toast.success((t('product_page.added_to_wishlist_success') as string) || 'Added to wishlist');
+      }
+      setInWishlist(!inWishlist);
+      refreshWishlistCount();
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setIsWishlisting(false);
+    }
+  };
 
   // Handle Loading State
   if (loading) {
@@ -182,18 +238,30 @@ const ShowProduct: React.FC = () => {
               {/* Actions */}
               <div className="flex flex-col sm:flex-row gap-4 mt-auto">
                 <button 
-                  disabled={product.stock === 0}
+                  disabled={product.stock === 0 || isAdding}
+                  onClick={handleAddToCart}
                   className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-lg ${
                     product.stock > 0 
                     ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200' 
                     : 'bg-slate-100 text-slate-400 cursor-not-allowed shadow-none'
                   }`}
                 >
-                  <ShoppingCart size={24} />
+                  {isAdding ? <Loader2 className="animate-spin" size={24} /> : <ShoppingCart size={24} />}
                   {t('product_page.add_to_cart')}
                 </button>
-                <button className="px-8 py-5 rounded-2xl bg-slate-50 text-slate-900 font-black text-lg border border-slate-100 hover:bg-white hover:shadow-md transition-all active:scale-95">
-                  {t('product_page.wishlist')}
+                <button 
+                  onClick={handleToggleWishlist}
+                  disabled={isWishlisting}
+                  className={`px-8 py-5 rounded-2xl font-black text-lg border border-slate-100 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                    inWishlist ? 'bg-pink-50 text-pink-500 border-pink-100' : 'bg-slate-50 text-slate-900'
+                  }`}
+                >
+                  {isWishlisting ? (
+                    <Loader2 className="animate-spin" size={24} />
+                  ) : (
+                    <Heart size={24} fill={inWishlist ? "currentColor" : "none"} />
+                  )}
+                  {inWishlist ? 'Saved' : t('product_page.wishlist')}
                 </button>
               </div>
               

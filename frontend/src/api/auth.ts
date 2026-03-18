@@ -15,7 +15,7 @@ export const sendOtp = (data: object) => {
   return API.post("/send-otp", data);
 };
 
-export const registerUser = (data: object) => {
+export const registerUser = (data: object | FormData) => {
   return API.post("/register", data);
 };
 

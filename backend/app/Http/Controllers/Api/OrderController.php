@@ -83,7 +83,7 @@ class OrderController extends Controller
         $total = $cart->getTotal();
 
         $order = $user->orders()->create([
-            'user_id' => $request->user_id,
+            'user_id' => $user->id,
             'total' => $total,
         ]);
 

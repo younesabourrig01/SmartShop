@@ -154,14 +154,18 @@ const Register: React.FC = () => {
     if (validateStep2()) {
       setIsLoading(true);
       try {
-        const res = await registerUser({
-          name: formData.name,
-          email: formData.email,
-          adress: formData.adress,
-          phone_number: formData.phone_number,
-          password: formData.password,
-          otp: formData.otp,
-        });
+        const formDataPayload = new FormData();
+        formDataPayload.append("name", formData.name);
+        formDataPayload.append("email", formData.email);
+        formDataPayload.append("adress", formData.adress);
+        formDataPayload.append("phone_number", formData.phone_number);
+        formDataPayload.append("password", formData.password);
+        formDataPayload.append("otp", formData.otp);
+        if (formData.image) {
+          formDataPayload.append("image", formData.image);
+        }
+
+        const res = await registerUser(formDataPayload);
 
         console.log(res.data);
 
