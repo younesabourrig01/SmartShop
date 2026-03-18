@@ -116,6 +116,8 @@ const Register: React.FC = () => {
         const res = await sendOtp({
           name: formData.name,
           email: formData.email,
+          adress: formData.adress,
+          phone_number: formData.phone_number,
         });
         toast.success(res.data.message);
         console.log(res.data);
@@ -432,7 +434,10 @@ const Register: React.FC = () => {
                       placeholder="+1 234 567 8900"
                       value={formData.phone_number}
                       onChange={(e) =>
-                        setFormData({ ...formData, phone_number: e.target.value })
+                        setFormData({
+                          ...formData,
+                          phone_number: e.target.value,
+                        })
                       }
                     />
                     {errors.phone_number && (
