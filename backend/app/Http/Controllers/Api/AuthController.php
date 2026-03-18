@@ -4,12 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\EmailOtp;
+use Illuminate\Support\Facades\Mail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Resend;
+
 
 class AuthController extends Controller
 {
@@ -18,7 +19,9 @@ class AuthController extends Controller
     {
         $request->validate([
             'name' => 'required|string|min:3',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'adress' => 'required|max:255',
+            'phone_number' => 'required|digits:10'
         ]);
 
         $otp = rand(100000, 999999);
@@ -31,22 +34,15 @@ class AuthController extends Controller
             ]
         );
 
-        $resend = Resend::client(env('RESEND_API_KEY'));
-
-        $resend->emails->send([
-            'from' => 'SmartShop <onboarding@resend.dev>',
-            'to' => [$request->email],
-            'subject' => 'SmartShop Verification Code',
-            'html' => "<strong>Your OTP code is: $otp</strong>",
-            //quick fix to sertificate 
-            'curl' => [
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_SSL_VERIFYHOST => false,
-            ],
-        ]);
+        Mail::send([], [], function ($message) use ($request, $otp) {
+            $message->from(config('mail.from.address'), config('mail.from.name'));
+            $message->to($request->email);
+            $message->subject('SmartShop Verification Code');
+            $message->html("<strong>Your OTP code is: $otp</strong>");
+        });
 
         return response()->json([
-            'message' => 'OTP sent successfully'
+            'message' => 'OTP sent successfully via SMTP'
         ]);
     }
     //Register by verification
