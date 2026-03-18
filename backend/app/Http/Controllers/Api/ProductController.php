@@ -11,7 +11,7 @@ class ProductController extends Controller
     // get all products and controle them by filter
     public function index(Request $request)
     {
-        $query = Product::query();
+        $query = Product::query()->with('images')->with('category');
         if ($request->search) {
             $query->where('name', 'like', '%' . $request->search . '%');
         }
@@ -25,7 +25,7 @@ class ProductController extends Controller
         if ($request->category_id) {
             $query->where('category_id', $request->category_id);
         }
-        $products = $query->paginate(10);
+        $products = $query->paginate(12);
 
         return response()->json([
             'status' => 'success',
@@ -36,7 +36,7 @@ class ProductController extends Controller
     // show product
     public function show($id)
     {
-        $product = Product::with('category')->findOrFail($id);
+        $product = Product::with('category', 'images')->findOrFail($id);
         return response()->json([
             'status' => 'success',
             'data' => $product

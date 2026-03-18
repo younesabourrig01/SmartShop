@@ -6,10 +6,6 @@ const API = axios.create({
 
 export default API;
 
-// const API = axios.create({
-//   baseURL: "http://127.0.0.1:8000/api",
-// });
-
 // API.interceptors.request.use((config) => {
 //   const token = localStorage.getItem("token");
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { 
@@ -16,10 +16,17 @@ import {
   LogOut,
   X,
   Menu,
-  Filter
+  Filter,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import Loader from "../../../components/Loader/Loader";
+import PageLoader from "../../../components/Loader/PageLoader";
 import { useAuth } from "../../../context/AuthContext";
+import { ProductContext } from "../../../context/ProductContext";
 import { logout } from "../../../api/auth";
 import toast from "react-hot-toast";
 import ProductForm from "../../../components/Dashboard/ProductForm";
@@ -28,30 +35,10 @@ const ManageProducts: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
+  const { products, loading, currentPage, lastPage, setCurrentPage } = useContext(ProductContext);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
-
-  const mockProducts = [
-    {
-      id: 1,
-      name: "iPhone 15 Pro",
-      category: "Electronics",
-      price: 999.99,
-      stock: 45,
-      image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?auto=format&fit=crop&q=80",
-      description: "Experience the next level of mobile technology with the iPhone 15 Pro."
-    },
-    {
-      id: 2,
-      name: "Sony WH-1000XM5",
-      category: "Audio",
-      price: 349.00,
-      stock: 120,
-      image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?auto=format&fit=crop&q=80",
-      description: "Industry-leading noise canceling headphones with exceptional sound quality."
-    }
-  ];
 
   const [isLoading, setIsLoading] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
@@ -147,7 +134,7 @@ const ManageProducts: React.FC = () => {
           </button>
         </header>
 
-        <div className="p-8 space-y-6">
+        <div className="p-8 space-y-6 relative">          
           {/* Controls */}
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
             <div className="relative w-full md:w-96">
@@ -167,6 +154,7 @@ const ManageProducts: React.FC = () => {
           </div>
 
           {/* Products Table */}
+          {loading && <PageLoader/>}
           <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
@@ -180,12 +168,12 @@ const ManageProducts: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {mockProducts.map((product) => (
+                  {products.map((product) => (
                     <tr key={product.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <img 
-                            src={product.image} 
+                            src={product.images?.[0]?.url || "https://via.placeholder.com/150"} 
                             alt={product.name} 
                             className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100"
                           />
@@ -197,7 +185,7 @@ const ManageProducts: React.FC = () => {
                       </td>
                       <td className="px-8 py-5">
                         <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-wider">
-                          {product.category}
+                          {product.category?.name || "Uncategorized"}
                         </span>
                       </td>
                       <td className="px-8 py-5">
@@ -212,7 +200,7 @@ const ManageProducts: React.FC = () => {
                       <td className="px-8 py-5 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button 
-                            onClick={() => toast(`Viewing ${product.name}`)}
+                            onClick={() => navigate(`/product/${product.id}`)}
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                             title="Show Details"
                           >
@@ -243,10 +231,110 @@ const ManageProducts: React.FC = () => {
                 </tbody>
               </table>
             </div>
-            {/* Pagination Placeholder */}
-            <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Showing 2 of 2 Products</p>
-            </div>
+            
+            {/* Pagination Implementation from Products page */}
+            {lastPage > 1 && (
+              <div className="p-8 bg-gray-50/50 border-t border-gray-100 flex flex-col items-center gap-5">
+                {/* Progress bar */}
+                <div className="w-48 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full rounded-full bg-gradient-to-r from-blue-500 to-indigo-500"
+                    initial={false}
+                    animate={{ width: `${(currentPage / lastPage) * 100}%` }}
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-gray-100 shadow-lg shadow-gray-200/50">
+                  {/* First Page */}
+                  <button
+                    onClick={() => setCurrentPage(1)}
+                    disabled={currentPage === 1}
+                    className="p-2.5 rounded-xl text-gray-400 hover:text-blue-600 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                    title={t("common.first_page") || "First page"}
+                  >
+                    <ChevronsLeft size={18} strokeWidth={2.5} />
+                  </button>
+
+                  {/* Prev */}
+                  <button
+                    onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+                    disabled={currentPage === 1}
+                    className="p-2.5 rounded-xl text-gray-400 hover:text-blue-600 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                    title={t("common.previous") || "Previous"}
+                  >
+                    <ChevronLeft size={18} strokeWidth={2.5} />
+                  </button>
+
+                  <div className="w-px h-6 bg-gray-200 mx-1" />
+
+                  {/* Page Numbers */}
+                  <div className="flex items-center gap-1">
+                    {(() => {
+                      const pages: (number | string)[] = [];
+                      const delta = 1;
+                      const left = Math.max(2, currentPage - delta);
+                      const right = Math.min(lastPage - 1, currentPage + delta);
+
+                      pages.push(1);
+                      if (left > 2) pages.push("...");
+                      for (let i = left; i <= right; i++) pages.push(i);
+                      if (right < lastPage - 1) pages.push("...");
+                      if (lastPage > 1) pages.push(lastPage);
+
+                      return pages.map((page, idx) =>
+                        typeof page === "string" ? (
+                          <span key={`ellipsis-${idx}`} className="w-10 flex items-center justify-center text-gray-300 text-sm font-bold select-none">•••</span>
+                        ) : (
+                          <button
+                            key={page}
+                            onClick={() => setCurrentPage(page)}
+                            className={`relative w-10 h-10 rounded-xl text-sm font-bold transition-all duration-200 ${
+                              currentPage === page ? "text-white" : "text-gray-500 hover:text-blue-600 hover:bg-blue-50"
+                            }`}
+                          >
+                            {currentPage === page && (
+                              <motion.div
+                                layoutId="activePage"
+                                className="absolute inset-0 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl shadow-lg shadow-blue-500/30"
+                                transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                              />
+                            )}
+                            <span className="relative z-10">{page}</span>
+                          </button>
+                        )
+                      );
+                    })()}
+                  </div>
+
+                  <div className="w-px h-6 bg-gray-200 mx-1" />
+
+                  {/* Next */}
+                  <button
+                    onClick={() => setCurrentPage(Math.min(lastPage, currentPage + 1))}
+                    disabled={currentPage === lastPage}
+                    className="p-2.5 rounded-xl text-gray-400 hover:text-blue-600 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                    title={t("common.next") || "Next"}
+                  >
+                    <ChevronRight size={18} strokeWidth={2.5} />
+                  </button>
+
+                  {/* Last Page */}
+                  <button
+                    onClick={() => setCurrentPage(lastPage)}
+                    disabled={currentPage === lastPage}
+                    className="p-2.5 rounded-xl text-gray-400 hover:text-blue-600 hover:bg-blue-50 disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                    title={t("common.last_page") || "Last page"}
+                  >
+                    <ChevronsRight size={18} strokeWidth={2.5} />
+                  </button>
+                </div>
+
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
+                  {t("common.page") || "Page"} {currentPage} {t("common.of") || "of"} {lastPage} • {products.length} Products
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </main>

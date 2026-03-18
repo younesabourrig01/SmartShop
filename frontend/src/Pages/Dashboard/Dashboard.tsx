@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { logout } from "../../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../context/AuthContext";
+import { ProductContext } from "../../context/ProductContext";
+import { CategoryContext } from "../../context/CategoryContext";
 import { 
   LayoutDashboard, 
   Users, 
@@ -19,6 +21,7 @@ import {
   X
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
+import PageLoader from "../../components/Loader/PageLoader";
 
 interface Order {
   id: number;
@@ -40,6 +43,8 @@ const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
+  const { totalProducts, loading: productsLoading } = useContext(ProductContext);
+  const { categories, loading: categoriesLoading } = useContext(CategoryContext);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -58,6 +63,8 @@ const Dashboard: React.FC = () => {
       setIsLoading(false);
     }
   };
+
+  const isDataLoading = productsLoading || categoriesLoading;
 
   return (
     <div className="flex items-start bg-gray-50 text-gray-800 font-sans relative min-h-[calc(100vh-76px)]">
@@ -103,7 +110,13 @@ const Dashboard: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out`}>
+      <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative`}>
+        {isDataLoading && (
+          <div className="absolute inset-0 z-50 flex items-center justify-center">
+            <PageLoader size={60} />
+          </div>
+        )}
+        
         {/* Top Navbar */}
         <header className="sticky top-[76px] bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
@@ -153,7 +166,7 @@ const Dashboard: React.FC = () => {
                 </div>
                 <p className="text-gray-400 text-sm font-semibold mb-1">{t('dashboard.stats.total_products')}</p>
                 <div className="flex justify-between items-end">
-                    <h3 className="text-2xl font-extrabold text-gray-900">452</h3>
+                    <h3 className="text-2xl font-extrabold text-gray-900">{productsLoading ? "..." : totalProducts}</h3>
                     <span className="text-purple-600 text-xs font-bold hover:underline">{t('dashboard.stats.manage_all')}</span>
                 </div>
             </div>
@@ -166,7 +179,7 @@ const Dashboard: React.FC = () => {
                 </div>
                 <p className="text-gray-400 text-sm font-semibold mb-1">{t('dashboard.stats.total_categories')}</p>
                 <div className="flex justify-between items-end">
-                    <h3 className="text-2xl font-extrabold text-gray-900">24</h3>
+                    <h3 className="text-2xl font-extrabold text-gray-900">{categoriesLoading ? "..." : categories.length}</h3>
                     <span className="text-green-600 text-xs font-bold hover:underline">{t('dashboard.stats.manage_all')}</span>
                 </div>
             </div>
