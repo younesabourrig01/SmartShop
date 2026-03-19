@@ -107,4 +107,19 @@ class OrderController extends Controller
             'order' => $order
         ]);
     }
+    public function orderByUser(Request $request){
+$user = $request->user();
+$orders = $user->orders()
+    ->with('orderItems.product')
+    ->latest()
+    ->get()
+    ->groupBy(function ($order) {
+        return $order->created_at->format('Y-m-d');
+    });
+
+return response()->json([
+    'status' => 'success',
+    'orders' => $orders,
+]); 
+    }
 }

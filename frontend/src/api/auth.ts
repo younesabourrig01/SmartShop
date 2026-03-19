@@ -26,3 +26,7 @@ export const login = (data: object) => {
 export const logout = () => {
   return API.post("/logout");
 };
+
+export const deleteAccount = (data: { password?: string }) => {
+  return API.delete("/deleteAccount", { data });
+};

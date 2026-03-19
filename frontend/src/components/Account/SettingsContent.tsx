@@ -8,6 +8,8 @@ import { useAuth } from "../../context/AuthContext";
 import ProfileForm from "./ProfileForm";
 import Loader from "../Loader/Loader";
 
+import { deleteAccount } from "../../api/auth";
+
 interface SettingsContentProps {
   backLabel: string;
   backPath: string;
@@ -16,27 +18,35 @@ interface SettingsContentProps {
 const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { user } = useAuth();
+  const { user, clearAuth } = useAuth();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleDeleteAccount = (e: React.FormEvent) => {
+  const handleDeleteAccount = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!password) {
       toast.error("Please enter your password to confirm");
       return;
     }
+    
     setIsDeleting(true);
-    // Simulation of account deletion
-    toast.loading("Deleting account...", { duration: 2000 });
-    setTimeout(() => {
-        setIsDeleting(false);
-        toast.success("Account deleted successfully");
-        setIsDeleteModalOpen(false);
-        navigate("/login");
-    }, 2000);
+    const toastId = toast.loading("Processing your request...");
+    
+    try {
+      await deleteAccount({ password });
+      toast.success("Account deleted successfully", { id: toastId });
+      clearAuth();
+      setIsDeleteModalOpen(false);
+      navigate("/register");
+    } catch (error: any) {
+      console.error("Delete account error:", error);
+      const errorMessage = error.response?.data?.message || "Failed to delete account. Please check your password.";
+      toast.error(errorMessage, { id: toastId });
+    } finally {
+      setIsDeleting(false);
+    }
   };
 
   return (

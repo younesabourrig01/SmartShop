@@ -76,6 +76,9 @@ const Cart: React.FC = () => {
       toast.success(res.data.message);
       setCartItems([]);
       setTotalCartItems(null);
+      setTimeout(()=>{
+       window.location.href = '/profile';
+      },200)
     } catch (err: any) {
       console.error("Failed to create order", err);
       toast.error(err.response?.data?.message || "Failed to create order");

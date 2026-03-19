@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { logout } from "../../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
@@ -14,28 +14,63 @@ import {
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
 import mainLogo from "../../assets/MainLogo.png";
+import { orderByUser } from "../../api/order";
+import PageLoader from "../../components/Loader/PageLoader";
 
-interface Order {
-  id: string;
-  item: string;
-  price: number;
-  date: string;
-  status: 'Delivered' | 'In Transit' | 'Processing' | 'Cancelled';
+interface Product {
+  name: string;
+  image: string;
 }
 
-const mockOrders: Order[] = [
-  { id: "ORD-9821", item: "Wireless Headphones", price: 129.99, date: "2026-03-10", status: "Delivered" },
-  { id: "ORD-9745", item: "Smart Watch Series 7", price: 349.00, date: "2026-03-08", status: "In Transit" },
-  { id: "ORD-9612", item: "Ergonomic Keyboards", price: 89.50, date: "2026-03-05", status: "Delivered" },
-  { id: "ORD-9501", item: "USB-C Fast Charger", price: 25.00, date: "2026-03-01", status: "Processing" },
-  { id: "ORD-9423", item: "Leather Wallet", price: 55.00, date: "2026-02-25", status: "Cancelled" },
-];
+interface OrderItem {
+  product: Product;
+}
+
+interface BackendOrder {
+  id: number;
+  total: number;
+  status: string;
+  created_at: string;
+  order_items: OrderItem[];
+}
+
+interface GroupedOrders {
+  [date: string]: BackendOrder[];
+}
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
   const { user, clearAuth } = useAuth();
   const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
+  const [groupedOrders, setGroupedOrders] = useState<GroupedOrders>({});
+  const [isOrdersLoading, setIsOrdersLoading] = useState(true);
+  const [showAllDays, setShowAllDays] = useState(false);
+
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const res = await orderByUser();
+        setGroupedOrders(res.data.orders);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+        toast.error("Failed to load orders");
+      } finally {
+        setIsOrdersLoading(false);
+      }
+    };
+    fetchOrders();
+  }, []);
+
+  const sortedDates = useMemo(() => 
+    Object.keys(groupedOrders).sort((a, b) => b.localeCompare(a)), 
+    [groupedOrders]
+  );
+  
+  const totalOrdersCount = useMemo(() => 
+    Object.values(groupedOrders).reduce((acc, curr) => acc + curr.length, 0),
+    [groupedOrders]
+  );
 
   const handleLogout = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,7 +143,7 @@ const Profile: React.FC = () => {
               <h3 className="text-xs font-black text-slate-300 uppercase tracking-widest mb-6">{t('profile.quick_stats', 'Activity Overview')}</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-2xl border border-white shadow-inner">
-                  <p className="text-3xl font-black text-blue-600">12</p>
+                  <p className="text-3xl font-black text-blue-600">{totalOrdersCount}</p>
                   <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-wider">{t('profile.stats.orders', 'Orders')}</p>
                 </div>
                 <div className="p-5 bg-gradient-to-br from-indigo-50 to-purple-50/30 rounded-2xl border border-white shadow-inner">
@@ -163,12 +198,21 @@ const Profile: React.FC = () => {
                   </div>
                   <h2 className="text-2xl font-black text-slate-900 tracking-tight">{t('profile.orders.title', 'Latest Orders')}</h2>
                 </div>
-                <Link to="/profile/orders" className="text-[10px] font-black text-slate-400 hover:text-blue-600 bg-slate-50 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-white hover:border-blue-100">
-                  {t('profile.orders.view_all', 'View All')}
-                </Link>
+                <button 
+                  onClick={() => setShowAllDays(!showAllDays)}
+                  className="text-[10px] font-black text-slate-400 hover:text-blue-600 bg-slate-50 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-white hover:border-blue-100"
+                >
+                  {showAllDays ? t('profile.orders.show_latest', 'Show Latest') : t('profile.orders.view_all', 'View All')}
+                </button>
               </div>
 
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto min-h-[300px] relative">
+                {isOrdersLoading ? (
+                  <div className="absolute inset-0 flex items-center justify-center bg-white/50 z-20">
+                    <PageLoader />
+                  </div>
+                ) : null}
+                
                 <table className="w-full text-left">
                   <thead className="bg-slate-50/30 text-slate-300 text-[10px] uppercase font-black tracking-[0.15em]">
                     <tr>
@@ -180,43 +224,69 @@ const Profile: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-slate-50/50">
-                    {mockOrders.map((order) => (
-                      <tr key={order.id} className="hover:bg-slate-50/30 transition-colors group cursor-pointer">
-                        <td className="px-8 py-6">
-                          <span className="text-sm font-black text-slate-900 opacity-80 group-hover:opacity-100 transition-opacity">#{order.id}</span>
-                        </td>
-                        <td className="px-8 py-6">
-                          <div className="flex items-center gap-4">
-                            <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-white group-hover:text-blue-600 transition-all shadow-sm border border-transparent group-hover:border-blue-50">
-                              <ShoppingBag size={18} />
-                            </div>
-                            <span className="text-sm font-bold text-slate-600 group-hover:text-slate-900 transition-colors">{order.item}</span>
-                          </div>
-                        </td>
-                        <td className="px-8 py-6">
-                          <span className="text-sm font-medium text-slate-400 italic">{order.date}</span>
-                        </td>
-                        <td className="px-8 py-6">
-                          <span className="text-sm font-black text-slate-900">${order.price.toFixed(2)}</span>
-                        </td>
-                        <td className="px-8 py-6">
-                          <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                            order.status === 'Delivered' ? 'bg-white text-emerald-600 border-emerald-100 shadow-sm shadow-emerald-50' : 
-                            order.status === 'In Transit' ? 'bg-white text-sky-600 border-sky-100 shadow-sm shadow-sky-50' : 
-                            order.status === 'Processing' ? 'bg-white text-amber-600 border-amber-100 shadow-sm shadow-amber-50' : 
-                            'bg-white text-rose-600 border-rose-100 shadow-sm shadow-rose-50'
-                          }`}>
-                            <div className={`w-1.5 h-1.5 rounded-full ${
-                               order.status === 'Delivered' ? 'bg-emerald-500 animate-pulse' : 
-                               order.status === 'In Transit' ? 'bg-sky-500 animate-pulse' : 
-                               order.status === 'Processing' ? 'bg-amber-500' : 
-                               'bg-rose-500'
-                            }`} />
-                            {order.status}
-                          </span>
-                        </td>
-                      </tr>
-                    ))}
+                    {sortedDates.length > 0 ? (
+                      (showAllDays ? sortedDates : [sortedDates[0]]).map((date) => (
+                        <React.Fragment key={date}>
+                          {showAllDays && (
+                            <tr className="bg-slate-50/50">
+                              <td colSpan={5} className="px-8 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">
+                                {date}
+                              </td>
+                            </tr>
+                          )}
+                          {groupedOrders[date].map((order) => (
+                            <tr key={order.id} className="hover:bg-slate-50/30 transition-colors group cursor-pointer">
+                              <td className="px-8 py-6">
+                                <span className="text-sm font-black text-slate-900 opacity-80 group-hover:opacity-100 transition-opacity">#{order.id}</span>
+                              </td>
+                              <td className="px-8 py-6">
+                                <div className="flex items-center gap-4">
+                                  <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-white group-hover:text-blue-600 transition-all shadow-sm border border-transparent group-hover:border-blue-50">
+                                    <ShoppingBag size={18} />
+                                  </div>
+                                  <span className="text-sm font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
+                                    {order.order_items?.[0]?.product?.name || "Order #" + order.id}
+                                    {order.order_items?.length > 1 && ` (+${order.order_items.length - 1} more)`}
+                                  </span>
+                                </div>
+                              </td>
+                              <td className="px-8 py-6">
+                                <span className="text-sm font-medium text-slate-400 italic">
+                                  {new Date(order.created_at).toLocaleDateString()}
+                                </span>
+                              </td>
+                              <td className="px-8 py-6">
+                                <span className="text-sm font-black text-slate-900">${Number(order.total).toFixed(2)}</span>
+                              </td>
+                              <td className="px-8 py-6">
+                                <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
+                                  order.status === 'delivered' ? 'bg-white text-emerald-600 border-emerald-100 shadow-sm shadow-emerald-50' : 
+                                  order.status === 'in_transit' ? 'bg-white text-sky-600 border-sky-100 shadow-sm shadow-sky-50' : 
+                                  order.status === 'pending' ? 'bg-white text-amber-600 border-amber-100 shadow-sm shadow-amber-50' : 
+                                  'bg-white text-rose-600 border-rose-100 shadow-sm shadow-rose-50'
+                                }`}>
+                                  <div className={`w-1.5 h-1.5 rounded-full ${
+                                    order.status === 'delivered' ? 'bg-emerald-500 animate-pulse' : 
+                                    order.status === 'in_transit' ? 'bg-sky-500 animate-pulse' : 
+                                    order.status === 'pending' ? 'bg-amber-500' : 
+                                    'bg-rose-500'
+                                  }`} />
+                                  {order.status.replace('_', ' ')}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </React.Fragment>
+                      ))
+                    ) : (
+                      !isOrdersLoading && (
+                        <tr>
+                          <td colSpan={5} className="px-8 py-12 text-center text-slate-400 font-medium">
+                            {t('profile.orders.no_orders', 'No orders found.')}
+                          </td>
+                        </tr>
+                      )
+                    )}
                   </tbody>
                 </table>
               </div>

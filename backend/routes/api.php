@@ -73,6 +73,7 @@ Route::middleware('auth:sanctum')->group(function () {
         # ORDER (checkout)
         # -------------------------
         Route::post('/order', [OrderController::class , 'checkout']);
+        Route::get('/my-orders', [OrderController::class , 'orderByUser']);
 
 
 
