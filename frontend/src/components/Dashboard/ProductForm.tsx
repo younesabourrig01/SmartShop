@@ -2,27 +2,86 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, Package, DollarSign, List, FileText, CheckCircle2 } from 'lucide-react';
 import Loader from '../Loader/Loader';
+import { getCategories } from "../../api/category";
+import { addProduct, updateProduct } from "../../api/products";
+import toast from "react-hot-toast";
 
 interface ProductFormProps {
   isOpen: boolean;
   onClose: () => void;
   initialData?: any;
   title: string;
+  onSuccess?: () => void;
 }
 
-const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData, title }) => {
+const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData, title, onSuccess }) => {
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState<any[]>([]);
+  const [isCategoriesLoading, setIsCategoriesLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  React.useEffect(() => {
+    if (isOpen) {
+      loadCategories();
+    }
+  }, [isOpen]);
+
+  const loadCategories = async () => {
+    setIsCategoriesLoading(true);
+    try {
+      const res = await getCategories();
+      if (res.data && res.data.status === "success") {
+        setCategories(res.data.data);
+      }
+    } catch (error) {
+       console.error("Failed to load categories", error);
+    } finally {
+        setIsCategoriesLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formRef.current) return;
+    
     setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-      onClose();
-    }, 1500);
+    const formData = new FormData();
+    const elements = formRef.current.elements as any;
+    
+    formData.append('name', elements.name.value);
+    formData.append('price', elements.price.value);
+    formData.append('stock', elements.stock.value);
+    formData.append('category_id', elements.category_id.value);
+    formData.append('description', elements.description.value);
+    
+    // images
+    images.forEach(file => {
+      formData.append('images[]', file);
+    });
+
+    try {
+        if (!initialData) {
+            // Create mode
+            await addProduct(formData);
+            toast.success("Product created successfully!");
+        } else {
+            // Update mode
+            await updateProduct(initialData.id, formData);
+            toast.success("Product updated successfully!");
+        }
+        if (onSuccess) onSuccess();
+        onClose();
+        // Reset state
+        setImages([]);
+        setPreviews([]);
+    } catch (error: any) {
+        toast.error(error.response?.data?.message || "Operation failed");
+    } finally {
+        setIsLoading(false);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -87,7 +146,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
           </div>
 
           {/* Form Content */}
-          <form className="p-8 space-y-8" onSubmit={handleSubmit}>
+          <form ref={formRef} className="p-8 space-y-8" onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* Product Name */}
               <div className="space-y-2">
@@ -96,6 +155,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
                 </label>
                 <input
                   type="text"
+                  name="name"
                   defaultValue={initialData?.name}
                   placeholder="e.g. MacBook Pro M3"
                   className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
@@ -109,6 +169,8 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
                 </label>
                 <input
                   type="number"
+                  name="price"
+                  step="0.01"
                   defaultValue={initialData?.price}
                   placeholder="0.00"
                   className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
@@ -122,6 +184,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
                 </label>
                 <input
                   type="number"
+                  name="stock"
                   defaultValue={initialData?.stock}
                   placeholder="0"
                   className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
@@ -129,17 +192,21 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
               </div>
 
               {/* Category */}
-              <div className="space-y-2">
-                <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
-                  <List size={14} /> Category
+              <div className="space-y-2 relative">
+                <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center justify-between gap-2">
+                  <span className="flex items-center gap-2"><List size={14} /> Category</span>
+                  {isCategoriesLoading && <Loader size={12} color="#2563eb" />}
                 </label>
                 <select
-                  defaultValue={initialData?.category || ""}
-                  className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 appearance-none"
+                  name="category_id"
+                  disabled={isCategoriesLoading}
+                  defaultValue={initialData?.category_id || ""}
+                  className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 appearance-none disabled:opacity-50"
                 >
-                  <option value="" disabled>Select Category</option>
-                  <option value="electronics">Electronics</option>
-                  <option value="accessories">Accessories</option>
+                  <option value="" disabled>{isCategoriesLoading ? "Loading categories..." : "Select Category"}</option>
+                  {categories.map((cat) => (
+                    <option key={cat.id} value={cat.id}>{cat.name}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -150,6 +217,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
                 <FileText size={14} /> Description
               </label>
               <textarea
+                name="description"
                 rows={4}
                 defaultValue={initialData?.description}
                 placeholder="Describe your product..."

@@ -16,20 +16,62 @@ import {
   X,
   Menu,
   Filter,
-  UserPlus
+  Fingerprint,
+  Crown,
+  CheckCircle2,
+  ShieldCheck,
+  Mail,
+  Phone,
+  MapPin,
+  Calendar as CalendarIcon
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
-import { logout } from "../../../api/auth";
+import { getAllUsers, logout } from "../../../api/auth";
 import toast from "react-hot-toast";
 import Loader from "../../../components/Loader/Loader";
+import PageLoader from "../../../components/Loader/PageLoader";
 
 const Users: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [users, setUsers] = useState<any[]>([]);
+  const [pagination, setPagination] = useState<any>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [selectedUser, setSelectedUser] = useState<any | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [roleFilter, setRoleFilter] = useState("all");
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  const fetchUsers = async (page: number) => {
+    setIsLoading(true);
+    try {
+      const res = await getAllUsers(page);
+      if (res.data.status === "success") {
+        setUsers(res.data.data.data);
+        setPagination(res.data.data);
+      }
+    } catch (error) {
+      toast.error("Failed to fetch users");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchUsers(currentPage);
+  }, [currentPage]);
+
+  const filteredUsers = users.filter((u) => {
+    const matchesSearch = u.name?.toLowerCase().includes(searchQuery.toLowerCase()) || u.email?.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesRole = roleFilter === 'all' || u.role === roleFilter;
+    return matchesSearch && matchesRole;
+  });
+
 
   const handleDelete = (id: number, name: string) => {
     setDeletingId(id);
@@ -40,24 +82,6 @@ const Users: React.FC = () => {
     }, 1500);
   };
 
-  const mockUsers = [
-    {
-      id: 1,
-      name: "John Doe",
-      email: "john.doe@example.com",
-      role: "Admin",
-      status: "Active",
-      avatar: "JD"
-    },
-    {
-      id: 2,
-      name: "Jane Smith",
-      email: "jane.smith@example.com",
-      role: "User",
-      status: "Inactive",
-      avatar: "JS"
-    }
-  ];
 
   const handleLogout = async () => {
     setIsLoading(true);
@@ -74,9 +98,9 @@ const Users: React.FC = () => {
   };
 
   return (
-    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-[calc(100vh-76px)]">
+    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen">
       {/* Sidebar - Reusing Dashboard side bar style */}
-      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-[76px] h-[calc(100vh-76px)] overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <LayoutDashboard size={20} />
@@ -113,125 +137,266 @@ const Users: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out">
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out h-screen overflow-hidden">
         {/* Header */}
-        <header className="sticky top-[76px] bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
             <h1 className="text-2xl font-extrabold text-gray-900">Manage Users</h1>
           </div>
-          <button 
-             onClick={() => toast("Add user functionality coming soon")}
-             className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
-          >
-            <UserPlus size={20} />
-            Add User
-          </button>
+
         </header>
 
         <div className="p-8 space-y-6">
-          {/* Controls */}
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
-            <div className="relative w-full md:w-96">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search users..." 
-                className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
-              />
+          {isLoading ? (
+            <div className="flex items-center justify-center min-h-[400px]">
+               <PageLoader />
             </div>
-            <div className="flex gap-3 w-full md:w-auto">
-              <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all">
-                <Filter size={18} />
-                Filter
+          ) : (
+            <>
+              {/* Controls */}
+              <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+                <div className="relative w-full md:w-96">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                  <input 
+                    type="text" 
+                    value={searchQuery}
+                    onChange={(e) => {
+                        setSearchQuery(e.target.value);
+                        setCurrentPage(1);
+                    }}
+                    placeholder="Search users..." 
+                    className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
+                  />
+                </div>
+                <div className="relative w-full md:w-auto">
+                    <button 
+                        onClick={() => setIsFilterOpen(!isFilterOpen)}
+                        className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${roleFilter !== 'all' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
+                    >
+                        <Filter size={18} />
+                        Filter {roleFilter !== 'all' ? `: ${roleFilter}` : ''}
+                    </button>
+
+                    {isFilterOpen && (
+                        <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 px-2">Filter By Badge & Role</p>
+                            <div className="space-y-1">
+                                {[
+                                    { label: 'All Users', value: 'all', icon: <UsersIcon size={14}/> },
+                                    { label: 'Administrators', value: 'Admin', icon: <Crown size={14} className="text-amber-500"/> },
+                                    { label: 'Regular Customers', value: 'User', icon: <CheckCircle2 size={14} className="text-blue-500"/> }
+                                ].map((opt) => (
+                                    <button
+                                        key={opt.value}
+                                        onClick={() => {
+                                            setRoleFilter(opt.value);
+                                            setCurrentPage(1);
+                                            setIsFilterOpen(false);
+                                        }}
+                                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${roleFilter === opt.value ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                                    >
+                                        {opt.icon}
+                                        {opt.label}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+                </div>
+              </div>
+
+              {/* Users Table */}
+              <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden relative min-h-[400px]">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
+                      <tr>
+                        <th className="px-8 py-5">User</th>
+                        <th className="px-8 py-5">Role</th>
+                        <th className="px-8 py-5 text-right">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-50">
+                      {filteredUsers.length > 0 ? (
+                        filteredUsers.map((user) => (
+                          <tr key={user.id} className="hover:bg-gray-50/50 transition-colors group">
+                            <td className="px-8 py-5">
+                              <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center overflow-hidden">
+                                  {user.image ? (
+                                    <img 
+                                      src={`http://127.0.0.1:8000/storage/${user.image}`} 
+                                      alt={user.name}
+                                      className="w-full h-full object-cover"
+                                    />
+                                  ) : (
+                                    <div className="text-xs font-bold text-indigo-600 uppercase">
+                                      {user.name?.substring(0, 2) || user.email?.substring(0, 2)}
+                                    </div>
+                                  )}
+                                </div>
+                                <div>
+                                  <p className="text-sm font-extrabold text-gray-900 leading-tight">{user.name || "N/A"}</p>
+                                  <p className="text-xs text-gray-400 font-medium">{user.email}</p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="px-8 py-5">
+                              <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm transition-all relative overflow-hidden group/badge ${
+                                user.role === 'Admin' 
+                                ? 'bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-600 text-white shadow-amber-200' 
+                                : 'bg-gray-100 text-gray-600'
+                              }`}>
+                                {user.role === 'Admin' && (
+                                  <>
+                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+                                    <Crown size={12} className="animate-bounce" />
+                                  </>
+                                )}
+                                {user.role || "User"}
+                              </span>
+                            </td>
+                             <td className="px-8 py-5 text-right">
+                               <div className="flex justify-end gap-2">
+                                 <button 
+                                   onClick={() => {
+                                     setSelectedUser(user);
+                                     setIsModalOpen(true);
+                                   }}
+                                   className="p-2 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-xl transition-all flex items-center gap-2 group/btn ml-auto"
+                                   title="Show Details"
+                                 >
+                                   <Eye size={18} className="group-hover/btn:scale-110 transition-transform" />
+                                   <span className="text-xs font-bold hidden sm:block italic">View Info</span>
+                                 </button>
+                               </div>
+                             </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={4} className="px-8 py-10 text-center text-gray-400 font-medium italic">
+                            No users found.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Pagination */}
+                <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+                  <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    Showing {filteredUsers.length} of {pagination?.total || filteredUsers.length} Users
+                  </p>
+                  <div className="flex gap-2">
+                    <button 
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 disabled:opacity-50 transition-all shadow-sm active:scale-95"
+                    >
+                      Previous
+                    </button>
+                    <button 
+                      onClick={() => setCurrentPage(p => p + 1)}
+                      disabled={!pagination || currentPage === pagination.last_page}
+                      className="px-4 py-2 border border-gray-200 rounded-xl text-xs font-bold text-gray-600 hover:bg-gray-100 disabled:opacity-50 transition-all shadow-sm active:scale-95"
+                    >
+                      Next
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
+      </main>
+
+      {/* User Details Modal */}
+      {isModalOpen && selectedUser && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+            {/* Modal Header */}
+            <div className={`p-8 flex justify-between items-start relative ${selectedUser.role === 'Admin' ? 'bg-gradient-to-br from-indigo-900 to-gray-900 text-white border-b-4 border-amber-500' : 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 border-b border-gray-100'}`}>
+              {/* Admin Gold Banner */}
+              {selectedUser.role === 'Admin' && (
+                <div className="absolute top-0 left-0">
+                  <div className="relative">
+                    <div className="bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-600 text-white text-[10px] font-bold px-8 py-1.5 uppercase tracking-[0.2em] transform -rotate-45 -translate-x-6 translate-y-3 shadow-lg border-b border-amber-300 z-10 flex items-center gap-2">
+                       <Crown size={10} />
+                       Admin
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="flex items-center gap-6">
+                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center overflow-hidden shadow-xl border-4 ${selectedUser.role === 'Admin' ? 'border-amber-500 shadow-amber-500/20' : 'border-white'}`}>
+                  {selectedUser.image ? (
+                    <img src={`http://127.0.0.1:8000/storage/${selectedUser.image}`} alt={selectedUser.name} className="w-full h-full object-cover" />
+                  ) : (
+                    <div className={`text-2xl font-black ${selectedUser.role === 'Admin' ? 'text-white' : 'text-indigo-600'}`}>
+                      {selectedUser.name?.charAt(0) || "U"}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <h2 className="text-2xl font-black tracking-tight">{selectedUser.name || "N/A"}</h2>
+                  <span className={`inline-flex items-center gap-1.5 px-3 py-1 mt-1 rounded-full text-[10px] font-black uppercase tracking-tighter shadow-sm ${selectedUser.role === 'Admin' ? 'bg-amber-500 text-white' : 'bg-indigo-600 text-white'}`}>
+                    <ShieldCheck size={10} />
+                    {selectedUser.role || "User"}
+                  </span>
+                </div>
+              </div>
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className={`p-2 rounded-xl transition-all ${selectedUser.role === 'Admin' ? 'hover:bg-white/10 text-white' : 'hover:bg-gray-200 text-gray-400'}`}
+              >
+                <X size={24} />
+              </button>
+            </div>
+
+            {/* Modal Body */}
+            <div className="p-8 space-y-6 max-h-[60vh] overflow-y-auto scrollbar-hide">
+              <div className="grid grid-cols-1 gap-4">
+                <InfoRow icon={<Fingerprint size={18}/>} label="User ID" value={`#USR-${selectedUser.id}`} />
+                <InfoRow icon={<Mail size={18}/>} label="Email Address" value={selectedUser.email} />
+                <InfoRow icon={<Phone size={18}/>} label="Phone Number" value={selectedUser.phone_number || "Not provided"} />
+                <InfoRow icon={<MapPin size={18}/>} label="Address" value={selectedUser.adress || "Not provided"} />
+                <InfoRow icon={<CalendarIcon size={18}/>} label="Joined Date" value={new Date(selectedUser.created_at).toLocaleDateString(undefined, { dateStyle: 'long' })} />
+              </div>
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-6 bg-gray-50 flex justify-end px-8">
+              <button 
+                onClick={() => setIsModalOpen(false)}
+                className="px-8 py-3 bg-gray-900 text-white font-black text-sm rounded-2xl hover:bg-gray-800 transition-all shadow-lg active:scale-95"
+              >
+                Close
               </button>
             </div>
           </div>
-
-          {/* Users Table */}
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
-                  <tr>
-                    <th className="px-8 py-5">User</th>
-                    <th className="px-8 py-5">Role</th>
-                    <th className="px-8 py-5">Status</th>
-                    <th className="px-8 py-5 text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {mockUsers.map((user) => (
-                    <tr key={user.id} className="hover:bg-gray-50/50 transition-colors group">
-                      <td className="px-8 py-5">
-                        <div className="flex items-center gap-4">
-                          <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-600 border border-indigo-100">
-                            {user.avatar}
-                          </div>
-                          <div>
-                            <p className="text-sm font-extrabold text-gray-900 leading-tight">{user.name}</p>
-                            <p className="text-xs text-gray-400 font-medium">{user.email}</p>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-8 py-5">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${
-                          user.role === 'Admin' ? 'bg-purple-50 text-purple-600' : 'bg-blue-50 text-blue-600'
-                        }`}>
-                          {user.role}
-                        </span>
-                      </td>
-                      <td className="px-8 py-5">
-                        <div className="flex items-center gap-2">
-                          <div className={`w-2 h-2 rounded-full ${user.status === 'Active' ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                          <span className="text-sm font-bold text-gray-600">{user.status}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-5 text-right">
-                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                          <button 
-                            onClick={() => toast(`Viewing ${user.name}`)}
-                            className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                            title="Show Details"
-                          >
-                            <Eye size={18} />
-                          </button>
-                          <button 
-                            onClick={() => toast(`Updating ${user.name}`)}
-                            className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-all"
-                            title="Update"
-                          >
-                            <Edit3 size={18} />
-                          </button>
-                          <button 
-                            onClick={() => handleDelete(user.id, user.name)}
-                            disabled={deletingId === user.id}
-                            className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-100 rounded-lg transition-all disabled:opacity-50"
-                            title="Delete"
-                          >
-                            {deletingId === user.id ? <Loader size={18} color="#ef4444" /> : <Trash2 size={18} />}
-                          </button>
-                        </div>
-                        <button className="md:hidden p-2 text-gray-400 hover:text-gray-600 bg-gray-50 rounded-lg group-hover:hidden">
-                          <MoreVertical size={18} />
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-            {/* Pagination Placeholder */}
-            <div className="p-6 bg-gray-50/50 border-t border-gray-100 flex justify-center">
-              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Showing {mockUsers.length} of {mockUsers.length} Users</p>
-            </div>
-          </div>
         </div>
-      </main>
+      )}
     </div>
   );
 };
+
+// Helper Component for Modal Rows
+const InfoRow: React.FC<{ icon: React.ReactNode, label: string, value: string }> = ({ icon, label, value }) => (
+  <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
+    <div className="p-2.5 bg-white text-indigo-600 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+      {icon}
+    </div>
+    <div>
+      <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{label}</p>
+      <p className="text-sm font-bold text-gray-900">{value}</p>
+    </div>
+  </div>
+);
 
 export default Users;

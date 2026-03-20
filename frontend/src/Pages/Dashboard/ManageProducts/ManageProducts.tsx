@@ -20,7 +20,9 @@ import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
-  ChevronsRight
+  ChevronsRight,
+  AlertTriangle,
+  CheckCircle,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Loader from "../../../components/Loader/Loader";
@@ -28,29 +30,85 @@ import PageLoader from "../../../components/Loader/PageLoader";
 import { useAuth } from "../../../context/AuthContext";
 import { ProductContext } from "../../../context/ProductContext";
 import { logout } from "../../../api/auth";
+import { getCategories } from "../../../api/category";
+import { deleteProduct } from "../../../api/products";
 import toast from "react-hot-toast";
 import ProductForm from "../../../components/Dashboard/ProductForm";
+import DeleteConfirm from "../../../components/Dashboard/DeleteConfirm";
+import { API_BASE_URL } from "../../../api/client";
 
 const ManageProducts: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { clearAuth } = useAuth();
-  const { products, loading, currentPage, lastPage, setCurrentPage } = useContext(ProductContext);
+  const { products, loading, currentPage, lastPage, setCurrentPage, refreshProducts } = useContext(ProductContext);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+  const [productToDelete, setProductToDelete] = useState<any>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("all");
+  const [categories, setCategories] = useState<any[]>([]);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [deletingId, setDeletingId] = useState<number | null>(null);
 
-  const handleDelete = (id: number, name: string) => {
-    setDeletingId(id);
-    toast.loading(`Deleting ${name}...`, { duration: 1500 });
-    setTimeout(() => {
-      setDeletingId(null);
-      toast.success(`${name} deleted successfully`);
-    }, 1500);
+  const handleDeleteClick = (product: any) => {
+    setProductToDelete(product);
+    setIsDeleteModalOpen(true);
   };
+
+  const handleConfirmDelete = async () => {
+    if (!productToDelete) return;
+    
+    setIsDeleting(true);
+    setDeletingId(productToDelete.id);
+    try {
+      await deleteProduct(productToDelete.id);
+      toast.success(`${productToDelete.name} deleted successfully`);
+      refreshProducts();
+      setIsDeleteModalOpen(false);
+      setProductToDelete(null);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to delete product");
+    } finally {
+      setIsDeleting(false);
+      setDeletingId(null);
+    }
+  };
+
+  const loadCategories = async () => {
+    try {
+      const res = await getCategories();
+      if (res.data && res.data.status === "success") {
+        setCategories(res.data.data);
+      }
+    } catch (error) {
+       console.error("Failed to load categories", error);
+    }
+  };
+
+  React.useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch = p.name?.toLowerCase().includes(searchQuery.toLowerCase());
+    
+    let matchesCategory = true;
+    if (categoryFilter === 'low_stock') {
+        matchesCategory = p.stock < 20;
+    } else if (categoryFilter === 'high_stock') {
+        matchesCategory = p.stock >= 20;
+    } else if (categoryFilter !== 'all') {
+        matchesCategory = p.category?.id.toString() === categoryFilter;
+    }
+    
+    return matchesSearch && matchesCategory;
+  });
 
   const handleLogout = async () => {
     setIsLoading(true);
@@ -77,9 +135,9 @@ const ManageProducts: React.FC = () => {
   };
 
   return (
-    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-[calc(100vh-76px)]">
+    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen">
       {/* Sidebar - Reusing Dashboard side bar style */}
-      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-[76px] h-[calc(100vh-76px)] overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <LayoutDashboard size={20} />
@@ -118,7 +176,7 @@ const ManageProducts: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out">
         {/* Header */}
-        <header className="sticky top-[76px] bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
@@ -141,15 +199,82 @@ const ManageProducts: React.FC = () => {
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
                 type="text" 
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search products..." 
                 className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
               />
             </div>
-            <div className="flex gap-3 w-full md:w-auto">
-              <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all">
+            <div className="relative w-full md:w-auto">
+              <button 
+                onClick={() => setIsFilterOpen(!isFilterOpen)}
+                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${categoryFilter !== 'all' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
+              >
                 <Filter size={18} />
-                Filter
+                {categoryFilter === 'all' ? 'All Products' : 
+                 categoryFilter === 'low_stock' ? 'Low Stock' :
+                 categoryFilter === 'high_stock' ? 'High Stock' :
+                 categories.find(c => c.id.toString() === categoryFilter)?.name || 'Filter'}
               </button>
+
+              {isFilterOpen && (
+                <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                    <div className="mb-4">
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 px-2">Dashboard Filters</p>
+                        <div className="space-y-1">
+                            <button
+                                onClick={() => {
+                                    setCategoryFilter('all');
+                                    setIsFilterOpen(false);
+                                }}
+                                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === 'all' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                            >
+                                <Layers size={14}/>
+                                All Products
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setCategoryFilter('low_stock');
+                                    setIsFilterOpen(false);
+                                }}
+                                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === 'low_stock' ? 'bg-red-50 text-red-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                            >
+                                <AlertTriangle size={14} className={categoryFilter === 'low_stock' ? 'text-red-500' : 'text-red-400'}/>
+                                Low Stock ({"< 20"})
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setCategoryFilter('high_stock');
+                                    setIsFilterOpen(false);
+                                }}
+                                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === 'high_stock' ? 'bg-green-50 text-green-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                            >
+                                <CheckCircle size={14} className={categoryFilter === 'high_stock' ? 'text-green-500' : 'text-green-400'}/>
+                                Healthy Stock ({">= 20"})
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="border-t border-gray-100 pt-3">
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 px-2">Categories</p>
+                        <div className="space-y-1 max-h-48 overflow-y-auto scrollbar-hide">
+                            {categories.map((cat) => (
+                                <button
+                                    key={cat.id}
+                                    onClick={() => {
+                                        setCategoryFilter(cat.id.toString());
+                                        setIsFilterOpen(false);
+                                    }}
+                                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === cat.id.toString() ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                                >
+                                    <Package size={14}/>
+                                    {cat.name}
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+              )}
             </div>
           </div>
 
@@ -168,14 +293,17 @@ const ManageProducts: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {products.map((product) => (
+                  {filteredProducts.map((product) => (
                     <tr key={product.id} className="hover:bg-gray-50/50 transition-colors group">
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <img 
                             src={product.images?.[0]?.url || "https://via.placeholder.com/150"} 
                             alt={product.name} 
-                            className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100"
+                            className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100 font-bold text-[10px] text-center"
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://via.placeholder.com/150";
+                            }}
                           />
                           <div>
                             <p className="text-sm font-extrabold text-gray-900 leading-tight">{product.name}</p>
@@ -214,7 +342,7 @@ const ManageProducts: React.FC = () => {
                             <Edit3 size={18} />
                           </button>
                           <button 
-                            onClick={() => handleDelete(product.id, product.name)}
+                            onClick={() => handleDeleteClick(product)}
                             disabled={deletingId === product.id}
                             className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-100 rounded-lg transition-all disabled:opacity-50"
                             title="Delete"
@@ -331,7 +459,7 @@ const ManageProducts: React.FC = () => {
                 </div>
 
                 <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest">
-                  {t("common.page") || "Page"} {currentPage} {t("common.of") || "of"} {lastPage} • {products.length} Products
+                  {t("common.page") || "Page"} {currentPage} {t("common.of") || "of"} {lastPage} • {filteredProducts.length} Products
                 </p>
               </div>
             )}
@@ -345,6 +473,17 @@ const ManageProducts: React.FC = () => {
         onClose={() => setIsFormOpen(false)} 
         initialData={editingProduct}
         title={editingProduct ? "Update Product" : "Add New Product"}
+        onSuccess={refreshProducts}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirm 
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Confirm Deletion"
+        message={`Are you sure you want to delete "${productToDelete?.name}"? This action cannot be undone.`}
+        isLoading={isDeleting}
       />
     </div>
   );

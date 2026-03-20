@@ -12,7 +12,7 @@ class OrderController extends Controller
     // show orders to admin grouped by day
     public function index()
     {
-        $orders = Order::with('orderItems.product')
+        $orders = Order::with(['orderItems.product', 'user'])
             ->orderBy('created_at', 'desc')
             ->get()
             ->groupBy(function ($order) {
@@ -26,7 +26,8 @@ class OrderController extends Controller
     //filter orders by date 
     public function ordersByDate($date)
     {
-        $orders = Order::whereDate('created_at', $date)
+        $orders = Order::with(['orderItems.product', 'user'])
+            ->whereDate('created_at', $date)
             ->latest()
             ->get();
         return response()->json([
@@ -42,7 +43,7 @@ class OrderController extends Controller
             'status' => 'required|in:pending,paid,processing,shipped,delivered,cancelled'
         ]);
 
-        $order = Order::findOrFail(id: $id);
+        $order = Order::findOrFail($id);
 
         $order->update([
             'status' => $request->status
@@ -66,7 +67,7 @@ class OrderController extends Controller
             'date' => $date,
         ])->setPaper('a4', 'portrait');
 
-        return $pdf->download('orders-' . $date . 'pdf');
+        return $pdf->download('orders-' . $date . '.pdf');
     }
     // create order
     public function checkout(Request $request)

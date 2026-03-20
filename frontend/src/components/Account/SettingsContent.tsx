@@ -50,7 +50,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
   };
 
   return (
-    <div className="min-h-[calc(100vh-76px)] bg-gray-50 p-4 md:p-8">
+    <div className="bg-gray-50 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={() => navigate(backPath)}
@@ -110,7 +110,9 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
         initialData={{
             name: user?.name,
             email: user?.email,
-            image: user?.image
+            image: user?.image,
+            adress: user?.adress,
+            phone_number: user?.phone_number
         }}
       />
 

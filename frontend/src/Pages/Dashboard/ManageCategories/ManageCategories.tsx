@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import {
@@ -16,16 +16,18 @@ import {
   LogOut,
   X,
   Menu,
-  Filter,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { logout } from "../../../api/auth";
 import toast from "react-hot-toast";
 import Loader from "../../../components/Loader/Loader";
 import CategoryForm from "../../../components/Dashboard/CategoryForm";
-import { useContext } from "react";
+import CategoryInfo from "../../../components/Dashboard/CategoryInfo";
+import DeleteConfirm from "../../../components/Dashboard/DeleteConfirm";
 import { CategoryContext } from "../../../context/CategoryContext";
+import { deleteCategory } from "../../../api/category";
 import PageLoader from "../../../components/Loader/PageLoader";
+import { API_BASE_URL } from "../../../api/client";
 
 const ManageCategories: React.FC = () => {
   const { t } = useTranslation();
@@ -34,13 +36,34 @@ const ManageCategories: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
+  const [isInfoOpen, setIsInfoOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [editingCategory, setEditingCategory] = useState<any>(null);
+  const [selectedCategory, setSelectedCategory] = useState<any>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const { categories, loading } = useContext(CategoryContext);
+  const { categories, loading, refreshCategories } = useContext(CategoryContext);
 
-  const handleDelete = () => {
-    //
+  const handleDeleteClick = (category: any) => {
+    setSelectedCategory(category);
+    setIsDeleteOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!selectedCategory) return;
+    setDeletingId(selectedCategory.id);
+    try {
+      await deleteCategory(selectedCategory.id);
+      toast.success(`${selectedCategory.name} deleted successfully`);
+      refreshCategories();
+      setIsDeleteOpen(false);
+      setSelectedCategory(null);
+    } catch (error: any) {
+      toast.error(error.response?.data?.message || "Failed to delete category");
+    } finally {
+      setDeletingId(null);
+    }
   };
 
   const handleLogout = async () => {
@@ -67,13 +90,20 @@ const ManageCategories: React.FC = () => {
     setIsFormOpen(true);
   };
 
-  // if (loading) return <PageLoader />;
+  const openInfoPopup = (category: any) => {
+    setSelectedCategory(category);
+    setIsInfoOpen(true);
+  };
+
+  const filteredCategories = categories.filter((cat) =>
+    cat.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-[calc(100vh-76px)]">
+    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen overflow-hidden">
       {/* Sidebar - Reusing Dashboard side bar style */}
       <aside
-        className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-[76px] h-[calc(100vh-76px)] overflow-hidden ${isSidebarOpen ? "w-64" : "w-0 border-none"}`}
+        className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? "w-64" : "w-0 border-none"}`}
       >
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button
@@ -123,9 +153,9 @@ const ManageCategories: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out">
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out h-screen">
         {/* Header */}
-        <header className="sticky top-[76px] bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -133,7 +163,7 @@ const ManageCategories: React.FC = () => {
             >
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <h1 className="text-2xl font-extrabold text-gray-900">
+            <h1 className="text-2xl font-extrabold text-gray-900 leading-tight">
               Manage Categories
             </h1>
           </div>
@@ -146,7 +176,7 @@ const ManageCategories: React.FC = () => {
           </button>
         </header>
 
-        <div className="p-8 space-y-6">
+        <div className="p-8 space-y-6 flex-1 overflow-y-auto scrollbar-hide">
           {/* Controls */}
           <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
             <div className="relative w-full md:w-96">
@@ -156,15 +186,11 @@ const ManageCategories: React.FC = () => {
               />
               <input
                 type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search categories..."
                 className="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-100 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-medium"
               />
-            </div>
-            <div className="flex gap-3 w-full md:w-auto">
-              <button className="flex-1 md:flex-none flex items-center justify-center gap-2 px-4 py-3 bg-white border border-gray-200 rounded-xl text-sm font-bold text-gray-600 hover:bg-gray-50 transition-all">
-                <Filter size={18} />
-                Filter
-              </button>
             </div>
           </div>
 
@@ -181,8 +207,8 @@ const ManageCategories: React.FC = () => {
                     <th className="px-8 py-5 text-right">Actions</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-50">
-                  {categories.map((category) => (
+                <tbody className="divide-y divide-gray-50 text-nowarp">
+                  {filteredCategories.map((category) => (
                     <tr
                       key={category.id}
                       className="hover:bg-gray-50/50 transition-colors group"
@@ -190,9 +216,12 @@ const ManageCategories: React.FC = () => {
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <img
-                            src={category.image}
+                            src={category.url || "https://via.placeholder.com/150"}
                             alt={category.name}
-                            className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100"
+                            className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100 font-bold text-[10px] text-center"
+                            onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://via.placeholder.com/150";
+                            }}
                           />
                           <div>
                             <p className="text-sm font-extrabold text-gray-900 leading-tight">
@@ -206,10 +235,10 @@ const ManageCategories: React.FC = () => {
                       </td>
                       <td className="px-8 py-5">
                         <p className="text-sm text-gray-500 font-medium max-w-xs truncate">
-                          {category.description}
+                          {category.description || "No description"}
                         </p>
                       </td>
-                      <td className="px-8 py-5">
+                      <td className="px-8 py-5 text-wrap">
                         <span className="text-sm font-extrabold text-gray-900">
                           {category.products_count} Items
                         </span>
@@ -217,7 +246,7 @@ const ManageCategories: React.FC = () => {
                       <td className="px-8 py-5 text-right">
                         <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                           <button
-                            onClick={() => toast(`Viewing ${category.name}`)}
+                            onClick={() => openInfoPopup(category)}
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
                             title="Show Details"
                           >
@@ -231,9 +260,7 @@ const ManageCategories: React.FC = () => {
                             <Edit3 size={18} />
                           </button>
                           <button
-                            onClick={() =>
-                              handleDelete(category.id, category.name)
-                            }
+                            onClick={() => handleDeleteClick(category)}
                             disabled={deletingId === category.id}
                             className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-all disabled:opacity-50"
                             title="Delete"
@@ -251,6 +278,18 @@ const ManageCategories: React.FC = () => {
                       </td>
                     </tr>
                   ))}
+                  {filteredCategories.length === 0 && !loading && (
+                    <tr>
+                      <td colSpan={4} className="px-8 py-20 text-center">
+                        <div className="flex flex-col items-center gap-4">
+                          <div className="p-4 bg-gray-50 text-gray-300 rounded-full">
+                            <Layers size={48} />
+                          </div>
+                          <p className="text-gray-400 font-bold tracking-tight">No categories found matching your search</p>
+                        </div>
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
@@ -264,6 +303,24 @@ const ManageCategories: React.FC = () => {
         onClose={() => setIsFormOpen(false)}
         initialData={editingCategory}
         title={editingCategory ? "Update Category" : "Add New Category"}
+        onSuccess={refreshCategories}
+      />
+
+      {/* Category Info Popup */}
+      <CategoryInfo
+        isOpen={isInfoOpen}
+        onClose={() => setIsInfoOpen(false)}
+        category={selectedCategory}
+      />
+
+      {/* Delete Confirmation Modal */}
+      <DeleteConfirm 
+        isOpen={isDeleteOpen}
+        onClose={() => setIsDeleteOpen(false)}
+        onConfirm={handleConfirmDelete}
+        title="Delete Category"
+        message={`Are you sure you want to delete "${selectedCategory?.name}"? This will also affect products associated with it.`}
+        isLoading={!!deletingId}
       />
     </div>
   );

@@ -43,7 +43,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-slate-50">
           <img 
-            src={image} 
+            src={image?.startsWith('http') ? image : `http://127.0.0.1:8000${image}`} 
             alt={title} 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />

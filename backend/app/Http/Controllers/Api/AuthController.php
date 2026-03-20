@@ -27,11 +27,11 @@ class AuthController extends Controller
         $otp = rand(100000, 999999);
 
         EmailOtp::updateOrCreate(
-            ['email' => $request->email],
-            [
-                'otp' => $otp,
-                'expires_at' => now()->addMinutes(10)
-            ]
+        ['email' => $request->email],
+        [
+            'otp' => $otp,
+            'expires_at' => now()->addMinutes(10)
+        ]
         );
 
         Mail::send([], [], function ($message) use ($request, $otp) {
@@ -173,6 +173,8 @@ class AuthController extends Controller
         $data = [
             'name' => $request->name ?? $user->name,
             'email' => $request->email ?? $user->email,
+            'adress' => $request->adress ?? $user->adress,
+            'phone_number' => $request->phone_number ?? $user->phone_number,
         ];
 
         // dd($request->file('image'));
@@ -198,7 +200,7 @@ class AuthController extends Controller
     // get all users 
     public function index()
     {
-        $users = User::select('id', 'email', 'image', 'created_at')->paginate(10);
+        $users = User::select('id', 'role', 'name', 'email', 'image', 'created_at', 'adress', 'phone_number')->latest()->paginate(10);
 
         return response()->json([
             'status' => 'success',

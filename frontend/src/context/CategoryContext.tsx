@@ -1,26 +1,34 @@
 import { createContext, useEffect, useState, type ReactNode } from "react";
 import { getCategories } from "../api/category";
 
-type category = {
+export type Category = {
   id: number;
   name: string;
   description: string;
   products_count: number;
   image?: string;
+  url?: string;
+  created_at?: string;
 };
+
 interface CategoryContextType {
-  categories: category[];
+  categories: Category[];
   loading: boolean;
+  refreshCategories: () => void;
 }
+
 export const CategoryContext = createContext<CategoryContextType>({
   categories: [],
   loading: true,
+  refreshCategories: () => {},
 });
 
 export const CategoryProvider = ({ children }: { children: ReactNode }) => {
-  const [categories, setCategories] = useState<category[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
+
+  const fetchCategories = () => {
+    setLoading(true);
     getCategories()
       .then((res) => {
         setCategories(res.data.data);
@@ -29,10 +37,14 @@ export const CategoryProvider = ({ children }: { children: ReactNode }) => {
       .catch(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchCategories();
   }, []);
 
   return (
-    <CategoryContext.Provider value={{ categories, loading }}>
+    <CategoryContext.Provider value={{ categories, loading, refreshCategories: fetchCategories }}>
       {children}
     </CategoryContext.Provider>
   );

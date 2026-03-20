@@ -18,26 +18,29 @@ import {
   ArrowUpDown,
   MoreVertical,
   Menu,
-  X
+  X,
+  Clock,
+  CheckCircle,
+  Truck,
+  PackageCheck,
+  XCircle,
+  RefreshCw,
+  ChevronDown
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
 import PageLoader from "../../components/Loader/PageLoader";
+import { getAllOrders, getOrdersByDate, downloadReport, updateStatus } from "../../api/order";
+import { getAllUsers } from "../../api/auth";
 
 interface Order {
   id: number;
-  customer_name: string;
-  total_price: number;
+  user?: {
+    name: string;
+  };
+  total: number;
   status: string;
   created_at: string;
 }
-
-const mockOrders: Order[] = [
-  { id: 1234, customer_name: "John Doe", total_price: 150.99, status: "completed", created_at: "2026-03-12" },
-  { id: 1235, customer_name: "Jane Smith", total_price: 89.50, status: "pending", created_at: "2026-03-13" },
-  { id: 1236, customer_name: "Alice Johnson", total_price: 210.00, status: "completed", created_at: "2026-03-11" },
-  { id: 1237, customer_name: "Bob Wilson", total_price: 45.00, status: "cancelled", created_at: "2026-03-13" },
-  { id: 1238, customer_name: "Charlie Brown", total_price: 120.75, status: "pending", created_at: "2026-03-12" },
-];
 
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
@@ -47,6 +50,85 @@ const Dashboard: React.FC = () => {
   const { categories, loading: categoriesLoading } = useContext(CategoryContext);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [usersLoading, setUsersLoading] = useState(true);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [totalUsers, setTotalUsers] = useState<number>(0);
+  const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
+  const [editingOrderId, setEditingOrderId] = useState<number | null>(null);
+  const [tempStatus, setTempStatus] = useState<string>("");
+  const [isUpdating, setIsUpdating] = useState(false);
+  const statuses = [
+    { label: "pending", icon: <Clock size={14}/>, color: "text-amber-500", bg: "bg-amber-50" },
+    { label: "paid", icon: <CheckCircle size={14}/>, color: "text-green-500", bg: "bg-green-50" },
+    { label: "processing", icon: <RefreshCw size={14}/>, color: "text-blue-500", bg: "bg-blue-50" },
+    { label: "shipped", icon: <Truck size={14}/>, color: "text-purple-500", bg: "bg-purple-50" },
+    { label: "delivered", icon: <PackageCheck size={14}/>, color: "text-emerald-500", bg: "bg-emerald-50" },
+    { label: "cancelled", icon: <XCircle size={14}/>, color: "text-red-500", bg: "bg-red-50" },
+  ];
+
+  const fetchUsersCount = async () => {
+    setUsersLoading(true);
+    try {
+      const res = await getAllUsers(1);
+      if (res.data.status === 'success') {
+        setTotalUsers(res.data.data.total);
+      }
+    } catch (error) {
+      console.error("Failed to fetch users count", error);
+    } finally {
+      setUsersLoading(false);
+    }
+  };
+
+  const fetchOrders = async (date?: string) => {
+    setOrdersLoading(true);
+    try {
+      let res;
+      if (date) {
+        res = await getOrdersByDate(date);
+        if (res.data.status === 'success') {
+          setOrders(res.data.orders);
+        }
+      } else {
+        res = await getAllOrders();
+        if (res.data.status === 'success') {
+          // Flatten grouped orders if returned that way
+          const flattened = Object.values(res.data.orders_by_day).flat() as Order[];
+          setOrders(flattened);
+        }
+      }
+    } catch (error) {
+      toast.error("Failed to fetch transactions");
+    } finally {
+      setOrdersLoading(false);
+    }
+  };
+
+  React.useEffect(() => {
+    fetchOrders(selectedDate);
+    fetchUsersCount();
+  }, [selectedDate]);
+
+  const handleDownloadReport = async () => {
+    if (!selectedDate) {
+      toast.error("Please select a date first");
+      return;
+    }
+    const toastId = toast.loading("Generating report...");
+    try {
+      const response = await downloadReport(selectedDate);
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `report-orders-${selectedDate}.pdf`);
+      document.body.appendChild(link);
+      link.click();
+      toast.success("Report downloaded successfully", { id: toastId });
+    } catch (error) {
+      toast.error("Failed to generate report", { id: toastId });
+    }
+  };
 
   const handelLogout = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,12 +146,31 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const isDataLoading = productsLoading || categoriesLoading;
+const handleUpdateStatus = async (orderId: number) => {
+    if (!tempStatus) return;
+    setIsUpdating(true);
+    try {
+      const res = await updateStatus(orderId, tempStatus);
+      if (res.data.status === 'success') {
+        toast.success("Order status updated successfully");
+        setEditingOrderId(null);
+        fetchOrders(selectedDate);
+      }
+    } catch (error) {
+      toast.error("Failed to update status");
+    } finally {
+      setIsUpdating(false);
+    }
+  };
+
+  const isDataLoading = productsLoading || categoriesLoading || ordersLoading || usersLoading;
+
+if (isDataLoading) return <PageLoader/>;
 
   return (
-    <div className="flex items-start bg-gray-50 text-gray-800 font-sans relative min-h-[calc(100vh-76px)]">
+    <div className="flex items-start bg-gray-50 text-gray-800 font-sans relative min-h-screen">
       {/* Sidebar */}
-      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-[76px] h-[calc(100vh-76px)] overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <div className="p-6 flex items-center gap-3 overflow-hidden whitespace-nowrap">
           {/* Logo removed as requested */}
         </div>
@@ -110,15 +211,9 @@ const Dashboard: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative`}>
-        {isDataLoading && (
-          <div className="absolute inset-0 z-50 flex items-center justify-center">
-            <PageLoader size={60} />
-          </div>
-        )}
-        
+      <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative h-screen`}>
         {/* Top Navbar */}
-        <header className="sticky top-[76px] bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -126,20 +221,7 @@ const Dashboard: React.FC = () => {
             >
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
-            <div>
-              <h1 className="text-2xl font-extrabold text-gray-900">{t('dashboard.welcome')}</h1>
-            </div>
-          </div>
-          <div className="flex items-center gap-6">
-            <button 
-              onClick={(e) => handelLogout(e as any)}
-              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors flex items-center gap-2 font-bold disabled:opacity-70"
-              title="Logout"
-              disabled={isLoading}
-            >
-              {isLoading ? <Loader color="#ef4444" /> : <LogOut size={20} />}
-              <span className="hidden lg:block text-sm">{t('dashboard.sidebar.logout')}</span>
-            </button>
+            <h1 className="text-2xl font-extrabold text-gray-900">{t('dashboard.welcome')}</h1>
           </div>
         </header>
 
@@ -154,7 +236,7 @@ const Dashboard: React.FC = () => {
                 </div>
                 <p className="text-gray-400 text-sm font-semibold mb-1">{t('dashboard.stats.total_users')}</p>
                 <div className="flex justify-between items-end">
-                    <h3 className="text-2xl font-extrabold text-gray-900">1,280</h3>
+                    <h3 className="text-2xl font-extrabold text-gray-900">{usersLoading ? "..." : totalUsers.toLocaleString()}</h3>
                     <span className="text-blue-600 text-xs font-bold hover:underline">{t('dashboard.stats.see_all')}</span>
                 </div>
             </div>
@@ -192,20 +274,25 @@ const Dashboard: React.FC = () => {
                 <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">{t('dashboard.transactions.title')}</h2>
               </div>
               <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-                <div className="flex items-center gap-2 px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-500 shadow-inner">
-                  <Calendar size={14} />
-                  {new Date().toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })}
+                <div className="flex items-center gap-2 px-4 py-1 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 shadow-sm">
+                  <Calendar size={14} className="text-blue-500" />
+                  <input 
+                    type="date" 
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    className="bg-transparent border-none outline-none focus:ring-0 p-1 cursor-pointer"
+                  />
                 </div>
                 <button 
-                  onClick={() => toast("Sort disabled in static mode")}
-                  className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-400 cursor-not-allowed shadow-sm"
+                  onClick={() => fetchOrders()}
+                  className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition-all shadow-sm active:scale-95"
                 >
                   <ArrowUpDown size={14} />
-                  Sort by Date
+                  Reset to All
                 </button>
                 <button 
-                   onClick={() => toast("Generating PDF report...")}
-                   className="flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200"
+                   onClick={handleDownloadReport}
+                   className="flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95"
                 >
                   <Download size={14} />
                   {t('dashboard.transactions.export')}
@@ -226,39 +313,90 @@ const Dashboard: React.FC = () => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-50">
-                  {mockOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
-                      <td className="px-8 py-5 font-bold text-gray-900 text-sm">#ORD-{order.id}</td>
-                      <td className="px-8 py-5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-600">
-                            {order.customer_name.charAt(0)}
+                  {orders.length > 0 ? (
+                    orders.map((order) => (
+                      <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
+                        <td className="px-8 py-5 font-bold text-gray-900 text-sm">#ORD-{order.id}</td>
+                        <td className="px-8 py-5">
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-600">
+                              {order.user?.name.charAt(0) || "U"}
+                            </div>
+                            <span className="text-sm font-semibold text-gray-700">{order.user?.name || "Deleted User"}</span>
                           </div>
-                          <span className="text-sm font-semibold text-gray-700">{order.customer_name}</span>
-                        </div>
-                      </td>
-                      <td className="px-8 py-5 font-extrabold text-gray-900 text-sm">${order.total_price.toFixed(2)}</td>
-                      <td className="px-8 py-5 text-gray-400 text-sm font-medium">{order.created_at}</td>
-                      <td className="px-8 py-5">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
-                          order.status === 'completed' ? 'bg-green-100 text-green-700' : 
-                          order.status === 'pending' ? 'bg-amber-100 text-amber-700' : 
-                          'bg-red-100 text-red-700'
-                        }`}>
-                          <span className={`w-1.5 h-1.5 rounded-full ${order.status === 'completed' ? 'bg-green-500' : order.status === 'pending' ? 'bg-amber-500' : 'bg-red-500'}`}></span>
-                          {t(`dashboard.transactions.${order.status}`)}
-                        </span>
-                      </td>
-                      <td className="px-8 py-5 text-right">
-                        <button 
-                          onClick={() => toast(`Action for #ORD-${order.id}`)}
-                          className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
-                        >
-                          <MoreVertical size={18} />
-                        </button>
+                        </td>
+                        <td className="px-8 py-5 font-extrabold text-gray-900 text-sm">${Number(order.total).toFixed(2)}</td>
+                        <td className="px-8 py-5 text-gray-400 text-sm font-medium">{new Date(order.created_at).toLocaleDateString()}</td>
+                        <td className="px-8 py-5">
+                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${
+                            order.status === 'completed' || order.status === 'paid' ? 'bg-green-100 text-green-700' : 
+                            order.status === 'pending' || order.status === 'processing' ? 'bg-amber-100 text-amber-700' : 
+                            'bg-red-100 text-red-700'
+                          }`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${order.status === 'completed' || order.status === 'paid' ? 'bg-green-500' : order.status === 'pending' || order.status === 'processing' ? 'bg-amber-500' : 'bg-red-500'}`}></span>
+                            {order.status}
+                          </span>
+                        </td>
+                        <td className="px-8 py-5 text-right relative">
+                          {editingOrderId === order.id ? (
+                            <div className="absolute right-8 top-12 z-50 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 w-64 animate-in fade-in zoom-in duration-200">
+                              <div className="flex justify-between items-center mb-4">
+                                <span className="text-xs font-extraBold text-gray-900 uppercase tracking-wider">change order's status</span>
+                                <button onClick={() => setEditingOrderId(null)} className="p-1 hover:bg-gray-100 rounded-full text-gray-400">
+                                  <X size={14} />
+                                </button>
+                              </div>
+                              
+                              <div className="space-y-1 mb-4">
+                                {statuses.map((s) => (
+                                  <button
+                                    key={s.label}
+                                    onClick={() => setTempStatus(s.label)}
+                                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm font-semibold transition-all ${
+                                      tempStatus === s.label 
+                                        ? `${s.bg} ${s.color} border border-current/20` 
+                                        : "text-gray-500 hover:bg-gray-50 border border-transparent"
+                                    }`}
+                                  >
+                                    <span className={`${tempStatus === s.label ? s.color : "text-gray-400"}`}>
+                                      {s.icon}
+                                    </span>
+                                    {s.label}
+                                    {tempStatus === s.label && <div className="ml-auto w-1.5 h-1.5 rounded-full bg-current" />}
+                                  </button>
+                                ))}
+                              </div>
+
+                              <button 
+                                onClick={() => handleUpdateStatus(order.id)}
+                                disabled={isUpdating}
+                                className="w-full h-10 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-2"
+                              >
+                                {isUpdating ? <Loader color="white" /> : "validate changes"}
+                              </button>
+                            </div>
+                          ) : (
+                            <button 
+                              onClick={() => {
+                                setEditingOrderId(order.id);
+                                setTempStatus(order.status);
+                              }}
+                              className="px-4 py-2 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 font-bold text-xs rounded-xl transition-all flex items-center gap-2 ml-auto shadow-sm active:scale-95"
+                            >
+                              <RefreshCw size={14} />
+                              Update Status
+                            </button>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} className="px-8 py-10 text-center text-gray-400 font-medium italic">
+                        No transactions found for this period.
                       </td>
                     </tr>
-                  ))}
+                  )}
                 </tbody>
               </table>
             </div>

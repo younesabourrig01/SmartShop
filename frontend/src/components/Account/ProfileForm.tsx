@@ -1,7 +1,11 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Upload, Trash2, User, Mail } from 'lucide-react';
+import { X, Upload, Trash2, User, Mail, MapPin, Phone } from 'lucide-react';
 import Loader from '../Loader/Loader';
+import { updateProfile } from '../../api/auth';
+import { useAuth } from '../../context/AuthContext';
+import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 interface ProfileFormProps {
   isOpen: boolean;
@@ -11,28 +15,81 @@ interface ProfileFormProps {
 }
 
 const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData, title }) => {
-  const [preview, setPreview] = useState<string | null>(initialData?.image || null);
+  const { t } = useTranslation();
+  const { setAuth, token } = useAuth();
+  const [formData, setFormData] = useState({
+    name: initialData?.name || '',
+    email: initialData?.email || '',
+    adress: initialData?.adress || '',
+    phone_number: initialData?.phone_number || '',
+  });
+  
+  const [preview, setPreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    if (initialData) {
+      setFormData({
+        name: initialData.name || '',
+        email: initialData.email || '',
+        adress: initialData.adress || '',
+        phone_number: initialData.phone_number || '',
+      });
+      if (initialData.image) {
+        setPreview(`http://127.0.0.1:8000/storage/${initialData.image}`);
+      }
+    }
+  }, [initialData, isOpen]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    setTimeout(() => {
+
+    try {
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('email', formData.email);
+      data.append('adress', formData.adress);
+      data.append('phone_number', formData.phone_number);
+      if (imageFile) {
+        data.append('image', imageFile);
+      }
+
+      const response = await updateProfile(data);
+      
+      if (response.data.status === 'success') {
+        toast.success(response.data.message || 'Profile updated successfully');
+        if (token) {
+          setAuth(response.data.data, token);
+        }
+        onClose();
+      }
+    } catch (error: any) {
+      console.error('Update profile error:', error);
+      const errorMessage = error.response?.data?.message || 'Failed to update profile';
+      toast.error(errorMessage);
+    } finally {
       setIsLoading(false);
-      onClose();
-    }, 1500);
+    }
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+      setImageFile(file);
       setPreview(URL.createObjectURL(file));
     }
   };
 
   const removeImage = () => {
     setPreview(null);
+    setImageFile(null);
   };
 
   if (!isOpen) return null;
@@ -105,7 +162,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                         </button>
                     )}
                </div>
-               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">Profile Picture</p>
+               <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('register_page.profile_picture')}</p>
                <input 
                 type="file" 
                 ref={fileInputRef} 
@@ -119,11 +176,13 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                 {/* Full Name */}
                 <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
-                    <User size={14} /> Full Name
+                    <User size={14} /> {t('register_page.full_name')}
                     </label>
                     <input
                     type="text"
-                    defaultValue={initialData?.name}
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="e.g. John Doe"
                     className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
                     />
@@ -132,12 +191,44 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                 {/* Email */}
                 <div className="space-y-2">
                     <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
-                    <Mail size={14} /> Email Address
+                    <Mail size={14} /> {t('register_page.email_address')}
                     </label>
                     <input
                     type="email"
-                    defaultValue={initialData?.email}
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
                     placeholder="e.g. john@example.com"
+                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                    />
+                </div>
+
+                {/* Adress */}
+                <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
+                    <MapPin size={14} /> {t('register_page.address')}
+                    </label>
+                    <input
+                    type="text"
+                    name="adress"
+                    value={formData.adress}
+                    onChange={handleChange}
+                    placeholder="e.g. 123 Main St, Casablanca"
+                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                    />
+                </div>
+
+                {/* Phone Number */}
+                <div className="space-y-2">
+                    <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
+                    <Phone size={14} /> {t('register_page.phone_number')}
+                    </label>
+                    <input
+                    type="text"
+                    name="phone_number"
+                    value={formData.phone_number}
+                    onChange={handleChange}
+                    placeholder="e.g. 0612345678"
                     className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
                     />
                 </div>
@@ -150,7 +241,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                 onClick={onClose}
                 className="flex-1 py-4 px-6 bg-slate-50 text-slate-500 font-bold rounded-2xl hover:bg-slate-100 transition-all"
               >
-                Cancel
+                {t('register_page.cancel')}
               </button>
               <button
                 type="submit"

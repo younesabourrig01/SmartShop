@@ -27,6 +27,7 @@ interface ProductContextType {
   lastPage: number;
   totalProducts: number;
   setCurrentPage: (page: number) => void;
+  refreshProducts: () => void;
 }
 
 export const ProductContext = createContext<ProductContextType>({
@@ -36,6 +37,7 @@ export const ProductContext = createContext<ProductContextType>({
   lastPage: 1,
   totalProducts: 0,
   setCurrentPage: () => {},
+  refreshProducts: () => {},
 });
 
 export const ProductProvider = ({ children }: { children: ReactNode }) => {
@@ -45,7 +47,8 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
 
-  useEffect(() => {
+  const fetchProducts = () => {
+    setLoading(true);
     getProducts(currentPage)
       .then((res) => {
         setProducts(res.data.data.data);
@@ -57,6 +60,10 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
       .catch(() => {
         setLoading(false);
       });
+  };
+
+  useEffect(() => {
+    fetchProducts();
   }, [currentPage]);
 
   return (
@@ -68,6 +75,7 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
         lastPage,
         totalProducts,
         setCurrentPage,
+        refreshProducts: fetchProducts,
       }}
     >
       {children}

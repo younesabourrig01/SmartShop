@@ -30,3 +30,16 @@ export const logout = () => {
 export const deleteAccount = (data: { password?: string }) => {
   return API.delete("/deleteAccount", { data });
 };
+
+export const updateProfile = (data: FormData) => {
+  return API.post("/updateProfile", data, {
+    params: { _method: "PATCH" },
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const getAllUsers = (page: number = 1) => {
+  return API.get(`/users?page=${page}`);
+};

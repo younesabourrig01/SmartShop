@@ -75,6 +75,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/order', [OrderController::class , 'checkout']);
         Route::get('/my-orders', [OrderController::class , 'orderByUser']);
 
+        # users
+        Route::get('/users', [AuthController::class , 'index'])->middleware('role:admin');
+
 
 
         # -------------------------
@@ -82,15 +85,15 @@ Route::middleware('auth:sanctum')->group(function () {
         # -------------------------
         Route::middleware('role:admin')->prefix('admin')->group(function () {
 
-            # users
-            Route::get('/users', [AuthController::class , 'index']);
 
             # orders
             Route::get('/orders', [OrderController::class , 'index']);
             Route::get('/orders/date/{date}', [OrderController::class , 'ordersByDate']);
-            Route::patch('/orders/{id}/status', [OrderController::class , 'updateStatus']);
+            Route::patch('/orders/{id}/updateStatus', [OrderController::class , 'updateStatus']);
             Route::get('/orders/report/{date}', [OrderController::class , 'downloadReport']);
 
+            # users
+            Route::get('/users', [AuthController::class , 'index']);
 
             # products CRUD
             Route::apiResource('products', ProductController::class)

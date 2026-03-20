@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Navbar from "./components/Partials/Navbar";
 import Footer from "./components/Partials/Footer";
 import Home from "./Pages/Home/Home";
@@ -21,9 +21,12 @@ import NotFound from "./Pages/NotFound/NotFound";
 import { UserRoute, AdminRoute } from "./components/ProtectRoutes/ProtectRoute";
 
 function App() {
+  const { pathname } = useLocation();
+  const isDashboard = pathname.startsWith("/dashboard");
+
   return (
     <div className="flex flex-col min-h-screen bg-[#f0f2f5]">
-      <Navbar />
+      {!isDashboard && <Navbar />}
       <main className="grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -108,7 +111,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      <Footer />
+      {!isDashboard && <Footer /> }
     </div>
   );
 }
