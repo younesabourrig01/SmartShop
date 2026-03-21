@@ -4,6 +4,10 @@ export const getCategories = () => {
   return API.get("/categories");
 };
 
+export const getCategory = (id: string | number) => {
+  return API.get(`/categories/${id}`);
+};
+
 export const addCategory = (data: FormData) => {
   return API.post("/admin/categories", data, {
     headers: {

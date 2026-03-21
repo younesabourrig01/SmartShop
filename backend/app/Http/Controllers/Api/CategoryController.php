@@ -46,7 +46,7 @@ class CategoryController extends Controller
     }
     public function show($id)
     {
-        $category = Category::with('products')->findOrFail($id);
+        $category = Category::with(['products.images', 'products.category'])->findOrFail($id);
         return response()->json([
             'status' => 'success',
             'data' => $category

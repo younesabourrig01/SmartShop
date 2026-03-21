@@ -75,16 +75,8 @@ const Navbar: React.FC = () => {
         </Link>
       </div>
 
-      {/* Middle: Search & Links */}
+      {/* Middle: Links */}
       <div className="flex-1 flex items-center justify-center gap-2 md:gap-8 px-2">
-        <div className="relative flex items-center w-full max-w-[150px] sm:max-w-xs md:max-w-lg group">
-          <Search size={18} className={`absolute ${i18n.language === 'ar' ? 'right-3' : 'left-3'} text-slate-400 group-focus-within:text-blue-500 transition-colors duration-300 pointer-events-none`} />
-          <input
-            type="text"
-            className={`w-full ${i18n.language === 'ar' ? 'pr-10 pl-4' : 'pl-10 pr-4'} py-2 bg-slate-100 border border-transparent focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-full text-[10px] sm:text-xs md:text-sm text-slate-900 placeholder-slate-500 outline-none transition-all duration-300`}
-            placeholder={t('hero.search', { defaultValue: 'Search...' })}
-          />
-        </div>
         
         {/* Medium Screens Dropdown */}
         <div className="hidden md:flex lg:hidden relative" ref={linksDropdownRef}>

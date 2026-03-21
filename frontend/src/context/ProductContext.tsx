@@ -1,4 +1,5 @@
 import { getProducts } from "../api/products";
+import { getCategories } from "../api/category";
 import { createContext, useEffect, useState, type ReactNode } from "react";
 
 export type Image = {
@@ -26,6 +27,13 @@ interface ProductContextType {
   currentPage: number;
   lastPage: number;
   totalProducts: number;
+  categories: Category[];
+  selectedCategory: string;
+  sortBy: string;
+  search: string;
+  setSelectedCategory: (category: string) => void;
+  setSortBy: (sort: string) => void;
+  setSearch: (search: string) => void;
   setCurrentPage: (page: number) => void;
   refreshProducts: () => void;
 }
@@ -36,6 +44,13 @@ export const ProductContext = createContext<ProductContextType>({
   currentPage: 1,
   lastPage: 1,
   totalProducts: 0,
+  categories: [],
+  selectedCategory: "all",
+  sortBy: "min_price",
+  search: "",
+  setSelectedCategory: () => {},
+  setSortBy: () => {},
+  setSearch: () => {},
   setCurrentPage: () => {},
   refreshProducts: () => {},
 });
@@ -46,10 +61,15 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
   const [lastPage, setLastPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalProducts, setTotalProducts] = useState(0);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("min_price");
+  const [search, setSearch] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
 
   const fetchProducts = () => {
     setLoading(true);
-    getProducts(currentPage)
+    getProducts(currentPage, selectedCategory, sortBy, debouncedSearch)
       .then((res) => {
         setProducts(res.data.data.data);
         setCurrentPage(res.data.data.current_page);
@@ -62,9 +82,33 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
       });
   };
 
+  const fetchCategories = () => {
+    getCategories().then((res) => {
+      setCategories(res.data.data);
+    });
+  };
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500);
+
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [search]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, sortBy, debouncedSearch]);
+
   useEffect(() => {
     fetchProducts();
-  }, [currentPage]);
+  }, [currentPage, selectedCategory, sortBy, debouncedSearch]);
 
   return (
     <ProductContext.Provider
@@ -74,6 +118,13 @@ export const ProductProvider = ({ children }: { children: ReactNode }) => {
         currentPage,
         lastPage,
         totalProducts,
+        categories,
+        selectedCategory,
+        sortBy,
+        search,
+        setSelectedCategory,
+        setSortBy,
+        setSearch,
         setCurrentPage,
         refreshProducts: fetchProducts,
       }}

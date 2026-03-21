@@ -32,7 +32,8 @@ Route::apiResource('products', ProductController::class)
 Route::apiResource('categories', CategoryController::class)
     ->only(['index', 'show']);
 
-
+# Product's reviews (public)
+Route::get('/products/{product}/reviews', [ReviewController::class , 'productReviews']);
 
 # -------------------------
 # 2. PROTECTED ROUTES
@@ -49,9 +50,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::patch('/updateProfile', [AuthController::class , 'updateProfile']);
 
         # Product's reviews
-        Route::get('/products/{product}/reviews', [ReviewController::class , 'productReviews']);
         Route::post('/products/{product}/reviews', [ReviewController::class , 'store']);
         Route::delete('/products/{product}/reviews', [ReviewController::class , 'destroy']);
+        Route::get('/reviewsByUser', [ReviewController::class , 'reviewByUser']);
 
         #wishlist  
         Route::get('/wishlist', [WishlistController::class , 'index']);

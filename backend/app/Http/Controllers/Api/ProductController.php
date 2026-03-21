@@ -11,21 +11,34 @@ class ProductController extends Controller
     // get all products and controle them by filter
     public function index(Request $request)
     {
-        $query = Product::query()->with('images')->with('category');
-        if ($request->search) {
-            $query->where('name', 'like', '%' . $request->search . '%');
-        }
-        ;
-        if ($request->min_price) {
-            $query->where('price', '>=', $request->min_price);
-        }
-        if ($request->max_price) {
-            $query->where('price', '<=', $request->max_price);
-        }
-        if ($request->category_id) {
+        $products = Product::query()
+            ->with(['images', 'category'])
+            ->when($request->search, function ($query, $search) {
+            $query->where('name', 'like', "%{$search}%");
+        })
+            ->when($request->min_price, function ($query, $minPrice) {
+            $query->where('price', '>=', $minPrice);
+        })
+            ->when($request->max_price, function ($query, $maxPrice) {
+            $query->where('price', '<=', $maxPrice);
+        })
+            ->when($request->category_id && $request->category_id !== 'all', function ($query) use ($request) {
             $query->where('category_id', $request->category_id);
-        }
-        $products = $query->paginate(12);
+        })
+            ->when($request->sort, function ($query, $sort) {
+            if ($sort === 'min_price') {
+                $query->orderBy('price', 'asc');
+            }
+            elseif ($sort === 'max_price') {
+                $query->orderBy('price', 'desc');
+            }
+            else {
+                $query->orderBy('created_at', 'desc');
+            }
+        }, function ($query) {
+            $query->orderBy('created_at', 'desc');
+        })
+            ->paginate(12);
 
         return response()->json([
             'status' => 'success',

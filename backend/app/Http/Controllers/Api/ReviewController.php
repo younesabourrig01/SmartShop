@@ -44,6 +44,16 @@ class ReviewController extends Controller
             'message' => 'Thanks for your review',
         ]);
     }
+    public function reviewByUser(Request $request)
+    {
+        $user = $request->user();
+        $reviews = $user->reviews()->with('product.images')->get();
+        return response()->json(
+        [
+            'reviews' => $reviews
+        ]
+        );
+    }
     public function destroy(Request $request, $productId)
     {
         $user = $request->user();

@@ -209,7 +209,12 @@ const resources = {
           "newest": "Newest Arrivals",
           "popular": "Most Popular",
           "price_low": "Price: Low to High",
-          "price_high": "Price: High to Low"
+          "price_high": "Price: High to Low",
+          "min_price": "Min Price",
+          "max_price": "Max Price",
+          "no_results": "No products found matches your criteria.",
+          "search_placeholder": "Search products...",
+          "search_title": "Find Your Product"
         }
       },
       "dashboard": {
@@ -475,7 +480,12 @@ const resources = {
           "newest": "أحدث المنتجات",
           "popular": "الأكثر رواجاً",
           "price_low": "السعر: من الأقل إلى الأعلى",
-          "price_high": "السعر: من الأعلى إلى الأقل"
+          "price_high": "السعر: من الأعلى إلى الأقل",
+          "min_price": "السعر الأدنى",
+          "max_price": "السعر الأعلى",
+          "no_results": "لم يتم العثور على منتجات تطابق معاييرك.",
+          "search_placeholder": "ابحث عن المنتجات...",
+          "search_title": "ابحث عن منتجك"
         }
       },
       "reviews": {
@@ -751,7 +761,12 @@ const resources = {
           "newest": "Nouveaux arrivages",
           "popular": "Les plus populaires",
           "price_low": "Prix : Croissant",
-          "price_high": "Prix : Décroissant"
+          "price_high": "Prix : Décroissant",
+          "min_price": "Prix Minimum",
+          "max_price": "Prix Maximum",
+          "no_results": "Aucun produit trouvé correspondant à vos critères.",
+          "search_placeholder": "Rechercher des produits...",
+          "search_title": "Trouvez Votre Produit"
         }
       },
       "reviews": {

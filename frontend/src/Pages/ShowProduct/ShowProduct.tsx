@@ -289,7 +289,7 @@ const ShowProduct: React.FC = () => {
         </div>
 
         {/* Product Reviews Section */}
-        <Reviews />
+        <Reviews productId={id} />
 
         {/* Recommendations Section */}
         {recommendations.length > 0 && (

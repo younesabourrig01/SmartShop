@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from "react";
+import React, { useState, useContext, useMemo, useEffect } from "react";
 import ProductCard from "../../components/Cards/ProductCard";
 import Banner from "../../components/Banner/Banner";
 import { motion, AnimatePresence } from "framer-motion";
@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import {
   ListFilter,
   Layers,
+  Search,
   ChevronDown,
   ArrowUpDown,
   ChevronLeft,
@@ -18,11 +19,21 @@ import PageLoader from "../../components/Loader/PageLoader";
 
 const Products: React.FC = () => {
   const { t } = useTranslation();
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [sortBy, setSortBy] = useState("newest");
 
-  const { products, loading, currentPage, lastPage, setCurrentPage } =
-    useContext(ProductContext);
+  const {
+    products,
+    loading,
+    currentPage,
+    lastPage,
+    setCurrentPage,
+    categories,
+    selectedCategory,
+    sortBy,
+    search,
+    setSelectedCategory,
+    setSortBy,
+    setSearch,
+  } = useContext(ProductContext);
 
   return (
     <div className="min-h-screen bg-[#f0f2f5] pt-24 pb-20">
@@ -35,8 +46,36 @@ const Products: React.FC = () => {
           onCtaClick={() => console.log("Banner clicked")}
         />
 
+        {/* Search Section */}
+        <div className="bg-white p-6 md:p-10 rounded-[3rem] border border-slate-100 shadow-sm mt-8 mb-6 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-focus-within:opacity-[0.08] transition-opacity duration-500">
+            <Search size={120} />
+          </div>
+          <div className="relative z-10">
+            <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+                <Search size={20} />
+              </div>
+              {t("products.filter.search_title") || "Find Your Product"}
+            </h2>
+            <div className="relative max-w-3xl">
+              <Search
+                size={22}
+                className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-500 transition-colors duration-300 pointer-events-none"
+              />
+              <input
+                type="text"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="w-full pl-14 pr-8 py-5 bg-slate-50 border border-slate-100 rounded-[2rem] focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-lg text-slate-800 placeholder-slate-400 shadow-inner"
+                placeholder={t("products.filter.search_placeholder") || "Search products..."}
+              />
+            </div>
+          </div>
+        </div>
+
         {/* Filters and Sort Section */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 bg-white p-6 md:p-8 rounded-[2.5rem] border border-slate-100 shadow-sm mt-8">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 bg-white p-6 md:p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
               <ListFilter size={24} />
@@ -68,11 +107,11 @@ const Products: React.FC = () => {
                 <option value="all">
                   {t("products.filter.all_categories")}
                 </option>
-                <option value="electronics">
-                  {t("products.filter.electronics")}
-                </option>
-                <option value="fashion">{t("products.filter.fashion")}</option>
-                <option value="home">{t("products.filter.home")}</option>
+                {categories.map((category) => (
+                  <option key={category.id} value={category.id}>
+                    {category.name}
+                  </option>
+                ))}
               </select>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
                 <ChevronDown size={18} />
@@ -92,13 +131,11 @@ const Products: React.FC = () => {
                 onChange={(e) => setSortBy(e.target.value)}
                 className="w-full pl-12 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 appearance-none cursor-pointer"
               >
-                <option value="newest">{t("products.filter.newest")}</option>
-                <option value="popular">{t("products.filter.popular")}</option>
-                <option value="price_low">
-                  {t("products.filter.price_low")}
+                <option value="min_price">
+                  {t("products.filter.min_price")}
                 </option>
-                <option value="price_high">
-                  {t("products.filter.price_high")}
+                <option value="max_price">
+                  {t("products.filter.max_price")}
                 </option>
               </select>
               <div className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
@@ -126,23 +163,42 @@ const Products: React.FC = () => {
           </motion.p>
         </header>
         {loading && <PageLoader />}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-          {products.map((product, index) => (
-            <motion.div
-              key={product.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-            >
-              <ProductCard
-                id={product.id}
-                title={product.name}
-                price={product.price}
-                image={product.images?.[0]?.url}
-              />
-            </motion.div>
-          ))}
-        </div>
+        {!loading && products.length === 0 ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="flex flex-col items-center justify-center py-24 px-4 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-100"
+          >
+            <div className="p-6 bg-slate-50 rounded-full mb-6">
+              <Layers size={48} className="text-slate-300" />
+            </div>
+            <h3 className="text-2xl font-black text-slate-800 mb-2">
+              {t("products.filter.no_results")}
+            </h3>
+            <p className="text-slate-500 font-medium max-w-sm">
+              Try adjusting your filters or search terms to find what you are
+              looking for.
+            </p>
+          </motion.div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {products.map((product, index) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <ProductCard
+                  id={product.id}
+                  title={product.name}
+                  price={product.price}
+                  image={product.images?.[0]?.url}
+                />
+              </motion.div>
+            ))}
+          </div>
+        )}
       </div>
       {/* Pagination */}
       {lastPage > 1 && (

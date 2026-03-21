@@ -8,12 +8,14 @@ import Products from "./Pages/Products/Products";
 import ShowProduct from "./Pages/ShowProduct/ShowProduct";
 import Profile from "./Pages/Profile/Profile";
 import Settings from "./Pages/Profile/Settings";
+import UserReviews from "./Pages/Profile/UserReviews";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
 import ManageCategories from "./Pages/Dashboard/ManageCategories/ManageCategories";
 import Users from "./Pages/Dashboard/ManageUsers/Users";
 import DashboardSettings from "./Pages/Dashboard/DashboardSettings";
 import CategoriesPage from "./Pages/Categories/CategoriesPage";
+import ShowCategory from "./Pages/Categories/ShowCategory";
 import Wishlist from "./Pages/Wishlist/Wishlist";
 import Cart from "./Pages/Cart/Cart";
 import Contact from "./Pages/Contact/Contact";
@@ -32,6 +34,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Products />} />
           <Route path="/categories" element={<CategoriesPage />} />
+          <Route path="/categories/:id" element={<ShowCategory />} />
           <Route path="/product/:id" element={<ShowProduct />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/register" element={<Register />} />
@@ -65,6 +68,14 @@ function App() {
             element={
               <UserRoute>
                 <Settings />
+              </UserRoute>
+            }
+          />
+          <Route
+            path="/profile/reviews"
+            element={
+              <UserRoute>
+                <UserReviews />
               </UserRoute>
             }
           />

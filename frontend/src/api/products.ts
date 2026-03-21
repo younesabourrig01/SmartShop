@@ -1,7 +1,16 @@
 import API from "./client";
 
-export const getProducts = (currentPage: number) => {
-  return API.get(`/products?page=${currentPage}`);
+export const getProducts = (
+  page: number = 1,
+  categoryId?: string | number,
+  sort?: string,
+  search?: string
+) => {
+  let url = `/products?page=${page}`;
+  if (categoryId && categoryId !== "all") url += `&category_id=${categoryId}`;
+  if (sort) url += `&sort=${sort}`;
+  if (search) url += `&search=${search}`;
+  return API.get(url);
 };
 
 export const getProduct = (id: string | number) => {

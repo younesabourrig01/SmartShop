@@ -11,15 +11,21 @@ import {
   Package, 
   ExternalLink,
   ShoppingBag,
+  Star as StarIcon,
+  MessageSquare,
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
 import mainLogo from "../../assets/MainLogo.png";
 import { orderByUser } from "../../api/order";
+import { getReviewsByUser } from "../../api/reviews";
 import PageLoader from "../../components/Loader/PageLoader";
+import { API_BASE_URL } from "../../api/client";
 
 interface Product {
+  id: number;
   name: string;
   image: string;
+  images: { url: string }[];
 }
 
 interface OrderItem {
@@ -32,6 +38,15 @@ interface BackendOrder {
   status: string;
   created_at: string;
   order_items: OrderItem[];
+}
+
+interface UserReview {
+  id: number;
+  product_id: number;
+  review: string;
+  rating: number;
+  created_at: string;
+  product: Product;
 }
 
 interface GroupedOrders {
@@ -59,6 +74,7 @@ const Profile: React.FC = () => {
         setIsOrdersLoading(false);
       }
     };
+    
     fetchOrders();
   }, []);
 
@@ -162,6 +178,17 @@ const Profile: React.FC = () => {
                 <div className="flex-1">
                   <p className="font-bold text-slate-900 leading-none">{t('profile.nav.settings', 'Settings')}</p>
                   <p className="text-xs text-slate-400 mt-1.5">{t('profile.nav.settings_desc', 'Update your preferences.')}</p>
+                </div>
+                <ExternalLink size={14} className="text-slate-200 group-hover:text-blue-500 transition-colors" />
+              </Link>
+
+              <Link to="/profile/reviews" className="flex items-center gap-4 p-6 hover:bg-slate-50 transition-all group border-t border-slate-50">
+                <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+                  <MessageSquare size={20} />
+                </div>
+                <div className="flex-1">
+                  <p className="font-bold text-slate-900 leading-none">{t('profile.nav.reviews', 'Your Reviews')}</p>
+                  <p className="text-xs text-slate-400 mt-1.5">{t('profile.nav.reviews_desc', 'Manage your feedback.')}</p>
                 </div>
                 <ExternalLink size={14} className="text-slate-200 group-hover:text-blue-500 transition-colors" />
               </Link>
