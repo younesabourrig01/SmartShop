@@ -43,3 +43,8 @@ export const updateProfile = (data: FormData) => {
 export const getAllUsers = (page: number = 1) => {
   return API.get(`/users?page=${page}`);
 };
+
+export const getBadge = () => {
+  return API.get("/badge");
+};
+

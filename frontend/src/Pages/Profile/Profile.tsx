@@ -18,7 +18,9 @@ import Loader from "../../components/Loader/Loader";
 import mainLogo from "../../assets/MainLogo.png";
 import { orderByUser } from "../../api/order";
 import { getReviewsByUser } from "../../api/reviews";
+import { getBadge } from "../../api/auth";
 import PageLoader from "../../components/Loader/PageLoader";
+import { Info } from "lucide-react";
 import { API_BASE_URL } from "../../api/client";
 
 interface Product {
@@ -61,6 +63,21 @@ const Profile: React.FC = () => {
   const [groupedOrders, setGroupedOrders] = useState<GroupedOrders>({});
   const [isOrdersLoading, setIsOrdersLoading] = useState(true);
   const [showAllDays, setShowAllDays] = useState(false);
+  const [badgeData, setBadgeData] = useState<{ badge: string; orders_count: number; wishlist_count: number } | null>(null);
+
+
+
+  useEffect(() => {
+    const fetchBadge = async () => {
+      try {
+        const res = await getBadge();
+        setBadgeData(res.data);
+      } catch (error) {
+        console.error("Error fetching badge:", error);
+      }
+    };
+    fetchBadge();
+  }, []);
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -110,19 +127,9 @@ const Profile: React.FC = () => {
     <div className="min-h-[calc(100vh-76px)] bg-[#f3f4f6] pb-12 pt-8 text-slate-800">
       <div className="max-w-7xl mx-auto px-4 md:px-8 space-y-8">
         
-        {/* Profile Card Header - White/Gray Mix */}
-        <div className="bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/60 overflow-hidden">
-          <div className="relative h-28 bg-slate-100/50 flex items-center justify-center overflow-hidden">
-             {/* Logo background decoration */}
-             <img 
-               src={mainLogo} 
-               alt="Background Logo" 
-               className="absolute w-64 opacity-[0.03] blur-[1px] select-none pointer-events-none" 
-             />
-             <div className="absolute inset-0 bg-gradient-to-b from-white/10 to-transparent"></div>
-          </div>
-          
-          <div className="px-10 pb-10 flex flex-col md:flex-row items-center md:items-end gap-8 -mt-14 relative z-10">
+        {/* Profile Details Container */}
+        <div className="bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/60 transition-all">
+          <div className="px-10 py-10 flex flex-col md:flex-row items-center md:items-end gap-8 relative z-10">
             <div className="relative group">
               <div className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] border-[6px] border-white overflow-hidden shadow-2xl bg-white transition-transform duration-500 group-hover:scale-[1.03] group-hover:rotate-2">
                 {user.image ? (
@@ -144,8 +151,111 @@ const Profile: React.FC = () => {
               <p className="text-slate-400 font-bold text-lg mt-1">{user.email}</p>
             </div>
 
-            <div className="flex items-center gap-3 mb-2 px-6 py-3 bg-white/80 backdrop-blur-md rounded-[1.5rem] border border-white shadow-sm transition-all hover:shadow-md hover:-translate-y-1">
-               <img src={mainLogo} alt="Shop Logo" className="h-10 opacity-90" />
+            <div className="relative group">
+              <div 
+                className={`flex items-center gap-5 px-6 py-4 rounded-[1.8rem] border transition-all duration-500 hover:shadow-2xl hover:-translate-y-0.5 cursor-default relative ${
+                  badgeData?.badge === 'premium' ? 'bg-gradient-to-br from-slate-900 to-indigo-900 border-indigo-500/30 text-white shadow-indigo-500/20' :
+                  badgeData?.badge === 'medium' ? 'bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border-yellow-500/30 text-amber-900 shadow-yellow-500/10' :
+                  'bg-white/80 backdrop-blur-md border-slate-200 text-slate-800 shadow-slate-200/50'
+                }`}
+              >
+
+                {/* Background Glow for Premium */}
+                {badgeData?.badge === 'premium' && (
+                  <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px] group-hover:bg-indigo-400/30 transition-all duration-700"></div>
+                )}
+                
+                <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
+                  {/* Badge Image with Glow */}
+                  <div className="relative">
+                    {badgeData?.badge === 'premium' && (
+                      <div className="absolute inset-0 bg-white/20 rounded-full blur-lg scale-125 animate-pulse"></div>
+                    )}
+                    {badgeData?.badge ? (
+                      <img 
+                        src={new URL(`../../assets/badges/${badgeData.badge.charAt(0).toUpperCase() + badgeData.badge.slice(1)}.png`, import.meta.url).href} 
+                        alt={badgeData.badge} 
+                        className="h-14 w-auto object-contain transition-transform duration-500 group-hover:scale-105 relative z-10 drop-shadow-xl"
+                      />
+                    ) : (
+                      <div className="h-14 w-14 bg-slate-100 rounded-full animate-pulse"></div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-2.5 min-w-[160px]">
+                    <div className="flex items-center justify-between gap-8">
+                      <div className="flex flex-col">
+                        <span className={`text-[10px] font-black uppercase tracking-[0.2em] mb-0.5 ${badgeData?.badge === 'premium' ? 'text-indigo-300' : 'text-slate-400'}`}>
+                          Member Status
+                        </span>
+                        <div className="flex items-center gap-2">
+                          <span className={`text-xl font-black uppercase tracking-tight ${badgeData?.badge === 'premium' ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200' : ''}`}>
+                            {badgeData?.badge || 'Loading...'}
+                          </span>
+                          <Info size={14} className={`opacity-40 hover:opacity-100 transition-opacity cursor-help ${badgeData?.badge === 'premium' ? 'text-indigo-300' : 'text-slate-400'}`} />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Progress Bar */}
+                    {badgeData?.badge !== 'premium' && (
+                      <div className="w-full space-y-2">
+                        <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
+                          <span className={badgeData?.badge === 'medium' ? 'text-amber-600' : 'text-slate-400'}>
+                             {badgeData?.orders_count || 0} / {badgeData?.badge === 'normal' ? 8 : 21} Orders
+                          </span>
+                          <span className={badgeData?.badge === 'medium' ? 'text-amber-600' : 'text-blue-500'}>
+                            {badgeData?.badge === 'normal' ? 'Medium' : 'Premium'} next
+                          </span>
+                        </div>
+                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden border border-white shadow-inner">
+                          <div 
+                            className={`h-full transition-all duration-1000 ${badgeData?.badge === 'medium' ? 'bg-amber-500' : 'bg-blue-600'}`}
+                            style={{ width: `${Math.min(100, ((badgeData?.orders_count || 0) / (badgeData?.badge === 'normal' ? 8 : 21)) * 100)}%` }}
+                          ></div>
+                        </div>
+                      </div>
+                    )}
+                    
+                    {badgeData?.badge === 'premium' && (
+                      <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest flex items-center gap-2">
+                        <StarIcon size={12} fill="currentColor" />
+                        Max Rank Achieved
+                      </p>
+                    )}
+                  </div>
+                </div>
+
+                {/* Info Tooltip Hover */}
+                <div className="absolute top-1/2 -translate-y-1/2 right-[105%] w-72 p-6 bg-slate-900/95 backdrop-blur-2xl text-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[100] border border-white/10">
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+                      <div className="p-2 bg-blue-500/20 rounded-xl text-blue-400 border border-blue-500/20">
+                        <Info size={16} />
+                      </div>
+                      <div>
+                        <p className="text-xs font-black uppercase tracking-widest leading-none">Status Guide</p>
+                        <p className="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-wider">Level up features</p>
+                      </div>
+                    </div>
+                    <p className="text-[11px] leading-relaxed font-medium text-slate-300">
+                      {badgeData?.badge === 'premium' 
+                        ? "You've reached the pinnacle of SmartShop! Enjoy priority customer service and exclusive early access to all products."
+                        : badgeData?.badge === 'medium'
+                        ? `You are a regular shopper. Collect ${21 - (badgeData?.orders_count || 0)} more orders to unlock the special Premium rank.`
+                        : `As a Normal member, you enjoy standard perks. Only ${8 - (badgeData?.orders_count || 0)} more orders until you reach the Medium tier.`}
+                    </p>
+                    <div className="pt-2">
+                      <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest bg-white/5 p-3 rounded-xl border border-white/5">
+                        <span className="text-slate-400">Total Orders</span>
+                        <span className="text-blue-400">{badgeData?.orders_count || 0}</span>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Arrow */}
+                  <div className="absolute top-1/2 -translate-y-1/2 -right-1 w-3 h-3 bg-slate-900/95 backdrop-blur-xl rotate-45 border-t border-r border-white/10"></div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -159,11 +269,11 @@ const Profile: React.FC = () => {
               <h3 className="text-xs font-black text-slate-300 uppercase tracking-widest mb-6">{t('profile.quick_stats', 'Activity Overview')}</h3>
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-2xl border border-white shadow-inner">
-                  <p className="text-3xl font-black text-blue-600">{totalOrdersCount}</p>
+                  <p className="text-3xl font-black text-blue-600">{badgeData?.orders_count || 0}</p>
                   <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-wider">{t('profile.stats.orders', 'Orders')}</p>
                 </div>
                 <div className="p-5 bg-gradient-to-br from-indigo-50 to-purple-50/30 rounded-2xl border border-white shadow-inner">
-                  <p className="text-3xl font-black text-indigo-600">3</p>
+                  <p className="text-3xl font-black text-indigo-600">{badgeData?.wishlist_count || 0}</p>
                   <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-wider">{t('profile.stats.wishlist', 'Wishlist')}</p>
                 </div>
               </div>

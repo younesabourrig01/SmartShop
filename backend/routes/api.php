@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\PasswordController;
+use App\Http\Controllers\Api\BadgeController;
+
 
 # -------------------------
 # 1. PUBLIC ROUTES
@@ -75,6 +77,8 @@ Route::middleware('auth:sanctum')->group(function () {
         # -------------------------
         Route::post('/order', [OrderController::class , 'checkout']);
         Route::get('/my-orders', [OrderController::class , 'orderByUser']);
+        Route::get('/badge', [BadgeController::class , 'getUserBadge']);
+
 
         # users
         Route::get('/users', [AuthController::class , 'index'])->middleware('role:admin');
