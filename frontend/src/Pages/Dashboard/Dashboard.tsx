@@ -325,7 +325,7 @@ if (isDataLoading) return <PageLoader/>;
                             <span className="text-sm font-semibold text-gray-700">{order.user?.name || "Deleted User"}</span>
                           </div>
                         </td>
-                        <td className="px-8 py-5 font-extrabold text-gray-900 text-sm">${Number(order.total).toFixed(2)}</td>
+                        <td className="px-8 py-5 font-extrabold text-gray-900 text-sm">{Number(order.total).toFixed(2)} MAD</td>
                         <td className="px-8 py-5 text-gray-400 text-sm font-medium">{new Date(order.created_at).toLocaleDateString()}</td>
                         <td className="px-8 py-5">
                           <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider ${

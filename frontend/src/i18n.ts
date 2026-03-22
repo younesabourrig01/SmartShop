@@ -194,7 +194,7 @@ const resources = {
         "description": "Discover our curated collection of premium tech and electronics.",
         "banner": {
           "title": "Upgrade to the M3 Generation",
-          "subtitle": "Get up to $200 trade-in credit when you upgrade your old MacBook.",
+          "subtitle": "Get up to 200 MAD trade-in credit when you upgrade your old MacBook.",
           "cta": "Explore Now"
         },
         "filter": {

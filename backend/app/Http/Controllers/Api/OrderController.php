@@ -62,15 +62,33 @@ class OrderController extends Controller
             ->whereDate('created_at', $date)
             ->get();
 
-        $pdf = Pdf::loadView('reports.dailyReport', [
+        $pdf = Pdf::loadView('dailyReport', [
             'orders' => $orders,
             'date' => $date,
         ])->setPaper('a4', 'portrait');
 
         return $pdf->download('orders-' . $date . '.pdf');
     }
-    public function downloadIvoice(){
-        
+    public function downloadInvoice(Request $request)
+    {
+        $user = $request->user();
+
+        $lastOrder = $user->orders()->with('orderItems.product')->latest()->first();
+
+        if (!$lastOrder) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'No orders found for this user.'
+            ], 404);
+        }
+
+        $pdf = Pdf::loadView('invoice', [
+            'order' => $lastOrder
+        ])->setPaper('a4', 'portrait');
+
+        $fileName = 'invoice_order_' . $lastOrder->id . '.pdf';
+
+        return $pdf->download($fileName);
     }
     // create order
     public function checkout(Request $request)
@@ -105,25 +123,27 @@ class OrderController extends Controller
         $order->load('orderItems.product');
 
         $cart->cartItems()->delete();
+
         return response()->json([
             'status' => 'success',
             'message' => 'Order created successfully',
             'order' => $order
         ]);
     }
-    public function orderByUser(Request $request){
-$user = $request->user();
-$orders = $user->orders()
-    ->with('orderItems.product')
-    ->latest()
-    ->get()
-    ->groupBy(function ($order) {
-        return $order->created_at->format('Y-m-d');
-    });
+    public function orderByUser(Request $request)
+    {
+        $user = $request->user();
+        $orders = $user->orders()
+            ->with('orderItems.product')
+            ->latest()
+            ->get()
+            ->groupBy(function ($order) {
+                return $order->created_at->format('Y-m-d');
+            });
 
-return response()->json([
-    'status' => 'success',
-    'orders' => $orders,
-]); 
+        return response()->json([
+            'status' => 'success',
+            'orders' => $orders,
+        ]);
     }
 }

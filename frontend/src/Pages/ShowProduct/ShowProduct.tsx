@@ -216,7 +216,7 @@ const ShowProduct: React.FC = () => {
 
               <div className="flex items-center gap-4 mb-8">
                 <span className="text-4xl font-black text-slate-900">
-                  ${product.price}
+                  {product.price} MAD
                 </span>
                 <div className="h-8 w-px bg-slate-200" />
                 <div className="flex items-center gap-2">
@@ -277,7 +277,7 @@ const ShowProduct: React.FC = () => {
               <div className="mt-8 pt-8 border-t border-slate-100 grid grid-cols-2 gap-4">
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('product_page.free_shipping')}</span>
-                  <span className="text-sm font-bold text-slate-700">{t('product_page.on_orders_above')} $50</span>
+                  <span className="text-sm font-bold text-slate-700">{t('product_page.on_orders_above')} 50 MAD</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('product_page.returns')}</span>

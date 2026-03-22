@@ -24,3 +24,9 @@ export const downloadReport = (date: string) => {
 export const updateStatus = (id: number, status: string) => {
     return API.patch(`/admin/orders/${id}/updateStatus`, { status });
 };
+
+export const downloadInvoice = () => {
+    return API.get('/download-invoice', {
+        responseType: 'blob'
+    });
+};

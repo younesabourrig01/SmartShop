@@ -28,7 +28,7 @@ function App() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {!isDashboard && <Navbar />}
+      <Navbar />
       <main className="grow">
         <Routes>
           <Route path="/" element={<Home />} />
@@ -122,7 +122,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
-      {!isDashboard && <Footer /> }
+      <Footer />
     </div>
   );
 }

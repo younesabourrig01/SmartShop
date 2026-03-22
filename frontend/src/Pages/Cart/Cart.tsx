@@ -8,13 +8,14 @@ import {
   ArrowLeft,
   CreditCard,
   ShoppingBag,
+  FileText,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import PageLoader from "../../components/Loader/PageLoader";
 import Loader from "../../components/Loader/Loader";
 import { getCart, clearCart, updateCart } from "../../api/cart";
-import { createOrder } from "../../api/order";
+import { createOrder, downloadInvoice } from "../../api/order";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import toast from "react-hot-toast";
@@ -32,6 +33,8 @@ const Cart: React.FC = () => {
   const [updatingItemId, setUpdatingItemId] = useState<number | string | null>(
     null,
   );
+  const [showInvoicePopup, setShowInvoicePopup] = useState(false);
+  const [isDownloading, setIsDownloading] = useState(false);
 
   const fetchCart = async () => {
     try {
@@ -76,15 +79,33 @@ const Cart: React.FC = () => {
       toast.success(res.data.message);
       setCartItems([]);
       setTotalCartItems(null);
-      setTimeout(()=>{
-       window.location.href = '/profile';
-      },200)
+      setShowInvoicePopup(true);
     } catch (err: any) {
       console.error("Failed to create order", err);
       toast.error(err.response?.data?.message || "Failed to create order");
     } finally {
       setIsCheckingOut(false);
       refreshCartCount();
+    }
+  };
+
+  const handleDownloadInvoice = async () => {
+    setIsDownloading(true);
+    try {
+      const response = await downloadInvoice();
+      const url = window.URL.createObjectURL(new Blob([response.data as Blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'invoice.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      toast.success('Invoice downloaded successfully');
+    } catch (error) {
+      toast.error('Failed to download invoice');
+    } finally {
+      setIsDownloading(false);
+      window.location.href = '/profile';
     }
   };
 
@@ -223,11 +244,10 @@ const Cart: React.FC = () => {
 
                     <div className="flex flex-row md:flex-col justify-between items-center md:items-end gap-4">
                       <div className="text-2xl font-black text-slate-900">
-                        $
                         {(
                           (item.product?.price || item.price || 0) *
                           item.quantity
-                        ).toFixed(2)}
+                        ).toFixed(2)} MAD
                       </div>
 
                       <div className="flex items-center gap-6">
@@ -357,7 +377,7 @@ const Cart: React.FC = () => {
                     {t("dashboard.cart.total", "Total")}
                   </span>
                   <span className="text-3xl font-black text-blue-600">
-                    ${totalCartItems}
+                    {totalCartItems} MAD
                   </span>
                 </div>
               </div>
@@ -388,6 +408,40 @@ const Cart: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {showInvoicePopup && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl space-y-6 text-center"
+          >
+            <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-lg">
+              <ShoppingBag size={40} />
+            </div>
+            <h3 className="text-2xl font-black text-slate-800">Order Successful!</h3>
+            <p className="text-slate-500 text-sm">Your order has been placed successfully. Would you like to download your invoice?</p>
+            
+            <div className="flex flex-col gap-3 mt-8">
+              <button 
+                onClick={handleDownloadInvoice}
+                disabled={isDownloading}
+                className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-75 shadow-lg shadow-blue-500/30"
+              >
+                {isDownloading ? <Loader size={20} color="#ffffff" /> : <FileText size={20} />}
+                Download Invoice
+              </button>
+              <button 
+                onClick={() => window.location.href = '/profile'}
+                className="w-full py-3.5 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition"
+              >
+                Maybe Later
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
     </div>
   );
 };

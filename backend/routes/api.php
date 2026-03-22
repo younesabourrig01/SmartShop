@@ -77,6 +77,7 @@ Route::middleware('auth:sanctum')->group(function () {
         # -------------------------
         Route::post('/order', [OrderController::class , 'checkout']);
         Route::get('/my-orders', [OrderController::class , 'orderByUser']);
+        Route::get('/download-invoice', [OrderController::class, 'downloadInvoice']);
         Route::get('/badge', [BadgeController::class , 'getUserBadge']);
 
 

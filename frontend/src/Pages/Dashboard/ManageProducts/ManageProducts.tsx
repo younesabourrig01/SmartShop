@@ -317,7 +317,7 @@ const ManageProducts: React.FC = () => {
                         </span>
                       </td>
                       <td className="px-8 py-5">
-                        <span className="text-sm font-extrabold text-gray-900">${product.price.toFixed(2)}</span>
+                        <span className="text-sm font-extrabold text-gray-900">{product.price.toFixed(2)} MAD</span>
                       </td>
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-2">

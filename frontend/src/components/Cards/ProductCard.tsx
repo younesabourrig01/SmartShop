@@ -58,7 +58,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
           
           <div className="mt-auto flex items-center justify-between">
             <span className="text-xl font-black text-slate-900">
-              ${price}
+              {price} MAD
             </span>
             <button 
               disabled={isAdding}

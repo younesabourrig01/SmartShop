@@ -159,7 +159,7 @@ const Wishlist: React.FC = () => {
                       <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         {t('product_page.price_label', 'Price')}
                       </span>
-                      <span className="text-2xl font-black text-slate-900">${product.price}</span>
+                      <span className="text-2xl font-black text-slate-900">{product.price} MAD</span>
                     </div>
                     
                     <button 

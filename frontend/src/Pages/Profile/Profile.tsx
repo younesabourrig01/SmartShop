@@ -13,10 +13,11 @@ import {
   ShoppingBag,
   Star as StarIcon,
   MessageSquare,
+  FileText,
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
 import mainLogo from "../../assets/MainLogo.png";
-import { orderByUser } from "../../api/order";
+import { orderByUser, downloadInvoice } from "../../api/order";
 import { getReviewsByUser } from "../../api/reviews";
 import { getBadge } from "../../api/auth";
 import PageLoader from "../../components/Loader/PageLoader";
@@ -63,6 +64,7 @@ const Profile: React.FC = () => {
   const [groupedOrders, setGroupedOrders] = useState<GroupedOrders>({});
   const [isOrdersLoading, setIsOrdersLoading] = useState(true);
   const [showAllDays, setShowAllDays] = useState(false);
+  const [isDownloadingInvoice, setIsDownloadingInvoice] = useState(false);
   const [badgeData, setBadgeData] = useState<{ badge: string; orders_count: number; wishlist_count: number } | null>(null);
 
 
@@ -118,6 +120,25 @@ const Profile: React.FC = () => {
       toast.error("Logout failed");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleDownloadInvoice = async () => {
+    setIsDownloadingInvoice(true);
+    try {
+      const response = await downloadInvoice();
+      const url = window.URL.createObjectURL(new Blob([response.data as Blob]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'last_invoice.pdf');
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      toast.success(t('profile.orders.invoice_success', 'Invoice downloaded successfully'));
+    } catch (error) {
+      toast.error(t('profile.orders.invoice_error', 'Failed to download invoice'));
+    } finally {
+      setIsDownloadingInvoice(false);
     }
   };
 
@@ -335,12 +356,22 @@ const Profile: React.FC = () => {
                   </div>
                   <h2 className="text-2xl font-black text-slate-900 tracking-tight">{t('profile.orders.title', 'Latest Orders')}</h2>
                 </div>
-                <button 
-                  onClick={() => setShowAllDays(!showAllDays)}
-                  className="text-[10px] font-black text-slate-400 hover:text-blue-600 bg-slate-50 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-white hover:border-blue-100"
-                >
-                  {showAllDays ? t('profile.orders.show_latest', 'Show Latest') : t('profile.orders.view_all', 'View All')}
-                </button>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={handleDownloadInvoice}
+                    disabled={isDownloadingInvoice}
+                    className="text-[10px] font-black text-blue-600 bg-blue-50 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-blue-100 hover:bg-blue-100 flex items-center gap-2 disabled:opacity-50"
+                  >
+                    {isDownloadingInvoice ? <Loader size={12} color="#2563eb" /> : <FileText size={14} />}
+                    {t('profile.orders.download_invoice', 'Download Invoice')}
+                  </button>
+                  <button 
+                    onClick={() => setShowAllDays(!showAllDays)}
+                    className="text-[10px] font-black text-slate-400 hover:text-blue-600 bg-slate-50 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-white hover:border-blue-100"
+                  >
+                    {showAllDays ? t('profile.orders.show_latest', 'Show Latest') : t('profile.orders.view_all', 'View All')}
+                  </button>
+                </div>
               </div>
 
               <div className="overflow-x-auto min-h-[300px] relative">
@@ -393,7 +424,7 @@ const Profile: React.FC = () => {
                                 </span>
                               </td>
                               <td className="px-8 py-6">
-                                <span className="text-sm font-black text-slate-900">${Number(order.total).toFixed(2)}</span>
+                                <span className="text-sm font-black text-slate-900">{Number(order.total).toFixed(2)} MAD</span>
                               </td>
                               <td className="px-8 py-6">
                                 <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
