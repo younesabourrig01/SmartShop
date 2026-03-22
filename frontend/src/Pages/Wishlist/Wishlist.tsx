@@ -61,7 +61,7 @@ const Wishlist: React.FC = () => {
     try {
       const res = await addToCart(productId, 1);
       if (res.data.status === 'success') {
-        toast.success(t('product_page.added_to_cart_success') || 'Added to cart!');
+        toast.success(res.data.message || t('product_page.added_to_cart_success') || 'Added to cart!');
         refreshCartCount();
       } else {
         toast.error(res.data.message || 'Failed to add to cart');

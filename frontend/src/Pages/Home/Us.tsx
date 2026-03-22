@@ -1,115 +1,152 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, ArrowRight, Search } from 'lucide-react';
+import { ArrowRight, ShoppingBag, Star, Truck, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import LogoAnimation from '../../components/LogoAnimation/LogoAnimation';
+
+const TRUST_BADGES = [
+  { icon: Star,   label: '4.9/5 Rating'      },
+  { icon: Truck,  label: 'Free Shipping'      },
+  { icon: Shield, label: 'Secure Checkout'    },
+];
 
 const Us: React.FC = () => {
   const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === 'ar';
 
   return (
-    <section className="relative w-full">
-      {/* Main Container Card - Balanced Rounded Corners & Shadow */}
-      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 p-6 md:p-10 lg:p-16 overflow-hidden flex flex-col items-center">
-        
-        {/* Hero Top Content: Dual Layout */}
-        <div className="w-full flex flex-col lg:flex-row items-center justify-between gap-12 mb-16 z-10 text-start rtl:text-right">
-          
-          {/* Left: Text Content */}
-          <motion.div 
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="w-full lg:w-1/2 space-y-8"
-          >
-            {/* Minimalist Badge */}
-            <div className="inline-flex items-center gap-2.5 px-4 py-2 bg-slate-50 rounded-full border border-slate-100 transition-all hover:bg-white hover:shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#01b0d3] animate-pulse" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{t('us.welcome')}</span>
-            </div>
+    <section className="relative w-full min-h-[92vh] flex items-center bg-white overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24">
+      {/* Subtle background blobs */}
+      <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-indigo-50 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[35rem] h-[35rem] bg-rose-50 rounded-full blur-3xl opacity-50 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
-            <h1 className="text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black text-slate-900 leading-[0.95] tracking-tighter">
-              {t('us.title_1')} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] via-[#01b0d3] to-[#43dabb]">
-                {t('us.title_2')}
-              </span>
-            </h1>
-            
-            <p className="text-lg md:text-xl text-slate-600 font-medium leading-relaxed max-w-xl">
-              {t('us.description')}
-            </p>
-            
-            <div className="flex flex-col xl:flex-row items-center gap-6 pt-4">
-              {/* Primary CTA */}
-              <Link to="/products">
-                <motion.button 
-                  whileHover={{ scale: 1.05, y: -4 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-10 py-5 bg-[#0046be] text-white font-black text-xl rounded-2xl shadow-[0_20px_40px_-10px_rgba(0,0,0,0.2)] flex items-center justify-center gap-3 group"
-                >
-                  <ShoppingBag size={24} />
-                  <span>{t('us.shop_products')}</span>
-                </motion.button>
-              </Link>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
 
-              {/* Secondary CTA */}
-              <motion.button 
-                whileHover={{ x: 6 }}
-                className="flex items-center gap-2 text-slate-900 font-black text-xl group cursor-pointer"
-              >
-                <span>{t('us.our_story')}</span>
-                <ArrowRight size={24} className={`text-[#01b0d3] group-hover:translate-x-1 transition-transform rtl:rotate-180`} />
-              </motion.button>
-            </div>
-          </motion.div>
-
-          {/* Right: The RE-RESTORED Logo Animation */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, x: 50 }}
-            whileInView={{ opacity: 1, scale: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.2 }}
-            className="w-full lg:w-1/2 relative flex items-center justify-center"
-          >
-            <LogoAnimation />
-          </motion.div>
-        </div>
-
-        {/* BOTTOM: Minimalist Search Bar Integration */}
-        <motion.div 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, delay: 0.4 }}
-          className="w-full max-w-4xl relative"
+        {/* ── Left: Copy ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 36 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full lg:w-[55%] flex flex-col items-start rtl:items-end text-start rtl:text-right"
         >
-          <div className="relative bg-slate-50 p-2.5 rounded-[2.5rem] shadow-inner flex flex-col md:flex-row items-center gap-4 border border-slate-100/50">
-            <div className="flex-1 w-full relative flex items-center">
-               <div className={`absolute ${i18n.language === 'ar' ? 'right-7' : 'left-7'} text-slate-400`}>
-                  <Search size={24} />
-               </div>
-               <input 
-                 type="text" 
-                 placeholder={t('us.search_placeholder')}
-                 className={`w-full py-5 ${i18n.language === 'ar' ? 'pr-16 pl-8' : 'pl-16 pr-8'} bg-transparent rounded-[1.8rem] text-lg font-bold text-slate-800 placeholder-slate-400 outline-none`}
-               />
-            </div>
-            <button className="w-full md:w-auto px-10 py-5 bg-[#0046be] text-white font-black text-lg rounded-[2rem] shadow-lg hover:shadow-2xl transition-all cursor-pointer">
-              {t('us.search_button')}
-            </button>
+          {/* Badge */}
+          <div className="inline-flex items-center gap-3 px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-full mb-8 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
+            <span className="text-xs font-bold tracking-[0.18em] uppercase text-indigo-600">
+              {t('us.welcome')}
+            </span>
           </div>
 
-          {/* Trending Bar */}
-          <div className="flex justify-center gap-6 mt-6">
-            <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">{t('us.trending')}:</span>
-            {["Razer", "iPhone 15", "Gaming PC"].map(tag => (
-              <button key={tag} className="text-[10px] font-black uppercase tracking-widest text-[#0046be] opacity-70 hover:opacity-100 transition-opacity cursor-pointer">#{tag}</button>
+          {/* Headline */}
+          <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-slate-900 leading-[1.04] tracking-tight mb-6">
+            {t('us.title_1')}{' '}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 italic pr-1">
+              {t('us.title_2')}
+            </span>
+          </h1>
+
+          {/* Sub-copy */}
+          <p className="text-lg md:text-xl text-slate-500 leading-relaxed max-w-xl mb-10 font-medium">
+            {t('us.description')}
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 w-full sm:w-auto mb-12">
+            <Link to="/products" className="w-full sm:w-auto">
+              <motion.button
+                whileHover={{ scale: 1.02, y: -2 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full px-8 py-4 bg-slate-900 text-white font-semibold text-base rounded-full shadow-xl shadow-slate-900/20 hover:shadow-slate-900/35 flex items-center justify-center gap-3 transition-all duration-300"
+              >
+                <ShoppingBag size={19} />
+                <span>{t('us.shop_products')}</span>
+              </motion.button>
+            </Link>
+
+            <Link to="/categories" className="w-full sm:w-auto">
+              <motion.button
+                whileHover={{ x: isRtl ? -5 : 5 }}
+                className="w-full px-8 py-4 text-slate-700 font-semibold text-base flex items-center justify-center gap-2 group border border-slate-200 rounded-full hover:bg-slate-50 transition-all duration-300"
+              >
+                <span>{t('slider.category_title')}</span>
+                <ArrowRight size={18} className="group-hover:text-indigo-600 transition-colors rtl:rotate-180 shrink-0" />
+              </motion.button>
+            </Link>
+          </div>
+
+          {/* Trust badges */}
+          <div className="flex flex-wrap items-center gap-6">
+            {TRUST_BADGES.map(({ icon: Icon, label }) => (
+              <div key={label} className="flex items-center gap-2 text-sm font-semibold text-slate-400">
+                <Icon size={15} className="text-indigo-400 shrink-0" />
+                <span>{label}</span>
+              </div>
             ))}
           </div>
         </motion.div>
 
+        {/* ── Right: Image ── */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.93 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1.1, delay: 0.15, ease: [0.16, 1, 0.3, 1] }}
+          className="w-full lg:w-[45%] relative aspect-[4/5] lg:aspect-auto lg:h-[640px] flex items-center justify-center"
+        >
+          {/* Main image card */}
+          <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-indigo-900/[0.12] ring-1 ring-black/5">
+            <img
+              src="/hero.png"
+              alt="Premium Gadgets"
+              className="w-full h-full object-cover scale-[1.03] hover:scale-[1.07] transition-transform duration-[2.5s] ease-out"
+            />
+            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/15 to-transparent mix-blend-overlay" />
+          </div>
+
+          {/* Floating review card */}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.1, duration: 0.7 }}
+            className={`absolute ${isRtl ? '-right-4 md:-right-6' : '-left-4 md:-left-6'} bottom-14 hidden md:block`}
+          >
+            <div className="bg-white/95 backdrop-blur-xl px-5 py-4 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-white/80 max-w-[210px]">
+              <div className="flex -space-x-2.5 mb-3">
+                {[21, 22, 23].map(i => (
+                  <img
+                    key={i}
+                    src={`https://i.pravatar.cc/100?img=${i}`}
+                    alt="user"
+                    className="w-9 h-9 rounded-full border-2 border-white object-cover"
+                  />
+                ))}
+              </div>
+              <div className="flex items-center gap-1 mb-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={11} className="fill-amber-400 text-amber-400" />
+                ))}
+              </div>
+              <p className="text-xs font-bold text-slate-700 leading-snug">
+                {t('commantes.joined')}
+              </p>
+            </div>
+          </motion.div>
+
+          {/* Floating badge top-right */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1.3, duration: 0.5 }}
+            className={`absolute top-10 ${isRtl ? '-left-4' : '-right-4'} hidden md:flex items-center gap-2 bg-white/95 backdrop-blur-xl px-4 py-2.5 rounded-xl shadow-lg border border-white/80`}
+          >
+            <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center">
+              <Shield size={13} className="text-green-600" />
+            </div>
+            <div>
+              <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Trusted</p>
+              <p className="text-xs font-extrabold text-slate-800">100% Secure</p>
+            </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );

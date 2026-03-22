@@ -3,16 +3,41 @@ import Slider from './Slider';
 import Us from './Us';
 import Commantes from './Commantes';
 import ContactUs from '../../components/ContactForm/ContactForm';
+import FeaturedProducts from './FeaturedProducts';
 
 const Home: React.FC = () => {
   return (
-    <main className="min-h-screen bg-[#f0f2f5] pt-12 md:pt-16 pb-24">
-      <div className="max-w-[1440px] px-4 md:px-8 lg:px-16 mx-auto space-y-12">
-        <Us />
-        <Slider />
-        <Commantes />
-        <ContactUs />
-      </div>
+    <main className="w-full overflow-x-hidden bg-white">
+      {/* Hero */}
+      <Us />
+
+      {/* Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+      {/* Featured Products */}
+      <FeaturedProducts />
+
+      {/* Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+      {/* Category Slider */}
+      <Slider />
+
+      {/* Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+      {/* Testimonials */}
+      <Commantes />
+
+      {/* Divider */}
+      <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
+
+      {/* Contact */}
+      <section className="w-full py-24 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <ContactUs />
+        </div>
+      </section>
     </main>
   );
 };

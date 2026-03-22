@@ -216,7 +216,7 @@ const ManageCategories: React.FC = () => {
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <img
-                            src={category.url || "https://via.placeholder.com/150"}
+                            src={category.url?.startsWith('http') ? category.url : `${API_BASE_URL}${category.url || ""}`}
                             alt={category.name}
                             className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100 font-bold text-[10px] text-center"
                             onError={(e) => {

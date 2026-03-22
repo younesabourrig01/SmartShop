@@ -34,7 +34,7 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ isOpen, onClose, category }
           {/* Cover Image */}
           <div className="h-48 relative overflow-hidden">
              <img 
-                src={category.url || "https://via.placeholder.com/600x300?text=No+Category+Image"} 
+                src={category.url?.startsWith('http') ? category.url : `${API_BASE_URL}${category.url || ""}`} 
                 alt={category.name} 
                 className="w-full h-full object-cover"
                 onError={(e) => {

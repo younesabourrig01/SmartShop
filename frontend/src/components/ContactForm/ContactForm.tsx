@@ -37,7 +37,23 @@ const ContactUs: React.FC = () => {
 
   return (
     <section className="">
-      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden flex flex-col lg:flex-row min-h-[600px]">
+      {/* Section header */}
+      <div className="text-center max-w-2xl mx-auto mb-14">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 border border-blue-100 rounded-full mb-6">
+          <Mail size={13} className="text-blue-500" />
+          <span className="text-xs font-bold tracking-[0.15em] uppercase text-blue-600">
+            {t('nav.contact')}
+          </span>
+        </div>
+        <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+          {t('contact.who_are_we')}
+        </h2>
+        <p className="text-base text-slate-500 font-medium leading-relaxed">
+          {t('contact.description')}
+        </p>
+      </div>
+
+      <div className="w-full bg-white rounded-[2.5rem] shadow-xl border border-slate-100 overflow-hidden flex flex-col lg:flex-row min-h-[580px]">
         
         {/* LEFT PART: Info & Branding */}
         <div className="w-full lg:w-1/2 bg-[#0046be] p-8 md:p-12 lg:p-16 text-white flex flex-col justify-center relative overflow-hidden text-start rtl:text-right">
@@ -51,11 +67,11 @@ const ContactUs: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black tracking-tighter leading-none mb-6">
-                {t('contact.who_are_we')}
-              </h2>
-              <p className="text-lg md:text-xl opacity-90 font-medium leading-relaxed max-w-md">
-                {t('contact.description')}
+              <h3 className="text-3xl md:text-4xl font-black tracking-tight leading-tight mb-3">
+                {t('contact.get_in_touch')}
+              </h3>
+              <p className="text-base opacity-75 font-medium leading-relaxed max-w-sm">
+                {t('contact.form_description')}
               </p>
             </motion.div>
 

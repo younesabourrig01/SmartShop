@@ -76,10 +76,13 @@ const ShowCategory: React.FC = () => {
                 src={
                   category.image && category.image.startsWith("http")
                     ? category.image
-                    : `${API_BASE_URL}${category.image || ""}`
+                    : category.image ? `${API_BASE_URL}${category.image}` : "https://via.placeholder.com/400x400?text=No+Category+Image"
                 }
                 alt={category.name}
                 className="w-full h-full object-cover"
+                onError={(e) => {
+                    (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=No+Category+Image";
+                }}
               />
             </div>
             <div className="flex-1 text-center md:text-left">

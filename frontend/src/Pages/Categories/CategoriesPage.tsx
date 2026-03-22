@@ -7,6 +7,7 @@ import { CategoryContext } from "../../context/CategoryContext";
 import { useContext } from "react";
 import PageLoader from "../../components/Loader/PageLoader";
 import { Link } from "react-router-dom";
+import { API_BASE_URL } from "../../api/client";
 
 const CategoriesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -42,9 +43,12 @@ const CategoriesPage: React.FC = () => {
                     className={`w-full aspect-square blue rounded-[2rem] overflow-hidden mb-8 group-hover:scale-105 transition-all duration-500`}
                   >
                     <img
-                      src={cat.image}
+                      src={cat.url ? (cat.url.startsWith('http') ? cat.url : `${API_BASE_URL}${cat.url}`) : "https://via.placeholder.com/400x400?text=No+Category+Image"}
                       alt={cat.name}
                       className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x400?text=No+Category+Image";
+                      }}
                     />
                   </div>
 

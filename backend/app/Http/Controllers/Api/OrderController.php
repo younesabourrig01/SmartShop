@@ -69,6 +69,9 @@ class OrderController extends Controller
 
         return $pdf->download('orders-' . $date . '.pdf');
     }
+    public function downloadIvoice(){
+        
+    }
     // create order
     public function checkout(Request $request)
     {

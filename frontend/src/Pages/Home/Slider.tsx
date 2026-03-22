@@ -1,107 +1,130 @@
 import React, { useRef, useContext } from "react";
-import { ChevronRight, ChevronLeft } from "lucide-react";
+import { ChevronRight, ChevronLeft, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { CategoryContext } from "../../context/CategoryContext";
+import { Link } from "react-router-dom";
+
 const BASE_IMAGE = import.meta.env.VITE_BASE_IMAGE;
 
 const Slider: React.FC = () => {
-  const { categories } = useContext(CategoryContext);
-  const { t } = useTranslation();
+  const { categories, loading } = useContext(CategoryContext);
+  const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: "left" | "right") => {
     if (scrollRef.current) {
       const { scrollLeft, clientWidth } = scrollRef.current;
+      const amount = clientWidth * 0.75;
+      const isRtl = i18n.language === "ar";
+
       const scrollTo =
         direction === "left"
-          ? scrollLeft - clientWidth / 2
-          : scrollLeft + clientWidth / 2;
+          ? scrollLeft - (isRtl ? -amount : amount)
+          : scrollLeft + (isRtl ? -amount : amount);
+
       scrollRef.current.scrollTo({ left: scrollTo, behavior: "smooth" });
     }
   };
 
+  if (loading || !categories?.length) return null;
+
   return (
-    <section className="">
-      {/* Container Card */}
-      <div className="w-full bg-white rounded-[2.5rem] shadow-xl overflow-hidden flex flex-col border border-slate-50">
-        {/* Hero Banner Area */}
-        <div className="relative w-full h-[280px] bg-gradient-to-r from-[#0046be] via-[#007cc2] to-[#01b0d3] p-10 md:px-16 flex items-center justify-between text-start rtl:text-right">
-          <div className="max-w-4xl z-10 text-pretty">
-            <h1 className="text-white text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-black mb-5 tracking-tighter leading-[0.95]">
-              {t("slider.hero_title")}
-            </h1>
-            <p className="text-white text-lg md:text-2xl font-bold opacity-95">
-              {t("slider.hero_subtitle")}
+    <section className="w-full py-24 lg:py-32 bg-white relative overflow-hidden">
+      {/* Faint radial gradient background accent */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(99,102,241,0.06),_transparent_60%)] pointer-events-none" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 relative z-10">
+        {/* Section header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 text-start rtl:text-right">
+          <div className="max-w-lg">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-slate-100 border border-slate-200 rounded-full mb-5">
+              <Tag size={13} className="text-slate-500" />
+              <span className="text-xs font-bold tracking-[0.15em] uppercase text-slate-500">
+                {t("nav.categories")}
+              </span>
+            </div>
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
+              {t("slider.category_title")}
+            </h2>
+            <p className="text-base text-slate-500 font-medium leading-relaxed">
+              Explore our wide range of premium collections designed for modern living.
             </p>
           </div>
-          <div className="hidden lg:block z-10">
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-12 py-5 bg-white text-[#0046be] font-bold text-xl rounded-2xl hover:shadow-2xl transition-all cursor-pointer"
-            >
-              {t("slider.shop_now")}
-            </motion.button>
-          </div>
-        </div>
 
-        {/* Categories Slider Area */}
-        <div className="w-full p-8 md:p-12 lg:px-16 text-start rtl:text-right">
-          <h2 className="text-2xl md:text-4xl font-black text-slate-900 mb-12 flex items-center gap-4">
-            {t("slider.category_title")}
-          </h2>
-
-          <div className="relative group/slider">
-            {/* Navigation Arrows */}
+          {/* Nav arrows */}
+          <div className="flex items-center gap-3 shrink-0">
             <button
               onClick={() => scroll("left")}
-              className="absolute left-0 lg:-left-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-white rounded-full border border-slate-100 shadow-2xl flex items-center justify-center text-slate-800 hover:text-blue-600 hover:border-blue-200 transition-all duration-500 z-20 cursor-pointer active:scale-90 opacity-0 group-hover/slider:opacity-100"
+              className="w-12 h-12 bg-slate-50 hover:bg-indigo-50 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-all cursor-pointer active:scale-95 group"
             >
-              <ChevronLeft size={32} />
+              <ChevronLeft
+                size={20}
+                className="group-hover:-translate-x-0.5 transition-transform"
+              />
             </button>
-            <div
-              ref={scrollRef}
-              className="flex items-start gap-16 overflow-x-auto pb-10 scroll-smooth select-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
-            >
-              {categories.map((category, index) => (
-                <motion.div
-                  key={index}
-                  whileHover={{ y: -10 }}
-                  className="flex flex-col items-center gap-8 min-w-[150px] max-w-[200px] cursor-pointer"
-                >
-                  <div className="w-40 h-40 md:w-48 md:h-48 rounded-full flex items-center justify-center p-10 border border-slate-50 shadow-sm transition-all duration-700 hover:shadow-2xl hover:border-blue-100/50 overflow-hidden relative group bg-slate-50/50 backdrop-blur-sm">
-                    {category.image && (
-                      <div className="group-hover:scale-110 transition-transform duration-700">
-                        <img
-                          src={`${BASE_IMAGE}${category.image}`}
-                          alt={category.name}
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  <span className="text-center text-lg md:text-xl font-black text-slate-900 tracking-tight leading-tight">
-                    {t(`${category.name}`)}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
-
             <button
               onClick={() => scroll("right")}
-              className="absolute right-0 lg:-right-12 top-1/2 -translate-y-1/2 w-12 h-12 md:w-16 md:h-16 bg-white rounded-full border border-slate-100 shadow-2xl flex items-center justify-center text-slate-800 hover:text-blue-600 hover:border-blue-200 transition-all duration-500 z-20 cursor-pointer active:scale-90 opacity-0 group-hover/slider:opacity-100"
+              className="w-12 h-12 bg-slate-50 hover:bg-indigo-50 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-all cursor-pointer active:scale-95 group"
             >
-              <ChevronRight size={32} />
+              <ChevronRight
+                size={20}
+                className="group-hover:translate-x-0.5 transition-transform"
+              />
             </button>
           </div>
         </div>
 
-        {/* Mobile Shop Now button */}
-        <div className="lg:hidden w-full px-12 pb-12">
-          <button className="w-full py-6 bg-[#0046be] text-white font-black text-xl rounded-3xl shadow-2xl cursor-pointer">
-            {t("slider.shop_now")}
-          </button>
+        {/* Carousel — extend to edge with negative margin trick */}
+        <div className="relative -mx-6 px-6 lg:-mx-8 lg:px-8">
+          <div
+            ref={scrollRef}
+            className="flex items-stretch gap-5 overflow-x-auto pb-4 snap-x snap-mandatory scroll-smooth select-none [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+          >
+            {categories.map((category, index) => (
+              <Link
+                key={category.id}
+                to={`/categories/${category.id}`}
+                className="snap-start shrink-0 cursor-pointer group"
+              >
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.94 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.55, delay: index * 0.08 }}
+                  className="w-[260px] sm:w-[300px] lg:w-[320px] aspect-[4/5] rounded-[2.5rem] bg-slate-100 relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-900/[0.12] hover:-translate-y-2 ring-1 ring-black/5"
+                >
+                  {category.url && (
+                    <img
+                      src={
+                        category.url.startsWith("http")
+                          ? category.url
+                          : `${BASE_IMAGE}${category.url}`
+                      }
+                      alt={category.name}
+                      className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.08] transition-all duration-700"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://via.placeholder.com/400x500?text=${category.name}`;
+                      }}
+                    />
+                  )}
+
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-slate-900/95 via-slate-900/40 to-transparent pointer-events-none" />
+
+                  {/* Card footer */}
+                  <div className="absolute inset-x-0 bottom-0 p-6 flex items-end justify-between">
+                    <h3 className="text-xl font-bold text-white tracking-tight leading-tight">
+                      {category.name}
+                    </h3>
+                    <div className="w-9 h-9 rounded-full bg-white/15 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-400 shrink-0">
+                      <ChevronRight size={18} className="rtl:rotate-180" />
+                    </div>
+                  </div>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
     </section>

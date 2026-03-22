@@ -24,7 +24,6 @@ const Navbar: React.FC = () => {
     { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/us.png' },
     { code: 'ar', name: 'العربية', flag: 'https://flagcdn.com/w40/ma.png' },
     { code: 'fr', name: 'Français', flag: 'https://flagcdn.com/w40/fr.png' },
-    { code: 'es', name: 'Español', flag: 'https://flagcdn.com/w40/es.png' },
   ];
 
   const currentLanguage = languages.find(l => l.code === i18n.language) || languages[0];

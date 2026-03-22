@@ -24,7 +24,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
     try {
       const response = await addToCart(id, 1);
       if (response.data.status === 'success') {
-        toast.success('Product added to cart!');
+        toast.success(response.data.message || 'Product added to cart!');
         refreshCartCount();
       } else {
         toast.error(response.data.message || 'Failed to add to cart');

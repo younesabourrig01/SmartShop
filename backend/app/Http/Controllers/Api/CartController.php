@@ -43,6 +43,10 @@ class CartController extends Controller
             $cartItem->update([
                 'quantity' => $cartItem->quantity + $request->quantity,
             ]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Quantity updated'
+            ]);
         } else {
             $cart->cartItems()->create([
                 'cart_id' => $cart->id,

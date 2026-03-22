@@ -271,6 +271,49 @@ const resources = {
           "empty_desc": "Looks like you haven't added anything to your cart yet. Let's find something amazing for you!",
           "start_shopping": "Start Shopping"
         }
+      },
+      "profile": {
+        "quick_stats": "Activity Overview",
+        "stats": {
+          "orders": "Orders",
+          "wishlist": "Wishlist"
+        },
+        "nav": {
+          "settings": "Settings",
+          "settings_desc": "Update your preferences.",
+          "reviews": "Your Reviews",
+          "reviews_desc": "Manage your feedback.",
+          "logout": "Log out",
+          "logout_desc": "Exit your session."
+        },
+        "contact_us": "Contact Us",
+        "support_title": "Premium Support",
+        "support_desc": "Need help with an order? Our team is available 24/7.",
+        "orders": {
+          "title": "Latest Orders",
+          "id": "ID",
+          "product": "Product",
+          "date": "Date",
+          "amount": "Amount",
+          "status": "Status",
+          "view_all": "View All",
+          "show_latest": "Show Latest",
+          "no_orders": "No orders found.",
+          "showing_recent": "Recent Activity Log • Version 2.0"
+        },
+        "badge": {
+          "member_status": "Member Status",
+          "loading": "Loading...",
+          "status_guide": "Status Guide",
+          "level_up": "Level up features",
+          "total_orders": "Total Orders",
+          "max_rank": "Max Rank Achieved",
+          "next": "next",
+          "orders_label": "Orders",
+          "premium_desc": "You've reached the pinnacle of SmartShop! Enjoy priority customer service and exclusive early access to all products.",
+          "medium_desc": "You are a regular shopper. Collect more orders to unlock the special Premium rank.",
+          "normal_desc": "As a Normal member, you enjoy standard perks. Keep ordering to reach the Medium tier."
+        }
       }
     }
   },
@@ -551,6 +594,49 @@ const resources = {
           "empty": "سلة التسوق فارغة",
           "empty_desc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد. دعنا نجد شيئاً رائعاً لك!",
           "start_shopping": "ابدأ التسوق"
+        }
+      },
+      "profile": {
+        "quick_stats": "نظرة عامة على النشاط",
+        "stats": {
+          "orders": "الطلبات",
+          "wishlist": "المفضلة"
+        },
+        "nav": {
+          "settings": "الإعدادات",
+          "settings_desc": "تحديث تفضيلاتك.",
+          "reviews": "تقييماتك",
+          "reviews_desc": "إدارة ملاحظاتك.",
+          "logout": "تسجيل الخروج",
+          "logout_desc": "إنهاء جلستك."
+        },
+        "contact_us": "اتصل بنا",
+        "support_title": "الدعم المميز",
+        "support_desc": "هل تحتاج مساعدة في طلب؟ فريقنا متاح على مدار الساعة.",
+        "orders": {
+          "title": "أحدث الطلبات",
+          "id": "الرقم",
+          "product": "المنتج",
+          "date": "التاريخ",
+          "amount": "المبلغ",
+          "status": "الحالة",
+          "view_all": "عرض الكل",
+          "show_latest": "عرض الأحدث",
+          "no_orders": "لا توجد طلبات.",
+          "showing_recent": "سجل النشاط الأخير • الإصدار 2.0"
+        },
+        "badge": {
+          "member_status": "حالة العضوية",
+          "loading": "جاري التحميل...",
+          "status_guide": "دليل الحالة",
+          "level_up": "مميزات الترقية",
+          "total_orders": "إجمالي الطلبات",
+          "max_rank": "تم الوصول لأعلى رتبة",
+          "next": "التالي",
+          "orders_label": "طلب",
+          "premium_desc": "لقد وصلت إلى قمة سمارت شوب! استمتع بخدمة العملاء ذات الأولوية والوصول المبكر الحصري لجميع المنتجات.",
+          "medium_desc": "أنت متسوق منتظم. اجمع المزيد من الطلبات لفتح رتبة بريميوم الخاصة.",
+          "normal_desc": "كعضو عادي، تتمتع بمزايا قياسية. استمر في الطلب للوصول لرتبة متوسط."
         }
       }
     }
@@ -833,283 +919,53 @@ const resources = {
           "empty_desc": "Il semble que vous n'ayez encore rien ajouté à votre panier. Trouvons quelque chose d'incroyable pour vous !",
           "start_shopping": "Commencer vos achats"
         }
-      }
-    }
-  },
-  es: {
-    translation: {
-      "nav": {
-        "home": "Inicio",
-        "products": "Productos",
-        "categories": "Categorías",
-        "contact": "Contacto",
-        "login": "Acceso",
-        "register": "Registrarse",
-        "profile": "Perfil",
-        "dashboard": "Tablero"
       },
-      "us": {
-        "welcome": "Bienvenido al futuro",
-        "title_1": "Vive la",
-        "title_2": "Innovación.",
-        "description": "Curando la próxima generación de electrónica premium. Te traemos tecnología de punta con una experiencia que se siente como magia.",
-        "shop_products": "Comprar Productos",
-        "our_story": "Nuestra Historia",
-        "search_placeholder": "Buscar productos...",
-        "search_button": "Buscar",
-        "trending": "Tendencias"
-      },
-      "slider": {
-        "hero_title": "¿Tienes tu cheque? Consigue tu tecnología.",
-        "hero_subtitle": "Aprovecha al máximo tu reembolso con las mejores ofertas.",
-        "shop_now": "Comprar ahora",
-        "category_title": "Ofertas por categoría",
-        "categories": {
-          "all": "Ver todo",
-          "apple": "Apple",
-          "tv": "TV y Cine en Casa",
-          "computers": "Ordenadores y Tablets",
-          "games": "Videojuegos",
-          "appliances": "Electrodomésticos",
-          "phones": "Teléfonos Móviles",
-          "audio": "Audio y Altavoces"
-        }
-      },
-      "commantes": {
-        "title": "Lo que dicen",
-        "subtitle": "Nuestros Clientes.",
+      "profile": {
+        "quick_stats": "Aperçu de l'activité",
         "stats": {
-          "customers": "Clientes Felices",
-          "products": "Productos",
-          "support": "Soporte Experto",
-          "delivery": "Entrega Rápida",
-          "quality": "Premium",
-          "satisfaction": "Satisfacción"
+          "orders": "Commandes",
+          "wishlist": "Favoris"
         },
-        "read_more": "Más testimonios",
-        "joined": "Más de 12.000 compradores"
-      },
-      "contact": {
-        "who_are_we": "¿Quiénes somos?",
-        "description": "SmartShop es más que una plataforma de comercio electrónico. Somos un equipo de entusiastas de la tecnología dedicados a traerte el futuro.",
-        "location": "Ubicación",
-        "call_us": "Llámanos",
-        "email": "Correo",
-        "get_in_touch": "Contáctanos",
-        "form_description": "Completa el formulario y te responderemos en 24 horas.",
-        "full_name": "Nombre Completo",
-        "email_address": "Correo Electrónico",
-        "message": "Message",
-        "send_message": "Enviar Mensaje",
-        "sending": "Enviando...",
-        "success": "Formulario enviado con éxito",
-        "our_story_title": "Nuestra Historia",
-        "our_story_desc": "Fundada en el corazón de la innovación, SmartShop comenzó con una misión simple: hacer que la tecnología de primera calidad sea accesible para todos. Creemos que la tecnología debe empoderar, inspirar y conectar a las personas en todo el mundo.",
-        "find_us": "Encuéntranos",
-        "visit_us": "Visite nuestra tienda física en Agadir"
-      },
-      "footer": {
-        "description": "Elevando su experiencia tecnológica con productos premium. Únase al futuro de la electrónica hoy.",
-        "shop": "Tienda",
-        "company": "Empresa",
-        "support": "Soporte",
-        "made_with": "Hecho con",
-        "for_lovers": "para amantes de la tech"
-      },
-      "register_page": {
-        "welcome": "Bienvenido a",
-        "welcome_desc": "¡Estamos encantados de tenerte aquí! Únete a nuestra comunidad de entusiastas y vive el futuro de las compras.",
-        "email_verify": "Verificación de Correo",
-        "email_verify_desc": "Por tu seguridad, necesitamos verificar tu correo electrónico antes de continuar.",
-        "check_inbox": "Revisa tu",
-        "inbox": "Bandeja de entrada",
-        "check_inbox_desc": "¡Casi listo! Hemos enviado un código de 6 dígitos a",
-        "verify_account": "Verificar Cuenta",
-        "verify_account_desc": "Por favor, introduce el código y completa tu perfil a continuación.",
-        "back_to_shop": "Volver a SmartShop",
-        "create_account": "Crear Cuenta",
-        "step_1": "Paso 1 de 2: Información básica",
-        "full_name": "Nombre completo",
-        "email_address": "Correo electrónico",
-        "next_step": "Siguiente paso",
-        "cancel": "Cancelar",
-        "already_have_account": "¿Ya tienes una cuenta?",
-        "login_here": "Inicia sesión aquí",
-        "final_step": "Paso final",
-        "complete_profile": "Completa tu perfil",
-        "name_label": "Nombre",
-        "email_label": "Correo",
-        "otp": "Código de verificación (OTP)",
-        "password": "Crear contraseña",
-        "confirm_password": "Confirmar contraseña",
-        "profile_picture": "Foto de perfil (Opcional)",
-        "img_specs": "JPG, PNG o JPEG. Máx. 2MB.",
-        "complete_registration": "Completar registro",
-        "go_back": "Volver al paso 1",
-        "address": "Dirección",
-        "phone_number": "Número de Teléfono",
-        "errors": {
-          "name_req": "Nombre requerido",
-          "name_min": "Mínimo 3 caracteres",
-          "email_req": "Correo requerido",
-          "email_inv": "Correo inválido",
-          "otp_req": "OTP requerido",
-          "pass_req": "Contraseña requerida",
-          "pass_match": "Las contraseñas no coinciden",
-          "img_type": "Solo JPG, JPEG y PNG",
-          "img_size": "Máximo 2MB",
-          "adress_req": "La dirección es requerida",
-          "phone_req": "El número de teléfono es requerido"
-        }
-      },
-    "login_page": {
-      "welcome": "Bienvenido de nuevo",
-      "welcome_desc": "¡Te extrañamos! Inicia sesión para acceder a tu cuenta.",
-      "login_title": "Iniciar Sesión",
-      "sign_in_desc": "Por favor, ingrese sus credenciales para acceder a su cuenta",
-      "email_address": "Correo Electrónico",
-      "password": "Contraseña",
-      "login_button": "Entrar",
-      "no_account": "¿No tienes una cuenta?",
-      "register_link": "Regístrate aquí",
-      "back_to_home": "Volver al inicio",
-      "errors": {
-        "email_req": "Correo requerido",
-        "email_inv": "Correo inválido",
-        "pass_req": "Contraseña requerida",
-        "pass_min": "La contraseña debe tener al menos 6 caracteres"
-      }
-    },
-    "notFound": {
-      "oops": "¡Vaya!",
-      "title": "Página No Encontrada.",
-      "message": "La página que buscas no existe o ha sido movida. Volvamos al camino correcto.",
-      "returnHome": "Volver al Inicio",
-      "goBack": "Volver"
-    },
-    "product_page": {
-      "back_to_products": "Volver a Productos",
-      "not_found": "Producto no encontrado",
-      "in_stock": "En Stock",
-      "out_of_stock": "Agotado",
-      "description": "Descripción",
-      "add_to_cart": "Añadir al carrito",
-      "wishlist": "Añadir a deseos",
-      "free_shipping": "Envío Gratis",
-      "on_orders_above": "En pedidos superiores a",
-      "returns": "Devoluciones Fáciles",
-      "days_return": "días de política de devolución",
-      "you_may_like": "También te puede interesar",
-      "price_label": "Precio"
-    },
-    "categories": {
-      "banner": {
-        "title": "Explora Nuestras Categorías",
-        "subtitle": "Descubre los mejores productos de nuestra amplia gama de categorías cuidadosamente seleccionadas.",
-        "cta": "Ver Todos los Productos"
-      },
-      "items": {
-        "electronics": "Electrónica",
-        "fashion": "Moda",
-        "home": "Hogar y Jardín",
-        "audio": "Audio y Música",
-        "accessories": "Accesorios",
-        "gaming": "Juegos",
-        "count": "Artículos"
-      }
-    },
-    "products": {
-      "title": "Nuestros Productos",
-      "description": "Descubre nuestra colección cuidadosamente seleccionada de tecnología y electrónica premium.",
-      "banner": {
-        "title": "Actualízate a la Generación M3",
-        "subtitle": "Obtén hasta $200 de crédito de canje al actualizar tu viejo MacBook.",
-        "cta": "Explorar ahora"
-      },
-      "filter": {
-        "title": "Filtrar y Ordenar",
-        "subtitle": "Refine su experiencia de navegación",
-        "category": "Categoría",
-        "sort_by": "Ordenar por",
-        "all_categories": "Todas las categorías",
-        "electronics": "Electrónica",
-        "fashion": "Moda",
-        "home": "Hogar y Jardín",
-        "newest": "Nuevas llegadas",
-        "popular": "Más populares",
-        "price_low": "Precio: De menor a mayor",
-        "price_high": "Precio: De mayor a menor"
-      }
-    },
-    "reviews": {
-      "title": "Opiniones de Clientes",
-      "subtitle": "Mira lo que otros dicen sobre este producto",
-      "write_review": "Escribir una Opinión",
-      "rating": "Tu Calificación",
-      "comment": "Tu Comentario",
-      "placeholder": "¿Qué te pareció el producto?",
-      "submit": "Publicar Opinión",
-      "success": "¡Opinión publicada con éxito!"
-      },
-      "dashboard": {
-        "welcome": "Bienvenido de nuevo, Admin 👋",
-        "sidebar": {
-          "dashboard": "Tablero",
-          "users": "Usuarios",
-          "products": "Productos",
-          "categories": "Categorías",
-          "settings": "Ajustes",
-          "logout": "Cerrar sesión"
+        "nav": {
+          "settings": "Paramètres",
+          "settings_desc": "Mettez à jour vos préférences.",
+          "reviews": "Vos Avis",
+          "reviews_desc": "Gérez vos retours.",
+          "logout": "Déconnexion",
+          "logout_desc": "Quitter votre session."
         },
-        "stats": {
-          "total_users": "Total Usuarios",
-          "total_products": "Total Productos",
-          "total_categories": "Total Categorías",
-          "see_all": "Ver todo",
-          "manage_all": "Gestionar todo"
+        "contact_us": "Contactez-nous",
+        "support_title": "Support Premium",
+        "support_desc": "Besoin d'aide avec une commande ? Notre équipe est disponible 24h/24.",
+        "orders": {
+          "title": "Dernières Commandes",
+          "id": "ID",
+          "product": "Produit",
+          "date": "Date",
+          "amount": "Montant",
+          "status": "Statut",
+          "view_all": "Tout Voir",
+          "show_latest": "Afficher les Récentes",
+          "no_orders": "Aucune commande trouvée.",
+          "showing_recent": "Journal d'activité récent • Version 2.0"
         },
-        "transactions": {
-          "title": "Transacciones Recientes",
-          "export": "Exportar PDF",
-          "id": "ID de Transacción",
-          "customer": "Cliente",
-          "amount": "Monto",
-          "date": "Fecha",
-          "status": "Estado",
-          "action": "Acción",
-          "completed": "completado",
-          "pending": "pendiente",
-          "cancelled": "cancelado"
-        }
-      },
-        "wishlist": {
-          "title": "Mi Lista de Deseos",
-          "items": "artículos guardados en tu lista",
-          "back": "Volver a la Tienda",
-          "add_to_cart": "Añadir al Carrito",
-          "empty": "Tu lista de deseos está vacía",
-          "empty_desc": "Guarda los artículos que te gustan para encontrarlos fácilmente más tarde.",
-          "explore": "Explorar Productos"
-        },
-        "cart": {
-          "title": "Carrito de Compras",
-          "items_count": "artículos en tu bandeja",
-          "back": "Volver a la Tienda",
-          "clear": "Vaciar Carrito",
-          "summary": "Resumen del Pedido",
-          "subtotal": "Subtotal",
-          "shipping": "Envío",
-          "free": "GRATIS",
-          "total": "Total",
-          "checkout": "Pagar Ahora",
-          "empty": "Tu carrito está vacío",
-          "empty_desc": "Parece que aún no has añadido nada a tu carrito. ¡Encontremos algo increíble para ti!",
-          "start_shopping": "Empezar a Comprar"
+        "badge": {
+          "member_status": "Statut Membre",
+          "loading": "Chargement...",
+          "status_guide": "Guide de Statut",
+          "level_up": "Fonctionnalités de niveau",
+          "total_orders": "Total Commandes",
+          "max_rank": "Rang Maximum Atteint",
+          "next": "suivant",
+          "orders_label": "Commandes",
+          "premium_desc": "Vous avez atteint le sommet de SmartShop ! Profitez du service client prioritaire et de l'accès anticipé exclusif à tous les produits.",
+          "medium_desc": "Vous êtes un acheteur régulier. Accumulez plus de commandes pour débloquer le rang Premium spécial.",
+          "normal_desc": "En tant que membre Normal, vous profitez des avantages standards. Continuez à commander pour atteindre le niveau Moyen."
         }
       }
     }
   }
-;
+};
 
 i18n
   .use(LanguageDetector)

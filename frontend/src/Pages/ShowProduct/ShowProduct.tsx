@@ -68,7 +68,8 @@ const ShowProduct: React.FC = () => {
     try {
       const response = await addToCart(product.id, 1);
       if (response.data.status === 'success') {
-        toast.success((t('product_page.added_to_cart_success') as string) || 'Product added to cart!');
+        const successMessage = response.data.message || (t('product_page.added_to_cart_success') as string) || 'Product added to cart!';
+        toast.success(successMessage);
         refreshCartCount();
       } else {
         toast.error((t('product_page.added_to_cart_error') as string) || response.data.message || 'Failed to add product');
