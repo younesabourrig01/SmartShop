@@ -10,22 +10,14 @@ class BadgeController extends Controller
     public function getUserBadge(Request $request)
     {
         $user = $request->user();
-        $ordersCount = $user->orders()->count();
-
-        if ($ordersCount <= 7) {
-            $badge = 'normal';
-        }
-        elseif ($ordersCount <= 20) {
-            $badge = 'medium';
-        }
-        else {
-            $badge = 'premium';
-        }
+        $badge = $user->getBadge();
+        $discount = $user->getShippingDiscount();
 
         return response()->json([
             'badge' => $badge,
-            'orders_count' => $ordersCount,
+            'orders_count' => $user->orders()->count(),
             'wishlist_count' => $user->wishlist ? $user->wishlist->wishlistItems()->count() : 0,
+            'shipping_discount' => $discount,
         ]);
 
     }

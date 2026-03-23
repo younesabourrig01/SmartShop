@@ -74,4 +74,35 @@ class User extends Authenticatable
     {
         return $this->hasMany(Review::class);
     }
+
+    public function getBadge(): string
+    {
+        $ordersCount = $this->orders()->count();
+
+        if ($ordersCount <= 7) {
+            return 'normal';
+        } elseif ($ordersCount <= 27) {
+            return 'medium';
+        } elseif ($ordersCount <= 34) {
+            return 'premium';
+        } else {
+            return 'master';
+        }
+    }
+
+    public function getShippingDiscount(): float
+    {
+        $badge = $this->getBadge();
+        switch ($badge) {
+            case 'master':
+                return 0.50; // 50%
+            case 'premium':
+                return 0.10; // 10%
+            case 'medium':
+                return 0.05; // 5%
+            case 'normal':
+            default:
+                return 0.015; // 1.5%
+        }
+    }
 }

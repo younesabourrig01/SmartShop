@@ -65,7 +65,7 @@ const Profile: React.FC = () => {
   const [isOrdersLoading, setIsOrdersLoading] = useState(true);
   const [showAllDays, setShowAllDays] = useState(false);
   const [isDownloadingInvoice, setIsDownloadingInvoice] = useState(false);
-  const [badgeData, setBadgeData] = useState<{ badge: string; orders_count: number; wishlist_count: number } | null>(null);
+  const [badgeData, setBadgeData] = useState<{ badge: string; orders_count: number; wishlist_count: number; shipping_discount?: number } | null>(null);
 
 
 
@@ -175,15 +175,19 @@ const Profile: React.FC = () => {
             <div className="relative group">
               <div 
                 className={`flex items-center gap-5 px-6 py-4 rounded-[1.8rem] border transition-all duration-500 hover:shadow-2xl hover:-translate-y-0.5 cursor-default relative ${
+                  badgeData?.badge === 'master' ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 border-amber-300/40 text-black shadow-amber-500/30' :
                   badgeData?.badge === 'premium' ? 'bg-gradient-to-br from-slate-900 to-indigo-900 border-indigo-500/30 text-white shadow-indigo-500/20' :
                   badgeData?.badge === 'medium' ? 'bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border-yellow-500/30 text-amber-900 shadow-yellow-500/10' :
                   'bg-white/80 backdrop-blur-md border-slate-200 text-slate-800 shadow-slate-200/50'
                 }`}
               >
 
-                {/* Background Glow for Premium */}
+                {/* Background Glow for Premium & Master */}
                 {badgeData?.badge === 'premium' && (
                   <div className="absolute -right-20 -top-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-[80px] group-hover:bg-indigo-400/30 transition-all duration-700"></div>
+                )}
+                {badgeData?.badge === 'master' && (
+                  <div className="absolute -right-20 -top-20 w-64 h-64 bg-amber-400/30 rounded-full blur-[80px] group-hover:bg-amber-300/40 transition-all duration-700 animate-pulse"></div>
                 )}
                 
                 <div className="relative z-10 flex flex-col sm:flex-row items-center gap-6">
@@ -191,6 +195,9 @@ const Profile: React.FC = () => {
                   <div className="relative">
                     {badgeData?.badge === 'premium' && (
                       <div className="absolute inset-0 bg-white/20 rounded-full blur-lg scale-125 animate-pulse"></div>
+                    )}
+                    {badgeData?.badge === 'master' && (
+                      <div className="absolute inset-0 bg-white/40 rounded-full blur-xl scale-[1.3] animate-pulse"></div>
                     )}
                     {badgeData?.badge ? (
                       <img 
@@ -210,38 +217,56 @@ const Profile: React.FC = () => {
                           {t('profile.badge.member_status')}
                         </span>
                         <div className="flex items-center gap-2">
-                          <span className={`text-xl font-black uppercase tracking-tight ${badgeData?.badge === 'premium' ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200' : ''}`}>
+                          <span className={`text-xl font-black uppercase tracking-tight ${
+                            badgeData?.badge === 'master' ? 'text-black drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]' :
+                            badgeData?.badge === 'premium' ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-indigo-200' : ''
+                          }`}>
                             {badgeData?.badge || t('profile.badge.loading')}
                           </span>
-                          <Info size={14} className={`opacity-40 hover:opacity-100 transition-opacity cursor-help ${badgeData?.badge === 'premium' ? 'text-indigo-300' : 'text-slate-400'}`} />
+                          <Info size={14} className={`opacity-40 hover:opacity-100 transition-opacity cursor-help ${
+                            badgeData?.badge === 'master' ? 'text-black' :
+                            badgeData?.badge === 'premium' ? 'text-indigo-300' : 'text-slate-400'
+                          }`} />
                         </div>
                       </div>
                     </div>
 
                     {/* Progress Bar */}
-                    {badgeData?.badge !== 'premium' && (
+                    {badgeData?.badge !== 'master' && (
                       <div className="w-full space-y-2">
                         <div className="flex justify-between text-[10px] font-black uppercase tracking-widest">
-                          <span className={badgeData?.badge === 'medium' ? 'text-amber-600' : 'text-slate-400'}>
-                             {badgeData?.orders_count || 0} / {badgeData?.badge === 'normal' ? 8 : 21} {t('profile.badge.orders_label')}
+                          <span className={badgeData?.badge === 'medium' ? 'text-amber-600' : badgeData?.badge === 'premium' ? 'text-indigo-300' : 'text-slate-400'}>
+                             {badgeData?.orders_count || 0} / {
+                               badgeData?.badge === 'normal' ? 8 : 
+                               badgeData?.badge === 'medium' ? 28 : 
+                               35
+                             } {t('profile.badge.orders_label')}
                           </span>
-                          <span className={badgeData?.badge === 'medium' ? 'text-amber-600' : 'text-blue-500'}>
-                            {badgeData?.badge === 'normal' ? 'Medium' : 'Premium'} {t('profile.badge.next')}
+                          <span className={badgeData?.badge === 'medium' ? 'text-amber-600' : badgeData?.badge === 'premium' ? 'text-indigo-300' : 'text-blue-500'}>
+                            {badgeData?.badge === 'normal' ? 'Medium' : badgeData?.badge === 'medium' ? 'Premium' : 'Master'} {t('profile.badge.next')}
                           </span>
                         </div>
                         <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden border border-white shadow-inner">
                           <div 
-                            className={`h-full transition-all duration-1000 ${badgeData?.badge === 'medium' ? 'bg-amber-500' : 'bg-blue-600'}`}
-                            style={{ width: `${Math.min(100, ((badgeData?.orders_count || 0) / (badgeData?.badge === 'normal' ? 8 : 21)) * 100)}%` }}
+                            className={`h-full transition-all duration-1000 ${
+                              badgeData?.badge === 'medium' ? 'bg-amber-500' : 
+                              badgeData?.badge === 'premium' ? 'bg-indigo-600' :
+                              'bg-blue-600'
+                            }`}
+                            style={{ width: `${Math.min(100, ((badgeData?.orders_count || 0) / (
+                               badgeData?.badge === 'normal' ? 8 : 
+                               badgeData?.badge === 'medium' ? 28 : 
+                               35
+                            )) * 100)}%` }}
                           ></div>
                         </div>
                       </div>
                     )}
                     
-                    {badgeData?.badge === 'premium' && (
-                      <p className="text-[10px] font-bold text-indigo-300 uppercase tracking-widest flex items-center gap-2">
+                    {badgeData?.badge === 'master' && (
+                      <p className="text-[10px] font-bold text-black uppercase tracking-[0.25em] flex items-center gap-2 drop-shadow-sm">
                         <StarIcon size={12} fill="currentColor" />
-                        {t('profile.badge.max_rank')}
+                        Ultimate rank achieved
                       </p>
                     )}
                   </div>
@@ -260,17 +285,25 @@ const Profile: React.FC = () => {
                       </div>
                     </div>
                     <p className="text-[11px] leading-relaxed font-medium text-slate-300">
-                      {badgeData?.badge === 'premium' 
+                      {badgeData?.badge === 'master'
+                        ? t('profile.badge.master_desc', "You are a shopping legend! Enjoy 50% discount on shipping and legendary perks.")
+                        : badgeData?.badge === 'premium' 
                         ? t('profile.badge.premium_desc')
                         : badgeData?.badge === 'medium'
                         ? t('profile.badge.medium_desc')
                         : t('profile.badge.normal_desc')}
                     </p>
-                    <div className="pt-2">
+                    <div className="pt-2 space-y-2">
                       <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest bg-white/5 p-3 rounded-xl border border-white/5">
                         <span className="text-slate-400">{t('profile.badge.total_orders')}</span>
                         <span className="text-blue-400">{badgeData?.orders_count || 0}</span>
                       </div>
+                      {badgeData?.shipping_discount !== undefined && (
+                        <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest bg-blue-500/10 p-3 rounded-xl border border-blue-500/10 shadow-inner">
+                          <span className="text-slate-400">Shipping Rival</span>
+                          <span className="text-emerald-400">-{ (badgeData.shipping_discount * 100).toFixed(1) }%</span>
+                        </div>
+                      )}
                     </div>
                   </div>
                   {/* Arrow */}

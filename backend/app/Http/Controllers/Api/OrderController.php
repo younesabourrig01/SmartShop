@@ -102,7 +102,11 @@ class OrderController extends Controller
             ]);
         }
 
-        $total = $cart->getTotal();
+        $cartTotal = $cart->getTotal();
+        $baseShippingPrice = 103;
+        $discount = $user->getShippingDiscount();
+        $shippingPrice = $baseShippingPrice * (1 - $discount);
+        $total = $cartTotal + $shippingPrice;
 
         $order = $user->orders()->create([
             'user_id' => $user->id,

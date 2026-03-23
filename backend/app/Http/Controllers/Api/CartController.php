@@ -12,7 +12,7 @@ class CartController extends Controller
         $cart = $request->user()
             ->cart()
             // Eager Loading
-            ->with('cartItems.product')
+            ->with('cartItems.product.images')
             ->first();
 
         $total = $cart->getTotal();

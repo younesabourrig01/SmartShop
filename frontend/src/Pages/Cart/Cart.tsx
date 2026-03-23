@@ -16,6 +16,8 @@ import PageLoader from "../../components/Loader/PageLoader";
 import Loader from "../../components/Loader/Loader";
 import { getCart, clearCart, updateCart } from "../../api/cart";
 import { createOrder, downloadInvoice } from "../../api/order";
+import { getBadge } from "../../api/auth";
+import { API_BASE_URL } from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import toast from "react-hot-toast";
@@ -35,6 +37,7 @@ const Cart: React.FC = () => {
   );
   const [showInvoicePopup, setShowInvoicePopup] = useState(false);
   const [isDownloading, setIsDownloading] = useState(false);
+  const [badgeData, setBadgeData] = useState<any>(null);
 
   const fetchCart = async () => {
     try {
@@ -51,6 +54,15 @@ const Cart: React.FC = () => {
 
   useEffect(() => {
     fetchCart();
+    const fetchBadge = async () => {
+      try {
+        const res = await getBadge();
+        setBadgeData(res.data);
+      } catch (err) {
+        console.error("Failed to fetch badge", err);
+      }
+    };
+    fetchBadge();
   }, []);
 
   const handleClearCart = async () => {
@@ -215,9 +227,11 @@ const Cart: React.FC = () => {
                   <div className="w-full md:w-32 h-32 rounded-2xl overflow-hidden bg-slate-50 flex-shrink-0 relative group">
                     <img
                       src={
-                        item.product?.images?.[0]?.url ||
-                        item.image ||
-                        "https://via.placeholder.com/300"
+                        item.product?.images?.[0]?.url 
+                        ? (item.product.images[0].url.startsWith('http') 
+                          ? item.product.images[0].url 
+                          : `${API_BASE_URL}${item.product.images[0].url}`)
+                        : (item.product?.image || item.image || "https://via.placeholder.com/300")
                       }
                       alt={item.product?.name || item.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
@@ -367,17 +381,33 @@ const Cart: React.FC = () => {
 
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between items-center text-slate-500 font-medium">
-                  <span>{t("dashboard.cart.shipping", "Shipping")}</span>
-                  <span className="text-green-500 font-bold">
-                    {t("dashboard.cart.free", "FREE")}
+                  <span>{t("dashboard.cart.subtotal", "Subtotal")}</span>
+                  <span className="font-bold text-slate-700">
+                    {Number(totalCartItems || 0).toFixed(2)} MAD
                   </span>
+                </div>
+                <div className="flex justify-between items-center text-slate-500 font-medium">
+                  <div className="flex flex-col">
+                    <span>{t("dashboard.cart.shipping", "Shipping")}</span>
+                    {badgeData && (
+                      <span className="text-[10px] text-blue-600 font-black uppercase">
+                        {badgeData.badge} badge: {badgeData.shipping_discount * 100}% rival
+                      </span>
+                    )}
+                  </div>
+                  <div className="flex flex-col items-end">
+                    <span className="line-through text-xs text-slate-400">103.00 MAD</span>
+                    <span className="text-blue-600 font-bold">
+                      {(103 * (1 - (badgeData?.shipping_discount || 0))).toFixed(2)} MAD
+                    </span>
+                  </div>
                 </div>
                 <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
                   <span className="text-lg font-bold text-slate-800">
                     {t("dashboard.cart.total", "Total")}
                   </span>
                   <span className="text-3xl font-black text-blue-600">
-                    {totalCartItems} MAD
+                    {(Number(totalCartItems || 0) + (103 * (1 - (badgeData?.shipping_discount || 0)))).toFixed(2)} MAD
                   </span>
                 </div>
               </div>

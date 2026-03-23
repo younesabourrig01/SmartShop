@@ -162,7 +162,7 @@ const resources = {
         "description": "Description",
         "add_to_cart": "Add to Cart",
         "wishlist": "Add to Wishlist",
-        "free_shipping": "Free Shipping",
+        "free_shipping": "Shipping from 103 MAD (Rival apply)",
         "on_orders_above": "On orders above",
         "returns": "Easy Returns",
         "days_return": "days return policy",
@@ -263,7 +263,7 @@ const resources = {
           "clear": "Clear Cart",
           "summary": "Order Summary",
           "subtotal": "Subtotal",
-          "shipping": "Shipping",
+          "shipping": "Shipping (Base 103 MAD)",
           "free": "FREE",
           "total": "Total",
           "checkout": "Checkout Now",
@@ -310,9 +310,10 @@ const resources = {
           "max_rank": "Max Rank Achieved",
           "next": "next",
           "orders_label": "Orders",
-          "premium_desc": "You've reached the pinnacle of SmartShop! Enjoy priority customer service and exclusive early access to all products.",
-          "medium_desc": "You are a regular shopper. Collect more orders to unlock the special Premium rank.",
-          "normal_desc": "As a Normal member, you enjoy standard perks. Keep ordering to reach the Medium tier."
+          "premium_desc": "You've reached the pinnacle of SmartShop! Enjoy 10% discount on shipping, priority customer service and exclusive early access to all products.",
+          "master_desc": "You are a shopping legend! Every order counts towards your legacy. Enjoy a massive 50% discount on all shipping costs and legendary status perks.",
+          "medium_desc": "You are a regular shopper. Enjoy 5% discount on shipping. Collect more orders to unlock the special Premium rank.",
+          "normal_desc": "As a Normal member, you enjoy 1.5% discount on shipping. Keep ordering to reach the Medium tier."
         }
       }
     }

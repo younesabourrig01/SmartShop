@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 const TRUST_BADGES = [
   { icon: Star,   label: '4.9/5 Rating'      },
-  { icon: Truck,  label: 'Free Shipping'      },
+  { icon: Truck,  label: 'Express Shipping'   },
   { icon: Shield, label: 'Secure Checkout'    },
 ];
 
