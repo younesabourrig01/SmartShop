@@ -182,7 +182,7 @@ const Register: React.FC = () => {
 
   return (
     <div
-      className={`flex items-center justify-center bg-slate-50 p-4 md:p-8 py-12 md:py-20 ${isRtl ? "rtl" : "ltr"}`}
+      className={`flex items-center justify-center bg-slate-50 dark:bg-slate-800 p-4 md:p-8 py-12 md:py-20 ${isRtl ? "rtl" : "ltr"}`}
     >
       {/* Background blobs for depth */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -193,11 +193,11 @@ const Register: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-150"
+        className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-150"
       >
         <Link
           to="/"
-          className={`absolute top-6 ${isRtl ? "right-6" : "left-6"} z-10 p-2 bg-white/80 backdrop-blur-sm rounded-full text-slate-400 hover:text-blue-600 hover:shadow-lg transition-all active:scale-95 md:hidden`}
+          className={`absolute top-6 ${isRtl ? "right-6" : "left-6"} z-10 p-2 bg-white dark:bg-slate-900/80 backdrop-blur-sm rounded-full text-slate-400 hover:text-blue-600 hover:shadow-lg transition-all active:scale-95 md:hidden`}
         >
           <X size={20} />
         </Link>
@@ -206,7 +206,7 @@ const Register: React.FC = () => {
         <div className="w-full md:w-5/12 bg-blue-600 relative overflow-hidden flex flex-col justify-center p-8 md:p-12 text-white">
           <div className="absolute inset-0 opacity-20 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat" />
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-white dark:bg-slate-900/20 rounded-full blur-3xl" />
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-900/40 rounded-full blur-3xl" />
           </div>
 
@@ -227,7 +227,7 @@ const Register: React.FC = () => {
                   <p className="text-lg text-blue-100 mb-8 font-light">
                     {t("register_page.welcome_desc")}
                   </p>
-                  <div className="flex items-start gap-4 p-4 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20">
+                  <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-900/10 rounded-2xl backdrop-blur-md border border-white dark:border-slate-800/20">
                     <ShieldCheck
                       className="text-blue-200 shrink-0 mt-1"
                       size={24}
@@ -263,7 +263,7 @@ const Register: React.FC = () => {
                     </span>
                     .
                   </p>
-                  <div className="flex items-start gap-4 p-4 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20">
+                  <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-900/10 rounded-2xl backdrop-blur-md border border-white dark:border-slate-800/20">
                     <Mail className="text-blue-200 shrink-0 mt-1" size={24} />
                     <div className={isRtl ? "text-right" : "text-left"}>
                       <h3 className="font-semibold text-white mb-1">
@@ -282,10 +282,10 @@ const Register: React.FC = () => {
           <div className="mt-auto relative z-10 pt-12 hidden md:block">
             <div className="flex gap-2">
               <div
-                className={`h-1.5 rounded-full transition-all duration-300 ${step === 1 ? "w-8 bg-white" : "w-2 bg-white/30"}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${step === 1 ? "w-8 bg-white dark:bg-slate-900" : "w-2 bg-white dark:bg-slate-900/30"}`}
               />
               <div
-                className={`h-1.5 rounded-full transition-all duration-300 ${step === 2 ? "w-8 bg-white" : "w-2 bg-white/30"}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${step === 2 ? "w-8 bg-white dark:bg-slate-900" : "w-2 bg-white dark:bg-slate-900/30"}`}
               />
             </div>
             <Link
@@ -303,7 +303,7 @@ const Register: React.FC = () => {
         </div>
 
         {/* Right Side: Form Panel */}
-        <div className="w-full md:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-white">
+        <div className="w-full md:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-white dark:bg-slate-900">
           <AnimatePresence mode="wait">
             {step === 1 ? (
               <motion.div
@@ -315,17 +315,17 @@ const Register: React.FC = () => {
                 className="w-full"
               >
                 <div className={`mb-10 ${isRtl ? "text-right" : "text-left"}`}>
-                  <h2 className="text-3xl font-bold text-slate-900 mb-2">
+                  <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                     {t("register_page.create_account")}
                   </h2>
-                  <p className="text-slate-500">{t("register_page.step_1")}</p>
+                  <p className="text-slate-500 dark:text-slate-400">{t("register_page.step_1")}</p>
                 </div>
 
                 <div className="space-y-6">
                   {/* Name Input */}
                   <div className="space-y-2">
                     <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                     >
                       <User size={16} className="text-blue-500" />
                       {t("register_page.full_name")}
@@ -337,7 +337,7 @@ const Register: React.FC = () => {
                       className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${
                         errors.name
                           ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                          : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                       }`}
                       placeholder="John Doe"
                       value={formData.name}
@@ -357,7 +357,7 @@ const Register: React.FC = () => {
                   {/* Email Input */}
                   <div className="space-y-2">
                     <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                     >
                       <Mail size={16} className="text-blue-500" />
                       {t("register_page.email_address")}
@@ -369,7 +369,7 @@ const Register: React.FC = () => {
                       className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right" : "text-left"} ${
                         errors.email
                           ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                          : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                       }`}
                       placeholder="john@example.com"
                       value={formData.email}
@@ -389,7 +389,7 @@ const Register: React.FC = () => {
                   {/* Address Input */}
                   <div className="space-y-2">
                     <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                     >
                       <MapPin size={16} className="text-blue-500" />
                       {t("register_page.address")}
@@ -401,7 +401,7 @@ const Register: React.FC = () => {
                       className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${
                         errors.adress
                           ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                          : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                       }`}
                       placeholder="123 Main St, City"
                       value={formData.adress}
@@ -421,7 +421,7 @@ const Register: React.FC = () => {
                   {/* Phone Number Input */}
                   <div className="space-y-2">
                     <label
-                      className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                      className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                     >
                       <Phone size={16} className="text-blue-500" />
                       {t("register_page.phone_number")}
@@ -433,7 +433,7 @@ const Register: React.FC = () => {
                       className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right" : "text-left"} ${
                         errors.phone_number
                           ? "border-red-500 bg-red-50"
-                          : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                          : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                       }`}
                       placeholder="+1 234 567 8900"
                       value={formData.phone_number}
@@ -466,14 +466,14 @@ const Register: React.FC = () => {
                     </button>
                     <Link
                       to="/"
-                      className="flex-1 border-2 border-slate-200 text-slate-600 py-4 rounded-xl font-bold hover:bg-slate-50 text-center transition-all"
+                      className="flex-1 border-2 border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 py-4 rounded-xl font-bold hover:bg-slate-50 dark:bg-slate-800 text-center transition-all"
                     >
                       {t("register_page.cancel")}
                     </Link>
                   </div>
 
                   <div className="pt-6 text-center">
-                    <p className="text-slate-500 text-sm">
+                    <p className="text-slate-500 dark:text-slate-400 text-sm">
                       {t("register_page.already_have_account")}{" "}
                       <Link
                         to="/login"
@@ -497,10 +497,10 @@ const Register: React.FC = () => {
                   className="w-full"
                 >
                   <div className={`mb-8 ${isRtl ? "text-right" : "text-left"}`}>
-                    <h2 className="text-3xl font-bold text-slate-900 mb-2">
+                    <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
                       {t("register_page.final_step")}
                     </h2>
-                    <p className="text-slate-500">
+                    <p className="text-slate-500 dark:text-slate-400">
                       {t("register_page.complete_profile")}
                     </p>
                   </div>
@@ -513,7 +513,7 @@ const Register: React.FC = () => {
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                           {t("register_page.name_label")}
                         </label>
-                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium">
+                        <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-medium">
                           {formData.name}
                         </div>
                       </div>
@@ -521,7 +521,7 @@ const Register: React.FC = () => {
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                           {t("register_page.email_label")}
                         </label>
-                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
+                        <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-medium truncate">
                           {formData.email}
                         </div>
                       </div>
@@ -529,7 +529,7 @@ const Register: React.FC = () => {
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                           {t("register_page.address")}
                         </label>
-                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
+                        <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-medium truncate">
                           {formData.adress}
                         </div>
                       </div>
@@ -537,7 +537,7 @@ const Register: React.FC = () => {
                         <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
                           {t("register_page.phone_number")}
                         </label>
-                        <div className="px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-slate-500 text-sm font-medium truncate">
+                        <div className="px-4 py-3 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-500 dark:text-slate-400 text-sm font-medium truncate">
                           {formData.phone_number}
                         </div>
                       </div>
@@ -546,7 +546,7 @@ const Register: React.FC = () => {
                     {/* OTP Input */}
                     <div className="space-y-2">
                       <label
-                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                        className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                       >
                         <ShieldCheck size={16} className="text-blue-500" />
                         {t("register_page.otp")}
@@ -559,7 +559,7 @@ const Register: React.FC = () => {
                         className={`w-full px-4 py-3 rounded-xl border text-center text-2xl tracking-[0.5em] font-bold outline-none transition-all ${
                           errors.otp
                             ? "border-red-500 bg-red-50"
-                            : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                            : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                         }`}
                         placeholder="000000"
                         value={formData.otp}
@@ -582,7 +582,7 @@ const Register: React.FC = () => {
                     {/* Password Input */}
                     <div className="space-y-2">
                       <label
-                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                        className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                       >
                         <Lock size={16} className="text-blue-500" />
                         {t("register_page.password")}
@@ -595,7 +595,7 @@ const Register: React.FC = () => {
                           className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
                             errors.password
                               ? "border-red-500 bg-red-50"
-                              : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                              : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                           }`}
                           placeholder="••••••••"
                           value={formData.password}
@@ -632,7 +632,7 @@ const Register: React.FC = () => {
                     {/* Confirm Password Input */}
                     <div className="space-y-2">
                       <label
-                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                        className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                       >
                         <ShieldCheck size={16} className="text-blue-500" />
                         {t("register_page.confirm_password")}
@@ -645,7 +645,7 @@ const Register: React.FC = () => {
                           className={`w-full px-4 py-3 rounded-xl border outline-none transition-all ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
                             errors.confirmPassword
                               ? "border-red-500 bg-red-50"
-                              : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                              : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                           }`}
                           placeholder="••••••••"
                           value={formData.confirmPassword}
@@ -684,7 +684,7 @@ const Register: React.FC = () => {
                     {/* Image Input */}
                     <div className="space-y-2">
                       <label
-                        className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                        className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
                       >
                         <ImageIcon size={16} className="text-blue-500" />
                         {t("register_page.profile_picture")}
@@ -693,7 +693,7 @@ const Register: React.FC = () => {
                         className={`flex items-center gap-4 ${isRtl ? "flex-row-reverse" : ""}`}
                       >
                         <div className="relative group shrink-0">
-                          <div className="w-16 h-16 rounded-2xl bg-slate-100 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-400">
+                          <div className="w-16 h-16 rounded-2xl bg-slate-100 dark:bg-slate-800/50 border-2 border-dashed border-slate-300 flex items-center justify-center overflow-hidden transition-all group-hover:border-blue-400">
                             {previewUrl ? (
                               <img
                                 src={previewUrl}
@@ -715,7 +715,7 @@ const Register: React.FC = () => {
                         <div
                           className={`flex-1 ${isRtl ? "text-right" : "text-left"}`}
                         >
-                          <p className="text-xs text-slate-500">
+                          <p className="text-xs text-slate-500 dark:text-slate-400">
                             {t("register_page.img_specs")}
                           </p>
                           {formData.image && (
@@ -749,7 +749,7 @@ const Register: React.FC = () => {
                       <button
                         type="button"
                         onClick={handleBack}
-                        className={`w-full flex justify-center items-center gap-2 text-slate-500 font-bold py-2 hover:text-slate-800 transition-colors ${isRtl ? "flex-row-reverse" : ""}`}
+                        className={`w-full flex justify-center items-center gap-2 text-slate-500 dark:text-slate-400 font-bold py-2 hover:text-slate-800 dark:text-slate-100 transition-colors ${isRtl ? "flex-row-reverse" : ""}`}
                       >
                         {isRtl ? (
                           <ArrowLeft size={16} className="rotate-180" />
@@ -761,7 +761,7 @@ const Register: React.FC = () => {
                     </div>
 
                     <div className="pt-4 text-center">
-                      <p className="text-slate-500 text-sm">
+                      <p className="text-slate-500 dark:text-slate-400 text-sm">
                         {t("register_page.already_have_account")}{" "}
                         <Link
                           to="/login"

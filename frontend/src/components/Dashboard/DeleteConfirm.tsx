@@ -39,13 +39,13 @@ const DeleteConfirm: React.FC<DeleteConfirmProps> = ({
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl overflow-hidden p-8 text-center"
+          className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden p-8 text-center"
         >
           {/* Close Button */}
           {!isLoading && (
             <button
               onClick={onClose}
-              className="absolute top-6 right-6 p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-slate-600"
+              className="absolute top-6 right-6 p-2 hover:bg-slate-100 dark:bg-slate-800/50 rounded-full transition-colors text-slate-400 hover:text-slate-600 dark:text-slate-300"
             >
               <X size={20} />
             </button>
@@ -57,8 +57,8 @@ const DeleteConfirm: React.FC<DeleteConfirmProps> = ({
              <AlertTriangle size={40} className="relative z-10" />
           </div>
 
-          <h3 className="text-2xl font-black text-slate-900 mb-4">{title}</h3>
-          <p className="text-slate-500 font-medium mb-8 leading-relaxed">
+          <h3 className="text-2xl font-black text-slate-900 dark:text-white mb-4">{title}</h3>
+          <p className="text-slate-500 dark:text-slate-400 font-medium mb-8 leading-relaxed">
             {message}
           </p>
 
@@ -66,7 +66,7 @@ const DeleteConfirm: React.FC<DeleteConfirmProps> = ({
             <button
               onClick={onClose}
               disabled={isLoading}
-              className="flex-1 py-4 px-6 bg-slate-50 text-slate-500 font-bold rounded-2xl hover:bg-slate-100 transition-all disabled:opacity-50"
+              className="flex-1 py-4 px-6 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold rounded-2xl hover:bg-slate-100 dark:bg-slate-800/50 transition-all disabled:opacity-50"
             >
               Cancel
             </button>

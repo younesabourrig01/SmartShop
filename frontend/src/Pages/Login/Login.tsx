@@ -77,7 +77,7 @@ const Login: React.FC = () => {
 
   return (
     <div
-      className={`flex items-center justify-center bg-slate-50 p-4 md:p-8 py-12 md:py-20 ${isRtl ? "rtl" : "ltr"}`}
+      className={`flex items-center justify-center bg-slate-50 dark:bg-slate-800 p-4 md:p-8 py-12 md:py-20 ${isRtl ? "rtl" : "ltr"}`}
     >
       {/* Background blobs for depth */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
@@ -88,13 +88,13 @@ const Login: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative w-full max-w-5xl bg-white rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-150"
+        className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-150"
       >
         {/* Left Side: Message Panel */}
         <div className="w-full md:w-5/12 bg-blue-600 relative overflow-hidden flex flex-col justify-center p-8 md:p-12 text-white">
           <div className="absolute inset-0 opacity-20 pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] bg-repeat" />
-            <div className="absolute -top-24 -right-24 w-64 h-64 bg-white/20 rounded-full blur-3xl" />
+            <div className="absolute -top-24 -right-24 w-64 h-64 bg-white dark:bg-slate-900/20 rounded-full blur-3xl" />
             <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-900/40 rounded-full blur-3xl" />
           </div>
 
@@ -106,7 +106,7 @@ const Login: React.FC = () => {
             <p className="text-lg text-blue-100 mb-8 font-light">
               {t("login_page.welcome_desc")}
             </p>
-            <div className="flex items-start gap-4 p-4 bg-white/10 rounded-2xl backdrop-blur-md border border-white/20">
+            <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-900/10 rounded-2xl backdrop-blur-md border border-white dark:border-slate-800/20">
               <ShieldCheck className="text-blue-200 shrink-0 mt-1" size={24} />
               <div className={isRtl ? "text-right" : "text-left"}>
                 <h3 className="font-semibold text-white mb-1">
@@ -135,19 +135,19 @@ const Login: React.FC = () => {
         </div>
 
         {/* Right Side: Form Panel */}
-        <div className="w-full md:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-white">
+        <div className="w-full md:w-7/12 p-8 md:p-16 flex flex-col justify-center bg-white dark:bg-slate-900">
           <div className={`mb-10 ${isRtl ? "text-right" : "text-left"}`}>
-            <h2 className="text-3xl font-bold text-slate-900 mb-2">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-2">
               {t("login_page.login_title")}
             </h2>
-            <p className="text-slate-500">{t("login_page.sign_in_desc")}</p>
+            <p className="text-slate-500 dark:text-slate-400">{t("login_page.sign_in_desc")}</p>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Input */}
             <div className="space-y-2">
               <label
-                className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
               >
                 <Mail size={16} className="text-blue-500" />
                 {t("login_page.email_address")}
@@ -159,7 +159,7 @@ const Login: React.FC = () => {
                 className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right" : "text-left"} ${
                   errors.email
                     ? "border-red-500 bg-red-50"
-                    : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                    : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                 }`}
                 placeholder="john@example.com"
                 value={formData.email}
@@ -179,7 +179,7 @@ const Login: React.FC = () => {
             {/* Password Input */}
             <div className="space-y-2">
               <label
-                className={`text-sm font-semibold text-slate-700 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
+                className={`text-sm font-semibold text-slate-700 dark:text-slate-200 flex items-center gap-2 ${isRtl ? "flex-row-reverse" : ""}`}
               >
                 <Lock size={16} className="text-blue-500" />
                 {t("login_page.password")}
@@ -191,7 +191,7 @@ const Login: React.FC = () => {
                   className={`w-full px-4 py-4 rounded-xl border transition-all outline-none ${isRtl ? "text-right pl-12" : "text-left pr-12"} ${
                     errors.password
                       ? "border-red-500 bg-red-50"
-                      : "border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50"
+                      : "border-slate-200 dark:border-slate-700 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 bg-slate-50 dark:bg-slate-800"
                   }`}
                   placeholder="••••••••"
                   value={formData.password}
@@ -230,7 +230,7 @@ const Login: React.FC = () => {
             </div>
 
             <div className="pt-6 text-center">
-              <p className="text-slate-500 text-sm">
+              <p className="text-slate-500 dark:text-slate-400 text-sm">
                 {t("login_page.no_account")}{" "}
                 <Link
                   to="/register"

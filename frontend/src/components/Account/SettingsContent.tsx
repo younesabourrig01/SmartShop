@@ -50,7 +50,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
   };
 
   return (
-    <div className="bg-gray-50 p-4 md:p-8">
+    <div className="bg-gray-50 dark:bg-slate-950 p-4 md:p-8">
       <div className="max-w-4xl mx-auto">
         <button 
           onClick={() => navigate(backPath)}
@@ -69,7 +69,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
           {/* Update Account Card */}
           <div 
             onClick={() => setIsProfileModalOpen(true)}
-            className="bg-white p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+            className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-blue-600 group-hover:text-white transition-colors">
               <User size={24} />
@@ -86,7 +86,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
           {/* Delete Account Card */}
           <div 
             onClick={() => setIsDeleteModalOpen(true)}
-            className="bg-white p-6 rounded-3xl border border-red-50 shadow-sm hover:shadow-red-50 hover:shadow-md transition-all cursor-pointer group"
+            className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-red-50 shadow-sm hover:shadow-red-50 hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="w-12 h-12 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors">
               <Trash2 size={24} />
@@ -134,7 +134,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="relative w-full max-w-md bg-white rounded-[2.5rem] shadow-2xl overflow-hidden p-8"
+              className="relative w-full max-w-md bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden p-8"
             >
               <div className="flex justify-between items-start mb-6">
                 <div className="p-3 bg-red-50 text-red-600 rounded-xl">

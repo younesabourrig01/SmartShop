@@ -116,7 +116,7 @@ const ShowProduct: React.FC = () => {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f0f2f5]">
         <div className="text-center">
-          <h2 className="text-3xl font-black text-slate-900 mb-4">{t('product_page.not_found')}</h2>
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-4">{t('product_page.not_found')}</h2>
           <Link to="/products" className="text-blue-600 font-bold hover:underline flex items-center justify-center gap-2">
             <ArrowLeft size={20} /> {t('product_page.back_to_products')}
           </Link>
@@ -133,23 +133,23 @@ const ShowProduct: React.FC = () => {
   const productImages = product.images || [];
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] pt-24 pb-20">
+    <div className="min-h-screen bg-[#f0f2f5] dark:bg-slate-950 pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Breadcrumb / Back Navigation */}
         <Link 
           to="/products" 
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 font-bold mb-8 transition-colors group"
+          className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 font-bold mb-8 transition-colors group"
         >
           <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
           {t('product_page.back_to_products')}
         </Link>
 
-        <div className="bg-white rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden">
           <div className="flex flex-col lg:flex-row">
             
             {/* Left: Image Gallery */}
-            <div className="w-full lg:w-1/2 p-8 lg:p-12 bg-slate-50/50">
-              <div className="relative aspect-square rounded-3xl overflow-hidden bg-white shadow-inner mb-6 group">
+            <div className="w-full lg:w-1/2 p-8 lg:p-12 bg-slate-50 dark:bg-slate-800/50">
+              <div className="relative aspect-square rounded-3xl overflow-hidden bg-white dark:bg-slate-900 shadow-inner mb-6 group">
                 <AnimatePresence mode="wait">
                   {productImages.length > 0 ? (
                     <motion.img
@@ -165,7 +165,7 @@ const ShowProduct: React.FC = () => {
                       className="w-full h-full object-cover"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-100">
+                    <div className="w-full h-full flex items-center justify-center text-slate-400 bg-slate-100 dark:bg-slate-800/50">
                       No Image Available
                     </div>
                   )}
@@ -210,12 +210,12 @@ const ShowProduct: React.FC = () => {
                 </span>
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+              <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
                 {product.name}
               </h1>
 
               <div className="flex items-center gap-4 mb-8">
-                <span className="text-4xl font-black text-slate-900">
+                <span className="text-4xl font-black text-slate-900 dark:text-white">
                   {product.price} MAD
                 </span>
                 <div className="h-8 w-px bg-slate-200" />
@@ -236,8 +236,8 @@ const ShowProduct: React.FC = () => {
 
               <div className="space-y-6 mb-10 flex-grow">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{t('product_page.description')}</h3>
-                  <p className="text-slate-600 font-medium leading-relaxed">
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">{t('product_page.description')}</h3>
+                  <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed">
                     {product.description}
                   </p>
                 </div>
@@ -251,7 +251,7 @@ const ShowProduct: React.FC = () => {
                   className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-lg ${
                     product.stock > 0 
                     ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200' 
-                    : 'bg-slate-100 text-slate-400 cursor-not-allowed shadow-none'
+                    : 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed shadow-none'
                   }`}
                 >
                   {isAdding ? <Loader2 className="animate-spin" size={24} /> : <ShoppingCart size={24} />}
@@ -260,8 +260,8 @@ const ShowProduct: React.FC = () => {
                 <button 
                   onClick={handleToggleWishlist}
                   disabled={isWishlisting}
-                  className={`px-8 py-5 rounded-2xl font-black text-lg border border-slate-100 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 ${
-                    inWishlist ? 'bg-pink-50 text-pink-500 border-pink-100' : 'bg-slate-50 text-slate-900'
+                  className={`px-8 py-5 rounded-2xl font-black text-lg border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                    inWishlist ? 'bg-pink-50 text-pink-500 border-pink-100' : 'bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white'
                   }`}
                 >
                   {isWishlisting ? (
@@ -274,14 +274,14 @@ const ShowProduct: React.FC = () => {
               </div>
               
               {/* Extra Info */}
-              <div className="mt-8 pt-8 border-t border-slate-100 grid grid-cols-2 gap-4">
+              <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-700 grid grid-cols-2 gap-4">
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('product_page.free_shipping')}</span>
-                  <span className="text-sm font-bold text-slate-700">{t('product_page.on_orders_above')} 50 MAD</span>
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{t('product_page.on_orders_above')} 50 MAD</span>
                 </div>
                 <div className="flex flex-col">
                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('product_page.returns')}</span>
-                  <span className="text-sm font-bold text-slate-700">30 {t('product_page.days_return')}</span>
+                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200">30 {t('product_page.days_return')}</span>
                 </div>
               </div>
 
@@ -295,7 +295,7 @@ const ShowProduct: React.FC = () => {
         {/* Recommendations Section */}
         {recommendations.length > 0 && (
           <div className="mt-24">
-            <h2 className="text-3xl font-black text-slate-900 mb-8">{t('product_page.you_may_like')}</h2>
+            <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8">{t('product_page.you_may_like')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-8">
               {recommendations.map((rec) => (
                 <ProductCard 

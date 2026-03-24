@@ -79,7 +79,7 @@ const Wishlist: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] pt-28 pb-20">
+    <div className="min-h-screen bg-[#f0f2f5] dark:bg-slate-950 pt-28 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
@@ -96,10 +96,10 @@ const Wishlist: React.FC = () => {
                 <Heart size={32} fill="currentColor" />
               </div>
               <div>
-                <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">
+                <h1 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white tracking-tight">
                   {t('wishlist.title', 'My Wishlist')}
                 </h1>
-                <p className="text-slate-500 font-medium mt-1">
+                <p className="text-slate-500 dark:text-slate-400 font-medium mt-1">
                   {wishlistProducts.length} {t('wishlist.items', 'items saved to your wishlist')}
                 </p>
               </div>
@@ -116,10 +116,10 @@ const Wishlist: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-500 flex flex-col"
+                className="group bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-500 flex flex-col"
               >
                 {/* Image Section */}
-                <div className="relative aspect-square overflow-hidden bg-slate-50">
+                <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
                   <img 
                     src={product.images?.[0]?.url || 'https://via.placeholder.com/300'} 
                     alt={product.name} 
@@ -129,7 +129,7 @@ const Wishlist: React.FC = () => {
                     <button 
                       onClick={() => handleRemove(product.id)}
                       disabled={isRemoving === product.id}
-                      className="p-3 bg-white/90 backdrop-blur-md text-slate-400 hover:text-red-500 rounded-2xl shadow-lg transition-all duration-300 hover:scale-110 active:scale-90 disabled:opacity-50"
+                      className="p-3 bg-white dark:bg-slate-900/90 backdrop-blur-md text-slate-400 hover:text-red-500 rounded-2xl shadow-lg transition-all duration-300 hover:scale-110 active:scale-90 disabled:opacity-50"
                       title="Remove from wishlist"
                     >
                       {isRemoving === product.id ? (
@@ -140,7 +140,7 @@ const Wishlist: React.FC = () => {
                     </button>
                   </div>
                   <div className="absolute bottom-4 left-4">
-                    <span className="px-4 py-1.5 bg-white/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 shadow-sm">
+                    <span className="px-4 py-1.5 bg-white dark:bg-slate-900/90 backdrop-blur-md rounded-full text-[10px] font-black uppercase tracking-widest text-slate-600 dark:text-slate-300 shadow-sm">
                       {product.category?.name || 'Uncategorized'}
                     </span>
                   </div>
@@ -149,7 +149,7 @@ const Wishlist: React.FC = () => {
                 {/* Content Section */}
                 <div className="p-8 flex flex-col flex-grow">
                   <Link to={`/product/${product.id}`}>
-                    <h3 className="text-xl font-bold text-slate-900 hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2">
+                    <h3 className="text-xl font-bold text-slate-900 dark:text-white hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2">
                       {product.name}
                     </h3>
                   </Link>
@@ -159,7 +159,7 @@ const Wishlist: React.FC = () => {
                       <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
                         {t('product_page.price_label', 'Price')}
                       </span>
-                      <span className="text-2xl font-black text-slate-900">{product.price} MAD</span>
+                      <span className="text-2xl font-black text-slate-900 dark:text-white">{product.price} MAD</span>
                     </div>
                     
                     <button 
@@ -168,7 +168,7 @@ const Wishlist: React.FC = () => {
                       className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 disabled:opacity-50"
                     >
                       {isAddingToCart === product.id ? (
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        <div className="w-5 h-5 border-2 border-white dark:border-slate-800 border-t-transparent rounded-full animate-spin" />
                       ) : (
                         <ShoppingCart size={18} />
                       )}
@@ -180,12 +180,12 @@ const Wishlist: React.FC = () => {
             ))}
           </div>
         ) : (
-          <div className="flex flex-col items-center justify-center py-20 bg-white rounded-[3rem] border-2 border-dashed border-slate-200">
-            <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-6">
+          <div className="flex flex-col items-center justify-center py-20 bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-dashed border-slate-200 dark:border-slate-700">
+            <div className="w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-300 mb-6">
               <Heart size={48} />
             </div>
-            <h2 className="text-2xl font-black text-slate-900 mb-2">{t('wishlist.empty', 'Your wishlist is empty')}</h2>
-            <p className="text-slate-500 font-medium mb-8">{t('wishlist.empty_desc', 'Save items you love to find them easily later.')}</p>
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">{t('wishlist.empty', 'Your wishlist is empty')}</h2>
+            <p className="text-slate-500 dark:text-slate-400 font-medium mb-8">{t('wishlist.empty_desc', 'Save items you love to find them easily later.')}</p>
             <Link 
               to="/products" 
               className="px-8 py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-xl shadow-blue-500/20 hover:bg-blue-700 transition-all"

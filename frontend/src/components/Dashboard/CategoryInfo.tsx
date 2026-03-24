@@ -29,7 +29,7 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ isOpen, onClose, category }
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden"
+          className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden"
         >
           {/* Cover Image */}
           <div className="h-48 relative overflow-hidden">
@@ -44,7 +44,7 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ isOpen, onClose, category }
              <div className="absolute inset-0 bg-gradient-to-t from-white via-white/20 to-transparent" />
              <button
                 onClick={onClose}
-                className="absolute top-6 right-6 p-2 bg-white/20 backdrop-blur-md hover:bg-white/40 rounded-full transition-colors text-white"
+                className="absolute top-6 right-6 p-2 bg-white dark:bg-slate-900/20 backdrop-blur-md hover:bg-white dark:bg-slate-900/40 rounded-full transition-colors text-white"
              >
                 <X size={24} />
              </button>
@@ -52,31 +52,31 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ isOpen, onClose, category }
 
           {/* Content */}
           <div className="px-8 pb-10 -mt-10 relative z-10">
-            <div className="bg-white rounded-[2rem] p-8 shadow-xl border border-slate-50">
+            <div className="bg-white dark:bg-slate-900 rounded-[2rem] p-8 shadow-xl border border-slate-50">
                <div className="flex items-center gap-4 mb-6">
                   <div className="p-4 bg-blue-50 text-blue-600 rounded-2xl">
                      <Layers size={32} />
                   </div>
                   <div>
-                    <h2 className="text-3xl font-black text-slate-900">{category.name}</h2>
+                    <h2 className="text-3xl font-black text-slate-900 dark:text-white">{category.name}</h2>
                     <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Category Details</p>
                   </div>
                </div>
 
                <div className="grid grid-cols-2 gap-4 mb-8">
-                  <div className="bg-slate-50 p-4 rounded-2xl">
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl">
                      <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <Package size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">Products</span>
                      </div>
-                     <p className="text-xl font-black text-slate-900">{category.products_count} Items</p>
+                     <p className="text-xl font-black text-slate-900 dark:text-white">{category.products_count} Items</p>
                   </div>
-                  <div className="bg-slate-50 p-4 rounded-2xl">
+                  <div className="bg-slate-50 dark:bg-slate-800 p-4 rounded-2xl">
                      <div className="flex items-center gap-2 text-slate-400 mb-1">
                         <Calendar size={14} />
                         <span className="text-[10px] font-black uppercase tracking-widest">Created</span>
                      </div>
-                     <p className="text-xl font-black text-slate-900">
+                     <p className="text-xl font-black text-slate-900 dark:text-white">
                         {category.created_at ? new Date(category.created_at).toLocaleDateString() : 'N/A'}
                      </p>
                   </div>
@@ -86,8 +86,8 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ isOpen, onClose, category }
                   <h4 className="flex items-center gap-2 text-xs font-black uppercase tracking-widest text-slate-400 ml-1">
                      <FileText size={14} /> Description
                   </h4>
-                  <div className="bg-slate-50 p-6 rounded-2xl min-h-[100px]">
-                      <p className="text-slate-600 font-medium leading-relaxed italic">
+                  <div className="bg-slate-50 dark:bg-slate-800 p-6 rounded-2xl min-h-[100px]">
+                      <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed italic">
                         "{category.description || 'No description provided for this category.'}"
                       </p>
                   </div>

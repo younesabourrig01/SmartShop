@@ -39,9 +39,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
 
   return (
     <Link to={`/product/${id}`} className="block h-full">
-      <div className="group bg-white rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 flex flex-col cursor-pointer active:scale-95 h-full">
+      <div className="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 border border-slate-100 dark:border-slate-700 flex flex-col cursor-pointer active:scale-95 h-full">
         {/* Image Container */}
-        <div className="relative aspect-square overflow-hidden bg-slate-50">
+        <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
           <img 
             src={image?.startsWith('http') ? image : `http://127.0.0.1:8000${image}`} 
             alt={title} 
@@ -51,13 +51,13 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
         </div>
 
         {/* Content */}
-        <div className="p-6 flex flex-col flex-grow bg-white">
-          <h3 className="text-lg font-bold text-slate-900 group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2">
+        <div className="p-6 flex flex-col flex-grow bg-white dark:bg-slate-900">
+          <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2">
             {title}
           </h3>
           
           <div className="mt-auto flex items-center justify-between">
-            <span className="text-xl font-black text-slate-900">
+            <span className="text-xl font-black text-slate-900 dark:text-white">
               {price} MAD
             </span>
             <button 

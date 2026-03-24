@@ -53,7 +53,7 @@ const Commantes: React.FC = () => {
   const isRtl = i18n.language === 'ar';
 
   return (
-    <section className="w-full py-24 lg:py-32 bg-slate-50 relative overflow-hidden">
+    <section className="w-full py-24 lg:py-32 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
       {/* Decorative circle blobs */}
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-indigo-100 rounded-full blur-3xl opacity-40 pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-30 pointer-events-none" />
@@ -67,10 +67,10 @@ const Commantes: React.FC = () => {
               Testimonials
             </span>
           </div>
-          <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-4">
+          <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
             {t('commantes.title') || 'What They Say'}
           </h2>
-          <p className="text-base text-slate-500 font-medium leading-relaxed">
+          <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
             {t('commantes.subtitle') || 'Read honest reviews from our amazing customers.'}
           </p>
         </div>
@@ -80,7 +80,7 @@ const Commantes: React.FC = () => {
           {/* Nav arrow — LEFT */}
           <button
             onClick={isRtl ? handleNext : handlePrev}
-            className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? '-right-5 md:-right-14' : '-left-5 md:-left-14'} z-10 w-11 h-11 bg-white rounded-full shadow-md border border-slate-100 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-all`}
+            className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? '-right-5 md:-right-14' : '-left-5 md:-left-14'} z-10 w-11 h-11 bg-white dark:bg-slate-900 rounded-full shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-indigo-600 dark:text-indigo-400 hover:border-indigo-200 transition-all`}
           >
             <ChevronLeft size={20} className="rtl:rotate-180" />
           </button>
@@ -93,7 +93,7 @@ const Commantes: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -18 }}
               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-white rounded-[2.5rem] p-8 md:p-12 border border-slate-100/80 shadow-sm relative flex flex-col items-center text-center"
+              className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-8 md:p-12 border border-slate-100 dark:border-slate-700/80 shadow-sm relative flex flex-col items-center text-center"
             >
               {/* Big quote icon */}
               <Quote
@@ -109,7 +109,7 @@ const Commantes: React.FC = () => {
               </div>
 
               {/* Comment text */}
-              <p className="text-lg md:text-xl text-slate-700 font-medium leading-relaxed mb-10 max-w-2xl">
+              <p className="text-lg md:text-xl text-slate-700 dark:text-slate-200 font-medium leading-relaxed mb-10 max-w-2xl">
                 "{current.comment}"
               </p>
 
@@ -121,8 +121,8 @@ const Commantes: React.FC = () => {
                   className="w-14 h-14 rounded-full object-cover shadow-md ring-2 ring-white"
                 />
                 <div className="text-left rtl:text-right">
-                  <h4 className="font-bold text-slate-900 text-base">{current.name}</h4>
-                  <p className="text-indigo-600 text-xs font-bold uppercase tracking-widest mt-0.5">
+                  <h4 className="font-bold text-slate-900 dark:text-white text-base">{current.name}</h4>
+                  <p className="text-indigo-600 dark:text-indigo-400 text-xs font-bold uppercase tracking-widest mt-0.5">
                     {current.role}
                   </p>
                 </div>
@@ -133,7 +133,7 @@ const Commantes: React.FC = () => {
           {/* Nav arrow — RIGHT */}
           <button
             onClick={isRtl ? handlePrev : handleNext}
-            className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? '-left-5 md:-left-14' : '-right-5 md:-right-14'} z-10 w-11 h-11 bg-white rounded-full shadow-md border border-slate-100 flex items-center justify-center text-slate-400 hover:text-indigo-600 hover:border-indigo-200 transition-all`}
+            className={`absolute top-1/2 -translate-y-1/2 ${isRtl ? '-left-5 md:-left-14' : '-right-5 md:-right-14'} z-10 w-11 h-11 bg-white dark:bg-slate-900 rounded-full shadow-md border border-slate-100 dark:border-slate-700 flex items-center justify-center text-slate-400 hover:text-indigo-600 dark:text-indigo-400 hover:border-indigo-200 transition-all`}
           >
             <ChevronRight size={20} className="rtl:rotate-180" />
           </button>

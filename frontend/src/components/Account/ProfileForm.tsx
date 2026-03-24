@@ -112,11 +112,11 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
           style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-          className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden"
+          className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden"
         >
           {/* Header */}
-          <div className="sticky top-0 bg-white/80 backdrop-blur-md px-8 py-6 border-b border-slate-100 flex justify-between items-center z-10">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <div className="sticky top-0 bg-white dark:bg-slate-900/80 backdrop-blur-md px-8 py-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center z-10">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
               <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
                 <User size={24} />
               </div>
@@ -124,7 +124,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
             </h2>
             <button
               onClick={onClose}
-              className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-slate-600"
+              className="p-2 hover:bg-slate-100 dark:bg-slate-800/50 rounded-full transition-colors text-slate-400 hover:text-slate-600 dark:text-slate-300"
             >
               <X size={24} />
             </button>
@@ -135,7 +135,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
             {/* Image Section */}
             <div className="flex flex-col items-center gap-4">
                <div className="relative group">
-                    <div className="w-32 h-32 rounded-[2rem] bg-slate-50 border-2 border-dashed border-slate-200 overflow-hidden flex items-center justify-center relative">
+                    <div className="w-32 h-32 rounded-[2rem] bg-slate-50 dark:bg-slate-800 border-2 border-dashed border-slate-200 dark:border-slate-700 overflow-hidden flex items-center justify-center relative">
                         {preview ? (
                             <img src={preview} alt="Profile" className="w-full h-full object-cover" />
                         ) : (
@@ -146,7 +146,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                             <button 
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="p-2 bg-white text-blue-600 rounded-xl shadow-lg hover:scale-110 transition-transform"
+                                className="p-2 bg-white dark:bg-slate-900 text-blue-600 rounded-xl shadow-lg hover:scale-110 transition-transform"
                             >
                                 <Upload size={20} />
                             </button>
@@ -184,7 +184,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="e.g. John Doe"
-                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                    className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
 
@@ -199,7 +199,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="e.g. john@example.com"
-                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                    className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
 
@@ -214,7 +214,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     value={formData.adress}
                     onChange={handleChange}
                     placeholder="e.g. 123 Main St, Casablanca"
-                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                    className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
 
@@ -229,7 +229,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     value={formData.phone_number}
                     onChange={handleChange}
                     placeholder="e.g. 0612345678"
-                    className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                    className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
             </div>
@@ -239,7 +239,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
               <button
                 type="button"
                 onClick={onClose}
-                className="flex-1 py-4 px-6 bg-slate-50 text-slate-500 font-bold rounded-2xl hover:bg-slate-100 transition-all"
+                className="flex-1 py-4 px-6 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold rounded-2xl hover:bg-slate-100 dark:bg-slate-800/50 transition-all"
               >
                 {t('register_page.cancel')}
               </button>

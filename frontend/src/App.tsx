@@ -27,7 +27,7 @@ function App() {
   const isDashboard = pathname.startsWith("/dashboard");
 
   return (
-    <div className="flex flex-col min-h-screen bg-white">
+    <div className="flex flex-col min-h-screen bg-white dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
       <Navbar />
       <main className="grow">
         <Routes>

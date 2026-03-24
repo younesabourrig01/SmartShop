@@ -15,9 +15,9 @@ const Us: React.FC = () => {
   const isRtl = i18n.language === 'ar';
 
   return (
-    <section className="relative w-full min-h-[92vh] flex items-center bg-white overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24">
+    <section className="relative w-full min-h-[92vh] flex items-center bg-white dark:bg-slate-900 overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24">
       {/* Subtle background blobs */}
-      <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-indigo-50 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-indigo-50 dark:bg-indigo-900/30 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[35rem] h-[35rem] bg-rose-50 rounded-full blur-3xl opacity-50 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -30,15 +30,15 @@ const Us: React.FC = () => {
           className="w-full lg:w-[55%] flex flex-col items-start rtl:items-end text-start rtl:text-right"
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-full mb-8 shadow-sm">
+          <div className="inline-flex items-center gap-3 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 rounded-full mb-8 shadow-sm">
             <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-            <span className="text-xs font-bold tracking-[0.18em] uppercase text-indigo-600">
+            <span className="text-xs font-bold tracking-[0.18em] uppercase text-indigo-600 dark:text-indigo-400">
               {t('us.welcome')}
             </span>
           </div>
 
           {/* Headline */}
-          <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-slate-900 leading-[1.04] tracking-tight mb-6">
+          <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-slate-900 dark:text-white leading-[1.04] tracking-tight mb-6">
             {t('us.title_1')}{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 italic pr-1">
               {t('us.title_2')}
@@ -46,7 +46,7 @@ const Us: React.FC = () => {
           </h1>
 
           {/* Sub-copy */}
-          <p className="text-lg md:text-xl text-slate-500 leading-relaxed max-w-xl mb-10 font-medium">
+          <p className="text-lg md:text-xl text-slate-500 dark:text-slate-400 leading-relaxed max-w-xl mb-10 font-medium">
             {t('us.description')}
           </p>
 
@@ -66,10 +66,10 @@ const Us: React.FC = () => {
             <Link to="/categories" className="w-full sm:w-auto">
               <motion.button
                 whileHover={{ x: isRtl ? -5 : 5 }}
-                className="w-full px-8 py-4 text-slate-700 font-semibold text-base flex items-center justify-center gap-2 group border border-slate-200 rounded-full hover:bg-slate-50 transition-all duration-300"
+                className="w-full px-8 py-4 text-slate-700 dark:text-slate-200 font-semibold text-base flex items-center justify-center gap-2 group border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-50 dark:bg-slate-800 transition-all duration-300"
               >
                 <span>{t('slider.category_title')}</span>
-                <ArrowRight size={18} className="group-hover:text-indigo-600 transition-colors rtl:rotate-180 shrink-0" />
+                <ArrowRight size={18} className="group-hover:text-indigo-600 dark:text-indigo-400 transition-colors rtl:rotate-180 shrink-0" />
               </motion.button>
             </Link>
           </div>
@@ -109,14 +109,14 @@ const Us: React.FC = () => {
             transition={{ delay: 1.1, duration: 0.7 }}
             className={`absolute ${isRtl ? '-right-4 md:-right-6' : '-left-4 md:-left-6'} bottom-14 hidden md:block`}
           >
-            <div className="bg-white/95 backdrop-blur-xl px-5 py-4 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-white/80 max-w-[210px]">
+            <div className="bg-white dark:bg-slate-900/95 backdrop-blur-xl px-5 py-4 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] border border-white dark:border-slate-800/80 max-w-[210px]">
               <div className="flex -space-x-2.5 mb-3">
                 {[21, 22, 23].map(i => (
                   <img
                     key={i}
                     src={`https://i.pravatar.cc/100?img=${i}`}
                     alt="user"
-                    className="w-9 h-9 rounded-full border-2 border-white object-cover"
+                    className="w-9 h-9 rounded-full border-2 border-white dark:border-slate-800 object-cover"
                   />
                 ))}
               </div>
@@ -125,7 +125,7 @@ const Us: React.FC = () => {
                   <Star key={i} size={11} className="fill-amber-400 text-amber-400" />
                 ))}
               </div>
-              <p className="text-xs font-bold text-slate-700 leading-snug">
+              <p className="text-xs font-bold text-slate-700 dark:text-slate-200 leading-snug">
                 {t('commantes.joined')}
               </p>
             </div>
@@ -136,14 +136,14 @@ const Us: React.FC = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 1.3, duration: 0.5 }}
-            className={`absolute top-10 ${isRtl ? '-left-4' : '-right-4'} hidden md:flex items-center gap-2 bg-white/95 backdrop-blur-xl px-4 py-2.5 rounded-xl shadow-lg border border-white/80`}
+            className={`absolute top-10 ${isRtl ? '-left-4' : '-right-4'} hidden md:flex items-center gap-2 bg-white dark:bg-slate-900/95 backdrop-blur-xl px-4 py-2.5 rounded-xl shadow-lg border border-white dark:border-slate-800/80`}
           >
             <div className="w-7 h-7 rounded-full bg-green-100 flex items-center justify-center">
               <Shield size={13} className="text-green-600" />
             </div>
             <div>
               <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Trusted</p>
-              <p className="text-xs font-extrabold text-slate-800">100% Secure</p>
+              <p className="text-xs font-extrabold text-slate-800 dark:text-slate-100">100% Secure</p>
             </div>
           </motion.div>
         </motion.div>

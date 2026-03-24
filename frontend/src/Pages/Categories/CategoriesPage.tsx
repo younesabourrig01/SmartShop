@@ -13,7 +13,7 @@ const CategoriesPage: React.FC = () => {
   const { t } = useTranslation();
   const { categories, loading } = useContext(CategoryContext);
   return (
-    <div className="min-h-screen bg-[#f8fafc] pb-20 pt-24">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-900 pb-20 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Banner Section */}
         <Banner
@@ -33,10 +33,10 @@ const CategoriesPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all group cursor-pointer relative overflow-hidden"
+                className="bg-white dark:bg-slate-900 p-8 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all group cursor-pointer relative overflow-hidden"
               >
                 {/* Decorative background circle */}
-                <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-slate-50 rounded-full group-hover:bg-blue-50 transition-colors duration-500" />
+                <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-slate-50 dark:bg-slate-800 rounded-full group-hover:bg-blue-50 transition-colors duration-500" />
 
                 <div className="relative z-10">
                   <div
@@ -52,7 +52,7 @@ const CategoriesPage: React.FC = () => {
                     />
                   </div>
 
-                  <h4 className="text-2xl font-black text-slate-900 mb-3 group-hover:text-blue-600 transition-colors">
+                  <h4 className="text-2xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 transition-colors">
                     {cat.name}
                   </h4>
                   <div className="flex items-center justify-between mt-6">

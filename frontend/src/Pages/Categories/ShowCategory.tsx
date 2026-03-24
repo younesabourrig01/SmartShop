@@ -47,14 +47,14 @@ const ShowCategory: React.FC = () => {
   if (!category) return <div className="pt-32 text-center h-screen">Category not found</div>;
 
   return (
-    <div className="min-h-screen bg-[#f8fafc] pt-24 pb-20">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-950 pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Back Link */}
         <Link
           to="/categories"
-          className="inline-flex items-center gap-2 text-slate-500 hover:text-blue-600 transition-colors mb-8 font-bold group"
+          className="inline-flex items-center gap-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 transition-colors mb-8 font-bold group"
         >
-          <div className="p-2 bg-white rounded-xl border border-slate-100 group-hover:bg-blue-50 transition-colors">
+          <div className="p-2 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-700 group-hover:bg-blue-50 transition-colors">
             <ArrowLeft size={18} />
           </div>
           {t("product_page.back_to_products") || "Back to Categories"}
@@ -64,7 +64,7 @@ const ShowCategory: React.FC = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-white rounded-[3rem] p-8 md:p-12 border border-slate-100 shadow-sm mb-12 relative overflow-hidden"
+          className="bg-white dark:bg-slate-900 rounded-[3rem] p-8 md:p-12 border border-slate-100 dark:border-slate-700 shadow-sm mb-12 relative overflow-hidden"
         >
           <div className="absolute right-0 top-0 w-1/3 h-full opacity-[0.03] pointer-events-none">
             <Layers size={300} className="-rotate-12 translate-x-20 -translate-y-20" />
@@ -89,10 +89,10 @@ const ShowCategory: React.FC = () => {
               <span className="inline-block px-4 py-1.5 bg-blue-50 text-blue-600 text-xs font-black uppercase tracking-widest rounded-full mb-4">
                 {t("categories.items.count", "Items")} : {category.products.length}
               </span>
-              <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
+              <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 leading-tight">
                 {category.name}
               </h1>
-              <p className="text-slate-500 text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
+              <p className="text-slate-500 dark:text-slate-400 text-lg md:text-xl font-medium leading-relaxed max-w-2xl">
                 {category.description || "Explore our wide range of carefully curated products in this category."}
               </p>
             </div>
@@ -101,7 +101,7 @@ const ShowCategory: React.FC = () => {
 
         {/* Products Section */}
         <div className="mb-10">
-          <h2 className="text-3xl font-black text-slate-900 mb-8 flex items-center gap-4">
+          <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8 flex items-center gap-4">
             <div className="p-3 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-500/30">
               <ShoppingBag size={24} />
             </div>
@@ -112,12 +112,12 @@ const ShowCategory: React.FC = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="text-center py-20 bg-white rounded-[3rem] border-2 border-dashed border-slate-100"
+              className="text-center py-20 bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-dashed border-slate-100 dark:border-slate-700"
             >
-              <div className="p-6 bg-slate-50 rounded-full inline-block mb-6 text-slate-300">
+              <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-full inline-block mb-6 text-slate-300">
                 <ShoppingBag size={48} />
               </div>
-              <h3 className="text-xl font-bold text-slate-800">{t("products.filter.no_results")}</h3>
+              <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100">{t("products.filter.no_results")}</h3>
             </motion.div>
           ) : (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">

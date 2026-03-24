@@ -10,10 +10,10 @@ const NotFound: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#f8fafc] flex items-center justify-center p-4">
-      <div className="max-w-6xl w-full bg-white rounded-[3rem] shadow-2xl border border-slate-50 overflow-hidden flex flex-col md:flex-row items-center">
+      <div className="max-w-6xl w-full bg-white dark:bg-slate-900 rounded-[3rem] shadow-2xl border border-slate-50 overflow-hidden flex flex-col md:flex-row items-center">
         
         {/* Left Side: Animation */}
-        <div className="w-full md:w-1/2 bg-slate-50/50">
+        <div className="w-full md:w-1/2 bg-slate-50 dark:bg-slate-800/50">
           <LogoAnimation height="h-[250px] md:h-[450px]" logoWidth="w-32 md:w-48" />
         </div>
 
@@ -24,7 +24,7 @@ const NotFound: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 leading-tight">
+            <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight">
               {t('notFound.oops', 'Oops!')} <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] to-[#01b0d3]">
                 {t('notFound.title', 'Not Found.')}
@@ -36,7 +36,7 @@ const NotFound: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-lg text-slate-600 font-medium leading-relaxed"
+            className="text-lg text-slate-600 dark:text-slate-300 font-medium leading-relaxed"
           >
             {t('notFound.message', "The page you're looking for doesn't exist or has been moved. Let's get you back on track.")}
           </motion.p>
@@ -60,7 +60,7 @@ const NotFound: React.FC = () => {
 
             <button 
               onClick={() => window.history.back()}
-              className="flex items-center gap-2 text-slate-900 font-black text-lg group cursor-pointer"
+              className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-lg group cursor-pointer"
             >
               <ArrowLeft size={22} className="text-[#01b0d3] group-hover:-translate-x-1 transition-transform" />
               <span>{t('notFound.goBack', 'Go Back')}</span>

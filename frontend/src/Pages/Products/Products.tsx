@@ -36,7 +36,7 @@ const Products: React.FC = () => {
   } = useContext(ProductContext);
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] pt-24 pb-20">
+    <div className="min-h-screen bg-[#f0f2f5] dark:bg-slate-900 pt-24 pb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Special Offer Banner */}
         <Banner
@@ -47,12 +47,12 @@ const Products: React.FC = () => {
         />
 
         {/* Search Section */}
-        <div className="bg-white p-6 md:p-10 rounded-[3rem] border border-slate-100 shadow-sm mt-8 mb-6 relative overflow-hidden group">
+        <div className="bg-white dark:bg-slate-900 p-6 md:p-10 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm mt-8 mb-6 relative overflow-hidden group">
           <div className="absolute top-0 right-0 p-8 opacity-[0.03] group-focus-within:opacity-[0.08] transition-opacity duration-500">
             <Search size={120} />
           </div>
           <div className="relative z-10">
-            <h2 className="text-2xl font-black text-slate-900 mb-6 flex items-center gap-3">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-6 flex items-center gap-3">
               <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
                 <Search size={20} />
               </div>
@@ -67,7 +67,7 @@ const Products: React.FC = () => {
                 type="text"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="w-full pl-14 pr-8 py-5 bg-slate-50 border border-slate-100 rounded-[2rem] focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-lg text-slate-800 placeholder-slate-400 shadow-inner"
+                className="w-full pl-14 pr-8 py-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-[2rem] focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-lg text-slate-800 dark:text-slate-100 placeholder-slate-400 shadow-inner"
                 placeholder={t("products.filter.search_placeholder") || "Search products..."}
               />
             </div>
@@ -75,16 +75,16 @@ const Products: React.FC = () => {
         </div>
 
         {/* Filters and Sort Section */}
-        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 bg-white p-6 md:p-8 rounded-[2.5rem] border border-slate-100 shadow-sm">
+        <div className="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-6 mb-12 bg-white dark:bg-slate-900 p-6 md:p-8 rounded-[2.5rem] border border-slate-100 dark:border-slate-700 shadow-sm">
           <div className="flex items-center gap-4">
             <div className="p-3 bg-blue-50 text-blue-600 rounded-2xl">
               <ListFilter size={24} />
             </div>
             <div>
-              <h3 className="text-xl font-black text-slate-900 leading-tight">
+              <h3 className="text-xl font-black text-slate-900 dark:text-white leading-tight">
                 {t("products.filter.title")}
               </h3>
-              <p className="text-slate-500 text-sm font-medium">
+              <p className="text-slate-500 dark:text-slate-400 text-sm font-medium">
                 {t("products.filter.subtitle")}
               </p>
             </div>
@@ -93,7 +93,7 @@ const Products: React.FC = () => {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             {/* Category Dropdown */}
             <div className="relative w-full sm:w-64">
-              <label className="absolute -top-2.5 left-4 px-2 bg-white text-[10px] font-black uppercase tracking-widest text-slate-400 z-10">
+              <label className="absolute -top-2.5 left-4 px-2 bg-white dark:bg-slate-900 text-[10px] font-black uppercase tracking-widest text-slate-400 z-10">
                 {t("products.filter.category")}
               </label>
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -102,7 +102,7 @@ const Products: React.FC = () => {
               <select
                 value={selectedCategory}
                 onChange={(e) => setSelectedCategory(e.target.value)}
-                className="w-full pl-12 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 appearance-none cursor-pointer"
+                className="w-full pl-12 pr-10 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100 appearance-none cursor-pointer"
               >
                 <option value="all">
                   {t("products.filter.all_categories")}
@@ -120,7 +120,7 @@ const Products: React.FC = () => {
 
             {/* Sort Dropdown */}
             <div className="relative w-full sm:w-64">
-              <label className="absolute -top-2.5 left-4 px-2 bg-white text-[10px] font-black uppercase tracking-widest text-slate-400 z-10">
+              <label className="absolute -top-2.5 left-4 px-2 bg-white dark:bg-slate-900 text-[10px] font-black uppercase tracking-widest text-slate-400 z-10">
                 {t("products.filter.sort_by")}
               </label>
               <div className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400">
@@ -129,7 +129,7 @@ const Products: React.FC = () => {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="w-full pl-12 pr-10 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 appearance-none cursor-pointer"
+                className="w-full pl-12 pr-10 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100 appearance-none cursor-pointer"
               >
                 <option value="min_price">
                   {t("products.filter.min_price")}
@@ -149,7 +149,7 @@ const Products: React.FC = () => {
           <motion.h1
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-black text-slate-900"
+            className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white"
           >
             {t("products.title")}
           </motion.h1>
@@ -157,7 +157,7 @@ const Products: React.FC = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="mt-4 text-lg text-slate-600 font-medium"
+            className="mt-4 text-lg text-slate-600 dark:text-slate-300 font-medium"
           >
             {t("products.description")}
           </motion.p>
@@ -167,15 +167,15 @@ const Products: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="flex flex-col items-center justify-center py-24 px-4 text-center bg-white rounded-[3rem] border-2 border-dashed border-slate-100"
+            className="flex flex-col items-center justify-center py-24 px-4 text-center bg-white dark:bg-slate-900 rounded-[3rem] border-2 border-dashed border-slate-100 dark:border-slate-700"
           >
-            <div className="p-6 bg-slate-50 rounded-full mb-6">
+            <div className="p-6 bg-slate-50 dark:bg-slate-800 rounded-full mb-6">
               <Layers size={48} className="text-slate-300" />
             </div>
-            <h3 className="text-2xl font-black text-slate-800 mb-2">
+            <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-2">
               {t("products.filter.no_results")}
             </h3>
-            <p className="text-slate-500 font-medium max-w-sm">
+            <p className="text-slate-500 dark:text-slate-400 font-medium max-w-sm">
               Try adjusting your filters or search terms to find what you are
               looking for.
             </p>
@@ -218,7 +218,7 @@ const Products: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-slate-100 shadow-lg shadow-slate-200/50">
+          <div className="flex items-center gap-2 bg-white dark:bg-slate-900/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-lg shadow-slate-200/50">
             {/* First Page */}
             <button
               onClick={() => setCurrentPage(1)}
@@ -271,7 +271,7 @@ const Products: React.FC = () => {
                       className={`relative w-10 h-10 rounded-xl text-sm font-bold transition-all duration-200 ${
                         currentPage === page
                           ? "text-white"
-                          : "text-slate-500 hover:text-blue-600 hover:bg-blue-50"
+                          : "text-slate-500 dark:text-slate-400 hover:text-blue-600 hover:bg-blue-50"
                       }`}
                     >
                       {currentPage === page && (

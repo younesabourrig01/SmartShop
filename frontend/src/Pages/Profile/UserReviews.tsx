@@ -81,26 +81,26 @@ const UserReviews: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f3f4f6] pb-20 pt-24 text-slate-800">
+    <div className="min-h-screen bg-[#f3f4f6] dark:bg-slate-950 pb-20 pt-24 text-slate-800 dark:text-slate-100">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
           <div className="flex items-center gap-6">
             <Link 
               to="/profile" 
-              className="p-3 bg-white rounded-2xl shadow-sm border border-slate-100 hover:bg-blue-50 hover:text-blue-600 transition-all hover:-translate-x-1 group"
+              className="p-3 bg-white dark:bg-slate-900 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 hover:bg-blue-50 hover:text-blue-600 transition-all hover:-translate-x-1 group"
             >
               <ArrowLeft size={24} />
             </Link>
             <div>
-              <h1 className="text-4xl font-black text-slate-900 tracking-tight flex items-center gap-4">
+              <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-4">
                 <MessageSquare className="text-blue-600" size={32} />
                 {t('profile.reviews.title', 'Your Reviews')}
               </h1>
               <p className="text-slate-400 font-bold mt-1">Manage and track all your feedback in one place.</p>
             </div>
           </div>
-          <div className="bg-white px-6 py-3 rounded-2xl border border-white shadow-sm font-black text-slate-900">
+          <div className="bg-white dark:bg-slate-900 px-6 py-3 rounded-2xl border border-white dark:border-slate-800 shadow-sm font-black text-slate-900 dark:text-white">
             <span className="text-blue-600">{reviews.length}</span> {t('profile.reviews.count', 'Reviews Total')}
           </div>
         </div>
@@ -121,12 +121,12 @@ const UserReviews: React.FC = () => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ delay: index * 0.05 }}
                   key={rev.id} 
-                  className="bg-white rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/40 overflow-hidden group hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500"
+                  className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/40 overflow-hidden group hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500"
                 >
                   <div className="p-8 md:p-10">
                     <div className="flex flex-col sm:flex-row gap-8 items-start">
                       {/* Product Thumbnail */}
-                      <div className="w-24 h-24 rounded-3xl overflow-hidden bg-slate-50 shadow-inner border border-slate-100 shrink-0 relative group-hover:scale-110 transition-transform duration-500">
+                      <div className="w-24 h-24 rounded-3xl overflow-hidden bg-slate-50 dark:bg-slate-800 shadow-inner border border-slate-100 dark:border-slate-700 shrink-0 relative group-hover:scale-110 transition-transform duration-500">
                         <img 
                           src={rev.product?.images?.[0]?.url?.startsWith('http') 
                             ? rev.product.images[0].url 
@@ -139,7 +139,7 @@ const UserReviews: React.FC = () => {
                       <div className="flex-1 min-w-0">
                         <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                           <div>
-                            <h3 className="text-xl font-black text-slate-900 tracking-tight group-hover:text-blue-600 transition-colors uppercase">
+                            <h3 className="text-xl font-black text-slate-900 dark:text-white tracking-tight group-hover:text-blue-600 transition-colors uppercase">
                               {rev.product?.name || "Product Name"}
                             </h3>
                             <div className="flex items-center gap-3 mt-2">
@@ -166,7 +166,7 @@ const UserReviews: React.FC = () => {
 
                         <div className="relative">
                           <div className="absolute -left-6 top-0 text-slate-100 font-serif text-6xl leading-none">“</div>
-                          <p className="text-slate-600 font-medium text-lg leading-relaxed relative z-10 pl-2">
+                          <p className="text-slate-600 dark:text-slate-300 font-medium text-lg leading-relaxed relative z-10 pl-2">
                             {rev.review}
                           </p>
                         </div>
@@ -175,7 +175,7 @@ const UserReviews: React.FC = () => {
                   </div>
                   
                   {/* Decorative bar */}
-                  <div className="h-1.5 w-full bg-slate-50 group-hover:bg-blue-600 transition-colors" />
+                  <div className="h-1.5 w-full bg-slate-50 dark:bg-slate-800 group-hover:bg-blue-600 transition-colors" />
                 </motion.div>
               ))}
             </AnimatePresence>
@@ -183,12 +183,12 @@ const UserReviews: React.FC = () => {
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="bg-white rounded-[2.5rem] border border-white shadow-sm p-20 text-center"
+              className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-white dark:border-slate-800 shadow-sm p-20 text-center"
             >
-              <div className="w-24 h-24 bg-slate-50 rounded-full flex items-center justify-center text-slate-200 mx-auto mb-8">
+              <div className="w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center text-slate-200 mx-auto mb-8">
                 <ShoppingBag size={48} />
               </div>
-              <h2 className="text-2xl font-black text-slate-900 mb-2">{t('profile.reviews.no_reviews', 'No feedback yet')}</h2>
+              <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">{t('profile.reviews.no_reviews', 'No feedback yet')}</h2>
               <p className="text-slate-400 font-bold mb-8">You haven't written any reviews for the items you've purchased.</p>
               <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-slate-200">
                 Explore Products <ArrowLeft size={18} className="rotate-180" />

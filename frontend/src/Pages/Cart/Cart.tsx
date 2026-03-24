@@ -169,7 +169,7 @@ const Cart: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5] py-8 px-4 md:px-8">
+    <div className="min-h-screen bg-[#f0f2f5] dark:bg-slate-950 py-8 px-4 md:px-8">
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
@@ -177,12 +177,12 @@ const Cart: React.FC = () => {
             <motion.h1
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="text-3xl font-extrabold text-slate-900 flex items-center gap-3"
+              className="text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3"
             >
               <ShoppingCart className="text-blue-600" size={32} />
               {t("dashboard.cart.title", "Shopping Cart")}
             </motion.h1>
-            <p className="text-slate-500 mt-1 font-medium">
+            <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium">
               {cartItems.length}{" "}
               {t("dashboard.cart.items_count", "items in your tray")}
             </p>
@@ -191,7 +191,7 @@ const Cart: React.FC = () => {
           <div className="flex items-center gap-3 w-full md:w-auto">
             <Link
               to="/products"
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white text-slate-600 font-bold hover:bg-slate-50 transition-all border border-slate-200 shadow-sm"
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
             >
               <ArrowLeft size={18} />
               {t("dashboard.cart.back", "Back to Shop")}
@@ -199,7 +199,7 @@ const Cart: React.FC = () => {
             <button
               onClick={handleClearCart}
               disabled={isClearing || cartItems.length === 0}
-              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full ${cartItems.length === 0 ? "bg-slate-50 text-slate-400 border-slate-100 cursor-not-allowed" : "bg-red-50 text-red-600 border-red-100 hover:bg-red-100"} font-bold transition-all disabled:opacity-75 disabled:cursor-not-allowed`}
+              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full ${cartItems.length === 0 ? "bg-slate-50 dark:bg-slate-800 text-slate-400 border-slate-100 dark:border-slate-700 cursor-not-allowed" : "bg-red-50 text-red-600 border-red-100 hover:bg-red-100"} font-bold transition-all disabled:opacity-75 disabled:cursor-not-allowed`}
             >
               {isClearing ? (
                 <Loader size={18} color="#ef4444" />
@@ -221,10 +221,10 @@ const Cart: React.FC = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white rounded-3xl p-4 md:p-6 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-6 group hover:shadow-md transition-all duration-300"
+                  className="bg-white dark:bg-slate-900 rounded-3xl p-4 md:p-6 shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col md:flex-row items-center gap-6 group hover:shadow-md transition-all duration-300"
                 >
                   {/* Product Image */}
-                  <div className="w-full md:w-32 h-32 rounded-2xl overflow-hidden bg-slate-50 flex-shrink-0 relative group">
+                  <div className="w-full md:w-32 h-32 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-800 flex-shrink-0 relative group">
                     <img
                       src={
                         item.product?.images?.[0]?.url 
@@ -247,7 +247,7 @@ const Cart: React.FC = () => {
                           item.category ||
                           "Uncategorized"}
                       </span>
-                      <h3 className="text-xl font-bold text-slate-800 hover:text-blue-600 transition-colors cursor-pointer leading-tight">
+                      <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 transition-colors cursor-pointer leading-tight">
                         {item.product?.name || item.name}
                       </h3>
                       <div className="flex items-center gap-2 text-slate-400 text-sm">
@@ -257,7 +257,7 @@ const Cart: React.FC = () => {
                     </div>
 
                     <div className="flex flex-row md:flex-col justify-between items-center md:items-end gap-4">
-                      <div className="text-2xl font-black text-slate-900">
+                      <div className="text-2xl font-black text-slate-900 dark:text-white">
                         {(
                           (item.product?.price || item.price || 0) *
                           item.quantity
@@ -266,13 +266,13 @@ const Cart: React.FC = () => {
 
                       <div className="flex items-center gap-6">
                         {/* Quantity Controls */}
-                        <div className="flex items-center bg-slate-50 rounded-full p-1 border border-slate-200">
+                        <div className="flex items-center bg-slate-50 dark:bg-slate-800 rounded-full p-1 border border-slate-200 dark:border-slate-700">
                           <button
                             onClick={() =>
                               updateQuantity(item.id, item.product.id, -1)
                             }
                             disabled={updatingItemId === item.product.id}
-                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white hover:shadow-sm text-slate-400 hover:text-blue-600 transition-all disabled:opacity-50"
+                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white dark:bg-slate-900 hover:shadow-sm text-slate-400 hover:text-blue-600 transition-all disabled:opacity-50"
                           >
                             <Minus size={16} />
                           </button>
@@ -287,7 +287,7 @@ const Cart: React.FC = () => {
                               )
                             }
                             min="1"
-                            className="w-12 text-center bg-transparent border-none focus:ring-0 font-bold text-slate-700 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none disabled:opacity-50"
+                            className="w-12 text-center bg-transparent border-none focus:ring-0 font-bold text-slate-700 dark:text-slate-200 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none disabled:opacity-50"
                             disabled={updatingItemId === item.product.id}
                           />
                           <button
@@ -295,7 +295,7 @@ const Cart: React.FC = () => {
                               updateQuantity(item.id, item.product.id, 1)
                             }
                             disabled={updatingItemId === item.product.id}
-                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white hover:shadow-sm text-slate-400 hover:text-blue-600 transition-all disabled:opacity-50"
+                            className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-white dark:bg-slate-900 hover:shadow-sm text-slate-400 hover:text-blue-600 transition-all disabled:opacity-50"
                           >
                             <Plus size={16} />
                           </button>
@@ -307,7 +307,7 @@ const Cart: React.FC = () => {
                             handleUpdateQuantity(item.product.id, 0)
                           }
                           disabled={updatingItemId === item.product.id}
-                          className="p-2.5 rounded-full bg-slate-50 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all duration-300 border border-transparent hover:border-red-100 disabled:opacity-50"
+                          className="p-2.5 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-400 hover:bg-red-50 hover:text-red-500 transition-all duration-300 border border-transparent hover:border-red-100 disabled:opacity-50"
                         >
                           {updatingItemId === item.product.id ? (
                             <Loader size={18} color="#ef4444" />
@@ -324,15 +324,15 @@ const Cart: React.FC = () => {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                className="bg-white rounded-3xl p-12 text-center shadow-sm border border-slate-100"
+                className="bg-white dark:bg-slate-900 rounded-3xl p-12 text-center shadow-sm border border-slate-100 dark:border-slate-700"
               >
-                <div className="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+                <div className="w-20 h-20 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
                   <ShoppingBag size={40} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-800 mb-2">
+                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
                   Your cart is empty
                 </h2>
-                <p className="text-slate-500 mb-8">
+                <p className="text-slate-500 dark:text-slate-400 mb-8">
                   Looks like you haven't added anything to your cart yet.
                 </p>
                 <Link
@@ -359,12 +359,12 @@ const Cart: React.FC = () => {
                     Use code: SMARTSHOP2024 at checkout
                   </p>
                 </div>
-                <button className="px-6 py-2 bg-white text-blue-600 font-bold rounded-full hover:scale-105 transition-transform">
+                <button className="px-6 py-2 bg-white dark:bg-slate-900 text-blue-600 font-bold rounded-full hover:scale-105 transition-transform">
                   Copy Code
                 </button>
               </div>
-              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
-              <div className="absolute -left-10 -top-10 w-40 h-40 bg-white/10 rounded-full blur-2xl" />
+              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white dark:bg-slate-900/10 rounded-full blur-2xl" />
+              <div className="absolute -left-10 -top-10 w-40 h-40 bg-white dark:bg-slate-900/10 rounded-full blur-2xl" />
             </motion.div>
           </div>
 
@@ -373,20 +373,20 @@ const Cart: React.FC = () => {
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 sticky top-24"
+              className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 dark:border-slate-700 sticky top-24"
             >
-              <h2 className="text-2xl font-black text-slate-800 mb-6">
+              <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-6">
                 {t("dashboard.cart.summary", "Order Summary")}
               </h2>
 
               <div className="space-y-4 mb-8">
-                <div className="flex justify-between items-center text-slate-500 font-medium">
+                <div className="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
                   <span>{t("dashboard.cart.subtotal", "Subtotal")}</span>
-                  <span className="font-bold text-slate-700">
+                  <span className="font-bold text-slate-700 dark:text-slate-200">
                     {Number(totalCartItems || 0).toFixed(2)} MAD
                   </span>
                 </div>
-                <div className="flex justify-between items-center text-slate-500 font-medium">
+                <div className="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
                   <div className="flex flex-col">
                     <span>{t("dashboard.cart.shipping", "Shipping")}</span>
                     {badgeData && (
@@ -402,8 +402,8 @@ const Cart: React.FC = () => {
                     </span>
                   </div>
                 </div>
-                <div className="pt-4 border-t border-slate-100 flex justify-between items-center">
-                  <span className="text-lg font-bold text-slate-800">
+                <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
+                  <span className="text-lg font-bold text-slate-800 dark:text-slate-100">
                     {t("dashboard.cart.total", "Total")}
                   </span>
                   <span className="text-3xl font-black text-blue-600">
@@ -428,7 +428,7 @@ const Cart: React.FC = () => {
                 {t("dashboard.cart.checkout", "Checkout Now")}
               </button>
 
-              <div className="mt-8 pt-8 border-t border-slate-100">
+              <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-700">
                 <p className="text-xs text-slate-400 text-center flex items-center justify-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
                   Secure checkout powered by Stripe
@@ -444,13 +444,13 @@ const Cart: React.FC = () => {
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white rounded-3xl p-8 max-w-sm w-full shadow-2xl space-y-6 text-center"
+            className="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm w-full shadow-2xl space-y-6 text-center"
           >
-            <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white shadow-lg">
+            <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white dark:border-slate-800 shadow-lg">
               <ShoppingBag size={40} />
             </div>
-            <h3 className="text-2xl font-black text-slate-800">Order Successful!</h3>
-            <p className="text-slate-500 text-sm">Your order has been placed successfully. Would you like to download your invoice?</p>
+            <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100">Order Successful!</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-sm">Your order has been placed successfully. Would you like to download your invoice?</p>
             
             <div className="flex flex-col gap-3 mt-8">
               <button 
@@ -463,7 +463,7 @@ const Cart: React.FC = () => {
               </button>
               <button 
                 onClick={() => window.location.href = '/profile'}
-                className="w-full py-3.5 bg-slate-100 text-slate-700 rounded-xl font-bold hover:bg-slate-200 transition"
+                className="w-full py-3.5 bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200 rounded-xl font-bold hover:bg-slate-200 transition"
               >
                 Maybe Later
               </button>

@@ -14,7 +14,7 @@ const FeaturedProducts: React.FC = () => {
   const featured = products?.slice(0, 4) || [];
 
   return (
-    <section className="w-full py-24 lg:py-32 bg-slate-50 relative overflow-hidden">
+    <section className="w-full py-24 lg:py-32 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
       {/* Subtle decorative dot grid */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"
@@ -28,23 +28,23 @@ const FeaturedProducts: React.FC = () => {
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 text-start rtl:text-right">
           <div className="max-w-lg">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-indigo-50 border border-indigo-100 rounded-full mb-5">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 rounded-full mb-5">
               <Sparkles size={13} className="text-indigo-500" />
-              <span className="text-xs font-bold tracking-[0.15em] uppercase text-indigo-600">
+              <span className="text-xs font-bold tracking-[0.15em] uppercase text-indigo-600 dark:text-indigo-400">
                 Editor's Picks
               </span>
             </div>
-            <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
+            <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-3">
               {t('products.banner.title') || 'Featured Products'}
             </h2>
-            <p className="text-base text-slate-500 font-medium leading-relaxed">
+            <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
               {t('products.description') || 'Hand-picked for quality, design & performance.'}
             </p>
           </div>
 
           <Link
             to="/products"
-            className="group inline-flex items-center gap-2 text-indigo-600 font-bold text-sm shrink-0 hover:text-indigo-700 transition-colors"
+            className="group inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-sm shrink-0 hover:text-indigo-700 transition-colors"
           >
             <span>{t('categories.banner.cta') || 'View All'}</span>
             <ArrowRight
@@ -60,7 +60,7 @@ const FeaturedProducts: React.FC = () => {
             {[1, 2, 3, 4].map(i => (
               <div
                 key={i}
-                className="bg-white/70 animate-pulse rounded-[2rem] aspect-[4/5] w-full ring-1 ring-black/5"
+                className="bg-white dark:bg-slate-900/70 animate-pulse rounded-[2rem] aspect-[4/5] w-full ring-1 ring-black/5"
               />
             ))}
           </div>

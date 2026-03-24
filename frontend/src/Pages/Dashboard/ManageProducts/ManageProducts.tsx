@@ -137,7 +137,7 @@ const ManageProducts: React.FC = () => {
   return (
     <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen">
       {/* Sidebar - Reusing Dashboard side bar style */}
-      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <LayoutDashboard size={20} />
@@ -176,7 +176,7 @@ const ManageProducts: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out">
         {/* Header */}
-        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
@@ -194,7 +194,7 @@ const ManageProducts: React.FC = () => {
 
         <div className="p-8 space-y-6 relative">          
           {/* Controls */}
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 shadow-sm">
             <div className="relative w-full md:w-96">
               <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
               <input 
@@ -208,7 +208,7 @@ const ManageProducts: React.FC = () => {
             <div className="relative w-full md:w-auto">
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${categoryFilter !== 'all' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
+                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${categoryFilter !== 'all' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'bg-white dark:bg-slate-900 border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
               >
                 <Filter size={18} />
                 {categoryFilter === 'all' ? 'All Products' : 
@@ -218,7 +218,7 @@ const ManageProducts: React.FC = () => {
               </button>
 
               {isFilterOpen && (
-                <div className="absolute right-0 top-full mt-2 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                <div className="absolute right-0 top-full mt-2 w-64 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
                     <div className="mb-4">
                         <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 px-2">Dashboard Filters</p>
                         <div className="space-y-1">
@@ -227,7 +227,7 @@ const ManageProducts: React.FC = () => {
                                     setCategoryFilter('all');
                                     setIsFilterOpen(false);
                                 }}
-                                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === 'all' ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                                className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === 'all' ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'text-gray-500 hover:bg-gray-50'}`}
                             >
                                 <Layers size={14}/>
                                 All Products
@@ -265,7 +265,7 @@ const ManageProducts: React.FC = () => {
                                         setCategoryFilter(cat.id.toString());
                                         setIsFilterOpen(false);
                                     }}
-                                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === cat.id.toString() ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                                    className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${categoryFilter === cat.id.toString() ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'text-gray-500 hover:bg-gray-50'}`}
                                 >
                                     <Package size={14}/>
                                     {cat.name}
@@ -280,7 +280,7 @@ const ManageProducts: React.FC = () => {
 
           {/* Products Table */}
           {loading && <PageLoader/>}
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
@@ -312,7 +312,7 @@ const ManageProducts: React.FC = () => {
                         </div>
                       </td>
                       <td className="px-8 py-5">
-                        <span className="px-3 py-1 bg-indigo-50 text-indigo-600 rounded-full text-[10px] font-black uppercase tracking-wider">
+                        <span className="px-3 py-1 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 rounded-full text-[10px] font-black uppercase tracking-wider">
                           {product.category?.name || "Uncategorized"}
                         </span>
                       </td>
@@ -373,7 +373,7 @@ const ManageProducts: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex items-center gap-2 bg-white/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-gray-100 shadow-lg shadow-gray-200/50">
+                <div className="flex items-center gap-2 bg-white dark:bg-slate-900/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-gray-100 shadow-lg shadow-gray-200/50">
                   {/* First Page */}
                   <button
                     onClick={() => setCurrentPage(1)}

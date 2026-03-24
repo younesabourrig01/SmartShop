@@ -170,7 +170,7 @@ if (isDataLoading) return <PageLoader/>;
   return (
     <div className="flex items-start bg-gray-50 text-gray-800 font-sans relative min-h-screen">
       {/* Sidebar */}
-      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <div className="p-6 flex items-center gap-3 overflow-hidden whitespace-nowrap">
           {/* Logo removed as requested */}
         </div>
@@ -213,7 +213,7 @@ if (isDataLoading) return <PageLoader/>;
       {/* Main Content Area */}
       <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative h-screen`}>
         {/* Top Navbar */}
-        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -228,7 +228,7 @@ if (isDataLoading) return <PageLoader/>;
         <div className="p-8 space-y-8">
           {/* Quick Action Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/users')}>
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/users')}>
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 bg-blue-50 text-blue-600 rounded-xl">
                     <Users size={24} />
@@ -240,7 +240,7 @@ if (isDataLoading) return <PageLoader/>;
                     <span className="text-blue-600 text-xs font-bold hover:underline">{t('dashboard.stats.see_all')}</span>
                 </div>
             </div>
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/products')}>
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/products')}>
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 bg-purple-50 text-purple-600 rounded-xl">
                     <Package size={24} />
@@ -253,7 +253,7 @@ if (isDataLoading) return <PageLoader/>;
                 </div>
             </div>
             {/* Added Categories Card */}
-            <div className="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/categories')}>
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/categories')}>
                 <div className="flex justify-between items-start mb-4">
                   <div className="p-3 bg-green-50 text-green-600 rounded-xl">
                     <Layers size={24} />
@@ -268,13 +268,13 @@ if (isDataLoading) return <PageLoader/>;
           </div>
 
           {/* Orders Section */}
-          <section className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          <section className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
             <div className="p-8 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
               <div>
                 <h2 className="text-xl font-extrabold text-gray-900 tracking-tight">{t('dashboard.transactions.title')}</h2>
               </div>
               <div className="flex flex-wrap gap-3 w-full sm:w-auto">
-                <div className="flex items-center gap-2 px-4 py-1 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 shadow-sm">
+                <div className="flex items-center gap-2 px-4 py-1 bg-white dark:bg-slate-900 border border-gray-200 rounded-xl text-xs font-bold text-gray-700 shadow-sm">
                   <Calendar size={14} className="text-blue-500" />
                   <input 
                     type="date" 
@@ -285,7 +285,7 @@ if (isDataLoading) return <PageLoader/>;
                 </div>
                 <button 
                   onClick={() => fetchOrders()}
-                  className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition-all shadow-sm active:scale-95"
+                  className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-900 border border-gray-200 rounded-xl text-xs font-bold text-gray-500 hover:bg-gray-50 transition-all shadow-sm active:scale-95"
                 >
                   <ArrowUpDown size={14} />
                   Reset to All
@@ -319,7 +319,7 @@ if (isDataLoading) return <PageLoader/>;
                         <td className="px-8 py-5 font-bold text-gray-900 text-sm">#ORD-{order.id}</td>
                         <td className="px-8 py-5">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-xs font-bold text-indigo-600">
+                            <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-bold text-indigo-600 dark:text-indigo-400">
                               {order.user?.name.charAt(0) || "U"}
                             </div>
                             <span className="text-sm font-semibold text-gray-700">{order.user?.name || "Deleted User"}</span>
@@ -339,7 +339,7 @@ if (isDataLoading) return <PageLoader/>;
                         </td>
                         <td className="px-8 py-5 text-right relative">
                           {editingOrderId === order.id ? (
-                            <div className="absolute right-8 top-12 z-50 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 w-64 animate-in fade-in zoom-in duration-200">
+                            <div className="absolute right-8 top-12 z-50 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 p-4 w-64 animate-in fade-in zoom-in duration-200">
                               <div className="flex justify-between items-center mb-4">
                                 <span className="text-xs font-extraBold text-gray-900 uppercase tracking-wider">change order's status</span>
                                 <button onClick={() => setEditingOrderId(null)} className="p-1 hover:bg-gray-100 rounded-full text-gray-400">
@@ -381,7 +381,7 @@ if (isDataLoading) return <PageLoader/>;
                                 setEditingOrderId(order.id);
                                 setTempStatus(order.status);
                               }}
-                              className="px-4 py-2 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 font-bold text-xs rounded-xl transition-all flex items-center gap-2 ml-auto shadow-sm active:scale-95"
+                              className="px-4 py-2 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 font-bold text-xs rounded-xl transition-all flex items-center gap-2 ml-auto shadow-sm active:scale-95"
                             >
                               <RefreshCw size={14} />
                               Update Status

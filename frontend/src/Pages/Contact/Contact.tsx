@@ -8,7 +8,7 @@ const Contact: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-slate-50 pt-8">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-800 pt-8">
       {/* Our Story Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -22,22 +22,22 @@ const Contact: React.FC = () => {
               <BookOpen className="w-4 h-4" />
               {t('contact.our_story_title')}
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+            <h1 className="text-4xl md:text-5xl font-bold text-slate-900 dark:text-white leading-tight">
               {t('contact.who_are_we')}
             </h1>
-            <p className="text-lg text-slate-600 leading-relaxed">
+            <p className="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
               {t('contact.our_story_desc')}
             </p>
             <div className="grid grid-cols-2 gap-6 pt-4">
-              <div className="p-4 rounded-2xl bg-white shadow-sm border border-slate-100">
+              <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-700">
                 <Users2 className="w-8 h-8 text-blue-600 mb-3" />
-                <h3 className="font-bold text-slate-900">12,000+</h3>
-                <p className="text-sm text-slate-500">{t('testimonials.joined', 'Happy Customers')}</p>
+                <h3 className="font-bold text-slate-900 dark:text-white">12,000+</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{t('testimonials.joined', 'Happy Customers')}</p>
               </div>
-              <div className="p-4 rounded-2xl bg-white shadow-sm border border-slate-100">
+              <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 shadow-sm border border-slate-100 dark:border-slate-700">
                 <Award className="w-8 h-8 text-blue-600 mb-3" />
-                <h3 className="font-bold text-slate-900">Premium</h3>
-                <p className="text-sm text-slate-500">{t('features.quality', 'Quality Products')}</p>
+                <h3 className="font-bold text-slate-900 dark:text-white">Premium</h3>
+                <p className="text-sm text-slate-500 dark:text-slate-400">{t('features.quality', 'Quality Products')}</p>
               </div>
             </div>
           </motion.div>
@@ -55,9 +55,9 @@ const Contact: React.FC = () => {
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="absolute -bottom-6 -right-6 p-8 bg-white rounded-3xl shadow-xl hidden md:block max-w-xs border border-slate-100">
+            <div className="absolute -bottom-6 -right-6 p-8 bg-white dark:bg-slate-900 rounded-3xl shadow-xl hidden md:block max-w-xs border border-slate-100 dark:border-slate-700">
               <Building2 className="w-10 h-10 text-blue-600 mb-4" />
-              <p className="text-sm text-slate-600 italic">
+              <p className="text-sm text-slate-600 dark:text-slate-300 italic">
                 "{t('contact.description')}"
               </p>
             </div>
@@ -66,11 +66,11 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Organization Info / Map Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-white dark:bg-slate-900">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 space-y-4">
-            <h2 className="text-3xl font-bold text-slate-900">{t('contact.find_us')}</h2>
-            <p className="text-slate-600 flex items-center justify-center gap-2">
+            <h2 className="text-3xl font-bold text-slate-900 dark:text-white">{t('contact.find_us')}</h2>
+            <p className="text-slate-600 dark:text-slate-300 flex items-center justify-center gap-2">
               <MapPin className="w-5 h-5 text-blue-600" />
               {t('contact.visit_us')}
             </p>
@@ -80,7 +80,7 @@ const Contact: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 h-[450px] relative"
+            className="rounded-3xl overflow-hidden shadow-xl border border-slate-200 dark:border-slate-700 h-[450px] relative"
           >
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d110051.2721867113!2d-9.66444!3d30.42775!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6e94119747d%3A0x867373f1f31f9d44!2sAgadir%2080000%2C%20Morocco!5e0!3m2!1sen!2sus!4v1710426342123!5m2!1sen!2sus"
@@ -96,7 +96,7 @@ const Contact: React.FC = () => {
       </section>
 
       {/* Contact Form Section */}
-      <section className="py-20 bg-slate-50">
+      <section className="py-20 bg-slate-50 dark:bg-slate-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ContactForm />
         </div>

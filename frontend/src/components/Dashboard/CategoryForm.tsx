@@ -95,11 +95,11 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full max-w-lg bg-white rounded-[2.5rem] shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden"
+          className="relative w-full max-w-lg bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-2xl overflow-hidden overflow-y-auto max-h-[90vh] [&::-webkit-scrollbar]:hidden"
         >
           {/* Header */}
-          <div className="sticky top-0 bg-white/80 backdrop-blur-md px-8 py-6 border-b border-slate-100 flex justify-between items-center z-10 text-nowarp">
-            <h2 className="text-2xl font-black text-slate-900 tracking-tight flex items-center gap-3">
+          <div className="sticky top-0 bg-white dark:bg-slate-900/80 backdrop-blur-md px-8 py-6 border-b border-slate-100 dark:border-slate-700 flex justify-between items-center z-10 text-nowarp">
+            <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
               <div className="p-2 bg-blue-50 text-blue-600 rounded-xl">
                 <Layers size={24} />
               </div>
@@ -108,7 +108,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
             <button
               onClick={onClose}
               disabled={isLoading}
-              className="p-2 hover:bg-slate-100 rounded-full transition-colors text-slate-400 hover:text-slate-600"
+              className="p-2 hover:bg-slate-100 dark:bg-slate-800/50 rounded-full transition-colors text-slate-400 hover:text-slate-600 dark:text-slate-300"
             >
               <X size={24} />
             </button>
@@ -126,7 +126,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g. Electronics"
-                className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800"
+                className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
               />
             </div>
 
@@ -140,7 +140,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Describe this category..."
-                className="w-full px-6 py-4 bg-slate-50 border border-slate-100 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 resize-none"
+                className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100 resize-none"
               ></textarea>
             </div>
 
@@ -155,7 +155,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
                 {preview ? (
                   <motion.div
                     layoutId="category-img"
-                    className="relative w-40 h-40 rounded-3xl overflow-hidden border border-slate-100 group shadow-md"
+                    className="relative w-40 h-40 rounded-3xl overflow-hidden border border-slate-100 dark:border-slate-700 group shadow-md"
                   >
                     <img 
                         src={preview} 
@@ -178,7 +178,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
                   <button
                     type="button"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-40 h-40 rounded-3xl border-2 border-dashed border-slate-200 flex flex-col items-center justify-center gap-3 text-slate-400 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-50/30 transition-all group"
+                    className="w-40 h-40 rounded-3xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center gap-3 text-slate-400 hover:text-blue-500 hover:border-blue-500 hover:bg-blue-50/30 transition-all group"
                   >
                     <Upload size={32} className="group-hover:scale-110 transition-transform" />
                     <span className="text-[10px] font-black uppercase tracking-widest">Upload Image</span>
@@ -200,7 +200,7 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
                 type="button"
                 onClick={onClose}
                 disabled={isLoading}
-                className="flex-1 py-4 px-6 bg-slate-50 text-slate-500 font-bold rounded-2xl hover:bg-slate-100 transition-all disabled:opacity-50"
+                className="flex-1 py-4 px-6 bg-slate-50 dark:bg-slate-800 text-slate-500 dark:text-slate-400 font-bold rounded-2xl hover:bg-slate-100 dark:bg-slate-800/50 transition-all disabled:opacity-50"
               >
                 Cancel
               </button>

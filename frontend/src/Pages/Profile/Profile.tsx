@@ -145,14 +145,14 @@ const Profile: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="min-h-[calc(100vh-76px)] bg-[#f3f4f6] pb-12 pt-8 text-slate-800">
+    <div className="min-h-[calc(100vh-76px)] bg-[#f3f4f6] dark:bg-slate-950 pb-12 pt-8 text-slate-800 dark:text-slate-100">
       <div className="max-w-7xl mx-auto px-4 md:px-8 space-y-8">
         
         {/* Profile Details Container */}
-        <div className="bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/60 transition-all">
+        <div className="bg-gradient-to-br from-white to-slate-50 rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/60 transition-all">
           <div className="px-10 py-10 flex flex-col md:flex-row items-center md:items-end gap-8 relative z-10">
             <div className="relative group">
-              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] border-[6px] border-white overflow-hidden shadow-2xl bg-white transition-transform duration-500 group-hover:scale-[1.03] group-hover:rotate-2">
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-[2.5rem] border-[6px] border-white dark:border-slate-800 overflow-hidden shadow-2xl bg-white dark:bg-slate-900 transition-transform duration-500 group-hover:scale-[1.03] group-hover:rotate-2">
                 {user.image ? (
                   <img 
                     src={`http://127.0.0.1:8000/storage/${user.image}`} 
@@ -160,7 +160,7 @@ const Profile: React.FC = () => {
                     className="w-full h-full object-cover"
                   />
                 ) : (
-                  <div className="w-full h-full bg-slate-50 flex items-center justify-center text-slate-200">
+                  <div className="w-full h-full bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-200">
                     <User size={64} />
                   </div>
                 )}
@@ -168,7 +168,7 @@ const Profile: React.FC = () => {
             </div>
             
             <div className="flex-1 text-center md:text-left rtl:md:text-right mb-2">
-              <h1 className="text-4xl font-black text-slate-900 tracking-tight">{user.name}</h1>
+              <h1 className="text-4xl font-black text-slate-900 dark:text-white tracking-tight">{user.name}</h1>
               <p className="text-slate-400 font-bold text-lg mt-1">{user.email}</p>
             </div>
 
@@ -178,7 +178,7 @@ const Profile: React.FC = () => {
                   badgeData?.badge === 'master' ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 border-amber-300/40 text-black shadow-amber-500/30' :
                   badgeData?.badge === 'premium' ? 'bg-gradient-to-br from-slate-900 to-indigo-900 border-indigo-500/30 text-white shadow-indigo-500/20' :
                   badgeData?.badge === 'medium' ? 'bg-gradient-to-br from-amber-500/10 to-yellow-500/10 border-yellow-500/30 text-amber-900 shadow-yellow-500/10' :
-                  'bg-white/80 backdrop-blur-md border-slate-200 text-slate-800 shadow-slate-200/50'
+                  'bg-white dark:bg-slate-900/80 backdrop-blur-md border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 shadow-slate-200/50'
                 }`}
               >
 
@@ -194,10 +194,10 @@ const Profile: React.FC = () => {
                   {/* Badge Image with Glow */}
                   <div className="relative">
                     {badgeData?.badge === 'premium' && (
-                      <div className="absolute inset-0 bg-white/20 rounded-full blur-lg scale-125 animate-pulse"></div>
+                      <div className="absolute inset-0 bg-white dark:bg-slate-900/20 rounded-full blur-lg scale-125 animate-pulse"></div>
                     )}
                     {badgeData?.badge === 'master' && (
-                      <div className="absolute inset-0 bg-white/40 rounded-full blur-xl scale-[1.3] animate-pulse"></div>
+                      <div className="absolute inset-0 bg-white dark:bg-slate-900/40 rounded-full blur-xl scale-[1.3] animate-pulse"></div>
                     )}
                     {badgeData?.badge ? (
                       <img 
@@ -206,7 +206,7 @@ const Profile: React.FC = () => {
                         className="h-14 w-auto object-contain transition-transform duration-500 group-hover:scale-105 relative z-10 drop-shadow-xl"
                       />
                     ) : (
-                      <div className="h-14 w-14 bg-slate-100 rounded-full animate-pulse"></div>
+                      <div className="h-14 w-14 bg-slate-100 dark:bg-slate-800/50 rounded-full animate-pulse"></div>
                     )}
                   </div>
 
@@ -246,7 +246,7 @@ const Profile: React.FC = () => {
                             {badgeData?.badge === 'normal' ? 'Medium' : badgeData?.badge === 'medium' ? 'Premium' : 'Master'} {t('profile.badge.next')}
                           </span>
                         </div>
-                        <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden border border-white shadow-inner">
+                        <div className="h-2 w-full bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden border border-white dark:border-slate-800 shadow-inner">
                           <div 
                             className={`h-full transition-all duration-1000 ${
                               badgeData?.badge === 'medium' ? 'bg-amber-500' : 
@@ -273,15 +273,15 @@ const Profile: React.FC = () => {
                 </div>
 
                 {/* Info Tooltip Hover */}
-                <div className="absolute top-1/2 -translate-y-1/2 right-[105%] w-72 p-6 bg-slate-900/95 backdrop-blur-2xl text-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[100] border border-white/10">
+                <div className="absolute top-1/2 -translate-y-1/2 right-[105%] w-72 p-6 bg-slate-900/95 backdrop-blur-2xl text-white rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.3)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-[100] border border-white dark:border-slate-800/10">
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+                    <div className="flex items-center gap-3 border-b border-white dark:border-slate-800/10 pb-4">
                       <div className="p-2 bg-blue-500/20 rounded-xl text-blue-400 border border-blue-500/20">
                         <Info size={16} />
                       </div>
                       <div className="text-left rtl:text-right">
                         <p className="text-xs font-black uppercase tracking-widest leading-none">{t('profile.badge.status_guide')}</p>
-                        <p className="text-[9px] text-slate-500 mt-1 uppercase font-bold tracking-wider">{t('profile.badge.level_up')}</p>
+                        <p className="text-[9px] text-slate-500 dark:text-slate-400 mt-1 uppercase font-bold tracking-wider">{t('profile.badge.level_up')}</p>
                       </div>
                     </div>
                     <p className="text-[11px] leading-relaxed font-medium text-slate-300">
@@ -294,7 +294,7 @@ const Profile: React.FC = () => {
                         : t('profile.badge.normal_desc')}
                     </p>
                     <div className="pt-2 space-y-2">
-                      <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest bg-white/5 p-3 rounded-xl border border-white/5">
+                      <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-widest bg-white dark:bg-slate-900/5 p-3 rounded-xl border border-white dark:border-slate-800/5">
                         <span className="text-slate-400">{t('profile.badge.total_orders')}</span>
                         <span className="text-blue-400">{badgeData?.orders_count || 0}</span>
                       </div>
@@ -307,7 +307,7 @@ const Profile: React.FC = () => {
                     </div>
                   </div>
                   {/* Arrow */}
-                  <div className="absolute top-1/2 -translate-y-1/2 -right-1 w-3 h-3 bg-slate-900/95 backdrop-blur-xl rotate-45 border-t border-r border-white/10"></div>
+                  <div className="absolute top-1/2 -translate-y-1/2 -right-1 w-3 h-3 bg-slate-900/95 backdrop-blur-xl rotate-45 border-t border-r border-white dark:border-slate-800/10"></div>
                 </div>
               </div>
             </div>
@@ -319,59 +319,59 @@ const Profile: React.FC = () => {
           {/* Left Column: Quick Stats & Actions */}
           <div className="space-y-6">
             {/* Quick Stats */}
-            <div className="bg-white p-6 rounded-3xl border border-white shadow-sm">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-white dark:border-slate-800 shadow-sm">
               <h3 className="text-xs font-black text-slate-300 uppercase tracking-widest mb-6">{t('profile.quick_stats', 'Activity Overview')}</h3>
               <div className="grid grid-cols-2 gap-4">
-                <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-2xl border border-white shadow-inner">
+                <div className="p-5 bg-gradient-to-br from-blue-50 to-indigo-50/30 rounded-2xl border border-white dark:border-slate-800 shadow-inner">
                   <p className="text-3xl font-black text-blue-600">{badgeData?.orders_count || 0}</p>
                   <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-wider">{t('profile.stats.orders', 'Orders')}</p>
                 </div>
-                <div className="p-5 bg-gradient-to-br from-indigo-50 to-purple-50/30 rounded-2xl border border-white shadow-inner">
-                  <p className="text-3xl font-black text-indigo-600">{badgeData?.wishlist_count || 0}</p>
+                <div className="p-5 bg-gradient-to-br from-indigo-50 to-purple-50/30 rounded-2xl border border-white dark:border-slate-800 shadow-inner">
+                  <p className="text-3xl font-black text-indigo-600 dark:text-indigo-400">{badgeData?.wishlist_count || 0}</p>
                   <p className="text-[10px] font-black text-slate-400 mt-2 uppercase tracking-wider">{t('profile.stats.wishlist', 'Wishlist')}</p>
                 </div>
               </div>
             </div>
 
             {/* Navigation Items */}
-            <div className="bg-white rounded-[2rem] border border-white shadow-sm overflow-hidden divide-y divide-slate-50">
-              <Link to="/profile/settings" className="flex items-center gap-4 p-6 hover:bg-slate-50 transition-all group">
-                <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+            <div className="bg-white dark:bg-slate-900 rounded-[2rem] border border-white dark:border-slate-800 shadow-sm overflow-hidden divide-y divide-slate-50">
+              <Link to="/profile/settings" className="flex items-center gap-4 p-6 hover:bg-slate-50 dark:bg-slate-800 transition-all group">
+                <div className="p-3 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
                   <SettingsIcon size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="font-bold text-slate-900 leading-none">{t('profile.nav.settings', 'Settings')}</p>
+                  <p className="font-bold text-slate-900 dark:text-white leading-none">{t('profile.nav.settings', 'Settings')}</p>
                   <p className="text-xs text-slate-400 mt-1.5">{t('profile.nav.settings_desc', 'Update your preferences.')}</p>
                 </div>
                 <ExternalLink size={14} className="text-slate-200 group-hover:text-blue-500 transition-colors" />
               </Link>
 
-              <Link to="/profile/reviews" className="flex items-center gap-4 p-6 hover:bg-slate-50 transition-all group border-t border-slate-50">
-                <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
+              <Link to="/profile/reviews" className="flex items-center gap-4 p-6 hover:bg-slate-50 dark:bg-slate-800 transition-all group border-t border-slate-50">
+                <div className="p-3 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-xl group-hover:bg-blue-600 group-hover:text-white transition-all shadow-sm">
                   <MessageSquare size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="font-bold text-slate-900 leading-none">{t('profile.nav.reviews', 'Your Reviews')}</p>
+                  <p className="font-bold text-slate-900 dark:text-white leading-none">{t('profile.nav.reviews', 'Your Reviews')}</p>
                   <p className="text-xs text-slate-400 mt-1.5">{t('profile.nav.reviews_desc', 'Manage your feedback.')}</p>
                 </div>
                 <ExternalLink size={14} className="text-slate-200 group-hover:text-blue-500 transition-colors" />
               </Link>
 
               <button onClick={handleLogout} className="flex items-center gap-4 w-full p-6 hover:bg-rose-50/50 transition-all group">
-                <div className="p-3 bg-slate-50 text-slate-400 rounded-xl group-hover:bg-rose-600 group-hover:text-white transition-all shadow-sm">
+                <div className="p-3 bg-slate-50 dark:bg-slate-800 text-slate-400 rounded-xl group-hover:bg-rose-600 group-hover:text-white transition-all shadow-sm">
                   {isLoading ? <Loader color="#f43f5e" /> : <LogOut size={20} />}
                 </div>
                 <div className="text-left rtl:text-right flex-1">
-                  <p className="font-bold text-slate-900 leading-none">{t('profile.nav.logout', 'Log out')}</p>
+                  <p className="font-bold text-slate-900 dark:text-white leading-none">{t('profile.nav.logout', 'Log out')}</p>
                   <p className="text-xs text-slate-400 mt-1.5">{t('profile.nav.logout_desc', 'Exit your session.')}</p>
                 </div>
               </button>
             </div>
             
             {/* Support Card - Lightest Gray */}
-            <div className="bg-white p-8 rounded-[2rem] border border-white shadow-lg shadow-slate-200/50 relative overflow-hidden group">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-white dark:border-slate-800 shadow-lg shadow-slate-200/50 relative overflow-hidden group">
               <div className="absolute -right-8 -top-8 w-32 h-32 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100 transition-all"></div>
-              <h3 className="font-black text-2xl mb-2 text-slate-900 relative z-10 tracking-tight">{t('profile.support_title')}</h3>
+              <h3 className="font-black text-2xl mb-2 text-slate-900 dark:text-white relative z-10 tracking-tight">{t('profile.support_title')}</h3>
               <p className="text-sm text-slate-400 mb-6 font-medium relative z-10 leading-relaxed">{t('profile.support_desc')}</p>
               <Link to="/contact" className="block w-full py-4 bg-slate-900 text-white rounded-2xl text-xs font-black hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 border border-slate-900 relative z-10 uppercase tracking-[0.2em] text-center">
                 {t('profile.contact_us', 'Contact Us')}
@@ -381,13 +381,13 @@ const Profile: React.FC = () => {
 
           {/* Right Column: Latest Orders */}
           <div className="lg:col-span-2 space-y-6">
-            <section className="bg-white rounded-[2.5rem] border border-white shadow-xl shadow-slate-200/40 overflow-hidden">
+            <section className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/40 overflow-hidden">
               <div className="p-8 md:p-10 flex items-center justify-between border-b border-slate-50">
                 <div className="flex items-center gap-4">
-                  <div className="p-3 bg-slate-50 text-slate-800 rounded-2xl shadow-inner border border-white">
+                  <div className="p-3 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-2xl shadow-inner border border-white dark:border-slate-800">
                     <Package size={24} />
                   </div>
-                  <h2 className="text-2xl font-black text-slate-900 tracking-tight">{t('profile.orders.title', 'Latest Orders')}</h2>
+                  <h2 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">{t('profile.orders.title', 'Latest Orders')}</h2>
                 </div>
                 <div className="flex items-center gap-2">
                   <button 
@@ -400,7 +400,7 @@ const Profile: React.FC = () => {
                   </button>
                   <button 
                     onClick={() => setShowAllDays(!showAllDays)}
-                    className="text-[10px] font-black text-slate-400 hover:text-blue-600 bg-slate-50 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-white hover:border-blue-100"
+                    className="text-[10px] font-black text-slate-400 hover:text-blue-600 bg-slate-50 dark:bg-slate-800 px-6 py-3 rounded-2xl transition-all uppercase tracking-widest border border-white dark:border-slate-800 hover:border-blue-100"
                   >
                     {showAllDays ? t('profile.orders.show_latest', 'Show Latest') : t('profile.orders.view_all', 'View All')}
                   </button>
@@ -409,13 +409,13 @@ const Profile: React.FC = () => {
 
               <div className="overflow-x-auto min-h-[300px] relative">
                 {isOrdersLoading ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-white/50 z-20">
+                  <div className="absolute inset-0 flex items-center justify-center bg-white dark:bg-slate-900/50 z-20">
                     <PageLoader />
                   </div>
                 ) : null}
                 
                 <table className="w-full text-left rtl:text-right">
-                  <thead className="bg-slate-50/30 text-slate-300 text-[10px] uppercase font-black tracking-[0.15em]">
+                  <thead className="bg-slate-50 dark:bg-slate-800/30 text-slate-300 text-[10px] uppercase font-black tracking-[0.15em]">
                     <tr>
                       <th className="px-8 py-5">{t('profile.orders.id', 'ID')}</th>
                       <th className="px-8 py-5">{t('profile.orders.product', 'Product')}</th>
@@ -429,23 +429,23 @@ const Profile: React.FC = () => {
                       (showAllDays ? sortedDates : [sortedDates[0]]).map((date) => (
                         <React.Fragment key={date}>
                           {showAllDays && (
-                            <tr className="bg-slate-50/50">
+                            <tr className="bg-slate-50 dark:bg-slate-800/50">
                               <td colSpan={5} className="px-8 py-3 text-[10px] font-black text-slate-400 uppercase tracking-widest">
                                 {date}
                               </td>
                             </tr>
                           )}
                           {groupedOrders[date].map((order) => (
-                            <tr key={order.id} className="hover:bg-slate-50/30 transition-colors group cursor-pointer">
+                            <tr key={order.id} className="hover:bg-slate-50 dark:bg-slate-800/30 transition-colors group cursor-pointer">
                               <td className="px-8 py-6">
-                                <span className="text-sm font-black text-slate-900 opacity-80 group-hover:opacity-100 transition-opacity">#{order.id}</span>
+                                <span className="text-sm font-black text-slate-900 dark:text-white opacity-80 group-hover:opacity-100 transition-opacity">#{order.id}</span>
                               </td>
                               <td className="px-8 py-6">
                                 <div className="flex items-center gap-4">
-                                  <div className="w-10 h-10 rounded-2xl bg-slate-50 flex items-center justify-center text-slate-300 group-hover:bg-white group-hover:text-blue-600 transition-all shadow-sm border border-transparent group-hover:border-blue-50">
+                                  <div className="w-10 h-10 rounded-2xl bg-slate-50 dark:bg-slate-800 flex items-center justify-center text-slate-300 group-hover:bg-white dark:bg-slate-900 group-hover:text-blue-600 transition-all shadow-sm border border-transparent group-hover:border-blue-50">
                                     <ShoppingBag size={18} />
                                   </div>
-                                  <span className="text-sm font-bold text-slate-600 group-hover:text-slate-900 transition-colors">
+                                  <span className="text-sm font-bold text-slate-600 dark:text-slate-300 group-hover:text-slate-900 dark:text-white transition-colors">
                                     {order.order_items?.[0]?.product?.name || "Order #" + order.id}
                                     {order.order_items?.length > 1 && ` (+${order.order_items.length - 1} more)`}
                                   </span>
@@ -457,14 +457,14 @@ const Profile: React.FC = () => {
                                 </span>
                               </td>
                               <td className="px-8 py-6">
-                                <span className="text-sm font-black text-slate-900">{Number(order.total).toFixed(2)} MAD</span>
+                                <span className="text-sm font-black text-slate-900 dark:text-white">{Number(order.total).toFixed(2)} MAD</span>
                               </td>
                               <td className="px-8 py-6">
                                 <span className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest border ${
-                                  order.status === 'delivered' ? 'bg-white text-emerald-600 border-emerald-100 shadow-sm shadow-emerald-50' : 
-                                  order.status === 'in_transit' ? 'bg-white text-sky-600 border-sky-100 shadow-sm shadow-sky-50' : 
-                                  order.status === 'pending' ? 'bg-white text-amber-600 border-amber-100 shadow-sm shadow-amber-50' : 
-                                  'bg-white text-rose-600 border-rose-100 shadow-sm shadow-rose-50'
+                                  order.status === 'delivered' ? 'bg-white dark:bg-slate-900 text-emerald-600 border-emerald-100 shadow-sm shadow-emerald-50' : 
+                                  order.status === 'in_transit' ? 'bg-white dark:bg-slate-900 text-sky-600 border-sky-100 shadow-sm shadow-sky-50' : 
+                                  order.status === 'pending' ? 'bg-white dark:bg-slate-900 text-amber-600 border-amber-100 shadow-sm shadow-amber-50' : 
+                                  'bg-white dark:bg-slate-900 text-rose-600 border-rose-100 shadow-sm shadow-rose-50'
                                 }`}>
                                   <div className={`w-1.5 h-1.5 rounded-full ${
                                     order.status === 'delivered' ? 'bg-emerald-500 animate-pulse' : 
@@ -492,7 +492,7 @@ const Profile: React.FC = () => {
                 </table>
               </div>
               
-              <div className="p-8 bg-slate-50/30 text-center border-t border-slate-50">
+              <div className="p-8 bg-slate-50 dark:bg-slate-800/30 text-center border-t border-slate-50">
                 <p className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">
                   {t('profile.orders.showing_recent', 'Recent Activity Log • Version 2.0')}
                 </p>

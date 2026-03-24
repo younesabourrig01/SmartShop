@@ -100,7 +100,7 @@ const Users: React.FC = () => {
   return (
     <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen">
       {/* Sidebar - Reusing Dashboard side bar style */}
-      <aside className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <LayoutDashboard size={20} />
@@ -139,7 +139,7 @@ const Users: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out h-screen overflow-hidden">
         {/* Header */}
-        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
@@ -157,7 +157,7 @@ const Users: React.FC = () => {
           ) : (
             <>
               {/* Controls */}
-              <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+              <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 shadow-sm">
                 <div className="relative w-full md:w-96">
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
                   <input 
@@ -174,14 +174,14 @@ const Users: React.FC = () => {
                 <div className="relative w-full md:w-auto">
                     <button 
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${roleFilter !== 'all' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'bg-white border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
+                        className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${roleFilter !== 'all' ? 'bg-indigo-600 text-white shadow-indigo-100' : 'bg-white dark:bg-slate-900 border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
                     >
                         <Filter size={18} />
                         Filter {roleFilter !== 'all' ? `: ${roleFilter}` : ''}
                     </button>
 
                     {isFilterOpen && (
-                        <div className="absolute right-0 top-full mt-2 w-56 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div className="absolute right-0 top-full mt-2 w-56 bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-gray-100 p-4 z-50 animate-in fade-in slide-in-from-top-2 duration-300">
                             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3 px-2">Filter By Badge & Role</p>
                             <div className="space-y-1">
                                 {[
@@ -196,7 +196,7 @@ const Users: React.FC = () => {
                                             setCurrentPage(1);
                                             setIsFilterOpen(false);
                                         }}
-                                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${roleFilter === opt.value ? 'bg-indigo-50 text-indigo-600' : 'text-gray-500 hover:bg-gray-50'}`}
+                                        className={`w-full flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-bold transition-all ${roleFilter === opt.value ? 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'text-gray-500 hover:bg-gray-50'}`}
                                     >
                                         {opt.icon}
                                         {opt.label}
@@ -209,7 +209,7 @@ const Users: React.FC = () => {
               </div>
 
               {/* Users Table */}
-              <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden relative min-h-[400px]">
+              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden relative min-h-[400px]">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
                     <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
@@ -225,7 +225,7 @@ const Users: React.FC = () => {
                           <tr key={user.id} className="hover:bg-gray-50/50 transition-colors group">
                             <td className="px-8 py-5">
                               <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center overflow-hidden">
+                                <div className="w-10 h-10 rounded-xl bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center overflow-hidden">
                                   {user.image ? (
                                     <img 
                                       src={`http://127.0.0.1:8000/storage/${user.image}`} 
@@ -233,7 +233,7 @@ const Users: React.FC = () => {
                                       className="w-full h-full object-cover"
                                     />
                                   ) : (
-                                    <div className="text-xs font-bold text-indigo-600 uppercase">
+                                    <div className="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase">
                                       {user.name?.substring(0, 2) || user.email?.substring(0, 2)}
                                     </div>
                                   )}
@@ -252,7 +252,7 @@ const Users: React.FC = () => {
                               }`}>
                                 {user.role === 'Admin' && (
                                   <>
-                                    <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
+                                    <div className="absolute inset-0 bg-white dark:bg-slate-900/20 translate-x-[-100%] group-hover/badge:translate-x-[100%] transition-transform duration-1000" />
                                     <Crown size={12} className="animate-bounce" />
                                   </>
                                 )}
@@ -266,7 +266,7 @@ const Users: React.FC = () => {
                                      setSelectedUser(user);
                                      setIsModalOpen(true);
                                    }}
-                                   className="p-2 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 rounded-xl transition-all flex items-center gap-2 group/btn ml-auto"
+                                   className="p-2 text-indigo-500 hover:text-indigo-700 hover:bg-indigo-50 dark:bg-indigo-900/30 rounded-xl transition-all flex items-center gap-2 group/btn ml-auto"
                                    title="Show Details"
                                  >
                                    <Eye size={18} className="group-hover/btn:scale-110 transition-transform" />
@@ -318,7 +318,7 @@ const Users: React.FC = () => {
       {/* User Details Modal */}
       {isModalOpen && selectedUser && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
-          <div className="bg-white w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
+          <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-[2.5rem] shadow-2xl overflow-hidden animate-in zoom-in-95 duration-300">
             {/* Modal Header */}
             <div className={`p-8 flex justify-between items-start relative ${selectedUser.role === 'Admin' ? 'bg-gradient-to-br from-indigo-900 to-gray-900 text-white border-b-4 border-amber-500' : 'bg-gradient-to-br from-gray-50 to-gray-100 text-gray-900 border-b border-gray-100'}`}>
               {/* Admin Gold Banner */}
@@ -334,11 +334,11 @@ const Users: React.FC = () => {
               )}
 
               <div className="flex items-center gap-6">
-                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center overflow-hidden shadow-xl border-4 ${selectedUser.role === 'Admin' ? 'border-amber-500 shadow-amber-500/20' : 'border-white'}`}>
+                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center overflow-hidden shadow-xl border-4 ${selectedUser.role === 'Admin' ? 'border-amber-500 shadow-amber-500/20' : 'border-white dark:border-slate-800'}`}>
                   {selectedUser.image ? (
                     <img src={`http://127.0.0.1:8000/storage/${selectedUser.image}`} alt={selectedUser.name} className="w-full h-full object-cover" />
                   ) : (
-                    <div className={`text-2xl font-black ${selectedUser.role === 'Admin' ? 'text-white' : 'text-indigo-600'}`}>
+                    <div className={`text-2xl font-black ${selectedUser.role === 'Admin' ? 'text-white' : 'text-indigo-600 dark:text-indigo-400'}`}>
                       {selectedUser.name?.charAt(0) || "U"}
                     </div>
                   )}
@@ -353,7 +353,7 @@ const Users: React.FC = () => {
               </div>
               <button 
                 onClick={() => setIsModalOpen(false)}
-                className={`p-2 rounded-xl transition-all ${selectedUser.role === 'Admin' ? 'hover:bg-white/10 text-white' : 'hover:bg-gray-200 text-gray-400'}`}
+                className={`p-2 rounded-xl transition-all ${selectedUser.role === 'Admin' ? 'hover:bg-white dark:bg-slate-900/10 text-white' : 'hover:bg-gray-200 text-gray-400'}`}
               >
                 <X size={24} />
               </button>
@@ -389,7 +389,7 @@ const Users: React.FC = () => {
 // Helper Component for Modal Rows
 const InfoRow: React.FC<{ icon: React.ReactNode, label: string, value: string }> = ({ icon, label, value }) => (
   <div className="flex items-center gap-4 p-4 rounded-2xl bg-gray-50 border border-transparent hover:border-gray-100 transition-all group">
-    <div className="p-2.5 bg-white text-indigo-600 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+    <div className="p-2.5 bg-white dark:bg-slate-900 text-indigo-600 dark:text-indigo-400 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
       {icon}
     </div>
     <div>

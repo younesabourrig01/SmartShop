@@ -7,7 +7,7 @@ import FeaturedProducts from './FeaturedProducts';
 
 const Home: React.FC = () => {
   return (
-    <main className="w-full overflow-x-hidden bg-white">
+    <main className="w-full overflow-x-hidden bg-white dark:bg-slate-900">
       {/* Hero */}
       <Us />
 
@@ -33,7 +33,7 @@ const Home: React.FC = () => {
       <div className="w-full h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
       {/* Contact */}
-      <section className="w-full py-24 bg-slate-50">
+      <section className="w-full py-24 bg-slate-50 dark:bg-slate-800">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
           <ContactUs />
         </div>

@@ -103,7 +103,7 @@ const ManageCategories: React.FC = () => {
     <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen overflow-hidden">
       {/* Sidebar - Reusing Dashboard side bar style */}
       <aside
-        className={`bg-white border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? "w-64" : "w-0 border-none"}`}
+        className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? "w-64" : "w-0 border-none"}`}
       >
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button
@@ -155,7 +155,7 @@ const ManageCategories: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out h-screen">
         {/* Header */}
-        <header className="sticky top-0 bg-white/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-0 bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
@@ -178,7 +178,7 @@ const ManageCategories: React.FC = () => {
 
         <div className="p-8 space-y-6 flex-1 overflow-y-auto scrollbar-hide">
           {/* Controls */}
-          <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-gray-100 shadow-sm">
+          <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white dark:bg-slate-900 p-4 rounded-2xl border border-gray-100 shadow-sm">
             <div className="relative w-full md:w-96">
               <Search
                 className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
@@ -196,7 +196,7 @@ const ManageCategories: React.FC = () => {
 
           {/* Categories Table */}
           {loading && <PageLoader />}
-          <div className="bg-white rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
