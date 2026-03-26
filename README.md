@@ -189,7 +189,7 @@ or
 This will stop all running services.
 ---
 
-📌 **Note:**
+**Note:**
 
 * Make sure you run these scripts from the project root directory
 * Windows only (because `.bat` files)
