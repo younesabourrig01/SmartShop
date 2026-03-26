@@ -2,6 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
+import { useTranslation } from 'react-i18next';
+
 interface BannerProps {
   title: string;
   subtitle: string;
@@ -15,8 +17,10 @@ const Banner: React.FC<BannerProps> = ({
   subtitle, 
   ctaText, 
   onCtaClick, 
-  gradient = "from-[#0046be] via-[#01b0d3] to-[#43dabb]" 
+  gradient = "from-blue-700 via-blue-600 to-blue-500" 
 }) => {
+  const { t } = useTranslation();
+
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -28,14 +32,14 @@ const Banner: React.FC<BannerProps> = ({
 
       <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8">
         <div className="text-center md:text-left">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white dark:bg-slate-900/20 backdrop-blur-md rounded-full text-slate-900 dark:text-white text-[10px] font-black uppercase tracking-widest mb-4">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white rounded-full text-blue-600 text-[10px] font-black uppercase tracking-widest mb-4">
             <Sparkles size={12} className="animate-spin-slow" />
-            Limited Time Offer
+            {t('nav.limited_offer')}
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
             {title}
           </h2>
-          <p className="text-slate-900 dark:text-white/80 text-lg font-medium max-w-xl">
+          <p className="text-white dark:text-white/80 text-lg font-medium max-w-xl">
             {subtitle}
           </p>
         </div>

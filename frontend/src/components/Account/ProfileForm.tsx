@@ -64,7 +64,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
       const response = await updateProfile(data);
       
       if (response.data.status === 'success') {
-        toast.success(response.data.message || 'Profile updated successfully');
+        toast.success(response.data.message || t('profile.form.update_success'));
         if (token) {
           setAuth(response.data.data, token);
         }
@@ -72,7 +72,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
       }
     } catch (error: any) {
       console.error('Update profile error:', error);
-      const errorMessage = error.response?.data?.message || 'Failed to update profile';
+      const errorMessage = error.response?.data?.message || t('profile.form.update_failed');
       toast.error(errorMessage);
     } finally {
       setIsLoading(false);
@@ -183,7 +183,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    placeholder="e.g. John Doe"
+                    placeholder={t('profile.form.name_placeholder')}
                     className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
@@ -198,7 +198,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     name="email"
                     value={formData.email}
                     onChange={handleChange}
-                    placeholder="e.g. john@example.com"
+                    placeholder={t('profile.form.email_placeholder')}
                     className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
@@ -213,7 +213,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     name="adress"
                     value={formData.adress}
                     onChange={handleChange}
-                    placeholder="e.g. 123 Main St, Casablanca"
+                    placeholder={t('profile.form.address_placeholder')}
                     className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
@@ -228,7 +228,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                     name="phone_number"
                     value={formData.phone_number}
                     onChange={handleChange}
-                    placeholder="e.g. 0612345678"
+                    placeholder={t('profile.form.phone_placeholder')}
                     className="w-full px-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all font-bold text-slate-800 dark:text-slate-100"
                     />
                 </div>
@@ -249,7 +249,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ isOpen, onClose, initialData,
                 className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-70"
               >
                 {isLoading && <Loader />}
-                Save Changes
+                {t('profile.form.save_btn')}
               </button>
             </div>
           </form>

@@ -1,7 +1,6 @@
 @echo off
 echo Starting SMARTSHOP services...
 
-cd ..
 :: Frontend
 cd frontend
 start cmd /k npm run dev

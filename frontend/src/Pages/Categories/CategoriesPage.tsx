@@ -19,7 +19,7 @@ const CategoriesPage: React.FC = () => {
         <Banner
           title={t("categories.banner.title")}
           subtitle={t("categories.banner.subtitle")}
-          gradient="from-indigo-600 via-purple-600 to-pink-500"
+          gradient="from-blue-600 via-purple-600 to-pink-500"
           ctaText={t("categories.banner.cta")}
         />
 
@@ -33,7 +33,7 @@ const CategoriesPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                className="bg-white dark:bg-slate-900 p-8 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-indigo-500/10 transition-all group cursor-pointer relative overflow-hidden"
+                className="bg-white dark:bg-slate-900 p-8 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all group cursor-pointer relative overflow-hidden"
               >
                 {/* Decorative background circle */}
                 <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-slate-50 dark:bg-slate-800 rounded-full group-hover:bg-blue-50 transition-colors duration-500" />

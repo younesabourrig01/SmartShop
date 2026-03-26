@@ -4,20 +4,20 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, ShoppingBag, Star, Truck, Shield } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
-const TRUST_BADGES = [
-  { icon: Star,   label: '4.9/5 Rating'      },
-  { icon: Truck,  label: 'Express Shipping'   },
-  { icon: Shield, label: 'Secure Checkout'    },
-];
-
 const Us: React.FC = () => {
   const { t, i18n } = useTranslation();
   const isRtl = i18n.language === 'ar';
 
+  const TRUST_BADGES = [
+    { icon: Star,   label: t('us.badges.rating')   },
+    { icon: Truck,  label: t('us.badges.shipping') },
+    { icon: Shield, label: t('us.badges.secure')   },
+  ];
+
   return (
     <section className="relative w-full min-h-[92vh] flex items-center bg-white dark:bg-slate-900 overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24">
       {/* Subtle background blobs */}
-      <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-indigo-50 dark:bg-indigo-900/30 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-blue-50 dark:bg-blue-900/30 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[35rem] h-[35rem] bg-rose-50 rounded-full blur-3xl opacity-50 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -30,9 +30,9 @@ const Us: React.FC = () => {
           className="w-full lg:w-[55%] flex flex-col items-start rtl:items-end text-start rtl:text-right"
         >
           {/* Badge */}
-          <div className="inline-flex items-center gap-3 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 rounded-full mb-8 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-indigo-500 animate-pulse" />
-            <span className="text-xs font-bold tracking-[0.18em] uppercase text-indigo-600 dark:text-indigo-400">
+          <div className="inline-flex items-center gap-3 px-4 py-2 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 rounded-full mb-8 shadow-sm">
+            <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
+            <span className="text-xs font-bold tracking-[0.18em] uppercase text-blue-600 dark:text-blue-400">
               {t('us.welcome')}
             </span>
           </div>
@@ -40,7 +40,7 @@ const Us: React.FC = () => {
           {/* Headline */}
           <h1 className="text-5xl sm:text-6xl lg:text-[5.5rem] font-extrabold text-slate-900 dark:text-white leading-[1.04] tracking-tight mb-6">
             {t('us.title_1')}{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-500 italic pr-1">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 via-blue-500 to-violet-500 italic pr-1">
               {t('us.title_2')}
             </span>
           </h1>
@@ -69,7 +69,7 @@ const Us: React.FC = () => {
                 className="w-full px-8 py-4 text-slate-700 dark:text-slate-200 font-semibold text-base flex items-center justify-center gap-2 group border border-slate-200 dark:border-slate-700 rounded-full hover:bg-slate-50 dark:bg-slate-800 transition-all duration-300"
               >
                 <span>{t('slider.category_title')}</span>
-                <ArrowRight size={18} className="group-hover:text-indigo-600 dark:text-indigo-400 transition-colors rtl:rotate-180 shrink-0" />
+                <ArrowRight size={18} className="group-hover:text-blue-600 dark:text-blue-400 transition-colors rtl:rotate-180 shrink-0" />
               </motion.button>
             </Link>
           </div>
@@ -78,7 +78,7 @@ const Us: React.FC = () => {
           <div className="flex flex-wrap items-center gap-6">
             {TRUST_BADGES.map(({ icon: Icon, label }) => (
               <div key={label} className="flex items-center gap-2 text-sm font-semibold text-slate-400">
-                <Icon size={15} className="text-indigo-400 shrink-0" />
+                <Icon size={15} className="text-blue-400 shrink-0" />
                 <span>{label}</span>
               </div>
             ))}
@@ -93,13 +93,13 @@ const Us: React.FC = () => {
           className="w-full lg:w-[45%] relative aspect-[4/5] lg:aspect-auto lg:h-[640px] flex items-center justify-center"
         >
           {/* Main image card */}
-          <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-indigo-900/[0.12] ring-1 ring-black/5">
+          <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/[0.12] ring-1 ring-black/5">
             <img
               src="/hero.png"
               alt="Premium Gadgets"
               className="w-full h-full object-cover scale-[1.03] hover:scale-[1.07] transition-transform duration-[2.5s] ease-out"
             />
-            <div className="absolute inset-0 bg-gradient-to-tr from-indigo-900/15 to-transparent mix-blend-overlay" />
+            <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/15 to-transparent mix-blend-overlay" />
           </div>
 
           {/* Floating review card */}

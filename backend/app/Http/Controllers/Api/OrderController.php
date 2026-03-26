@@ -82,8 +82,16 @@ class OrderController extends Controller
             ], 404);
         }
 
+        $subtotal = $lastOrder->orderItems->sum(function($item) {
+            return $item->quantity * $item->price;
+        });
+        
+        $shippingCost = $lastOrder->total - $subtotal;
+
         $pdf = Pdf::loadView('invoice', [
-            'order' => $lastOrder
+            'order' => $lastOrder,
+            'subtotal' => $subtotal,
+            'shippingCost' => $shippingCost
         ])->setPaper('a4', 'portrait');
 
         $fileName = 'invoice_order_' . $lastOrder->id . '.pdf';

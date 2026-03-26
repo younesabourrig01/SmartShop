@@ -187,7 +187,7 @@ const Register: React.FC = () => {
       {/* Background blobs for depth */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-100/50 rounded-full blur-3xl animate-pulse delay-700" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-100/50 rounded-full blur-3xl animate-pulse delay-700" />
       </div>
 
       <motion.div
@@ -227,7 +227,7 @@ const Register: React.FC = () => {
                   <p className="text-lg text-blue-100 mb-8 font-light">
                     {t("register_page.welcome_desc")}
                   </p>
-                  <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-900/10 rounded-2xl backdrop-blur-md border border-white dark:border-slate-800/20">
+                  <div className="flex items-start gap-4 p-4 bg-white/20 rounded-2xl backdrop-blur-md border border-white/30">
                     <ShieldCheck
                       className="text-blue-200 shrink-0 mt-1"
                       size={24}
@@ -263,7 +263,7 @@ const Register: React.FC = () => {
                     </span>
                     .
                   </p>
-                  <div className="flex items-start gap-4 p-4 bg-white dark:bg-slate-900/10 rounded-2xl backdrop-blur-md border border-white dark:border-slate-800/20">
+                  <div className="flex items-start gap-4 p-4 bg-white/20 rounded-2xl backdrop-blur-md border border-white/30">
                     <Mail className="text-blue-200 shrink-0 mt-1" size={24} />
                     <div className={isRtl ? "text-right" : "text-left"}>
                       <h3 className="font-semibold text-white mb-1">

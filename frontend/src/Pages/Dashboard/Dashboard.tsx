@@ -168,37 +168,54 @@ const handleUpdateStatus = async (orderId: number) => {
 if (isDataLoading) return <PageLoader/>;
 
   return (
-    <div className="flex items-start bg-gray-50 text-gray-800 font-sans relative min-h-screen">
-      {/* Sidebar */}
-      <aside className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
-        <div className="p-6 flex items-center gap-3 overflow-hidden whitespace-nowrap">
-          {/* Logo removed as requested */}
+    <div className="flex items-start bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans relative min-h-screen w-full">
+      {/* Mobile Backdrop */}
+      {isSidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/50 z-30 lg:hidden"
+          onClick={() => setIsSidebarOpen(false)}
+        />
+      )}
+
+      {/* Sidebar - mobile drawer / desktop panel */}
+      <aside className={`
+        bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
+        fixed top-0 left-0 h-full w-72
+        lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] lg:w-64 lg:shadow-sm lg:z-20
+        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none'}
+      `}>
+        {/* Mobile sidebar close button */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
+          <span className="font-extrabold text-gray-900 text-lg">Dashboard</span>
+          <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500">
+            <X size={22} />
+          </button>
         </div>
 
-        <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
+        <nav className="flex-1 mt-4 lg:mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
             <LayoutDashboard size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.dashboard')}
           </button>
-          <button onClick={() => navigate('/dashboard/users')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => { navigate('/dashboard/users'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Users size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.users')}
           </button>
-          <button onClick={() => navigate('/dashboard/products')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => { navigate('/dashboard/products'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Package size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.products')}
           </button>
-          <button onClick={() => navigate('/dashboard/categories')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => { navigate('/dashboard/categories'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Layers size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.categories')}
           </button>
-          <button onClick={() => navigate('/dashboard/settings')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => { navigate('/dashboard/settings'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} className="min-w-[20px]" />
             {t('dashboard.sidebar.settings')}
           </button>
         </nav>
 
-        <div className="p-4 border-t border-gray-100 overflow-hidden whitespace-nowrap">
+        <div className="p-4 border-t border-gray-100">
           <button 
             onClick={(e) => handelLogout(e as any)}
             disabled={isLoading}
@@ -211,21 +228,21 @@ if (isDataLoading) return <PageLoader/>;
       </aside>
 
       {/* Main Content Area */}
-      <main className={`flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative h-screen`}>
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative min-h-[calc(100vh-72px)] w-full">
         {/* Top Navbar */}
-        <header className="sticky top-0 bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
-          <div className="flex items-center gap-4">
+        <header className="sticky top-[72px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-10">
+          <div className="flex items-center gap-3">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}
               className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
             >
-              {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+              <Menu size={22} />
             </button>
-            <h1 className="text-2xl font-extrabold text-gray-900">{t('dashboard.welcome')}</h1>
+            <h1 className="text-lg md:text-2xl font-extrabold text-gray-900 truncate">{t('dashboard.welcome')}</h1>
           </div>
         </header>
 
-        <div className="p-8 space-y-8">
+        <div className="p-4 md:p-8 space-y-6 md:space-y-8">
           {/* Quick Action Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <div className="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-shadow cursor-pointer" onClick={() => navigate('/dashboard/users')}>
@@ -292,7 +309,7 @@ if (isDataLoading) return <PageLoader/>;
                 </button>
                 <button 
                    onClick={handleDownloadReport}
-                   className="flex items-center gap-2 px-6 py-2 bg-indigo-600 text-white rounded-xl text-xs font-bold hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95"
+                   className="flex items-center gap-2 px-6 py-2 bg-blue-600 text-white rounded-xl text-xs font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
                 >
                   <Download size={14} />
                   {t('dashboard.transactions.export')}
@@ -319,7 +336,7 @@ if (isDataLoading) return <PageLoader/>;
                         <td className="px-8 py-5 font-bold text-gray-900 text-sm">#ORD-{order.id}</td>
                         <td className="px-8 py-5">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-indigo-50 dark:bg-indigo-900/30 flex items-center justify-center text-xs font-bold text-indigo-600 dark:text-indigo-400">
+                            <div className="w-8 h-8 rounded-lg bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center text-xs font-bold text-blue-600 dark:text-blue-400">
                               {order.user?.name.charAt(0) || "U"}
                             </div>
                             <span className="text-sm font-semibold text-gray-700">{order.user?.name || "Deleted User"}</span>
@@ -370,7 +387,7 @@ if (isDataLoading) return <PageLoader/>;
                               <button 
                                 onClick={() => handleUpdateStatus(order.id)}
                                 disabled={isUpdating}
-                                className="w-full h-10 bg-indigo-600 text-white text-xs font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-200 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-2"
+                                className="w-full h-10 bg-blue-600 text-white text-xs font-bold rounded-xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95 disabled:opacity-70 flex items-center justify-center gap-2"
                               >
                                 {isUpdating ? <Loader color="white" /> : "validate changes"}
                               </button>
@@ -381,7 +398,7 @@ if (isDataLoading) return <PageLoader/>;
                                 setEditingOrderId(order.id);
                                 setTempStatus(order.status);
                               }}
-                              className="px-4 py-2 text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 hover:bg-indigo-100 font-bold text-xs rounded-xl transition-all flex items-center gap-2 ml-auto shadow-sm active:scale-95"
+                              className="px-4 py-2 text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 hover:bg-blue-100 font-bold text-xs rounded-xl transition-all flex items-center gap-2 ml-auto shadow-sm active:scale-95"
                             >
                               <RefreshCw size={14} />
                               Update Status

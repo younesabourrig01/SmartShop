@@ -13,7 +13,20 @@ const resources = {
         "login": "Login",
         "register": "Register",
         "profile": "Profile",
-        "dashboard": "Dashboard"
+        "dashboard": "Dashboard",
+        "wishlist": "Wishlist",
+        "cart": "Cart",
+        "explore": "Explore",
+        "light_mode": "LIGHT MODE",
+        "night_mode": "NIGHT MODE",
+        "limited_offer": "Limited Time Offer"
+      },
+      "common": {
+        "back_to_profile": "Back to Profile",
+        "back_to_dashboard": "Back to Dashboard",
+        "logout_success": "Logged out successfully",
+        "logout_failed": "Logout failed",
+        "error": "Error"
       },
       "us": {
         "welcome": "Welcome to the future",
@@ -24,7 +37,12 @@ const resources = {
         "our_story": "Our Story",
         "search_placeholder": "Quick search products...",
         "search_button": "Search Smart",
-        "trending": "Trending"
+        "trending": "Trending",
+        "badges": {
+          "rating": "4.9/5 Rating",
+          "shipping": "Express Shipping",
+          "secure": "Secure Checkout"
+        }
       },
       "slider": {
         "hero_title": "Got your check? Get your tech.",
@@ -40,7 +58,8 @@ const resources = {
           "appliances": "Appliances",
           "phones": "Cell Phones",
           "audio": "Home Audio & Speakers"
-        }
+        },
+        "description": "Explore our wide range of premium collections designed for modern living."
       },
       "commantes": {
         "title": "What Our",
@@ -54,7 +73,22 @@ const resources = {
           "satisfaction": "Satisfaction"
         },
         "read_more": "Read more testimonials",
-        "joined": "Joined by 12,000+ shoppers"
+        "joined": "Joined by 12,000+ shoppers",
+        "badge": "Testimonials",
+        "list": {
+          "1": {
+            "name": "Mohamed El Mansouri",
+            "comment": "This e-commerce platform has redefined what shopping online should feel like. The attention to detail is mind-blowing. Truly premium experience."
+          },
+          "2": {
+            "name": "Fatima Zohra",
+            "comment": "Great experience with SmartShop! The technical support and product quality are top-tier. I highly recommend them for any tech needs. Innovation at its best."
+          },
+          "3": {
+            "name": "Youssef Amrani",
+            "comment": "The interface is seamless, making shopping an absolute joy. Innovative features and user-friendly design. Keep up the amazing work!"
+          }
+        }
       },
       "contact": {
         "who_are_we": "Who are we?",
@@ -67,13 +101,19 @@ const resources = {
         "full_name": "Full Name",
         "email_address": "Email Address",
         "message": "Message",
+        "name_placeholder": "John Doe",
+        "email_placeholder": "john@example.com",
+        "message_placeholder": "How can we help you?",
         "send_message": "Send Message",
         "sending": "Sending....",
         "success": "Form Submitted Successfully",
         "our_story_title": "Our Story",
         "our_story_desc": "Founded in the heart of innovation, SmartShop began with a simple mission: to make premium technology accessible to everyone. We believe that technology should empower, inspire, and connect people across the globe.",
         "find_us": "Find Us",
-        "visit_us": "Visit our physical store in Agadir"
+        "visit_us": "Visit our physical store in Agadir",
+        "location_val": "Agadir. Morocco",
+        "phone_val": "0712074402",
+        "email_val": "support@smartshop.com"
       },
       "footer": {
         "description": "Elevating your tech experience with premium products and clinical precision. Join the future of electronics today.",
@@ -81,7 +121,9 @@ const resources = {
         "company": "Company",
         "support": "Support",
         "made_with": "Made with",
-        "for_lovers": "for tech lovers"
+        "for_lovers": "for tech lovers",
+        "follow_me": "Follow Me",
+        "rights": "All rights reserved"
       },
       "register_page": {
         "welcome": "Welcome to",
@@ -192,6 +234,7 @@ const resources = {
       "products": {
         "title": "Our Products",
         "description": "Discover our curated collection of premium tech and electronics.",
+        "featured_picks": "Editor's Picks",
         "banner": {
           "title": "Upgrade to the M3 Generation",
           "subtitle": "Get up to 200 MAD trade-in credit when you upgrade your old MacBook.",
@@ -314,7 +357,77 @@ const resources = {
           "master_desc": "You are a shopping legend! Every order counts towards your legacy. Enjoy a massive 50% discount on all shipping costs and legendary status perks.",
           "medium_desc": "You are a regular shopper. Enjoy 5% discount on shipping. Collect more orders to unlock the special Premium rank.",
           "normal_desc": "As a Normal member, you enjoy 1.5% discount on shipping. Keep ordering to reach the Medium tier."
+        },
+        "settings": {
+          "title": "Account Settings",
+          "subtitle": "Manage your account preferences and security.",
+          "update_title": "Update Profile",
+          "update_desc": "Change your personal information, email address, and profile picture.",
+          "update_btn": "Edit Information",
+          "delete_title": "Delete Account",
+          "delete_desc": "Permanently remove your account and all your data. This action cannot be undone.",
+          "delete_btn": "Delete Account",
+          "delete_modal_title": "Delete Account?",
+          "delete_modal_desc": "This action is permanent. All your data, including orders and profile information, will be erased forever. There is no way to restore it.",
+          "delete_confirm_pass": "Confirm Password",
+          "delete_pass_placeholder": "Enter your password",
+          "delete_keep_btn": "Keep Account",
+          "delete_confirm_btn": "Delete Forever",
+          "delete_error_pass": "Please enter your password to confirm",
+          "delete_processing": "Processing your request...",
+          "delete_success": "Account deleted successfully",
+          "delete_failed": "Failed to delete account. Please check your password."
+        },
+        "form": {
+          "title": "Edit Information",
+          "name_placeholder": "e.g. John Doe",
+          "email_placeholder": "e.g. john@example.com",
+          "address_placeholder": "e.g. 123 Main St, Casablanca",
+          "phone_placeholder": "e.g. 0612345678",
+          "save_btn": "Save Changes",
+          "update_success": "Profile updated successfully",
+          "update_failed": "Failed to update profile"
         }
+      },
+      "cart": {
+        "title": "Shopping Cart",
+        "items_count": "items in your tray",
+        "back": "Back to Shop",
+        "clear": "Clear",
+        "product_removed": "Product removed",
+        "in_stock": "In Stock",
+        "empty_title": "Your cart is empty",
+        "empty_desc": "Looks like you haven't added anything to your cart yet.",
+        "start_shopping": "Start Shopping",
+        "summary": "Order Summary",
+        "subtotal": "Subtotal",
+        "shipping": "Shipping",
+        "total": "Total",
+        "checkout": "Checkout Now",
+        "secure_checkout": "Secure checkout powered by Stripe",
+        "order_success_title": "Order Successful!",
+        "order_success_desc": "Your order has been placed successfully. Would you like to download your invoice?",
+        "download_invoice": "Download Invoice",
+        "later": "Maybe Later",
+        "download_success": "Invoice downloaded successfully",
+        "download_failed": "Failed to download invoice",
+        "order_failed": "Failed to create order",
+        "cart_update_failed": "Failed to update cart",
+        "badge_info": "{{badge}} badge: {{discount}}% discount"
+      },
+      "wishlist": {
+        "title": "My Wishlist",
+        "items": "items saved to your wishlist",
+        "back": "Back to Shop",
+        "add_to_cart": "Add",
+        "empty": "Your wishlist is empty",
+        "empty_desc": "Save items you love to find them easily later.",
+        "explore": "Explore Products",
+        "removed_success": "Removed from wishlist",
+        "removed_failed": "Failed to remove from wishlist",
+        "added_success": "Added to cart!",
+        "added_failed": "Failed to add to cart",
+        "price_label": "Price"
       }
     }
   },
@@ -328,7 +441,20 @@ const resources = {
         "login": "تسجيل الدخول",
         "register": "إنشاء حساب",
         "profile": "الملف الشخصي",
-        "dashboard": "لوحة التحكم"
+        "dashboard": "لوحة التحكم",
+        "wishlist": "المفضلة",
+        "cart": "السلة",
+        "explore": "استكشف",
+        "light_mode": "الوضع النهاري",
+        "night_mode": "الوضع الليلي",
+        "limited_offer": "عرض لفترة محدودة"
+      },
+      "common": {
+        "back_to_profile": "العودة للملف الشخصي",
+        "back_to_dashboard": "العودة للوحة التحكم",
+        "logout_success": "تم تسجيل الخروج بنجاح",
+        "logout_failed": "فشل تسجيل الخروج",
+        "error": "خطأ"
       },
       "us": {
         "welcome": "مرحباً بكم في المستقبل",
@@ -339,7 +465,12 @@ const resources = {
         "our_story": "قصتنا",
         "search_placeholder": "بحث سريع عن المنتجات...",
         "search_button": "بحث ذكي",
-        "trending": "الأكثر بحثاً"
+        "trending": "الأكثر بحثاً",
+        "badges": {
+          "rating": "تقييم 4.9/5",
+          "shipping": "شحن سريع",
+          "secure": "دفع آمن"
+        }
       },
       "slider": {
         "hero_title": "حصلت على شيكك؟ احصل على تقنيتك.",
@@ -355,7 +486,8 @@ const resources = {
           "appliances": "الأجهزة المنزلية",
           "phones": "الهواتف المحمولة",
           "audio": "أجهزة الصوت والسماعات"
-        }
+        },
+        "description": "استكشف مجموعتنا الواسعة من المجموعات المميزة المصممة للحياة العصرية."
       },
       "commantes": {
         "title": "ماذا يقول",
@@ -369,7 +501,22 @@ const resources = {
           "satisfaction": "نسبة الرضا"
         },
         "read_more": "اقرأ المزيد من التقييمات",
-        "joined": "انضم إلينا أكثر من 12,000 متسوق"
+        "joined": "انضم إلينا أكثر من 12,000 متسوق",
+        "badge": "شهادات العملاء",
+        "list": {
+          "1": {
+            "name": "محمد المنصوري",
+            "comment": "لقد أعادت هذه المنصة تعريف معنى التسوق عبر الإنترنت. الاهتمام بالتفاصيل مذهل حقاً. تجربة ممتازة بحق."
+          },
+          "2": {
+            "name": "فاطمة الزهراء",
+            "comment": "تجربة رائعة مع سمارت شوب! الدعم الفني وجودة المنتج من الطراز الأول. أوصي بهم بشدة لأي احتياجات تقنية. ابتكار في أرقى صوره."
+          },
+          "3": {
+            "name": "يوسف العمراني",
+            "comment": "الواجهة سلسة للغاية، مما يجعل التسوق متعة حقيقية. ميزات مبتكرة وتصميم سهل الاستخدام. استمروا في هذا العمل الرائع!"
+          }
+        }
       },
       "contact": {
         "who_are_we": "من نحن؟",
@@ -382,13 +529,19 @@ const resources = {
         "full_name": "الاسم الكامل",
         "email_address": "البريد الإلكتروني",
         "message": "الرسالة",
+        "name_placeholder": "الاسم الكامل",
+        "email_placeholder": "البريد الإلكتروني",
+        "message_placeholder": "كيف يمكننا مساعدتك؟",
         "send_message": "إرسال الرسالة",
         "sending": "جاري الإرسال...",
         "success": "تم إرسال النموذج بنجاح",
         "our_story_title": "قصتنا",
         "our_story_desc": "تأسست سمارت شوب في قلب الابتكار ، وبدأت بمهمة بسيطة: جعل التكنولوجيا المتميزة في متناول الجميع. نحن نؤمن بأن التكنولوجيا يجب أن تمكن وتلهم وتربط الناس في جميع أنحاء العالم.",
         "find_us": "تجدنا",
-        "visit_us": "قم بزيارة متجرنا في أكادير"
+        "visit_us": "قم بزيارة متجرنا في أكادير",
+        "location_val": "أكادير، المغرب",
+        "phone_val": "0712074402",
+        "email_val": "support@smartshop.com"
       },
       "footer": {
         "description": "نرفع مستوى تجربتك التقنية بمنتجات متميزة ودقة سريرية. انضم إلى مستقبل الإلكترونيات اليوم.",
@@ -396,7 +549,9 @@ const resources = {
         "company": "الشركة",
         "support": "الدعم",
         "made_with": "صنع بـ",
-        "for_lovers": "لعشاق التقنية"
+        "for_lovers": "لعشاق التقنية",
+        "follow_me": "تابعنا",
+        "rights": "جميع الحقوق محفوظة"
       },
       "register_page": {
         "welcome": "مرحباً بك في",
@@ -507,6 +662,7 @@ const resources = {
       "products": {
         "title": "منتجاتنا",
         "description": "اكتشف مجموعتنا المختارة من التقنيات والإلكترونيات المميزة.",
+        "featured_picks": "اختيارات المحرر",
         "banner": {
           "title": "قم بالترقية إلى جيل M3",
           "subtitle": "احصل على رصيد استبدال يصل إلى 200 دولار عند ترقية جهاز MacBook القديم الخاص بك.",
@@ -638,7 +794,77 @@ const resources = {
           "premium_desc": "لقد وصلت إلى قمة سمارت شوب! استمتع بخدمة العملاء ذات الأولوية والوصول المبكر الحصري لجميع المنتجات.",
           "medium_desc": "أنت متسوق منتظم. اجمع المزيد من الطلبات لفتح رتبة بريميوم الخاصة.",
           "normal_desc": "كعضو عادي، تتمتع بمزايا قياسية. استمر في الطلب للوصول لرتبة متوسط."
+        },
+        "settings": {
+          "title": "إعدادات الحساب",
+          "subtitle": "إدارة تفضيلات حسابك وأمانك.",
+          "update_title": "تحديث الملف الشخصي",
+          "update_desc": "تغيير معلوماتك الشخصية وعنوان بريدك الإلكتروني وصورتك الشخصية.",
+          "update_btn": "تعديل المعلومات",
+          "delete_title": "حذف الحساب",
+          "delete_desc": "حذف حسابك وجميع بياناتك نهائياً. لا يمكن التراجع عن هذا الإجراء.",
+          "delete_btn": "حذف الحساب",
+          "delete_modal_title": "حذف الحساب؟",
+          "delete_modal_desc": "هذا الإجراء نهائي. سيتم مسح جميع بياناتك، بما في ذلك الطلبات ومعلومات الملف الشخصي، للأبد. لا توجد طريقة لاستعادتها.",
+          "delete_confirm_pass": "تأكيد كلمة المرور",
+          "delete_pass_placeholder": "أدخل كلمة المرور الخاصة بك",
+          "delete_keep_btn": "الاحتفاظ بالحساب",
+          "delete_confirm_btn": "حذف للأبد",
+          "delete_error_pass": "يرجى إدخال كلمة المرور للتأكيد",
+          "delete_processing": "جاري معالجة طلبك...",
+          "delete_success": "تم حذف الحساب بنجاح",
+          "delete_failed": "فشل حذف الحساب. يرجى التحقق من كلمة المرور الخاصة بك."
+        },
+        "form": {
+          "title": "تعديل المعلومات",
+          "name_placeholder": "مثال: يونس ابوريق",
+          "email_placeholder": "مثال: mail@example.com",
+          "address_placeholder": "مثال: شارع الحسن الثاني، أكادير",
+          "phone_placeholder": "مثال: 0612345678",
+          "save_btn": "حفظ التغييرات",
+          "update_success": "تم تحديث الملف الشخصي بنجاح",
+          "update_failed": "فشل تحديث الملف الشخصي"
         }
+      },
+      "cart": {
+        "title": "سلة التسوق",
+        "items_count": "منتجات في سلتك",
+        "back": "العودة للمتجر",
+        "clear": "مسح السلة",
+        "product_removed": "تمت إزالة المنتج",
+        "in_stock": "متوفر",
+        "empty_title": "سلتك فارغة",
+        "empty_desc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد.",
+        "start_shopping": "ابدأ التسوق",
+        "summary": "ملخص الطلب",
+        "subtotal": "المجموع الفرعي",
+        "shipping": "الشحن",
+        "total": "المجموع الكلي",
+        "checkout": "الدفع الآن",
+        "secure_checkout": "دفع آمن بواسطة Stripe",
+        "order_success_title": "تم طلبك بنجاح!",
+        "order_success_desc": "لقد تم وضع طلبك بنجاح. هل ترغب في تحميل الفاتورة؟",
+        "download_invoice": "تحميل الفاتورة",
+        "later": "لاحقاً",
+        "download_success": "تم تحميل الفاتورة بنجاح",
+        "download_failed": "فشل تحميل الفاتورة",
+        "order_failed": "فشل إنشاء الطلب",
+        "cart_update_failed": "فشل تحديث السلة",
+        "badge_info": "رتبة {{badge}}: خصم {{discount}}%"
+      },
+      "wishlist": {
+        "title": "قائمتي المفضلة",
+        "items": "منتجات محفوظة في قائمتك",
+        "back": "العودة للمتجر",
+        "add_to_cart": "أضف",
+        "empty": "قائمة المفضلة فارغة",
+        "empty_desc": "احفظ المنتجات التي تحبها لتجدها بسهولة لاحقاً.",
+        "explore": "اكتشف المنتجات",
+        "removed_success": "تمت الإزالة من المفضلة",
+        "removed_failed": "فشل الإزالة من المفضلة",
+        "added_success": "تمت الإضافة للسلة!",
+        "added_failed": "فشل الإضافة للسلة",
+        "price_label": "السعر"
       }
     }
   },
@@ -652,7 +878,20 @@ const resources = {
         "login": "Connexion",
         "register": "S'inscrire",
         "profile": "Profil",
-        "dashboard": "Tableau de Bord"
+        "dashboard": "Tableau de Bord",
+        "wishlist": "Favoris",
+        "cart": "Panier",
+        "explore": "Explorer",
+        "light_mode": "MODE JOUR",
+        "night_mode": "MODE NUIT",
+        "limited_offer": "Offre à Temps Limité"
+      },
+      "common": {
+        "back_to_profile": "Retour au profil",
+        "back_to_dashboard": "Retour au tableau de bord",
+        "logout_success": "Déconnexion réussie",
+        "logout_failed": "Échec de la déconnexion",
+        "error": "Erreur"
       },
       "us": {
         "welcome": "Bienvenue dans le futur",
@@ -663,7 +902,12 @@ const resources = {
         "our_story": "Notre Histoire",
         "search_placeholder": "Recherche rapide...",
         "search_button": "Rechercher",
-        "trending": "Tendance"
+        "trending": "Tendance",
+        "badges": {
+          "rating": "Note 4.9/5",
+          "shipping": "Livraison Express",
+          "secure": "Paiement Sécurisé"
+        }
       },
       "slider": {
         "hero_title": "Votre chèque ? Votre tech.",
@@ -679,7 +923,8 @@ const resources = {
           "appliances": "Électroménager",
           "phones": "Téléphones",
           "audio": "Audio & Enceintes"
-        }
+        },
+        "description": "Explorez notre large gamme de collections premium conçues pour la vie moderne."
       },
       "commantes": {
         "title": "Ce que nos",
@@ -693,7 +938,22 @@ const resources = {
           "satisfaction": "Satisfaction"
         },
         "read_more": "Plus de témoignages",
-        "joined": "Rejoint par 12 000+ acheteurs"
+        "joined": "Rejoint par 12 000+ acheteurs",
+        "badge": "Témoignages",
+        "list": {
+          "1": {
+            "name": "Mohamed El Mansouri",
+            "comment": "Cette plateforme e-commerce a redéfini ce que le shopping en ligne devrait être. L'attention aux détails est époustouflante. Une expérience vraiment premium."
+          },
+          "2": {
+            "name": "Fatima Zohra",
+            "comment": "Excellente expérience avec SmartShop ! Le support technique et la qualité des produits sont de premier ordre. Je les recommande vivement pour tous vos besoins technologiques."
+          },
+          "3": {
+            "name": "Youssef Amrani",
+            "comment": "L'interface est fluide, faisant du shopping un pur plaisir. Des fonctionnalités innovantes et un design convivial. Continuez votre excellent travail !"
+          }
+        }
       },
       "contact": {
         "who_are_we": "Qui sommes-nous ?",
@@ -706,13 +966,19 @@ const resources = {
         "full_name": "Nom Complet",
         "email_address": "Adresse E-mail",
         "message": "Message",
+        "name_placeholder": "Jean Dupont",
+        "email_placeholder": "jean@exemple.com",
+        "message_placeholder": "Comment pouvons-nous vous aider ?",
         "send_message": "Envoyer",
         "sending": "Envoi en cours...",
         "success": "Formulaire envoyé avec succès",
         "our_story_title": "Notre Histoire",
         "our_story_desc": "Fondé au cœur de l'innovation, SmartShop a commencé avec une mission simple : rendre la technologie premium accessible à tous. Nous pensons que la technologie doit responsabiliser, inspirer et connecter les gens à travers le monde.",
         "find_us": "Nous Trouver",
-        "visit_us": "Visitez notre boutique physique à Agadir"
+        "visit_us": "Visitez notre boutique physique à Agadir",
+        "location_val": "Agadir, Maroc",
+        "phone_val": "0712074402",
+        "email_val": "support@smartshop.com"
       },
       "footer": {
         "description": "Élevez votre expérience tech avec des produits premium. Rejoignez le futur de l'électronique dès aujourd'hui.",
@@ -720,7 +986,9 @@ const resources = {
         "company": "Entreprise",
         "support": "Support",
         "made_with": "Fait avec",
-        "for_lovers": "pour les passionnés"
+        "for_lovers": "pour les passionnés",
+        "follow_me": "Suivez-moi",
+        "rights": "Tous droits réservés"
       },
       "register_page": {
         "welcome": "Bienvenue chez",
@@ -831,6 +1099,7 @@ const resources = {
       "products": {
         "title": "Nos Produits",
         "description": "Découvrez notre collection de technologies et d'électronique haut de gamme.",
+        "featured_picks": "Coups de Cœur",
         "banner": {
           "title": "Passez à la génération M3",
           "subtitle": "Obtenez jusqu'à 200 $ de crédit de reprise lors de la mise à niveau de votre ancien MacBook.",
@@ -962,7 +1231,77 @@ const resources = {
           "premium_desc": "Vous avez atteint le sommet de SmartShop ! Profitez du service client prioritaire et de l'accès anticipé exclusif à tous les produits.",
           "medium_desc": "Vous êtes un acheteur régulier. Accumulez plus de commandes pour débloquer le rang Premium spécial.",
           "normal_desc": "En tant que membre Normal, vous profitez des avantages standards. Continuez à commander pour atteindre le niveau Moyen."
+        },
+        "settings": {
+          "title": "Paramètres du Compte",
+          "subtitle": "Gérez vos préférences de compte et votre sécurité.",
+          "update_title": "Mettre à jour le Profil",
+          "update_desc": "Modifiez vos informations personnelles, votre adresse e-mail et votre photo de profil.",
+          "update_btn": "Modifier les Informations",
+          "delete_title": "Supprimer le Compte",
+          "delete_desc": "Supprimez définitivement votre compte et toutes vos données. Cette action est irréversible.",
+          "delete_btn": "Supprimer le Compte",
+          "delete_modal_title": "Supprimer le Compte ?",
+          "delete_modal_desc": "Cette action est définitive. Toutes vos données, y compris les commandes et les informations de profil, seront effacées à jamais. Il n'y a aucun moyen de les restaurer.",
+          "delete_confirm_pass": "Confirmer le Mot de Passe",
+          "delete_pass_placeholder": "Entrez votre mot de passe",
+          "delete_keep_btn": "Garder le Compte",
+          "delete_confirm_btn": "Supprimer à Jamais",
+          "delete_error_pass": "Veuillez entrer votre mot de passe pour confirmer",
+          "delete_processing": "Traitement de votre demande...",
+          "delete_success": "Compte supprimé avec succès",
+          "delete_failed": "Échec de la suppression du compte. Veuillez vérifier votre mot de passe."
+        },
+        "form": {
+          "title": "Modifier les Informations",
+          "name_placeholder": "ex: Jean Dupont",
+          "email_placeholder": "ex: jean@exemple.com",
+          "address_placeholder": "ex: 123 Rue Principale, Agadir",
+          "phone_placeholder": "ex: 0612345678",
+          "save_btn": "Enregistrer les Modifications",
+          "update_success": "Profil mis à jour avec succès",
+          "update_failed": "Échec de la mise à jour du profil"
         }
+      },
+      "cart": {
+        "title": "Panier",
+        "items_count": "articles dans votre panier",
+        "back": "Retour à la boutique",
+        "clear": "Vider",
+        "product_removed": "Produit retiré",
+        "in_stock": "En stock",
+        "empty_title": "Votre panier est vide",
+        "empty_desc": "Il semble que vous n'ayez encore rien ajouté à votre panier.",
+        "start_shopping": "Commencer vos achats",
+        "summary": "Résumé de la commande",
+        "subtotal": "Sous-total",
+        "shipping": "Livraison",
+        "total": "Total",
+        "checkout": "Payer maintenant",
+        "secure_checkout": "Paiement sécurisé par Stripe",
+        "order_success_title": "Commande réussie !",
+        "order_success_desc": "Votre commande a été passée avec succès. Souhaitez-vous télécharger votre facture ?",
+        "download_invoice": "Télécharger la facture",
+        "later": "Plus tard",
+        "download_success": "Facture téléchargée avec succès",
+        "download_failed": "Échec du téléchargement de la facture",
+        "order_failed": "Échec de la création de la commande",
+        "cart_update_failed": "Échec de la mise à jour du panier",
+        "badge_info": "Badge {{badge}} : {{discount}}% de réduction"
+      },
+      "wishlist": {
+        "title": "Ma Liste de Souhaits",
+        "items": "articles enregistrés dans votre liste",
+        "back": "Retour à la boutique",
+        "add_to_cart": "Ajouter",
+        "empty": "Votre liste de souhaits est vide",
+        "empty_desc": "Enregistrez les articles que vous aimez pour les retrouver facilement plus tard.",
+        "explore": "Explorer les Produits",
+        "removed_success": "Retiré de la liste de souhaits",
+        "removed_failed": "Échec du retrait de la liste",
+        "added_success": "Ajouté au panier !",
+        "added_failed": "Échec de l'ajout au panier",
+        "price_label": "Prix"
       }
     }
   }

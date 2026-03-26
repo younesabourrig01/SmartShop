@@ -94,7 +94,7 @@ const Cart: React.FC = () => {
       setShowInvoicePopup(true);
     } catch (err: any) {
       console.error("Failed to create order", err);
-      toast.error(err.response?.data?.message || "Failed to create order");
+      toast.error(err.response?.data?.message || t('cart.order_failed'));
     } finally {
       setIsCheckingOut(false);
       refreshCartCount();
@@ -112,9 +112,9 @@ const Cart: React.FC = () => {
       document.body.appendChild(link);
       link.click();
       link.remove();
-      toast.success('Invoice downloaded successfully');
+      toast.success(t('cart.download_success'));
     } catch (error) {
-      toast.error('Failed to download invoice');
+      toast.error(t('cart.download_failed'));
     } finally {
       setIsDownloading(false);
       window.location.href = '/profile';
@@ -130,11 +130,11 @@ const Cart: React.FC = () => {
       await updateCart(productId, newQuantity);
       await fetchCart();
       if (newQuantity === 0) {
-        toast.success(t("dashboard.cart.product_removed", "Product removed"));
+        toast.success(t("cart.product_removed"));
       }
     } catch (err: any) {
       console.error("Failed to update cart", err);
-      toast.error(err.response?.data?.message || "Failed to update cart");
+      toast.error(err.response?.data?.message || t('cart.cart_update_failed'));
     } finally {
       setUpdatingItemId(null);
       refreshCartCount();
@@ -180,21 +180,21 @@ const Cart: React.FC = () => {
               className="text-3xl font-extrabold text-slate-900 dark:text-white flex items-center gap-3"
             >
               <ShoppingCart className="text-blue-600" size={32} />
-              {t("dashboard.cart.title", "Shopping Cart")}
+              {t("cart.title")}
             </motion.h1>
-            <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium">
+            <p className="text-slate-500 dark:text-slate-400 mt-1 font-medium italic">
               {cartItems.length}{" "}
-              {t("dashboard.cart.items_count", "items in your tray")}
+              {t("cart.items_count")}
             </p>
           </div>
 
           <div className="flex items-center gap-3 w-full md:w-auto">
             <Link
               to="/products"
-              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
+              className="flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-full bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 font-bold hover:bg-slate-50 dark:hover:bg-slate-800 transition-all border border-slate-200 dark:border-slate-700 shadow-sm"
             >
               <ArrowLeft size={18} />
-              {t("dashboard.cart.back", "Back to Shop")}
+              {t("cart.back")}
             </Link>
             <button
               onClick={handleClearCart}
@@ -206,7 +206,7 @@ const Cart: React.FC = () => {
               ) : (
                 <Trash2 size={18} />
               )}
-              {t("dashboard.cart.clear", "Clear")}
+              {t("cart.clear")}
             </button>
           </div>
         </div>
@@ -250,9 +250,9 @@ const Cart: React.FC = () => {
                       <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 transition-colors cursor-pointer leading-tight">
                         {item.product?.name || item.name}
                       </h3>
-                      <div className="flex items-center gap-2 text-slate-400 text-sm">
+                      <div className="flex items-center gap-2 text-slate-400 text-sm italic">
                         <ShoppingBag size={14} />
-                        <span>In Stock</span>
+                        <span>{t('cart.in_stock')}</span>
                       </div>
                     </div>
 
@@ -326,46 +326,24 @@ const Cart: React.FC = () => {
                 animate={{ opacity: 1 }}
                 className="bg-white dark:bg-slate-900 rounded-3xl p-12 text-center shadow-sm border border-slate-100 dark:border-slate-700"
               >
-                <div className="w-20 h-20 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
-                  <ShoppingBag size={40} />
+                <div className="w-24 h-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6 text-slate-300">
+                  <ShoppingBag size={48} />
                 </div>
-                <h2 className="text-2xl font-bold text-slate-800 dark:text-slate-100 mb-2">
-                  Your cart is empty
+                <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-2">
+                  {t("cart.empty_title")}
                 </h2>
-                <p className="text-slate-500 dark:text-slate-400 mb-8">
-                  Looks like you haven't added anything to your cart yet.
+                <p className="text-slate-500 dark:text-slate-400 mb-8 font-medium">
+                  {t("cart.empty_desc")}
                 </p>
                 <Link
                   to="/products"
-                  className="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition-all"
+                  className="inline-block bg-blue-600 text-white px-10 py-4 rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:bg-blue-700 hover:-translate-y-1 transition-all"
                 >
-                  {t("dashboard.cart.start_shopping", "Start Shopping")}
+                  {t("cart.start_shopping")}
                 </Link>
               </motion.div>
             )}
 
-            {/* Recommendation Banner */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-6 text-white relative overflow-hidden"
-            >
-              <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-4">
-                <div>
-                  <h4 className="text-xl font-bold">
-                    Free Shipping on your first order!
-                  </h4>
-                  <p className="text-blue-100 text-sm opacity-90">
-                    Use code: SMARTSHOP2024 at checkout
-                  </p>
-                </div>
-                <button className="px-6 py-2 bg-white dark:bg-slate-900 text-blue-600 font-bold rounded-full hover:scale-105 transition-transform">
-                  Copy Code
-                </button>
-              </div>
-              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-white dark:bg-slate-900/10 rounded-full blur-2xl" />
-              <div className="absolute -left-10 -top-10 w-40 h-40 bg-white dark:bg-slate-900/10 rounded-full blur-2xl" />
-            </motion.div>
           </div>
 
           {/* Order Summary Sidebar */}
@@ -375,36 +353,36 @@ const Cart: React.FC = () => {
               animate={{ opacity: 1, x: 0 }}
               className="bg-white dark:bg-slate-900 rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 dark:border-slate-700 sticky top-24"
             >
-              <h2 className="text-2xl font-black text-slate-800 dark:text-slate-100 mb-6">
-                {t("dashboard.cart.summary", "Order Summary")}
+              <h2 className="text-2xl font-black text-slate-800 dark:text-white mb-6 tracking-tight">
+                {t("cart.summary")}
               </h2>
 
               <div className="space-y-4 mb-8">
                 <div className="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
-                  <span>{t("dashboard.cart.subtotal", "Subtotal")}</span>
+                  <span>{t("cart.subtotal")}</span>
                   <span className="font-bold text-slate-700 dark:text-slate-200">
                     {Number(totalCartItems || 0).toFixed(2)} MAD
                   </span>
                 </div>
                 <div className="flex justify-between items-center text-slate-500 dark:text-slate-400 font-medium">
                   <div className="flex flex-col">
-                    <span>{t("dashboard.cart.shipping", "Shipping")}</span>
+                    <span>{t("cart.shipping")}</span>
                     {badgeData && (
                       <span className="text-[10px] text-blue-600 font-black uppercase">
-                        {badgeData.badge} badge: {badgeData.shipping_discount * 100}% rival
+                        {t('cart.badge_info', { badge: badgeData.badge, discount: badgeData.shipping_discount * 100 })}
                       </span>
                     )}
                   </div>
                   <div className="flex flex-col items-end">
                     <span className="line-through text-xs text-slate-400">103.00 MAD</span>
-                    <span className="text-blue-600 font-bold">
+                    <span className="text-blue-600 font-black">
                       {(103 * (1 - (badgeData?.shipping_discount || 0))).toFixed(2)} MAD
                     </span>
                   </div>
                 </div>
                 <div className="pt-4 border-t border-slate-100 dark:border-slate-700 flex justify-between items-center">
-                  <span className="text-lg font-bold text-slate-800 dark:text-slate-100">
-                    {t("dashboard.cart.total", "Total")}
+                  <span className="text-lg font-bold text-slate-800 dark:text-white">
+                    {t("cart.total")}
                   </span>
                   <span className="text-3xl font-black text-blue-600">
                     {(Number(totalCartItems || 0) + (103 * (1 - (badgeData?.shipping_discount || 0)))).toFixed(2)} MAD
@@ -425,13 +403,13 @@ const Cart: React.FC = () => {
                     className="group-hover:scale-110 transition-transform"
                   />
                 )}
-                {t("dashboard.cart.checkout", "Checkout Now")}
+                {t("cart.checkout")}
               </button>
 
-              <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-700">
-                <p className="text-xs text-slate-400 text-center flex items-center justify-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                  Secure checkout powered by Stripe
+              <div className="mt-8 pt-6 border-t border-slate-100 dark:border-slate-700">
+                <p className="text-[10px] uppercase font-black tracking-widest text-slate-400 text-center flex items-center justify-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+                  {t('cart.secure_checkout')}
                 </p>
               </div>
             </motion.div>
@@ -440,32 +418,32 @@ const Cart: React.FC = () => {
       </div>
 
       {showInvoicePopup && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/60 backdrop-blur-sm p-4">
           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="bg-white dark:bg-slate-900 rounded-3xl p-8 max-w-sm w-full shadow-2xl space-y-6 text-center"
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="bg-white dark:bg-slate-900 rounded-[2.5rem] p-10 max-w-sm w-full shadow-2xl space-y-6 text-center"
           >
-            <div className="w-20 h-20 bg-green-100 text-green-500 rounded-full flex items-center justify-center mx-auto mb-4 border-4 border-white dark:border-slate-800 shadow-lg">
+            <div className="w-20 h-20 bg-green-50 text-green-500 rounded-3xl flex items-center justify-center mx-auto mb-4 border-2 border-white dark:border-slate-800 shadow-lg">
               <ShoppingBag size={40} />
             </div>
-            <h3 className="text-2xl font-black text-slate-800 dark:text-slate-100">Order Successful!</h3>
-            <p className="text-slate-500 dark:text-slate-400 text-sm">Your order has been placed successfully. Would you like to download your invoice?</p>
+            <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tight">{t('cart.order_success_title')}</h3>
+            <p className="text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{t('cart.order_success_desc')}</p>
             
             <div className="flex flex-col gap-3 mt-8">
               <button 
                 onClick={handleDownloadInvoice}
                 disabled={isDownloading}
-                className="w-full py-3.5 bg-blue-600 text-white rounded-xl font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-75 shadow-lg shadow-blue-500/30"
+                className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-75 shadow-lg shadow-blue-500/30"
               >
                 {isDownloading ? <Loader size={20} color="#ffffff" /> : <FileText size={20} />}
-                Download Invoice
+                {t('cart.download_invoice')}
               </button>
               <button 
                 onClick={() => window.location.href = '/profile'}
-                className="w-full py-3.5 bg-slate-100 dark:bg-slate-800/50 text-slate-700 dark:text-slate-200 rounded-xl font-bold hover:bg-slate-200 transition"
+                className="w-full py-4 bg-slate-50 dark:bg-slate-800/50 text-slate-500 dark:text-slate-400 rounded-2xl font-bold hover:bg-white dark:hover:bg-slate-800 transition"
               >
-                Maybe Later
+                {t('cart.later')}
               </button>
             </div>
           </motion.div>

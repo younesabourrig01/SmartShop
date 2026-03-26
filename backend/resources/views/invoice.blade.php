@@ -234,10 +234,8 @@
                 </td>
                 <td style="width: 50%;" class="company-details">
                     <strong>SmartShop Inc.</strong><br>
-                    123 Innovation Drive<br>
-                    Tech Valley, CA 90210<br>
-                    support@smartshop.com<br>
-                    +1 (555) 123-4567
+                    Agadir, Morocco<br>
+                    support@smartshop.com
                 </td>
             </tr>
         </table>
@@ -299,11 +297,11 @@
             <table>
                 <tr>
                     <td>Subtotal</td>
-                    <td class="right">{{ number_format($order->total, 2) }} MAD</td>
+                    <td class="right">{{ number_format($subtotal, 2) }} MAD</td>
                 </tr>
                 <tr>
                     <td>Shipping</td>
-                    <td class="right">0.00 MAD</td>
+                    <td class="right">{{ number_format($shippingCost, 2) }} MAD</td>
                 </tr>
                 <tr>
                     <td>Tax</td>

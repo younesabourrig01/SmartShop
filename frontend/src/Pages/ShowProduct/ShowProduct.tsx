@@ -223,7 +223,7 @@ const ShowProduct: React.FC = () => {
                   {product.stock > 0 ? (
                     <>
                       <CheckCircle2 size={20} className="text-green-500" />
-                      <span className="text-green-600 font-bold">{t('product_page.in_stock')} ({product.stock})</span>
+                      <span className="text-green-600 font-bold">{t('product_page.in_stock')}</span>
                     </>
                   ) : (
                     <>

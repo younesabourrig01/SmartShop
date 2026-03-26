@@ -51,24 +51,24 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
         </div>
 
         {/* Content */}
-        <div className="p-6 flex flex-col flex-grow bg-white dark:bg-slate-900">
-          <h3 className="text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors duration-300 line-clamp-1 mb-2">
+        <div className="p-3 md:p-6 flex flex-col flex-grow bg-white dark:bg-slate-900">
+          <h3 className="text-sm md:text-lg font-bold text-slate-900 dark:text-white group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 mb-2">
             {title}
           </h3>
           
-          <div className="mt-auto flex items-center justify-between">
-            <span className="text-xl font-black text-slate-900 dark:text-white">
+          <div className="mt-auto flex items-center justify-between gap-1">
+            <span className="text-sm md:text-xl font-black text-slate-900 dark:text-white">
               {price} MAD
             </span>
             <button 
               disabled={isAdding}
               onClick={handleAddToCart}
-              className="p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 disabled:opacity-50 shadow-md transform hover:scale-110 active:scale-95"
+              className="p-2 md:p-3 rounded-full bg-blue-600 text-white hover:bg-blue-700 transition-all duration-300 disabled:opacity-50 shadow-md transform hover:scale-110 active:scale-95 shrink-0"
             >
               {isAdding ? (
-                <Loader2 size={18} className="animate-spin" />
+                <Loader2 size={15} className="animate-spin" />
               ) : (
-                <ShoppingCart size={18} />
+                <ShoppingCart size={15} />
               )}
             </button>
           </div>

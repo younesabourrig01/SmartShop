@@ -100,30 +100,35 @@ const ManageCategories: React.FC = () => {
   );
 
   return (
-    <div className="flex bg-gray-50 text-gray-800 font-sans min-h-screen overflow-hidden">
-      {/* Sidebar - Reusing Dashboard side bar style */}
+    <div className="flex bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans min-h-screen">
+      {/* Mobile Backdrop */}
+      {isSidebarOpen && (
+        <div className="fixed inset-0 bg-black/50 z-30 lg:hidden" onClick={() => setIsSidebarOpen(false)} />
+      )}
+
+      {/* Sidebar - mobile drawer / desktop panel */}
       <aside
-        className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-0 h-screen overflow-hidden ${isSidebarOpen ? "w-64" : "w-0 border-none"}`}
+        className={`
+          bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
+          fixed top-0 left-0 h-full w-72
+          lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] lg:w-64 lg:shadow-sm lg:z-20
+          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none'}
+        `}
       >
-        <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
-          <button
-            onClick={() => navigate("/dashboard")}
-            className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all"
-          >
+        <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
+          <span className="font-extrabold text-gray-900 text-lg">Dashboard</span>
+          <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500"><X size={22} /></button>
+        </div>
+        <nav className="flex-1 mt-4 lg:mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
+          <button onClick={() => { navigate("/dashboard"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <LayoutDashboard size={20} />
             {t("dashboard.sidebar.dashboard")}
           </button>
-          <button
-            onClick={() => navigate("/dashboard/users")}
-            className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all"
-          >
+          <button onClick={() => { navigate("/dashboard/users"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Users size={20} />
             {t("dashboard.sidebar.users")}
           </button>
-          <button
-            onClick={() => navigate("/dashboard/products")}
-            className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all"
-          >
+          <button onClick={() => { navigate("/dashboard/products"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Package size={20} />
             {t("dashboard.sidebar.products")}
           </button>
@@ -131,21 +136,13 @@ const ManageCategories: React.FC = () => {
             <Layers size={20} />
             {t("dashboard.sidebar.categories")}
           </button>
-          <button
-            onClick={() => navigate("/dashboard/settings")}
-            className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all"
-          >
+          <button onClick={() => { navigate("/dashboard/settings"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
             {t("dashboard.sidebar.settings")}
           </button>
         </nav>
-
         <div className="p-4 border-t border-gray-100">
-          <button
-            onClick={handleLogout}
-            disabled={isLoading}
-            className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold group shadow-sm disabled:opacity-70"
-          >
+          <button onClick={handleLogout} disabled={isLoading} className="flex items-center gap-3 w-full p-3 bg-red-50 text-red-600 hover:bg-red-100 rounded-xl transition-all font-bold shadow-sm disabled:opacity-70">
             {isLoading ? <Loader color="#dc2626" /> : <LogOut size={20} />}
             {t("dashboard.sidebar.logout")}
           </button>
@@ -153,19 +150,14 @@ const ManageCategories: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out h-screen">
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out min-h-[calc(100vh-72px)] w-full">
         {/* Header */}
-        <header className="sticky top-0 bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
-          <div className="flex items-center gap-4">
-            <button
-              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-              className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500"
-            >
-              {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}
+        <header className="sticky top-[72px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-10">
+          <div className="flex items-center gap-3">
+            <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
+              <Menu size={22} />
             </button>
-            <h1 className="text-2xl font-extrabold text-gray-900 leading-tight">
-              Manage Categories
-            </h1>
+            <h1 className="text-lg md:text-2xl font-extrabold text-gray-900 leading-tight">Manage Categories</h1>
           </div>
           <button
             onClick={openAddForm}
@@ -244,7 +236,7 @@ const ManageCategories: React.FC = () => {
                         </span>
                       </td>
                       <td className="px-8 py-5 text-right">
-                        <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <div className="flex justify-end gap-2 transition-all">
                           <button
                             onClick={() => openInfoPopup(category)}
                             className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
@@ -272,9 +264,6 @@ const ManageCategories: React.FC = () => {
                             )}
                           </button>
                         </div>
-                        <button className="md:hidden p-2 text-gray-400 hover:text-gray-600 bg-gray-50 rounded-lg group-hover:hidden">
-                          <MoreVertical size={18} />
-                        </button>
                       </td>
                     </tr>
                   ))}

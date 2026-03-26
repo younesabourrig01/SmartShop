@@ -28,23 +28,23 @@ const FeaturedProducts: React.FC = () => {
         {/* Section header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14 text-start rtl:text-right">
           <div className="max-w-lg">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 rounded-full mb-5">
-              <Sparkles size={13} className="text-indigo-500" />
-              <span className="text-xs font-bold tracking-[0.15em] uppercase text-indigo-600 dark:text-indigo-400">
-                Editor's Picks
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-blue-50 dark:bg-blue-900/30 border border-blue-100 rounded-full mb-5">
+              <Sparkles size={13} className="text-blue-500" />
+              <span className="text-xs font-bold tracking-[0.15em] uppercase text-blue-600 dark:text-blue-400">
+                {t('products.featured_picks')}
               </span>
             </div>
             <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-3">
-              {t('products.banner.title') || 'Featured Products'}
+              {t('products.banner.title')}
             </h2>
             <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-              {t('products.description') || 'Hand-picked for quality, design & performance.'}
+              {t('products.description')}
             </p>
           </div>
 
           <Link
             to="/products"
-            className="group inline-flex items-center gap-2 text-indigo-600 dark:text-indigo-400 font-bold text-sm shrink-0 hover:text-indigo-700 transition-colors"
+            className="group inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-bold text-sm shrink-0 hover:text-blue-700 transition-colors"
           >
             <span>{t('categories.banner.cta') || 'View All'}</span>
             <ArrowRight

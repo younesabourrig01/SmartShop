@@ -26,7 +26,7 @@ const NotFound: React.FC = () => {
           >
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight">
               {t('notFound.oops', 'Oops!')} <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#0046be] to-[#01b0d3]">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-700 to-blue-500">
                 {t('notFound.title', 'Not Found.')}
               </span>
             </h2>
@@ -51,7 +51,7 @@ const NotFound: React.FC = () => {
               <motion.button 
                 whileHover={{ scale: 1.05, y: -4 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full px-8 py-4 bg-[#0046be] text-white font-black text-lg rounded-2xl shadow-xl flex items-center justify-center gap-3 group transition-all"
+                className="w-full px-8 py-4 bg-blue-600 text-white font-black text-lg rounded-2xl shadow-xl flex items-center justify-center gap-3 group transition-all hover:bg-blue-700"
               >
                 <Home size={22} />
                 <span>{t('notFound.returnHome', 'Return Home')}</span>
@@ -62,7 +62,7 @@ const NotFound: React.FC = () => {
               onClick={() => window.history.back()}
               className="flex items-center gap-2 text-slate-900 dark:text-white font-black text-lg group cursor-pointer"
             >
-              <ArrowLeft size={22} className="text-[#01b0d3] group-hover:-translate-x-1 transition-transform" />
+              <ArrowLeft size={22} className="text-blue-500 group-hover:-translate-x-1 transition-transform" />
               <span>{t('notFound.goBack', 'Go Back')}</span>
             </button>
           </motion.div>
