@@ -1,5 +1,10 @@
 # 🛒 SmartShop - Full Stack E-commerce Application
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Go](https://img.shields.io/badge/go-%2300ADD8.svg?style=for-the-badge&logo=go&logoColor=white)
+![Laravel](https://img.shields.io/badge/laravel-%23FF2D20.svg?style=for-the-badge&logo=laravel&logoColor=white)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+
 SmartShop is a full-stack e-commerce web application built with **React (Frontend)** and **Laravel (Backend)**, with an additional **Go microservice**.
 
 ---
@@ -8,33 +13,34 @@ SmartShop is a full-stack e-commerce web application built with **React (Fronten
 
 ### Frontend
 
-* React
-* TypeScript
-* Tailwind CSS
-* Axios
-* React Hot Toast
-* React Loader Spinner
+- React
+- TypeScript
+- Tailwind CSS
+- Axios
+- React Hot Toast
+- React Loader Spinner
 
 ### Backend
 
-* Laravel
-* SQLite
-* REST API
-* Laravel Sanctum (Authentication)
+- Laravel
+- SQLite
+- REST API
+- Laravel Sanctum (Authentication)
 
 ### Microservice
 
-* Go (Golang)
-* Runs on **http://localhost:8080**
-* Go install required (go here if you dont have installet yet : **https://go.dev/** )
+- Go (Golang)
+- Runs on **http://localhost:8080**
+- Go install required (go here if you dont have installet yet : **https://go.dev/** )
+
 ---
 
 ## Project Goals
 
-* Understand full-stack architecture
-* Build and consume REST APIs
-* Manage communication between frontend and backend
-* Introduce microservices architecture (Laravel ↔ Go ↔ React)
+- Understand full-stack architecture
+- Build and consume REST APIs
+- Manage communication between frontend and backend
+- Introduce microservices architecture (Laravel ↔ Go ↔ React)
 
 ---
 
@@ -42,34 +48,34 @@ SmartShop is a full-stack e-commerce web application built with **React (Fronten
 
 ### E-commerce Core
 
-* Products management (CRUD + multiple images)
-* Categories management (with images)
-* Shopping cart system
-* Wishlist system
-* Orders & checkout system
-* Invoice generation (PDF)
+- Products management (CRUD + multiple images)
+- Categories management (with images)
+- Shopping cart system
+- Wishlist system
+- Orders & checkout system
+- Invoice generation (PDF)
 
 ### Authentication & Users
 
-* Login & registration
-* OTP email verification
-* User roles (Admin / User)
-* Profile management (with image)
+- Login & registration
+- OTP email verification
+- User roles (Admin / User)
+- Profile management (with image)
 
 ### Extra Features
 
-* Reviews & ratings
-* Multi-language support
-* Dark mode
-* Product filtering & pagination
-* Admin dashboard
-* Daily reports (PDF export for admin)
+- Reviews & ratings
+- Multi-language support
+- Dark mode
+- Product filtering & pagination
+- Admin dashboard
+- Daily reports (PDF export for admin)
 
 ### Microservice
 
-* Password generator built with Go
-* Connected via API Gateway
-* Runs separately on port **8080**
+- Password generator built with Go
+- Connected via API Gateway
+- Runs separately on port **8080**
 
 ---
 
@@ -132,18 +138,18 @@ Make sure this service is running before using password generator features.
 
 ## System Architecture
 
-* React → consumes Laravel API
-* Laravel → handles business logic & database
-* Go Microservice → handles password generation
-* Communication via REST APIs
+- React → consumes Laravel API
+- Laravel → handles business logic & database
+- Go Microservice → handles password generation
+- Communication via REST APIs
 
 ---
 
 ## Project Structure
 
-* `backend/` → Laravel API
-* `frontend/` → React app
-* `passwordGenerator/` → Go microservice
+- `backend/` → Laravel API
+- `frontend/` → React app
+- `passwordGenerator/` → Go microservice
 
 ---
 
@@ -154,7 +160,9 @@ Run:
 ```bash
 php artisan migrate --seed
 ```
+
 ---
+
 ## Quick Start (Windows Only)
 
 To make development easier, this project includes **batch scripts** to start and stop all services.
@@ -164,16 +172,18 @@ To make development easier, this project includes **batch scripts** to start and
 ```bash
 start.bat
 ```
+
 or
+
 ```bash
 .\start.bat
 ```
 
 This will automatically:
 
-* Start Laravel backend
-* Start React frontend
-* Start Go microservice (port 8080)
+- Start Laravel backend
+- Start React frontend
+- Start Go microservice (port 8080)
 
 ---
 
@@ -182,18 +192,20 @@ This will automatically:
 ```bash
 stop.bat
 ```
-or 
+
+or
+
 ```bash
 .\stop.bat
 ```
-This will stop all running services.
----
+
+## This will stop all running services.
 
 **Note:**
 
-* Make sure you run these scripts from the project root directory
-* Windows only (because `.bat` files)
-* If any service fails, you can still run it manually.
+- Make sure you run these scripts from the project root directory
+- Windows only (because `.bat` files)
+- If any service fails, you can still run it manually.
 
 ## License
 
