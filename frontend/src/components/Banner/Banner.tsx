@@ -1,31 +1,56 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
-
 import { useTranslation } from 'react-i18next';
+import { getAds } from '../../api/ads';
 
 interface BannerProps {
-  title: string;
-  subtitle: string;
-  ctaText?: string;
-  onCtaClick?: () => void;
   gradient?: string;
 }
 
 const Banner: React.FC<BannerProps> = ({ 
-  title, 
-  subtitle, 
-  ctaText, 
-  onCtaClick, 
   gradient = "from-blue-700 via-blue-600 to-blue-500" 
 }) => {
   const { t } = useTranslation();
+  const [ad, setAd] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAd = async () => {
+      try {
+        const res = await getAds();
+        if (res.data.status === 'success') {
+          const banners = res.data.data.banners;
+          if (banners.length > 0) {
+            // Pick a random banner
+            const randomBanner = banners[Math.floor(Math.random() * banners.length)];
+            setAd(randomBanner);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to load banner ad:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchAd();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="relative w-full rounded-[2.5rem] p-8 md:p-12 mb-12 bg-slate-200 dark:bg-slate-800 animate-pulse h-[200px] md:h-[250px] flex items-center justify-center">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-blue-500 border-t-transparent" />
+      </div>
+    );
+  }
+
+  if (!ad) return null;
 
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className={`relative w-full rounded-[2.5rem] p-8 md:p-12 overflow-hidden shadow-2xl shadow-blue-500/10 mb-12 bg-gradient-to-r ${gradient}`}
+      className={`relative w-full rounded-[2.5rem] p-8 md:p-12 overflow-hidden shadow-2xl shadow-blue-500/10 dark:shadow-none mb-12 bg-gradient-to-r ${gradient}`}
     >
       {/* Decorative background elements */}
       <div className="absolute bottom-0 left-0 w-48 h-48 bg-black/5 rounded-full -ml-10 -mb-10 blur-2xl" />
@@ -37,26 +62,12 @@ const Banner: React.FC<BannerProps> = ({
             {t('nav.limited_offer')}
           </div>
           <h2 className="text-3xl md:text-5xl font-black text-white mb-4 leading-tight">
-            {title}
+            {ad.title}
           </h2>
           <p className="text-white dark:text-white/80 text-lg font-medium max-w-xl">
-            {subtitle}
+            {ad.description}
           </p>
         </div>
-
-        {ctaText && (
-          <motion.button
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={onCtaClick}
-            className="px-8 py-4 bg-white dark:bg-slate-900 text-slate-900 dark:text-white font-black text-lg rounded-2xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 group"
-          >
-            {ctaText}
-            <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </div>
-          </motion.button>
-        )}
       </div>
     </motion.div>
   );

@@ -23,7 +23,8 @@ import {
   Mail,
   Phone,
   MapPin,
-  Calendar as CalendarIcon
+  Calendar as CalendarIcon,
+  Megaphone
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { getAllUsers, logout } from "../../../api/auth";
@@ -108,8 +109,8 @@ const Users: React.FC = () => {
       <aside className={`
         bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
         fixed top-0 left-0 h-full w-72
-        lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] lg:w-64 lg:shadow-sm lg:z-20
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none'}
+        lg:sticky lg:top-[88px] lg:h-[calc(100vh-88px)] lg:shadow-sm lg:z-20
+        ${isSidebarOpen ? 'translate-x-0 lg:w-64' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none lg:overflow-hidden'}
       `}>
         <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
           <span className="font-extrabold text-gray-900 text-lg">Dashboard</span>
@@ -132,6 +133,10 @@ const Users: React.FC = () => {
             <Layers size={20} />
             {t('dashboard.sidebar.categories')}
           </button>
+          <button onClick={() => { navigate('/dashboard/ads'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+            <Megaphone size={20} />
+            Manage Ads
+          </button>
           <button onClick={() => { navigate('/dashboard/settings'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
             {t('dashboard.sidebar.settings')}
@@ -148,7 +153,7 @@ const Users: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out w-full">
         {/* Header */}
-        <header className="sticky top-[72px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-10">
+        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               <Menu size={22} />
@@ -182,7 +187,7 @@ const Users: React.FC = () => {
                 <div className="relative w-full md:w-auto">
                     <button 
                         onClick={() => setIsFilterOpen(!isFilterOpen)}
-                        className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${roleFilter !== 'all' ? 'bg-blue-600 text-white shadow-blue-100' : 'bg-white dark:bg-slate-900 border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
+                        className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${roleFilter !== 'all' ? 'bg-blue-600 text-white shadow-blue-100 dark:shadow-none' : 'bg-white dark:bg-slate-900 border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
                     >
                         <Filter size={18} />
                         Filter {roleFilter !== 'all' ? `: ${roleFilter}` : ''}
@@ -217,7 +222,7 @@ const Users: React.FC = () => {
               </div>
 
               {/* Users Table */}
-              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden relative min-h-[400px]">
+              <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 dark:shadow-none overflow-hidden relative min-h-[400px]">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left">
                     <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
@@ -255,7 +260,7 @@ const Users: React.FC = () => {
                             <td className="px-8 py-5">
                               <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-wider shadow-sm transition-all relative overflow-hidden group/badge ${
                                 user.role === 'Admin' 
-                                ? 'bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-600 text-white shadow-amber-200' 
+                                ? 'bg-gradient-to-r from-yellow-300 via-amber-500 to-yellow-600 text-white shadow-amber-200 dark:shadow-none' 
                                 : 'bg-gray-100 text-gray-600'
                               }`}>
                                 {user.role === 'Admin' && (
@@ -342,7 +347,7 @@ const Users: React.FC = () => {
               )}
 
               <div className="flex items-center gap-6">
-                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center overflow-hidden shadow-xl border-4 ${selectedUser.role === 'Admin' ? 'border-amber-500 shadow-amber-500/20' : 'border-white dark:border-slate-800'}`}>
+                <div className={`w-20 h-20 rounded-3xl flex items-center justify-center overflow-hidden shadow-xl border-4 ${selectedUser.role === 'Admin' ? 'border-amber-500 shadow-amber-500/20 dark:shadow-none' : 'border-white dark:border-slate-800'}`}>
                   {selectedUser.image ? (
                     <img src={`http://127.0.0.1:8000/storage/${selectedUser.image}`} alt={selectedUser.name} className="w-full h-full object-cover" />
                   ) : (

@@ -1,4 +1,5 @@
 import React from 'react';
+import AdSlider from '../../components/Banner/AdSlider';
 import Slider from './Slider';
 import Us from './Us';
 import Commantes from './Commantes';
@@ -8,6 +9,9 @@ import FeaturedProducts from './FeaturedProducts';
 const Home: React.FC = () => {
   return (
     <main className="w-full overflow-x-hidden bg-white dark:bg-slate-900">
+      {/* Dynamic Ad Slider */}
+      <AdSlider />
+
       {/* Hero */}
       <Us />
 

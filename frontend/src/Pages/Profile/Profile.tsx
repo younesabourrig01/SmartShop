@@ -130,7 +130,7 @@ const Profile: React.FC = () => {
       <div className="max-w-7xl mx-auto px-3 md:px-8 space-y-6 md:space-y-8">
         
         {/* Profile Details Container - FIXED DARK MODE */}
-        <div className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 rounded-[2rem] md:rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/60 dark:shadow-none transition-all">
+        <div className="bg-gradient-to-br from-white to-slate-50 dark:from-slate-900 dark:to-slate-950 rounded-[2rem] md:rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/6 dark:shadow-none0 dark:shadow-none transition-all">
           <div className="px-5 py-6 md:px-10 md:py-10 flex flex-col md:flex-row items-center md:items-end gap-5 md:gap-8 relative z-10">
             <div className="relative group shrink-0">
               <div className="w-24 h-24 md:w-36 md:h-36 rounded-[2rem] border-[5px] border-white dark:border-slate-800 overflow-hidden shadow-2xl bg-white dark:bg-slate-900 transition-transform duration-500 group-hover:scale-[1.03] group-hover:rotate-2">
@@ -171,18 +171,19 @@ const Profile: React.FC = () => {
                   <div className="grid grid-cols-2 gap-2">
                     <div className="bg-white/[0.03] border border-slate-800 p-3 rounded-xl">
                       <p className="text-[7px] font-black text-slate-500 uppercase tracking-widest">Active Perk</p>
-                      <p className="text-[14px] font-black text-blue-400 mt-0.5">-{badgeData?.badge === 'normal' ? '1.5' : badgeData?.badge === 'medium' ? '5' : badgeData?.badge === 'premium' ? '10' : '50'}% OFF</p>
+                      <p className="text-[14px] font-black text-blue-400 mt-0.5">-{badgeData?.badge === 'none' ? '0' : badgeData?.badge === 'normal' ? '1.5' : badgeData?.badge === 'medium' ? '5' : badgeData?.badge === 'premium' ? '10' : '50'}% OFF</p>
                     </div>
                     <div className="bg-blue-600/10 border border-blue-500/20 p-3 rounded-xl">
                       <p className="text-[7px] font-black text-blue-400/60 uppercase tracking-widest">Next Unlock</p>
-                      <p className="text-[14px] font-black text-white mt-0.5">-{badgeData?.badge === 'normal' ? '5' : badgeData?.badge === 'medium' ? '10' : badgeData?.badge === 'premium' ? '50' : 'MAX'}% OFF</p>
+                      <p className="text-[14px] font-black text-white mt-0.5">-{badgeData?.badge === 'none' ? '1.5' : badgeData?.badge === 'normal' ? '5' : badgeData?.badge === 'medium' ? '10' : badgeData?.badge === 'premium' ? '50' : 'MAX'}% OFF</p>
                     </div>
                   </div>
                   
                   {/* Minified Rank List */}
                   <div className="space-y-1.5">
                     {[
-                      { key: 'normal', color: 'bg-slate-600', text: 'text-slate-400', rabais: '1.5%', range: '0-8' },
+                      { key: 'none', color: 'bg-slate-800', text: 'text-slate-500', rabais: '0%', range: '0-3' },
+                      { key: 'normal', color: 'bg-slate-600', text: 'text-slate-400', rabais: '1.5%', range: '3-8' },
                       { key: 'medium', color: 'bg-amber-400', text: 'text-amber-500', rabais: '5%', range: '8-28' },
                       { key: 'premium', color: 'bg-blue-500', text: 'text-blue-400', rabais: '10%', range: '28-35' },
                       { key: 'master', color: 'bg-yellow-400', text: 'text-yellow-500', rabais: '50%', range: '35+' }
@@ -190,12 +191,12 @@ const Profile: React.FC = () => {
                       <div key={rank.key} className={`flex items-center justify-between px-3 py-2 rounded-lg transition-all border ${badgeData?.badge === rank.key ? 'bg-white/[0.04] border-slate-700' : 'opacity-20 border-transparent'}`}>
                         <div className="flex items-center gap-2">
                           <div className={`w-1.5 h-1.5 rounded-full ${rank.color}`} />
-                          <span className={`text-[9px] font-black uppercase tracking-wider ${rank.text}`}>{rank.key}</span>
+                          <span className={`text-[9px] font-black uppercase tracking-wider ${rank.text}`}>{rank.key === 'none' ? 'Locked' : rank.key}</span>
                           {badgeData?.badge === rank.key && <span className="text-[6px] font-black text-blue-400 uppercase">Current</span>}
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="text-[10px] font-black text-white">{rank.range} <span className="text-[6px] text-slate-600">ORD</span></span>
-                          <span className={`text-[11px] font-black ${rank.text}`}>-{rank.rabais}</span>
+                          <span className={`text-[11px] font-black ${rank.key === 'none' ? 'text-slate-500' : rank.text}`}>-{rank.rabais}</span>
                         </div>
                       </div>
                     ))}
@@ -217,10 +218,10 @@ const Profile: React.FC = () => {
 
               <div 
                 className={`flex items-center gap-4 px-5 py-4 rounded-[1.5rem] border transition-all duration-500 hover:shadow-2xl cursor-default relative overflow-hidden ${
-                  badgeData?.badge === 'master' ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 border-amber-300/40 text-black shadow-amber-500/30' :
-                  badgeData?.badge === 'premium' ? 'bg-gradient-to-br from-slate-900 to-blue-900 border-blue-500/30 text-white shadow-blue-500/20' :
-                  badgeData?.badge === 'medium' ? 'bg-gradient-to-br from-amber-500/20 via-yellow-500/10 to-transparent border-yellow-500/30 dark:border-yellow-500/30 text-amber-900 dark:text-amber-500 shadow-yellow-500/10' :
-                  'bg-white dark:bg-slate-900/80 backdrop-blur-md border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-slate-200/50'
+                  badgeData?.badge === 'master' ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 border-amber-300/40 text-black shadow-amber-500/30 dark:shadow-none' :
+                  badgeData?.badge === 'premium' ? 'bg-gradient-to-br from-slate-900 to-blue-900 border-blue-500/30 text-white shadow-blue-500/20 dark:shadow-none' :
+                  badgeData?.badge === 'medium' ? 'bg-gradient-to-br from-amber-500/20 via-yellow-500/10 to-transparent border-yellow-500/30 dark:border-yellow-500/30 text-amber-900 dark:text-amber-500 shadow-yellow-500/10 dark:shadow-none' :
+                  'bg-white dark:bg-slate-900/80 backdrop-blur-md border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 shadow-slate-200/50 dark:shadow-none'
                 }`}
               >
                 {/* Background Glow for Premium & Master */}
@@ -234,12 +235,16 @@ const Profile: React.FC = () => {
                 <div className="relative z-10 flex items-center gap-5 w-full">
                   {/* Badge Image */}
                   <div className="relative shrink-0">
-                    {badgeData?.badge ? (
+                    {badgeData?.badge && badgeData.badge !== 'none' ? (
                       <img 
                         src={new URL(`../../assets/badges/${badgeData.badge.charAt(0).toUpperCase() + badgeData.badge.slice(1)}.png`, import.meta.url).href} 
                         alt={badgeData.badge} 
                         className="h-12 md:h-14 w-auto object-contain relative z-10 drop-shadow-xl"
                       />
+                    ) : badgeData?.badge === 'none' ? (
+                      <div className="h-12 w-12 bg-slate-100 dark:bg-slate-800/30 rounded-2xl flex items-center justify-center text-slate-400 dark:text-slate-600 border border-slate-200/50 dark:border-slate-800 shadow-inner">
+                        <ShoppingBag size={24} strokeWidth={1.5} />
+                      </div>
                     ) : (
                       <div className="h-12 w-12 bg-slate-100 dark:bg-slate-800/50 rounded-full animate-pulse"></div>
                     )}
@@ -255,16 +260,19 @@ const Profile: React.FC = () => {
                           <span className={`text-base md:text-xl font-black uppercase tracking-tight ${
                             badgeData?.badge === 'master' ? 'text-black drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]' :
                             badgeData?.badge === 'premium' ? 'text-transparent bg-clip-text bg-gradient-to-r from-blue-200 to-blue-200' : 
+                            badgeData?.badge === 'none' ? 'text-slate-400 dark:text-slate-600 italic font-medium' :
                             'text-slate-900 dark:text-white'
                           }`}>
-                            {badgeData.badge}
+                            {badgeData.badge === 'none' ? 'Locked' : badgeData.badge}
                           </span>
                         ) : (
                           <div className="h-6 w-24 bg-slate-100 dark:bg-slate-800/50 rounded-lg animate-pulse my-1"></div>
                         )}
                         <Info size={14} className={`opacity-40 hover:opacity-100 transition-opacity cursor-help ${
                           badgeData?.badge === 'master' ? 'text-black' :
-                          badgeData?.badge === 'premium' ? 'text-blue-300' : 'text-slate-400 dark:text-slate-500'
+                          badgeData?.badge === 'premium' ? 'text-blue-300' : 
+                          badgeData?.badge === 'none' ? 'text-slate-300 dark:text-slate-700' :
+                          'text-slate-400 dark:text-slate-500'
                         }`} />
                       </div>
                     </div>
@@ -274,10 +282,10 @@ const Profile: React.FC = () => {
                       <div className="w-full space-y-1.5">
                         <div className="flex justify-between items-center gap-3 text-[8px] md:text-[9px] font-black uppercase tracking-widest overflow-hidden">
                           <span className={`whitespace-nowrap ${badgeData?.badge === 'medium' ? 'text-amber-600' : badgeData?.badge === 'premium' ? 'text-blue-300' : 'text-slate-400 dark:text-slate-500'}`}>
-                            {badgeData ? `${badgeData.orders_count} / ${badgeData.badge === 'normal' ? 8 : badgeData.badge === 'medium' ? 28 : 35}` : '0 / 8'} {t('profile.badge.orders_label', 'Orders')}
+                            {badgeData ? `${badgeData.orders_count} / ${badgeData.badge === 'none' ? 3 : badgeData.badge === 'normal' ? 8 : badgeData.badge === 'medium' ? 28 : 35}` : '0 / 8'} {t('profile.badge.orders_label', 'Orders')}
                           </span>
                           <span className={`whitespace-nowrap ${badgeData?.badge === 'medium' ? 'text-amber-600' : badgeData?.badge === 'premium' ? 'text-blue-300' : 'text-blue-600 dark:text-blue-400'}`}>
-                             {badgeData ? (badgeData.badge === 'normal' ? 'Medium' : badgeData.badge === 'medium' ? 'Premium' : 'Master') : 'Loading'} {t('profile.badge.next', 'Next')}
+                             {badgeData ? (badgeData.badge === 'none' ? 'Normal' : badgeData.badge === 'normal' ? 'Medium' : badgeData.badge === 'medium' ? 'Premium' : 'Master') : 'Loading'} {t('profile.badge.next', 'Next')}
                           </span>
                         </div>
                         <div className="h-1.5 w-full bg-slate-100 dark:bg-slate-800/50 rounded-full overflow-hidden">
@@ -285,9 +293,10 @@ const Profile: React.FC = () => {
                             className={`h-full transition-all duration-1000 ${
                               badgeData?.badge === 'medium' ? 'bg-amber-500' : 
                               badgeData?.badge === 'premium' ? 'bg-blue-600' :
+                              badgeData?.badge === 'none' ? 'bg-slate-400 dark:bg-slate-600' :
                               'bg-blue-600'
                             }`}
-                            style={{ width: `${Math.min(100, ((badgeData?.orders_count || 0) / (badgeData?.badge === 'normal' ? 8 : badgeData?.badge === 'medium' ? 28 : 35)) * 100)}%` }}
+                            style={{ width: `${Math.min(100, ((badgeData?.orders_count || 0) / (badgeData?.badge === 'none' ? 3 : badgeData?.badge === 'normal' ? 8 : badgeData?.badge === 'medium' ? 28 : 35)) * 100)}%` }}
                           ></div>
                         </div>
                       </div>
@@ -361,11 +370,11 @@ const Profile: React.FC = () => {
             </div>
             
             {/* Support Card - Lightest Gray */}
-            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-white dark:border-slate-800 shadow-lg shadow-slate-200/50 relative overflow-hidden group">
+            <div className="bg-white dark:bg-slate-900 p-8 rounded-[2rem] border border-white dark:border-slate-800 shadow-lg shadow-slate-200/50 dark:shadow-none relative overflow-hidden group">
               <div className="absolute -right-8 -top-8 w-32 h-32 bg-blue-50/50 rounded-full blur-3xl group-hover:bg-blue-100 transition-all"></div>
               <h3 className="font-black text-2xl mb-2 text-slate-900 dark:text-white relative z-10 tracking-tight">{t('profile.support_title')}</h3>
               <p className="text-sm text-slate-400 mb-6 font-medium relative z-10 leading-relaxed">{t('profile.support_desc')}</p>
-              <Link to="/contact" className="block w-full py-4 bg-slate-900 text-white rounded-2xl text-xs font-black hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 border border-slate-900 relative z-10 uppercase tracking-[0.2em] text-center">
+              <Link to="/contact" className="block w-full py-4 bg-slate-900 text-white rounded-2xl text-xs font-black hover:bg-slate-800 transition-all shadow-lg shadow-slate-200 dark:shadow-none border border-slate-900 relative z-10 uppercase tracking-[0.2em] text-center">
                 {t('profile.contact_us', 'Contact Us')}
               </Link>
             </div>
@@ -373,7 +382,7 @@ const Profile: React.FC = () => {
 
           {/* Right Column: Latest Orders */}
           <div className="lg:col-span-2 space-y-6">
-            <section className="bg-white dark:bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/40 overflow-hidden">
+            <section className="bg-white dark:bg-slate-900 rounded-[2rem] md:rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden">
               <div className="p-5 md:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 border-b border-slate-50">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 rounded-xl shadow-inner border border-white dark:border-slate-800">

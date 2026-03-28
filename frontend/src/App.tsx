@@ -12,6 +12,7 @@ import UserReviews from "./Pages/Profile/UserReviews";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import ManageProducts from "./Pages/Dashboard/ManageProducts/ManageProducts";
 import ManageCategories from "./Pages/Dashboard/ManageCategories/ManageCategories";
+import ManageAds from "./Pages/Dashboard/ManageAds/ManageAds";
 import Users from "./Pages/Dashboard/ManageUsers/Users";
 import DashboardSettings from "./Pages/Dashboard/DashboardSettings";
 import CategoriesPage from "./Pages/Categories/CategoriesPage";
@@ -108,6 +109,14 @@ function App() {
             element={
               <AdminRoute>
                 <ManageCategories />
+              </AdminRoute>
+            }
+          />
+          <Route
+            path="/dashboard/ads"
+            element={
+              <AdminRoute>
+                <ManageAds />
               </AdminRoute>
             }
           />

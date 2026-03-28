@@ -71,7 +71,7 @@ const ShowCategory: React.FC = () => {
           </div>
 
           <div className="flex flex-col md:flex-row gap-10 items-center relative z-10">
-            <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-500/10 border-4 border-slate-50">
+            <div className="w-48 h-48 md:w-64 md:h-64 shrink-0 rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-500/10 dark:shadow-none border-4 border-slate-50">
               <img
                 src={
                   category.image && category.image.startsWith("http")
@@ -102,7 +102,7 @@ const ShowCategory: React.FC = () => {
         {/* Products Section */}
         <div className="mb-10">
           <h2 className="text-3xl font-black text-slate-900 dark:text-white mb-8 flex items-center gap-4">
-            <div className="p-3 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-500/30">
+            <div className="p-3 bg-blue-600 rounded-2xl text-white shadow-lg shadow-blue-500/30 dark:shadow-none">
               <ShoppingBag size={24} />
             </div>
             {t("nav.products")}

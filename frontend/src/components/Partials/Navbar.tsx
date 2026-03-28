@@ -218,15 +218,19 @@ const Navbar: React.FC = () => {
           </div>
         </button>
 
-        <Link to="/wishlist" className="hidden md:flex p-2 text-slate-500 dark:text-slate-400 hover:text-pink-500 hover:bg-pink-50/80 dark:hover:bg-pink-900/20 rounded-full transition-all duration-300 relative group">
-          <Heart size={22} className="lg:size-[24px] group-hover:fill-pink-500 transition-all" />
-          <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">{wishlistCount}</span>
-        </Link>
+        {!user || user.role !== 'admin' ? (
+          <Link to="/wishlist" className="hidden md:flex p-2 text-slate-500 dark:text-slate-400 hover:text-pink-500 hover:bg-pink-50/80 dark:hover:bg-pink-900/20 rounded-full transition-all duration-300 relative group">
+            <Heart size={22} className="lg:size-[24px] group-hover:fill-pink-500 transition-all" />
+            <span className="absolute top-0 right-0 w-4 h-4 bg-pink-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">{wishlistCount}</span>
+          </Link>
+        ) : null}
 
-        <Link to="/cart" className="hidden md:flex p-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 hover:bg-blue-50/80 dark:hover:bg-blue-900/20 rounded-full transition-all duration-300 relative group">
-          <ShoppingCart size={22} className="lg:size-[24px]" />
-          <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">{cartCount}</span>
-        </Link>
+        {!user || user.role !== 'admin' ? (
+          <Link to="/cart" className="hidden md:flex p-2 text-slate-500 dark:text-slate-400 hover:text-blue-600 hover:bg-blue-50/80 dark:hover:bg-blue-900/20 rounded-full transition-all duration-300 relative group">
+            <ShoppingCart size={22} className="lg:size-[24px]" />
+            <span className="absolute top-0 right-0 w-4 h-4 bg-blue-600 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white dark:border-slate-900">{cartCount}</span>
+          </Link>
+        ) : null}
 
         {/* register/login buttons or profile icon */}
         {!user?(
@@ -235,7 +239,7 @@ const Navbar: React.FC = () => {
               <LogIn size={18} />
               <span>{t('nav.login')}</span>
             </Link>
-            <Link to="/register" className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 shadow-lg shadow-blue-500/30">
+            <Link to="/register" className="flex items-center gap-2 px-5 py-2.5 rounded-full font-bold text-sm transition-all duration-300 bg-blue-600 text-white hover:bg-blue-700 hover:-translate-y-0.5 shadow-lg shadow-blue-500/30 dark:shadow-none">
               <UserPlus size={18} />
               <span>{t('nav.register')}</span>
             </Link>
@@ -281,23 +285,26 @@ const Navbar: React.FC = () => {
             <div className="flex items-center gap-4 py-3 mt-2 border-t border-slate-100 dark:border-slate-700">
 
 
-               {/* Wishlist item in mobile menu */}
-                <Link to="/wishlist" className="flex items-center gap-3 text-slate-700 dark:text-slate-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
-                 <div className="relative w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500">
-                     <Heart size={20} />
-                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white dark:border-slate-900">{wishlistCount}</span>
-                 </div>
-                 <span>{t('nav.wishlist')}</span>
-                </Link>
- 
-                {/* Cart item in mobile menu */}
-                <Link to="/cart" className="flex items-center gap-3 text-slate-700 dark:text-slate-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
-                 <div className="relative w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
-                     <ShoppingCart size={20} />
-                     <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white dark:border-slate-800">{cartCount}</span>
-                 </div>
-                 <span>{t('nav.cart')}</span>
-                </Link>
+                {user.role !== 'admin' && (
+                  <>
+                    {/* Wishlist item in mobile menu */}
+                    <Link to="/wishlist" className="flex items-center gap-3 text-slate-700 dark:text-slate-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                      <div className="relative w-10 h-10 bg-pink-50 rounded-xl flex items-center justify-center text-pink-500">
+                        <Heart size={20} />
+                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-pink-500 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white dark:border-slate-900">{wishlistCount}</span>
+                      </div>
+                      <span>{t('nav.wishlist')}</span>
+                    </Link>
+                    {/* Cart item in mobile menu */}
+                    <Link to="/cart" className="flex items-center gap-3 text-slate-700 dark:text-slate-200 font-medium" onClick={() => setIsMobileMenuOpen(false)}>
+                      <div className="relative w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
+                        <ShoppingCart size={20} />
+                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-blue-600 text-white text-[8px] font-bold rounded-full flex items-center justify-center border border-white dark:border-slate-800">{cartCount}</span>
+                      </div>
+                      <span>{t('nav.cart')}</span>
+                    </Link>
+                  </>
+                )}
             </div>
           </div>
           <div className="grid grid-cols-2 gap-2 mt-2 pt-4 border-t border-slate-100 dark:border-slate-700">

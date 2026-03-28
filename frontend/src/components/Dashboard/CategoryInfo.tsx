@@ -96,7 +96,7 @@ const CategoryInfo: React.FC<CategoryInfoProps> = ({ isOpen, onClose, category }
 
             <button
                onClick={onClose}
-               className="w-full mt-8 py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-200"
+               className="w-full mt-8 py-4 bg-slate-900 text-white font-black rounded-2xl hover:bg-slate-800 transition-all shadow-xl shadow-slate-200 dark:shadow-none"
             >
                Close Details
             </button>

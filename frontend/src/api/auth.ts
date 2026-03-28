@@ -1,16 +1,5 @@
 import API from "./client";
 
-// token wen login
-API.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-
-  return config;
-});
-
 export const sendOtp = (data: object) => {
   return API.post("/send-otp", data);
 };

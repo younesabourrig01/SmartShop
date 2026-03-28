@@ -144,12 +144,12 @@ const ShowProduct: React.FC = () => {
           {t('product_page.back_to_products')}
         </Link>
 
-        <div className="bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-xl border border-slate-50 overflow-hidden">
+        <div className="bg-white dark:bg-slate-900/60 backdrop-blur-xl rounded-[2.5rem] shadow-xl dark:shadow-none border border-slate-50 dark:border-slate-800/60 overflow-hidden">
           <div className="flex flex-col lg:flex-row">
             
             {/* Left: Image Gallery */}
-            <div className="w-full lg:w-1/2 p-8 lg:p-12 bg-slate-50 dark:bg-slate-800/50">
-              <div className="relative aspect-square rounded-3xl overflow-hidden bg-white dark:bg-slate-900 shadow-inner mb-6 group">
+            <div className="w-full lg:w-1/2 p-8 lg:p-12 bg-slate-50 dark:bg-slate-800/10 border-r border-slate-100 dark:border-slate-800/30">
+              <div className="relative aspect-square rounded-3xl overflow-hidden bg-white dark:bg-slate-900 shadow-inner dark:shadow-none mb-6 group">
                 <AnimatePresence mode="wait">
                   {productImages.length > 0 ? (
                     <motion.img
@@ -248,9 +248,9 @@ const ShowProduct: React.FC = () => {
                 <button 
                   disabled={product.stock === 0 || isAdding}
                   onClick={handleAddToCart}
-                  className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg transition-all active:scale-95 shadow-lg ${
+                  className={`flex-1 flex items-center justify-center gap-3 py-5 rounded-2xl font-black text-lg transition-all active:scale-95 ${
                     product.stock > 0 
-                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-blue-200' 
+                    ? 'bg-blue-600 text-white hover:bg-blue-700 shadow-lg dark:shadow-none' 
                     : 'bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed shadow-none'
                   }`}
                 >
@@ -260,7 +260,7 @@ const ShowProduct: React.FC = () => {
                 <button 
                   onClick={handleToggleWishlist}
                   disabled={isWishlisting}
-                  className={`px-8 py-5 rounded-2xl font-black text-lg border border-slate-100 dark:border-slate-700 hover:shadow-md transition-all active:scale-95 flex items-center justify-center gap-2 ${
+                  className={`px-8 py-5 rounded-2xl font-black text-lg border border-slate-100 dark:border-slate-800 hover:shadow-md dark:hover:shadow-none transition-all active:scale-95 flex items-center justify-center gap-2 ${
                     inWishlist ? 'bg-pink-50 text-pink-500 border-pink-100' : 'bg-slate-50 dark:bg-slate-800 text-slate-900 dark:text-white'
                   }`}
                 >

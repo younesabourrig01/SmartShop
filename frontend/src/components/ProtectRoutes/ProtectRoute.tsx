@@ -2,10 +2,14 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
+// Regular logged-in users only — admins are redirected to dashboard
 export const UserRoute = ({ children }: any) => {
-  const { token } = useAuth();
+  const { token, user } = useAuth();
   if (!token) {
     return <Navigate to="/login" />;
+  }
+  if (user?.role === "admin") {
+    return <Navigate to="/dashboard" replace />;
   }
   return children;
 };

@@ -283,7 +283,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
               <button
                 type="submit"
                 disabled={isLoading}
-                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 flex items-center justify-center gap-2 disabled:opacity-70"
+                className="flex-[2] py-4 px-6 bg-blue-600 text-white font-bold rounded-2xl hover:bg-blue-700 transition-all shadow-lg dark:shadow-none flex items-center justify-center gap-2 disabled:opacity-70"
               >
                 {isLoading && <Loader />}
                 {initialData ? "Update Product" : "Create Product"}

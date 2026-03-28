@@ -134,7 +134,7 @@ const Reviews: React.FC<ReviewsProps> = ({ productId }) => {
               disabled={rating === 0 || review.trim() === "" || isSubmitting}
               className={`w-full py-4 rounded-2xl font-black text-lg flex items-center justify-center gap-3 transition-all active:scale-95 ${
                 rating > 0 && review.trim() !== "" && !isSubmitting
-                ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 hover:bg-blue-700"
+                ? "bg-blue-600 text-white shadow-lg shadow-blue-500/30 dark:shadow-none hover:bg-blue-700"
                 : "bg-slate-100 dark:bg-slate-800/50 text-slate-400 cursor-not-allowed"
               }`}
             >

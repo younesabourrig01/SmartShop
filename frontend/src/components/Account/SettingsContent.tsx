@@ -86,7 +86,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
           {/* Delete Account Card */}
           <div 
             onClick={() => setIsDeleteModalOpen(true)}
-            className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-red-50 dark:border-red-900/20 shadow-sm hover:shadow-red-50 hover:shadow-md transition-all cursor-pointer group"
+            className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-red-50 dark:border-red-900/20 shadow-sm hover:shadow-red-50 dark:shadow-none hover:shadow-md transition-all cursor-pointer group"
           >
             <div className="w-12 h-12 bg-red-50 text-red-600 rounded-2xl flex items-center justify-center mb-4 group-hover:bg-red-600 group-hover:text-white transition-colors">
               <Trash2 size={24} />
@@ -178,7 +178,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
                   <button
                     type="submit"
                     disabled={isDeleting}
-                    className="flex-1 py-4 px-6 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200 flex items-center justify-center gap-2 disabled:opacity-70"
+                    className="flex-1 py-4 px-6 bg-red-600 text-white font-bold rounded-2xl hover:bg-red-700 transition-all shadow-lg shadow-red-200 dark:shadow-none flex items-center justify-center gap-2 disabled:opacity-70"
                   >
                     {isDeleting && <Loader />}
                     {t('profile.settings.delete_confirm_btn')}

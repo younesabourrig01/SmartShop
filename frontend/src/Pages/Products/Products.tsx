@@ -53,7 +53,7 @@ const Products: React.FC = () => {
           </div>
           <div className="relative z-10">
             <h2 className="text-lg md:text-2xl font-black text-slate-900 dark:text-white mb-3 md:mb-6 flex items-center gap-2 md:gap-3">
-              <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30">
+              <div className="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-blue-500/30 dark:shadow-none">
                 <Search size={16} />
               </div>
               {t("products.filter.search_title") || "Find Your Product"}
@@ -218,7 +218,7 @@ const Products: React.FC = () => {
             />
           </div>
 
-          <div className="flex items-center gap-1 bg-white dark:bg-slate-900/80 backdrop-blur-xl px-2 py-2 md:px-4 md:py-3 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-lg shadow-slate-200/50">
+          <div className="flex items-center gap-1 bg-white dark:bg-slate-900/80 backdrop-blur-xl px-2 py-2 md:px-4 md:py-3 rounded-[2rem] border border-slate-100 dark:border-slate-700 shadow-lg shadow-slate-200/50 dark:shadow-none">
             {/* First Page */}
             <button
               onClick={() => setCurrentPage(1)}
@@ -277,7 +277,7 @@ const Products: React.FC = () => {
                       {currentPage === page && (
                         <motion.div
                           layoutId="activePage"
-                          className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/30"
+                          className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/30 dark:shadow-none"
                           transition={{
                             type: "spring",
                             stiffness: 380,

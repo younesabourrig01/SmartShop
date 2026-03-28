@@ -33,7 +33,7 @@ const CategoriesPage: React.FC = () => {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 whileHover={{ y: -8, scale: 1.02 }}
-                className="bg-white dark:bg-slate-900 p-8 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 transition-all group cursor-pointer relative overflow-hidden"
+                className="bg-white dark:bg-slate-900 p-8 rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-blue-500/10 dark:shadow-none transition-all group cursor-pointer relative overflow-hidden"
               >
                 {/* Decorative background circle */}
                 <div className="absolute -right-8 -bottom-8 w-32 h-32 bg-slate-50 dark:bg-slate-800 rounded-full group-hover:bg-blue-50 transition-colors duration-500" />
@@ -56,7 +56,7 @@ const CategoriesPage: React.FC = () => {
                     {cat.name}
                   </h4>
                   <div className="flex items-center justify-between mt-6">
-                    <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-slate-200">
+                    <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-slate-200 dark:shadow-none">
                       <ShoppingBag size={20} />
                     </div>
                   </div>

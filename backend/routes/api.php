@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\WishlistController;
 use App\Http\Controllers\Api\PasswordController;
 use App\Http\Controllers\Api\BadgeController;
+use App\Http\Controllers\Api\AdsController;
 
 
 # -------------------------
@@ -36,6 +37,10 @@ Route::apiResource('categories', CategoryController::class)
 
 # Product's reviews (public)
 Route::get('/products/{product}/reviews', [ReviewController::class , 'productReviews']);
+
+# Ads (public)
+Route::apiResource('ads', AdsController::class)
+    ->only(['index', 'show']);
 
 # -------------------------
 # 2. PROTECTED ROUTES
@@ -114,6 +119,10 @@ Route::middleware('auth:sanctum')->group(function () {
             # product images
             Route::post('/products/{product}/images', [ProductImageController::class , 'store']);
             Route::delete('/product-images/{id}', [ProductImageController::class , 'destroy']);
+
+            # ads CRUD
+            Route::apiResource('ads', AdsController::class)
+                ->except(['index', 'show']);
 
         }
         );

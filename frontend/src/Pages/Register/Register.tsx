@@ -193,7 +193,7 @@ const Register: React.FC = () => {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl shadow-blue-200/50 overflow-hidden flex flex-col md:flex-row min-h-150"
+        className="relative w-full max-w-5xl bg-white dark:bg-slate-900 rounded-3xl shadow-2xl dark:shadow-none overflow-hidden flex flex-col md:flex-row min-h-150"
       >
         <Link
           to="/"
@@ -459,7 +459,7 @@ const Register: React.FC = () => {
                     <button
                       onClick={handelSendOtp}
                       disabled={isLoading}
-                      className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50 disabled:translate-y-0 disabled:shadow-none flex items-center justify-center gap-2"
+                      className="flex-1 bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 dark:shadow-none hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-50 disabled:translate-y-0 disabled:shadow-none flex items-center justify-center gap-2"
                     >
                       {isLoading && <Loader />}
                       {t("register_page.next_step")}
@@ -741,7 +741,7 @@ const Register: React.FC = () => {
                       <button
                         type="submit"
                         disabled={isLoading}
-                        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-70 disabled:translate-y-0 flex items-center justify-center gap-2"
+                        className="w-full bg-blue-600 text-white py-4 rounded-xl font-bold shadow-lg shadow-blue-600/20 dark:shadow-none hover:bg-blue-700 hover:-translate-y-1 transition-all active:scale-95 disabled:opacity-70 disabled:translate-y-0 flex items-center justify-center gap-2"
                       >
                         {isLoading && <Loader />}
                         {t("register_page.complete_registration")}

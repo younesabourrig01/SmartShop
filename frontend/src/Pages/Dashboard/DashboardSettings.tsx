@@ -9,7 +9,8 @@ import {
   Settings, 
   LogOut,
   X,
-  Menu
+  Menu,
+  Megaphone
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 import { logout } from "../../api/auth";
@@ -41,7 +42,7 @@ const DashboardSettings: React.FC = () => {
   return (
     <div className="flex bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans min-h-screen">
       {/* Sidebar */}
-      <aside className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-[72px] h-[calc(100vh-72px)] overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
+      <aside className={`bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-20 shadow-sm transition-all duration-300 ease-in-out sticky top-[88px] h-[calc(100vh-88px)] overflow-hidden ${isSidebarOpen ? 'w-64' : 'w-0 border-none'}`}>
         <nav className="flex-1 mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
           <button onClick={() => navigate('/dashboard')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <LayoutDashboard size={20} />
@@ -58,6 +59,10 @@ const DashboardSettings: React.FC = () => {
           <button onClick={() => navigate('/dashboard/categories')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Layers size={20} />
             {t('dashboard.sidebar.categories')}
+          </button>
+          <button onClick={() => navigate('/dashboard/ads')} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+            <Megaphone size={20} />
+            Manage Ads
           </button>
           <button className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
             <Settings size={20} />
@@ -78,9 +83,9 @@ const DashboardSettings: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out min-h-[calc(100vh-72px)]">
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out min-h-[calc(100vh-88px)]">
         {/* Header */}
-        <header className="sticky top-[72px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-10">
+        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 p-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-4">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               {isSidebarOpen ? <X size={24} /> : <Menu size={24} />}

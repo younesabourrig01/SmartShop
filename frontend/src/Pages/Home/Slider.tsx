@@ -92,7 +92,7 @@ const Slider: React.FC = () => {
                   whileInView={{ opacity: 1, scale: 1 }}
                   viewport={{ once: true, margin: "-40px" }}
                   transition={{ duration: 0.55, delay: index * 0.08 }}
-                  className="w-[260px] sm:w-[300px] lg:w-[320px] aspect-[4/5] rounded-[2.5rem] bg-slate-100 dark:bg-slate-800/50 relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-blue-900/[0.12] hover:-translate-y-2 ring-1 ring-black/5"
+                  className="w-[260px] sm:w-[300px] lg:w-[320px] aspect-[4/5] rounded-[2.5rem] bg-slate-100 dark:bg-slate-800/50 relative overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-blue-900 dark:shadow-none/[0.12] hover:-translate-y-2 ring-1 ring-black/5"
                 >
                   {category.url && (
                     <img

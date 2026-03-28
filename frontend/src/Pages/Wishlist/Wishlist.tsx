@@ -116,7 +116,7 @@ const Wishlist: React.FC = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-pink-500/10 transition-all duration-500 flex flex-col"
+                className="group bg-white dark:bg-slate-900 rounded-[2.5rem] overflow-hidden border border-slate-100 dark:border-slate-700 shadow-sm hover:shadow-2xl hover:shadow-pink-500/10 dark:shadow-none transition-all duration-500 flex flex-col"
               >
                 {/* Image Section */}
                 <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
@@ -165,7 +165,7 @@ const Wishlist: React.FC = () => {
                     <button 
                       onClick={() => handleAddToCart(product.id)}
                       disabled={isAddingToCart === product.id}
-                      className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/25 hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 disabled:opacity-50"
+                      className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold text-sm shadow-lg shadow-blue-500/25 dark:shadow-none hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 disabled:opacity-50"
                     >
                       {isAddingToCart === product.id ? (
                         <div className="w-5 h-5 border-2 border-white dark:border-slate-800 border-t-transparent rounded-full animate-spin" />
@@ -188,7 +188,7 @@ const Wishlist: React.FC = () => {
             <p className="text-slate-500 dark:text-slate-400 font-medium mb-10 max-w-xs text-center">{t('wishlist.empty_desc')}</p>
             <Link 
               to="/products" 
-              className="px-10 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:bg-blue-700 hover:-translate-y-1 transition-all"
+              className="px-10 py-4 bg-blue-600 text-white rounded-2xl font-black shadow-xl shadow-blue-500/20 dark:shadow-none hover:bg-blue-700 hover:-translate-y-1 transition-all"
             >
               {t('wishlist.explore')}
             </Link>

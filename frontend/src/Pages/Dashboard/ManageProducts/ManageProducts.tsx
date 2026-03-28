@@ -23,6 +23,7 @@ import {
   ChevronsRight,
   AlertTriangle,
   CheckCircle,
+  Megaphone
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Loader from "../../../components/Loader/Loader";
@@ -145,8 +146,8 @@ const ManageProducts: React.FC = () => {
       <aside className={`
         bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
         fixed top-0 left-0 h-full w-72
-        lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] lg:w-64 lg:shadow-sm lg:z-20
-        ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none'}
+        lg:sticky lg:top-[88px] lg:h-[calc(100vh-88px)] lg:shadow-sm lg:z-20
+        ${isSidebarOpen ? 'translate-x-0 lg:w-64' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none lg:overflow-hidden'}
       `}>
         <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
           <span className="font-extrabold text-gray-900 text-lg">Dashboard</span>
@@ -169,6 +170,10 @@ const ManageProducts: React.FC = () => {
             <Layers size={20} />
             {t('dashboard.sidebar.categories')}
           </button>
+          <button onClick={() => { navigate('/dashboard/ads'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+            <Megaphone size={20} />
+            Manage Ads
+          </button>
           <button onClick={() => { navigate('/dashboard/settings'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
             {t('dashboard.sidebar.settings')}
@@ -185,7 +190,7 @@ const ManageProducts: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out w-full">
         {/* Header */}
-        <header className="sticky top-[72px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-10">
+        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               <Menu size={22} />
@@ -194,7 +199,7 @@ const ManageProducts: React.FC = () => {
           </div>
           <button 
             onClick={openAddForm}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg dark:shadow-none active:scale-95"
           >
             <Plus size={20} />
             Add Product
@@ -217,7 +222,7 @@ const ManageProducts: React.FC = () => {
             <div className="relative w-full md:w-auto">
               <button 
                 onClick={() => setIsFilterOpen(!isFilterOpen)}
-                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${categoryFilter !== 'all' ? 'bg-blue-600 text-white shadow-blue-100' : 'bg-white dark:bg-slate-900 border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
+                className={`flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold transition-all shadow-sm ${categoryFilter !== 'all' ? 'bg-blue-600 text-white shadow-blue-100 dark:shadow-none' : 'bg-white dark:bg-slate-900 border border-gray-100 text-gray-600 hover:bg-gray-50'}`}
               >
                 <Filter size={18} />
                 {categoryFilter === 'all' ? 'All Products' : 
@@ -289,7 +294,7 @@ const ManageProducts: React.FC = () => {
 
           {/* Products Table */}
           {loading && <PageLoader/>}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 dark:shadow-none overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">
@@ -379,7 +384,7 @@ const ManageProducts: React.FC = () => {
                   />
                 </div>
 
-                <div className="flex items-center gap-2 bg-white dark:bg-slate-900/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-gray-100 shadow-lg shadow-gray-200/50">
+                <div className="flex items-center gap-2 bg-white dark:bg-slate-900/80 backdrop-blur-xl px-4 py-3 rounded-[2rem] border border-gray-100 shadow-lg shadow-gray-200/50 dark:shadow-none">
                   {/* First Page */}
                   <button
                     onClick={() => setCurrentPage(1)}
@@ -430,7 +435,7 @@ const ManageProducts: React.FC = () => {
                             {currentPage === page && (
                               <motion.div
                                 layoutId="activePage"
-                                className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/30"
+                                className="absolute inset-0 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg shadow-blue-500/30 dark:shadow-none"
                                 transition={{ type: "spring", stiffness: 380, damping: 30 }}
                               />
                             )}

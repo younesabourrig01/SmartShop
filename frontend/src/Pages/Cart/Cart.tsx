@@ -337,7 +337,7 @@ const Cart: React.FC = () => {
                 </p>
                 <Link
                   to="/products"
-                  className="inline-block bg-blue-600 text-white px-10 py-4 rounded-2xl font-black shadow-xl shadow-blue-500/20 hover:bg-blue-700 hover:-translate-y-1 transition-all"
+                  className="inline-block bg-blue-600 text-white px-10 py-4 rounded-2xl font-black shadow-xl shadow-blue-500/20 dark:shadow-none hover:bg-blue-700 hover:-translate-y-1 transition-all"
                 >
                   {t("cart.start_shopping")}
                 </Link>
@@ -393,7 +393,7 @@ const Cart: React.FC = () => {
               <button
                 onClick={handleCheckout}
                 disabled={isCheckingOut || cartItems.length === 0}
-                className="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-blue-500/20 hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 group disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:translate-y-0"
+                className="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-xl shadow-blue-500/20 dark:shadow-none hover:bg-blue-700 hover:-translate-y-1 active:translate-y-0 transition-all duration-300 flex items-center justify-center gap-3 group disabled:opacity-75 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
                 {isCheckingOut ? (
                   <Loader size={20} />
@@ -434,7 +434,7 @@ const Cart: React.FC = () => {
               <button 
                 onClick={handleDownloadInvoice}
                 disabled={isDownloading}
-                className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-75 shadow-lg shadow-blue-500/30"
+                className="w-full py-4 bg-blue-600 text-white rounded-2xl font-black hover:bg-blue-700 transition flex items-center justify-center gap-2 disabled:opacity-75 shadow-lg shadow-blue-500/30 dark:shadow-none"
               >
                 {isDownloading ? <Loader size={20} color="#ffffff" /> : <FileText size={20} />}
                 {t('cart.download_invoice')}

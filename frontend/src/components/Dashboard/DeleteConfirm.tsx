@@ -73,7 +73,7 @@ const DeleteConfirm: React.FC<DeleteConfirmProps> = ({
             <button
               onClick={onConfirm}
               disabled={isLoading}
-              className="flex-1 py-4 px-6 bg-red-500 text-white font-bold rounded-2xl hover:bg-red-600 transition-all shadow-lg shadow-red-200 flex items-center justify-center gap-2 disabled:opacity-50"
+              className="flex-1 py-4 px-6 bg-red-500 text-white font-bold rounded-2xl hover:bg-red-600 transition-all shadow-lg shadow-red-200 dark:shadow-none flex items-center justify-center gap-2 disabled:opacity-50"
             >
               {isLoading ? <Loader size={18} color="white" /> : <Trash2 size={18} />}
               Delete

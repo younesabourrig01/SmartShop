@@ -121,7 +121,7 @@ const UserReviews: React.FC = () => {
                   exit={{ opacity: 0, scale: 0.95 }}
                   transition={{ delay: index * 0.05 }}
                   key={rev.id} 
-                  className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/40 overflow-hidden group hover:shadow-2xl hover:shadow-slate-300/50 transition-all duration-500"
+                  className="bg-white dark:bg-slate-900 rounded-[2.5rem] border border-white dark:border-slate-800 shadow-xl shadow-slate-200/40 dark:shadow-none overflow-hidden group hover:shadow-2xl hover:shadow-slate-300/50 dark:shadow-none transition-all duration-500"
                 >
                   <div className="p-8 md:p-10">
                     <div className="flex flex-col sm:flex-row gap-8 items-start">
@@ -190,7 +190,7 @@ const UserReviews: React.FC = () => {
               </div>
               <h2 className="text-2xl font-black text-slate-900 dark:text-white mb-2">{t('profile.reviews.no_reviews', 'No feedback yet')}</h2>
               <p className="text-slate-400 font-bold mb-8">You haven't written any reviews for the items you've purchased.</p>
-              <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-slate-200">
+              <Link to="/products" className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg shadow-slate-200 dark:shadow-none">
                 Explore Products <ArrowLeft size={18} className="rotate-180" />
               </Link>
             </motion.div>

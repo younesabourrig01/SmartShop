@@ -79,7 +79,9 @@ class User extends Authenticatable
     {
         $ordersCount = $this->orders()->count();
 
-        if ($ordersCount <= 7) {
+        if ($ordersCount < 3) {
+            return 'none';
+        } elseif ($ordersCount <= 7) {
             return 'normal';
         } elseif ($ordersCount <= 27) {
             return 'medium';
@@ -101,8 +103,10 @@ class User extends Authenticatable
             case 'medium':
                 return 0.05; // 5%
             case 'normal':
-            default:
                 return 0.015; // 1.5%
+            case 'none':
+            default:
+                return 0; // 0%
         }
     }
 }

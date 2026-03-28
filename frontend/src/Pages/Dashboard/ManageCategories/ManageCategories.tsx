@@ -16,6 +16,7 @@ import {
   LogOut,
   X,
   Menu,
+  Megaphone,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
 import { logout } from "../../../api/auth";
@@ -111,8 +112,8 @@ const ManageCategories: React.FC = () => {
         className={`
           bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
           fixed top-0 left-0 h-full w-72
-          lg:sticky lg:top-[72px] lg:h-[calc(100vh-72px)] lg:w-64 lg:shadow-sm lg:z-20
-          ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none'}
+          lg:sticky lg:top-[88px] lg:h-[calc(100vh-88px)] lg:shadow-sm lg:z-20
+          ${isSidebarOpen ? 'translate-x-0 lg:w-64' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none lg:overflow-hidden'}
         `}
       >
         <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
@@ -132,9 +133,13 @@ const ManageCategories: React.FC = () => {
             <Package size={20} />
             {t("dashboard.sidebar.products")}
           </button>
-          <button className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
+          <button onClick={() => { navigate("/dashboard/categories"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
             <Layers size={20} />
             {t("dashboard.sidebar.categories")}
+          </button>
+          <button onClick={() => { navigate("/dashboard/ads"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+            <Megaphone size={20} />
+            Manage Ads
           </button>
           <button onClick={() => { navigate("/dashboard/settings"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
@@ -150,9 +155,9 @@ const ManageCategories: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out min-h-[calc(100vh-72px)] w-full">
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out min-h-[calc(100vh-88px)] w-full">
         {/* Header */}
-        <header className="sticky top-[72px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-10">
+        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               <Menu size={22} />
@@ -161,7 +166,7 @@ const ManageCategories: React.FC = () => {
           </div>
           <button
             onClick={openAddForm}
-            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg shadow-blue-200 active:scale-95"
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg dark:shadow-none active:scale-95"
           >
             <Plus size={20} />
             Add Category
@@ -188,7 +193,7 @@ const ManageCategories: React.FC = () => {
 
           {/* Categories Table */}
           {loading && <PageLoader />}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 overflow-hidden">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl border border-gray-100 shadow-xl shadow-gray-200/20 dark:shadow-none overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left">
                 <thead className="bg-gray-50/50 text-gray-400 text-xs uppercase font-bold">

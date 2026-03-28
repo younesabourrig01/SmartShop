@@ -15,9 +15,9 @@ const Us: React.FC = () => {
   ];
 
   return (
-    <section className="relative w-full min-h-[92vh] flex items-center bg-white dark:bg-slate-900 overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24">
-      {/* Subtle background blobs */}
-      <div className="absolute top-0 right-0 w-[45rem] h-[45rem] bg-blue-50 dark:bg-blue-900/30 rounded-full blur-3xl opacity-60 translate-x-1/3 -translate-y-1/3 pointer-events-none" />
+    <section className="relative w-full min-h-[92vh] flex items-center bg-transparent overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24 z-20">
+      {/* Subtle background blobs safely offset from top edge */}
+      <div className="absolute top-[18%] right-0 w-[45rem] h-[45rem] bg-blue-50 dark:bg-blue-900/30 rounded-full blur-3xl opacity-60 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[35rem] h-[35rem] bg-rose-50 rounded-full blur-3xl opacity-50 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full relative z-10 flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
@@ -56,7 +56,7 @@ const Us: React.FC = () => {
               <motion.button
                 whileHover={{ scale: 1.02, y: -2 }}
                 whileTap={{ scale: 0.97 }}
-                className="w-full px-8 py-4 bg-slate-900 text-white font-semibold text-base rounded-full shadow-xl shadow-slate-900/20 hover:shadow-slate-900/35 flex items-center justify-center gap-3 transition-all duration-300"
+                className="w-full px-8 py-4 bg-slate-900 text-white font-semibold text-base rounded-full shadow-xl shadow-slate-900/20 dark:shadow-none hover:shadow-slate-900/35 dark:shadow-none flex items-center justify-center gap-3 transition-all duration-300"
               >
                 <ShoppingBag size={19} />
                 <span>{t('us.shop_products')}</span>
@@ -93,7 +93,7 @@ const Us: React.FC = () => {
           className="w-full lg:w-[45%] relative aspect-[4/5] lg:aspect-auto lg:h-[640px] flex items-center justify-center"
         >
           {/* Main image card */}
-          <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900/[0.12] ring-1 ring-black/5">
+          <div className="relative w-full h-full rounded-[2.5rem] overflow-hidden shadow-2xl shadow-blue-900 dark:shadow-none/[0.12] ring-1 ring-black/5">
             <img
               src="/hero.png"
               alt="Premium Gadgets"
