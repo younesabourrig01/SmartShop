@@ -51,7 +51,7 @@ const CategoriesPage: React.FC = () => {
                     {cat.name}
                   </h4>
                   <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">
-                    {cat.products_count} {t('categories.items') || 'Items'}
+                    {cat.products_count} {t('categories.items.count') || 'Items'}
                   </p>
                   <div className="flex items-center justify-between mt-6">
                     <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-slate-200 dark:shadow-none">
