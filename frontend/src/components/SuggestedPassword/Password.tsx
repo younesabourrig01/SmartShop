@@ -58,32 +58,65 @@ export const Password: React.FC = () => {
           bottom: 20px;
           /* 3. Use the state to move the popup in/out of view */
           left: ${isVisible ? "20px" : "-400px"};
-          width: 300px;
+          width: 320px;
           background: white;
-          box-shadow: 0px 10px 30px rgba(0,0,0,0.1);
+          box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
           border-radius: 12px;
-          padding: 20px;
-          transition: all 0.5s ease-in-out;
+          padding: 24px;
+          transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
           z-index: 1000;
           border: 1px solid #eee;
           /* Keep it in DOM but hidden if not visible */
           opacity: ${isVisible ? "1" : "0"};
           pointer-events: ${isVisible ? "all" : "none"};
+          color: #1a1a1a;
         }
-        /* ... rest of your styles ... */
+        .popup-content h3 {
+          margin-top: 0;
+          margin-bottom: 12px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #1a1a1a;
+        }
         .password-display {
-          background: #f4f4f9;
-          padding: 10px;
-          border-radius: 6px;
-          font-family: monospace;
+          background: #f8f9fa;
+          padding: 12px;
+          border-radius: 8px;
+          font-family: 'JetBrains Mono', 'Courier New', monospace;
           word-break: break-all;
-          margin-bottom: 15px;
-          color: #555;
-          min-height: 20px;
+          margin-bottom: 20px;
+          color: #333;
+          min-height: 24px;
+          border: 1px solid #e9ecef;
+          text-align: center;
+          font-size: 1.1rem;
+          letter-spacing: 0.5px;
         }
-        .btn-group { display: flex; gap: 8px; }
-        .copy-btn { background: #2ed573; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; flex: 1; }
-        .close-btn { background: #ff4757; color: white; border: none; padding: 8px 12px; border-radius: 6px; cursor: pointer; flex: 1; }
+        .btn-group { display: flex; gap: 12px; }
+        .copy-btn { 
+          background: #2ecc71; 
+          color: white; 
+          border: none; 
+          padding: 10px 16px; 
+          border-radius: 8px; 
+          cursor: pointer; 
+          flex: 1; 
+          font-weight: 600;
+          transition: background 0.2s;
+        }
+        .copy-btn:hover { background: #27ae60; }
+        .close-btn { 
+          background: #ff4757; 
+          color: white; 
+          border: none; 
+          padding: 10px 16px; 
+          border-radius: 8px; 
+          cursor: pointer; 
+          flex: 1; 
+          font-weight: 600;
+          transition: background 0.2s;
+        }
+        .close-btn:hover { background: #ff6b81; }
       `}</style>
 
       <div className="popup-container">

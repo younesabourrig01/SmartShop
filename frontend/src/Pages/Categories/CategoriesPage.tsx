@@ -2,7 +2,6 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import Banner from "../../components/Banner/Banner";
 import { CategoryContext } from "../../context/CategoryContext";
 import { useContext } from "react";
 import PageLoader from "../../components/Loader/PageLoader";
@@ -13,14 +12,11 @@ const CategoriesPage: React.FC = () => {
   const { t } = useTranslation();
   const { categories, loading } = useContext(CategoryContext);
   return (
-    <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-900 pb-20 pt-24">
+    <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-900 pb-20 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Banner Section */}
-        <Banner />
-
         {/* Categories Grid */}
         {loading && <PageLoader />}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 pt-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {categories.map((cat, index) => (
             <Link key={cat.id} to={`/categories/${cat.id}`}>
               <motion.div

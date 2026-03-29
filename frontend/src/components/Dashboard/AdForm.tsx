@@ -120,28 +120,8 @@ const AdForm: React.FC<AdFormProps> = ({ isOpen, onClose, initialData, title, on
                 />
               </div>
 
-              {/* Position Selection */}
-              <div className="space-y-2">
-                <label className="text-xs font-black uppercase tracking-widest text-slate-400 ml-1 flex items-center gap-2">
-                  <Megaphone size={14} /> Position
-                </label>
-                <div className="flex gap-3">
-                  {['slider', 'banner'].map((pos) => (
-                    <button
-                      key={pos}
-                      type="button"
-                      onClick={() => setPosition(pos)}
-                      className={`flex-1 py-3 px-4 rounded-xl font-bold border transition-all capitalize ${
-                        position === pos
-                          ? 'bg-blue-600 border-blue-600 text-white shadow-lg dark:shadow-none'
-                          : 'bg-slate-50 dark:bg-slate-800 border-slate-100 dark:border-slate-700 text-slate-500 hover:bg-slate-100'
-                      }`}
-                    >
-                      {pos}
-                    </button>
-                  ))}
-                </div>
-              </div>
+              {/* Position Selection (Hidden, defaulted to slider) */}
+              <input type="hidden" name="position" value="slider" />
 
               {/* Description */}
               <div className="space-y-2">
@@ -213,14 +193,7 @@ const AdForm: React.FC<AdFormProps> = ({ isOpen, onClose, initialData, title, on
                 </div>
               )}
 
-              {/* Warning for Banner */}
-              {position === 'banner' && (
-                <div className="p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-700/50 rounded-2xl">
-                  <p className="text-xs font-bold text-amber-600 dark:text-amber-400 leading-relaxed">
-                    Banners are display-only textual elements with background gradients. No image upload is required for this position.
-                  </p>
-                </div>
-              )}
+
             </div>
 
             <div className="pt-4 flex gap-4">

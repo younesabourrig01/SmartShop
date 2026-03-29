@@ -38,7 +38,7 @@ const ManageAds: React.FC = () => {
   const [editingAd, setEditingAd] = useState<any>(null);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [adToDelete, setAdToDelete] = useState<any>(null);
-  const [activeTab, setActiveTab] = useState<'slider' | 'banner'>('slider');
+  const [activeTab, setActiveTab] = useState<'slider'>('slider');
 
   const [isLoading, setIsLoading] = useState(false);
   const [ads, setAds] = useState<any[]>([]);
@@ -49,8 +49,8 @@ const ManageAds: React.FC = () => {
     try {
       const res = await getAds();
       if (res.data.status === 'success') {
-        const { sliders, banners } = res.data.data;
-        setAds([...sliders, ...banners]);
+        const { sliders } = res.data.data;
+        setAds([...sliders]);
       }
     } catch (err) {
       console.error(err);
@@ -182,50 +182,23 @@ const ManageAds: React.FC = () => {
 
         <div className="p-8 space-y-8">
           {/* Stats Bar */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-            <button 
-              onClick={() => setActiveTab('slider')}
-              className={`p-6 rounded-[2rem] border transition-all text-left flex items-start gap-4 ${
-                activeTab === 'slider' 
-                  ? 'bg-white dark:bg-slate-800 border-blue-500 shadow-xl shadow-blue-10 dark:shadow-none0 dark:shadow-none translate-y-[-4px]' 
-                  : 'bg-white dark:bg-slate-900 border-gray-100 hover:border-blue-200 opacity-60'
-              }`}
+          <div className="grid grid-cols-1 gap-6 mb-4">
+            <div 
+              className={`p-6 rounded-[2rem] border transition-all text-left flex items-start gap-4 bg-white dark:bg-slate-800 border-blue-500 shadow-xl shadow-blue-10 dark:shadow-none0 dark:shadow-none`}
             >
-              <div className={`p-4 rounded-2xl ${activeTab === 'slider' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-600'}`}>
+              <div className={`p-4 rounded-2xl bg-blue-600 text-white`}>
                 <ImageIcon size={28} />
               </div>
               <div>
                 <h3 className="text-xl font-black text-gray-900 dark:text-white capitalize">{t('dashboard.ads.tabs.slider')}</h3>
                 <p className="text-sm font-bold text-gray-400 mt-1">{t('dashboard.ads.tabs.slider_desc')}</p>
                 <div className="mt-4 flex items-center gap-2">
-                  <span className={`text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full ${activeTab === 'slider' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-400'}`}>
-                    {t('dashboard.ads.stats.active')}: {isFetchingAds ? '...' : ads.filter(a => a.position === 'slider').length}
+                  <span className={`text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full bg-blue-600 text-white`}>
+                    {t('dashboard.ads.stats.active')}: {isFetchingAds ? '...' : ads.length}
                   </span>
                 </div>
               </div>
-            </button>
-
-            <button 
-              onClick={() => setActiveTab('banner')}
-              className={`p-6 rounded-[2rem] border transition-all text-left flex items-start gap-4 ${
-                activeTab === 'banner' 
-                  ? 'bg-white dark:bg-slate-800 border-amber-500 shadow-xl shadow-amber-10 dark:shadow-none0 dark:shadow-none translate-y-[-4px]' 
-                  : 'bg-white dark:bg-slate-900 border-gray-100 hover:border-amber-200 opacity-60'
-              }`}
-            >
-              <div className={`p-4 rounded-2xl ${activeTab === 'banner' ? 'bg-amber-500 text-white' : 'bg-amber-50 text-amber-600'}`}>
-                <Type size={28} />
-              </div>
-              <div>
-                <h3 className="text-xl font-black text-gray-900 dark:text-white capitalize">{t('dashboard.ads.tabs.banner')}</h3>
-                <p className="text-sm font-bold text-gray-400 mt-1">{t('dashboard.ads.tabs.banner_desc')}</p>
-                <div className="mt-4 flex items-center gap-2">
-                  <span className={`text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full ${activeTab === 'banner' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-400'}`}>
-                    {t('dashboard.ads.stats.active')}: {isFetchingAds ? '...' : ads.filter(a => a.position === 'banner').length}
-                  </span>
-                </div>
-              </div>
-            </button>
+            </div>
           </div>
 
           {/* Ads List */}
@@ -239,9 +212,7 @@ const ManageAds: React.FC = () => {
                 <div key={ad.id} className="group bg-white dark:bg-slate-900 rounded-[2.5rem] border border-gray-100 shadow-sm hover:shadow-xl transition-all overflow-hidden relative">
                   {/* Top Badges */}
                   <div className="absolute top-6 left-6 z-10 flex gap-2">
-                    <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg ${
-                      ad.position === 'slider' ? 'bg-blue-600 text-white' : 'bg-amber-500 text-white'
-                    }`}>
+                    <span className={`px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg bg-blue-600 text-white`}>
                       {ad.position}
                     </span>
                   </div>
@@ -275,7 +246,7 @@ const ManageAds: React.FC = () => {
                   )}
 
                   {/* Content Area */}
-                  <div className={`p-8 ${ad.position === 'banner' ? 'pt-16 border-t-8 border-amber-500' : ''}`}>
+                  <div className={`p-8`}>
                     <div className="flex justify-between items-start gap-4 mb-4">
                       <h4 className="text-2xl font-black text-gray-900 dark:text-white leading-tight">
                         {ad.title}
@@ -296,12 +267,7 @@ const ManageAds: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Banner Indicator Icon */}
-                  {ad.position === 'banner' && (
-                    <div className="absolute top-6 right-6 p-4 bg-amber-50 text-amber-500 rounded-full dark:bg-amber-900/20 group-hover:scale-110 transition-transform">
-                      <Type size={32} />
-                    </div>
-                  )}
+
                 </div>
               ))
             ) : (

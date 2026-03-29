@@ -47,7 +47,8 @@ interface GroupedOrders {
 const Profile: React.FC = () => {
   const navigate = useNavigate();
   const { user, clearAuth } = useAuth();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const isRtl = i18n.language === "ar";
   const [isLoading, setIsLoading] = useState(false);
   const [groupedOrders, setGroupedOrders] = useState<GroupedOrders>({});
   const [isOrdersLoading, setIsOrdersLoading] = useState(true);
@@ -126,7 +127,7 @@ const Profile: React.FC = () => {
   if (!user) return null;
 
   return (
-    <div className="min-h-[calc(100vh-76px)] bg-[#f3f4f6] dark:bg-slate-950 pb-12 pt-4 md:pt-8 text-slate-800 dark:text-slate-100">
+    <div className={`min-h-[calc(100vh-76px)] bg-[#f3f4f6] dark:bg-slate-950 pb-12 pt-4 md:pt-8 text-slate-800 dark:text-slate-100 ${isRtl ? 'rtl' : 'ltr'}`}>
       <div className="max-w-7xl mx-auto px-3 md:px-8 space-y-6 md:space-y-8">
         
         {/* Profile Details Container - FIXED DARK MODE */}
@@ -148,22 +149,22 @@ const Profile: React.FC = () => {
               </div>
             </div>
             
-            <div className="flex-1 text-center md:text-left rtl:md:text-right">
+            <div className={`flex-1 text-center md:text-left ${isRtl ? 'md:text-right' : ''}`}>
               <h1 className="text-2xl md:text-4xl font-black text-slate-900 dark:text-white tracking-tight leading-none">{user.name}</h1>
               <p className="text-slate-400 dark:text-slate-500 font-bold text-sm md:text-lg mt-2">{user.email}</p>
             </div>
 
             <div className="relative group w-full md:w-auto">
               {/* Ultra-Condensed Premium Status Guide */}
-              <div className="absolute right-full top-0 md:top-[-20%] mr-6 w-[20rem] bg-slate-950/98 backdrop-blur-3xl rounded-[2rem] border border-slate-800 shadow-[-15px_0_40px_rgba(0,0,0,0.5)] p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 z-[999] transform translate-x-10 group-hover:translate-x-0 pointer-events-none scale-95 group-hover:scale-100 origin-right">
+              <div className={`absolute ${isRtl ? 'left-full ml-6 origin-left' : 'right-full mr-6 origin-right'} top-0 md:top-[-20%] w-[20rem] bg-slate-950/98 backdrop-blur-3xl rounded-[2rem] border border-slate-800 shadow-xl p-5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-500 z-[999] transform ${isRtl ? '-translate-x-10' : 'translate-x-10'} group-hover:translate-x-0 pointer-events-none scale-95 group-hover:scale-100`}>
                 <div className="space-y-4">
                   {/* Header & Intro */}
-                  <div className="border-b border-slate-800/60 pb-3">
+                  <div className={`border-b border-slate-800/60 pb-3 ${isRtl ? 'text-right' : 'text-left'}`}>
                     <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-white">
                       {t('profile.badge.status_guide', 'Membership Rewards')}
                     </h4>
                     <p className="text-[8px] font-medium text-slate-500 mt-1 leading-relaxed">
-                      Track your orders to unlock massive shipping discounts and exclusive store privileges.
+                      {t('profile.badge.status_guide_desc', 'Track your orders to unlock massive shipping discounts and exclusive store privileges.')}
                     </p>
                   </div>
 
@@ -188,13 +189,13 @@ const Profile: React.FC = () => {
                       { key: 'premium', color: 'bg-blue-500', text: 'text-blue-400', rabais: '10%', range: '28-35' },
                       { key: 'master', color: 'bg-yellow-400', text: 'text-yellow-500', rabais: '50%', range: '35+' }
                     ].map((rank) => (
-                      <div key={rank.key} className={`flex items-center justify-between px-3 py-2 rounded-lg transition-all border ${badgeData?.badge === rank.key ? 'bg-white/[0.04] border-slate-700' : 'opacity-20 border-transparent'}`}>
-                        <div className="flex items-center gap-2">
+                      <div key={rank.key} className={`flex items-center justify-between px-3 py-2 rounded-lg transition-all border ${badgeData?.badge === rank.key ? 'bg-white/[0.04] border-slate-700' : 'opacity-20 border-transparent'} ${isRtl ? 'flex-row-reverse' : ''}`}>
+                        <div className={`flex items-center gap-2 ${isRtl ? 'flex-row-reverse' : ''}`}>
                           <div className={`w-1.5 h-1.5 rounded-full ${rank.color}`} />
-                          <span className={`text-[9px] font-black uppercase tracking-wider ${rank.text}`}>{rank.key === 'none' ? 'Locked' : rank.key}</span>
-                          {badgeData?.badge === rank.key && <span className="text-[6px] font-black text-blue-400 uppercase">Current</span>}
+                          <span className={`text-[9px] font-black uppercase tracking-wider ${rank.text}`}>{rank.key === 'none' ? t('profile.badge.locked', 'Locked') : rank.key}</span>
+                          {badgeData?.badge === rank.key && <span className="text-[6px] font-black text-blue-400 uppercase">{t('profile.badge.current', 'Current')}</span>}
                         </div>
-                        <div className="flex items-center gap-3">
+                        <div className={`flex items-center gap-3 ${isRtl ? 'flex-row-reverse' : ''}`}>
                           <span className="text-[10px] font-black text-white">{rank.range} <span className="text-[6px] text-slate-600">ORD</span></span>
                           <span className={`text-[11px] font-black ${rank.key === 'none' ? 'text-slate-500' : rank.text}`}>-{rank.rabais}</span>
                         </div>
@@ -203,21 +204,21 @@ const Profile: React.FC = () => {
                   </div>
 
                   {/* Order Footer - Condensed */}
-                  <div className="flex items-center gap-2 px-1 pt-1">
+                  <div className={`flex items-center gap-2 px-1 pt-1 ${isRtl ? 'flex-row-reverse' : ''}`}>
                     <div className="p-1.5 bg-blue-600 rounded-lg">
                       <Package size={12} className="text-white" />
                     </div>
                     <p className="text-[11px] font-black text-white uppercase tracking-tight">
-                      {badgeData?.orders_count || 0} Successful Orders
+                      {badgeData?.orders_count || 0} {t('profile.badge.successful_orders', 'Successful Orders')}
                     </p>
                   </div>
                 </div>
                 {/* Minimal Arrow */}
-                <div className="absolute top-8 right-[-1px] transform translate-x-1/2 w-2.5 h-2.5 bg-slate-950 border-r border-t border-slate-800 rotate-45 rounded-[1px]"></div>
+                <div className={`absolute top-8 ${isRtl ? 'left-[-5px] border-l border-b' : 'right-[-5px] border-r border-t'} transform w-2.5 h-2.5 bg-slate-950 border-slate-800 rotate-45 rounded-[1px]`}></div>
               </div>
 
               <div 
-                className={`flex items-center gap-4 px-5 py-4 rounded-[1.5rem] border transition-all duration-500 hover:shadow-2xl cursor-default relative overflow-hidden ${
+                className={`flex items-center gap-4 px-5 py-4 rounded-[1.5rem] border transition-all duration-500 hover:shadow-2xl cursor-default relative overflow-hidden ${isRtl ? 'flex-row-reverse' : ''} ${
                   badgeData?.badge === 'master' ? 'bg-gradient-to-br from-amber-400 via-amber-500 to-yellow-600 border-amber-300/40 text-black shadow-amber-500/30 dark:shadow-none' :
                   badgeData?.badge === 'premium' ? 'bg-gradient-to-br from-slate-900 to-blue-900 border-blue-500/30 text-white shadow-blue-500/20 dark:shadow-none' :
                   badgeData?.badge === 'medium' ? 'bg-gradient-to-br from-amber-500/20 via-yellow-500/10 to-transparent border-yellow-500/30 dark:border-yellow-500/30 text-amber-900 dark:text-amber-500 shadow-yellow-500/10 dark:shadow-none' :
@@ -226,13 +227,13 @@ const Profile: React.FC = () => {
               >
                 {/* Background Glow for Premium & Master */}
                 {badgeData?.badge === 'premium' && (
-                  <div className="absolute -right-20 -top-20 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] group-hover:bg-blue-400/30 transition-all duration-700"></div>
+                  <div className={`absolute ${isRtl ? '-left-20' : '-right-20'} -top-20 w-64 h-64 bg-blue-500/20 rounded-full blur-[80px] group-hover:bg-blue-400/30 transition-all duration-700`}></div>
                 )}
                 {badgeData?.badge === 'master' && (
-                  <div className="absolute -right-20 -top-20 w-64 h-64 bg-amber-400/30 rounded-full blur-[80px] group-hover:bg-amber-300/40 transition-all duration-700 animate-pulse"></div>
+                  <div className={`absolute ${isRtl ? '-left-20' : '-right-20'} -top-20 w-64 h-64 bg-amber-400/30 rounded-full blur-[80px] group-hover:bg-amber-300/40 transition-all duration-700 animate-pulse`}></div>
                 )}
                 
-                <div className="relative z-10 flex items-center gap-5 w-full">
+                <div className={`relative z-10 flex items-center gap-5 w-full ${isRtl ? 'flex-row-reverse' : ''}`}>
                   {/* Badge Image */}
                   <div className="relative shrink-0">
                     {badgeData?.badge && badgeData.badge !== 'none' ? (
@@ -250,12 +251,12 @@ const Profile: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex flex-col gap-2 flex-1 min-w-0">
-                    <div className="flex flex-col gap-1">
+                  <div className={`flex flex-col gap-2 flex-1 min-w-0 ${isRtl ? 'items-end text-right' : 'items-start text-left'}`}>
+                    <div className={`flex flex-col gap-1 ${isRtl ? 'items-end' : 'items-start'}`}>
                       <span className={`text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] ${badgeData?.badge === 'premium' ? 'text-blue-300' : badgeData?.badge === 'master' ? 'text-black/60' : 'text-slate-400 dark:text-slate-500'}`}>
                         {t('profile.badge.member_status', 'Member Status')}
                       </span>
-                      <div className="flex items-center gap-2">
+                      <div className={`flex items-center gap-2 ${isRtl ? 'flex-row-reverse' : ''}`}>
                         {badgeData ? (
                           <span className={`text-base md:text-xl font-black uppercase tracking-tight ${
                             badgeData?.badge === 'master' ? 'text-black drop-shadow-[0_2px_10px_rgba(255,255,255,0.8)]' :
@@ -263,7 +264,7 @@ const Profile: React.FC = () => {
                             badgeData?.badge === 'none' ? 'text-slate-400 dark:text-slate-600 italic font-medium' :
                             'text-slate-900 dark:text-white'
                           }`}>
-                            {badgeData.badge === 'none' ? 'Locked' : badgeData.badge}
+                            {badgeData.badge === 'none' ? t('profile.badge.locked', 'Locked') : badgeData.badge}
                           </span>
                         ) : (
                           <div className="h-6 w-24 bg-slate-100 dark:bg-slate-800/50 rounded-lg animate-pulse my-1"></div>
