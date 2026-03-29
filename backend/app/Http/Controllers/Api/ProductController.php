@@ -119,6 +119,16 @@ class ProductController extends Controller
             'stock',
             'category_id'
         ]));
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $path = $image->store('products', 'public');
+                $product->images()->create([
+                    'image' => $path
+                ]);
+            }
+        }
+
         return response()->json([
             'status' => 'success',
             'message' => 'Product updated successfully',

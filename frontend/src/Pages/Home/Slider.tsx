@@ -30,7 +30,7 @@ const Slider: React.FC = () => {
   if (loading || !categories?.length) return null;
 
   return (
-    <section className="w-full py-24 lg:py-32 bg-white dark:bg-slate-900 relative overflow-hidden">
+    <section className="w-full py-16 lg:py-20 bg-white dark:bg-slate-900 relative overflow-hidden">
       {/* Faint radial gradient background accent */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_rgba(99,102,241,0.06),_transparent_60%)] pointer-events-none" />
 

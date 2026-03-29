@@ -273,18 +273,7 @@ const ShowProduct: React.FC = () => {
                 </button>
               </div>
               
-              {/* Extra Info */}
-              <div className="mt-8 pt-8 border-t border-slate-100 dark:border-slate-700 grid grid-cols-2 gap-4">
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('product_page.free_shipping')}</span>
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200">{t('product_page.on_orders_above')} 50 MAD</span>
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">{t('product_page.returns')}</span>
-                  <span className="text-sm font-bold text-slate-700 dark:text-slate-200">30 {t('product_page.days_return')}</span>
-                </div>
-              </div>
-
+              
             </div>
           </div>
         </div>

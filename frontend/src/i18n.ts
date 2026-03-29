@@ -26,7 +26,8 @@ const resources = {
         "back_to_dashboard": "Back to Dashboard",
         "logout_success": "Logged out successfully",
         "logout_failed": "Logout failed",
-        "error": "Error"
+        "error": "Error",
+        "user": "User"
       },
       "us": {
         "welcome": "Welcome to the future",
@@ -61,7 +62,7 @@ const resources = {
         },
         "description": "Explore our wide range of premium collections designed for modern living."
       },
-      "commantes": {
+      "comments": {
         "title": "What Our",
         "subtitle": "Clients Say.",
         "stats": {
@@ -260,6 +261,16 @@ const resources = {
           "search_title": "Find Your Product"
         }
       },
+      "reviews": {
+        "title": "Customer Reviews",
+        "subtitle": "See what others say about this product",
+        "write_review": "Write a Review",
+        "rating": "Your Rating",
+        "comment": "Your Comment",
+        "placeholder": "What did you think of the product?",
+        "submit": "Post Review",
+        "success": "Review posted successfully!"
+      },
       "dashboard": {
         "welcome": "Welcome back, Admin 👋",
         "sidebar": {
@@ -267,6 +278,7 @@ const resources = {
           "users": "Users",
           "products": "Products",
           "categories": "Categories",
+          "ads": "Advertisements",
           "settings": "Settings",
           "logout": "Logout"
         },
@@ -313,6 +325,41 @@ const resources = {
           "empty": "Your cart is empty",
           "empty_desc": "Looks like you haven't added anything to your cart yet. Let's find something amazing for you!",
           "start_shopping": "Start Shopping"
+        },
+        "ads": {
+          "title": "Manage Advertisements",
+          "add_new": "Add New Ad",
+          "add_short": "Add",
+          "tabs": {
+            "slider": "Main Sliders",
+            "slider_desc": "Huge hero section banners with images.",
+            "banner": "Text Banners",
+            "banner_desc": "Slim contextual alerts across the shop."
+          },
+          "stats": {
+            "active": "Active"
+          },
+          "list": {
+            "published": "Published"
+          },
+          "empty": {
+            "title": "No Advertisements Found",
+            "description": "We couldn't find any {{tab}}s matching your search criteria. Try adjusting your filters or create a new one.",
+            "cta": "Create Your First Ad"
+          },
+          "form": {
+            "update_title": "Update Ad Campaign",
+            "launch_title": "Launch New Campaign"
+          },
+          "delete": {
+            "title": "Archive Campaign",
+            "message": "Are you sure you want to delete the \"{{title}}\" campaign? This will remove it from the customer view immediately."
+          },
+          "messages": {
+            "load_failed": "Failed to load advertisements",
+            "delete_success": "{{title}} deleted successfully",
+            "delete_failed": "Failed to delete ad"
+          }
         }
       },
       "profile": {
@@ -454,7 +501,8 @@ const resources = {
         "back_to_dashboard": "العودة للوحة التحكم",
         "logout_success": "تم تسجيل الخروج بنجاح",
         "logout_failed": "فشل تسجيل الخروج",
-        "error": "خطأ"
+        "error": "خطأ",
+        "user": "مستخدم"
       },
       "us": {
         "welcome": "مرحباً بكم في المستقبل",
@@ -489,7 +537,7 @@ const resources = {
         },
         "description": "استكشف مجموعتنا الواسعة من المجموعات المميزة المصممة للحياة العصرية."
       },
-      "commantes": {
+      "comments": {
         "title": "ماذا يقول",
         "subtitle": "عملاؤنا.",
         "stats": {
@@ -705,6 +753,7 @@ const resources = {
           "users": "المستخدمين",
           "products": "المنتجات",
           "categories": "الفئات",
+          "ads": "الإعلانات",
           "settings": "الإعدادات",
           "logout": "تسجيل الخروج"
         },
@@ -751,6 +800,41 @@ const resources = {
           "empty": "سلة التسوق فارغة",
           "empty_desc": "يبدو أنك لم تضف أي شيء إلى سلتك بعد. دعنا نجد شيئاً رائعاً لك!",
           "start_shopping": "ابدأ التسوق"
+        },
+        "ads": {
+          "title": "إدارة الإعلانات",
+          "add_new": "إضافة إعلان جديد",
+          "add_short": "إضافة",
+          "tabs": {
+            "slider": "المنزلقات الرئيسية",
+            "slider_desc": "لافتات قسم هيرو ضخمة مع صور.",
+            "banner": "لافتات نصية",
+            "banner_desc": "تنبيهات سياقية رفيعة عبر المتجر."
+          },
+          "stats": {
+            "active": "نشط"
+          },
+          "list": {
+            "published": "تم النشر"
+          },
+          "empty": {
+            "title": "لم يتم العثور على إعلانات",
+            "description": "لم نتمكن من العثور على أي {{tab}} تطابق معايير البحث الخاصة بك.",
+            "cta": "أنشئ إعلانك الأول"
+          },
+          "form": {
+            "update_title": "تحديث حملة الإعلانات",
+            "launch_title": "إطلاق حملة جديدة"
+          },
+          "delete": {
+            "title": "أرشفة الحملة",
+            "message": "هل أنت متأكد من أنك تريد حذف حملة \"{{title}}\"؟"
+          },
+          "messages": {
+            "load_failed": "فشل تحميل الإعلانات",
+            "delete_success": "تم حذف {{title}} بنجاح",
+            "delete_failed": "فشل حذف الإعلان"
+          }
         }
       },
       "profile": {
@@ -891,7 +975,8 @@ const resources = {
         "back_to_dashboard": "Retour au tableau de bord",
         "logout_success": "Déconnexion réussie",
         "logout_failed": "Échec de la déconnexion",
-        "error": "Erreur"
+        "error": "Erreur",
+        "user": "Utilisateur"
       },
       "us": {
         "welcome": "Bienvenue dans le futur",
@@ -926,7 +1011,7 @@ const resources = {
         },
         "description": "Explorez notre large gamme de collections premium conçues pour la vie moderne."
       },
-      "commantes": {
+      "comments": {
         "title": "Ce que nos",
         "subtitle": "Clients disent.",
         "stats": {
@@ -1142,6 +1227,7 @@ const resources = {
           "users": "Utilisateurs",
           "products": "Produits",
           "categories": "Catégories",
+          "ads": "Publicités",
           "settings": "Paramètres",
           "logout": "Déconnexion"
         },
@@ -1188,6 +1274,41 @@ const resources = {
           "empty": "Votre panier est vide",
           "empty_desc": "Il semble que vous n'ayez encore rien ajouté à votre panier. Trouvons quelque chose d'incroyable pour vous !",
           "start_shopping": "Commencer vos achats"
+        },
+        "ads": {
+          "title": "Gérer les Publicités",
+          "add_new": "Ajouter une Publicité",
+          "add_short": "Ajouter",
+          "tabs": {
+            "slider": "Sliders Principaux",
+            "slider_desc": "Grandes bannières de la section hero avec images.",
+            "banner": "Bannières Texte",
+            "banner_desc": "Alertes contextuelles minces dans toute la boutique."
+          },
+          "stats": {
+            "active": "Actif"
+          },
+          "list": {
+            "published": "Publié"
+          },
+          "empty": {
+            "title": "Aucune Publicité Trouvée",
+            "description": "Nous n'avons trouvé aucun {{tab}} correspondant à vos critères.",
+            "cta": "Créer Votre Première Pub"
+          },
+          "form": {
+            "update_title": "Modifier la Campagne",
+            "launch_title": "Lancer une Nouvelle Campagne"
+          },
+          "delete": {
+            "title": "Archiver la Campagne",
+            "message": "Êtes-vous sûr de vouloir supprimer la campagne \"{{title}}\" ?"
+          },
+          "messages": {
+            "load_failed": "Échec du chargement des publicités",
+            "delete_success": "{{title}} supprimé avec succès",
+            "delete_failed": "Échec de la suppression de la publicité"
+          }
         }
       },
       "profile": {

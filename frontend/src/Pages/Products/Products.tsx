@@ -1,6 +1,5 @@
 import React, { useState, useContext, useMemo, useEffect } from "react";
 import ProductCard from "../../components/Cards/ProductCard";
-import Banner from "../../components/Banner/Banner";
 import { motion, AnimatePresence } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import {
@@ -39,12 +38,7 @@ const Products: React.FC = () => {
     <div className="min-h-screen bg-[#f0f2f5] dark:bg-slate-900 pt-6 md:pt-24 pb-12 md:pb-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 overflow-x-hidden">
         {/* Special Offer Banner */}
-        <Banner
-          title={t("products.banner.title")}
-          subtitle={t("products.banner.subtitle")}
-          ctaText={t("products.banner.cta")}
-          onCtaClick={() => console.log("Banner clicked")}
-        />
+
 
         {/* Search Section */}
         <div className="bg-white dark:bg-slate-900 p-4 md:p-10 rounded-[2rem] md:rounded-[3rem] border border-slate-100 dark:border-slate-700 shadow-sm mt-4 md:mt-8 mb-4 md:mb-6 relative overflow-hidden group">

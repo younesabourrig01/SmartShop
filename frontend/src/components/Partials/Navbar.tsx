@@ -63,14 +63,14 @@ const Navbar: React.FC = () => {
   }, [isLangOpen]);
 
   return (
-    <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-3 md:px-8 bg-white dark:bg-slate-900/40 dark:bg-slate-900/60 backdrop-blur-xl border-b border-blue-100/50 dark:border-slate-800 shadow-sm transition-all duration-300">
+    <nav className="sticky top-0 z-50 flex items-center justify-between px-4 py-2 md:px-8 bg-white dark:bg-slate-900/40 dark:bg-slate-900/60 backdrop-blur-xl border-b border-blue-100/50 dark:border-slate-800 shadow-sm transition-all duration-300">
       {/* Left: Logo */}
       <div className="flex items-center">
         <Link to="/">
           <img 
             src={logo} 
             alt="SmartShop Logo" 
-            className="h-10 md:h-15 cursor-pointer transition-all duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]" 
+            className="h-8 md:h-12 cursor-pointer transition-all duration-300 hover:scale-105 drop-shadow-[0_0_8px_rgba(59,130,246,0.3)]" 
           />
         </Link>
       </div>

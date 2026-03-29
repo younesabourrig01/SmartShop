@@ -52,7 +52,7 @@ const Reviews: React.FC<ReviewsProps> = ({ productId }) => {
     try {
       const res = await addReview(productId, { review, rating });
       if (res.data.status === 'success') {
-        toast.success(t('reviews.success_message') || 'Review added successfully!');
+        toast.success(t('reviews.success') || 'Review added successfully!');
         setRating(0);
         setReview("");
         fetchReviews(); // Refresh list
@@ -171,7 +171,7 @@ const Reviews: React.FC<ReviewsProps> = ({ productId }) => {
                           {rev.user?.name ? rev.user.name.charAt(0).toUpperCase() : <User size={24} />}
                         </div>
                         <div>
-                          <h4 className="font-bold text-slate-900 dark:text-white">{rev.user?.name || "User"}</h4>
+                          <h4 className="font-bold text-slate-900 dark:text-white">{rev.user?.name || t('common.user')}</h4>
                           <div className="flex items-center gap-1 text-amber-400 mt-1">
                             {[1, 2, 3, 4, 5].map((star) => (
                               <Star key={star} fill={rev.rating >= star ? "currentColor" : "transparent"} size={14} className={rev.rating >= star ? "" : "text-slate-200"} />

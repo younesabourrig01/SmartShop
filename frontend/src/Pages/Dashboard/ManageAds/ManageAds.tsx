@@ -54,7 +54,7 @@ const ManageAds: React.FC = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error("Failed to load advertisements");
+      toast.error(t('dashboard.ads.messages.load_failed'));
     } finally {
       setIsFetchingAds(false);
     }
@@ -71,10 +71,10 @@ const ManageAds: React.FC = () => {
     try {
       await logout();
       clearAuth();
-      toast.success("Logged out successfully");
+      toast.success(t('common.logout_success'));
       navigate("/login");
     } catch (error) {
-      toast.error("Logout failed");
+      toast.error(t('common.logout_failed'));
     } finally {
       setIsLoading(false);
     }
@@ -99,12 +99,12 @@ const ManageAds: React.FC = () => {
     if (!adToDelete) return;
     try {
       await deleteAd(adToDelete.id);
-      toast.success(`${adToDelete.title} deleted successfully`);
+      toast.success(t('dashboard.ads.messages.delete_success', { title: adToDelete.title }));
       setIsDeleteModalOpen(false);
       fetchAds();
     } catch (err) {
       console.error(err);
-      toast.error("Failed to delete ad");
+      toast.error(t('dashboard.ads.messages.delete_failed'));
     }
   };
 
@@ -118,12 +118,12 @@ const ManageAds: React.FC = () => {
       {/* Sidebar */}
       <aside className={`
         bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
-        fixed top-0 left-0 h-full w-72
-        lg:sticky lg:top-[88px] lg:h-[calc(100vh-88px)] lg:shadow-sm lg:z-20
+        fixed top-[48px] md:top-[64px] left-0 h-[calc(100vh-48px)] md:h-[calc(100vh-64px)] w-72
+        lg:sticky lg:top-[64px] lg:h-[calc(100vh-64px)] lg:shadow-sm lg:z-20
         ${isSidebarOpen ? 'translate-x-0 lg:w-64' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none lg:overflow-hidden'}
       `}>
         <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
-          <span className="font-extrabold text-gray-900 text-lg">Dashboard</span>
+          <span className="font-extrabold text-gray-900 text-lg">{t('dashboard.sidebar.dashboard')}</span>
           <button onClick={() => setIsSidebarOpen(false)} className="p-2 hover:bg-gray-100 rounded-lg text-gray-500"><X size={22} /></button>
         </div>
         <nav className="flex-1 mt-4 lg:mt-6 px-4 space-y-1 overflow-y-auto whitespace-nowrap scrollbar-hide">
@@ -145,7 +145,7 @@ const ManageAds: React.FC = () => {
           </button>
           <button className="flex items-center gap-3 w-full p-3 bg-blue-50 text-blue-600 rounded-xl font-semibold transition-all">
             <Megaphone size={20} />
-            Manage Ads
+            {t('dashboard.ads.title')}
           </button>
           <button onClick={() => { navigate('/dashboard/settings'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
@@ -163,20 +163,20 @@ const ManageAds: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out w-full font-sans">
         {/* Header */}
-        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
+        <header className="sticky top-[48px] md:top-[64px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               <Menu size={22} />
             </button>
-            <h1 className="text-lg md:text-2xl font-extrabold text-gray-900">Manage Advertisements</h1>
+            <h1 className="text-lg md:text-2xl font-extrabold text-gray-900">{t('dashboard.ads.title')}</h1>
           </div>
           <button 
             onClick={openAddForm}
             className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-bold hover:bg-blue-700 transition-all shadow-lg dark:shadow-none active:scale-95"
           >
             <Plus size={20} />
-            <span className="hidden sm:inline">Add New Ad</span>
-            <span className="sm:hidden">Add</span>
+            <span className="hidden sm:inline">{t('dashboard.ads.add_new')}</span>
+            <span className="sm:hidden">{t('dashboard.ads.add_short')}</span>
           </button>
         </header>
 
@@ -195,11 +195,11 @@ const ManageAds: React.FC = () => {
                 <ImageIcon size={28} />
               </div>
               <div>
-                <h3 className="text-xl font-black text-gray-900 dark:text-white capitalize">Main Sliders</h3>
-                <p className="text-sm font-bold text-gray-400 mt-1">Huge hero section banners with images.</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-white capitalize">{t('dashboard.ads.tabs.slider')}</h3>
+                <p className="text-sm font-bold text-gray-400 mt-1">{t('dashboard.ads.tabs.slider_desc')}</p>
                 <div className="mt-4 flex items-center gap-2">
                   <span className={`text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full ${activeTab === 'slider' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-400'}`}>
-                    Active: {isFetchingAds ? '...' : ads.filter(a => a.position === 'slider').length}
+                    {t('dashboard.ads.stats.active')}: {isFetchingAds ? '...' : ads.filter(a => a.position === 'slider').length}
                   </span>
                 </div>
               </div>
@@ -217,11 +217,11 @@ const ManageAds: React.FC = () => {
                 <Type size={28} />
               </div>
               <div>
-                <h3 className="text-xl font-black text-gray-900 dark:text-white capitalize">Text Banners</h3>
-                <p className="text-sm font-bold text-gray-400 mt-1">Slim contextual alerts across the shop.</p>
+                <h3 className="text-xl font-black text-gray-900 dark:text-white capitalize">{t('dashboard.ads.tabs.banner')}</h3>
+                <p className="text-sm font-bold text-gray-400 mt-1">{t('dashboard.ads.tabs.banner_desc')}</p>
                 <div className="mt-4 flex items-center gap-2">
                   <span className={`text-xs font-black uppercase tracking-widest px-3 py-1 rounded-full ${activeTab === 'banner' ? 'bg-amber-500 text-white' : 'bg-gray-100 text-gray-400'}`}>
-                    Active: {isFetchingAds ? '...' : ads.filter(a => a.position === 'banner').length}
+                    {t('dashboard.ads.stats.active')}: {isFetchingAds ? '...' : ads.filter(a => a.position === 'banner').length}
                   </span>
                 </div>
               </div>
@@ -291,7 +291,7 @@ const ManageAds: React.FC = () => {
                         <div className="p-2 bg-gray-50 dark:bg-slate-800 rounded-lg text-gray-400">
                           <Eye size={14} />
                         </div>
-                        <span className="text-[10px] font-black uppercase text-gray-400">Published: {new Date(ad.created_at).toLocaleDateString()}</span>
+                        <span className="text-[10px] font-black uppercase text-gray-400">{t('dashboard.ads.list.published')}: {new Date(ad.created_at).toLocaleDateString()}</span>
                       </div>
                     </div>
                   </div>
@@ -309,45 +309,19 @@ const ManageAds: React.FC = () => {
                 <div className="p-6 bg-gray-50 dark:bg-slate-800 rounded-full mb-6">
                   <Megaphone size={48} className="text-gray-300" />
                 </div>
-                <h4 className="text-xl font-black text-gray-900 dark:text-white">No Advertisements Found</h4>
+                <h4 className="text-xl font-black text-gray-900 dark:text-white">{t('dashboard.ads.empty.title')}</h4>
                 <p className="text-gray-400 font-bold text-sm max-w-sm mt-2">
-                  We couldn't find any {activeTab}s matching your search criteria. Try adjusting your filters or create a new one.
+                  {t('dashboard.ads.empty.description', { tab: t(`dashboard.ads.tabs.${activeTab}`) })}
                 </p>
                 <button 
                   onClick={openAddForm}
                   className="mt-8 flex items-center gap-2 px-8 py-3 bg-gray-900 text-white rounded-2xl font-bold hover:bg-gray-800 transition-all shadow-xl"
                 >
                   <Plus size={18} />
-                  Create Your First Ad
+                  {t('dashboard.ads.empty.cta')}
                 </button>
               </div>
             )}
-          </div>
-
-          {/* Ad Position Guide */}
-          <div className="bg-blue-600 rounded-[3rem] p-10 relative overflow-hidden shadow-2xl dark:shadow-none lg:col-span-1">
-            <div className="absolute top-0 right-0 p-12 text-white/5 pointer-events-none">
-              <Megaphone size={200} />
-            </div>
-            <div className="relative z-10 max-w-2xl">
-              <div className="flex items-center gap-2 text-blue-100 font-black text-xs uppercase tracking-[0.2em] mb-4">
-                <Info size={14} />
-                <span>Quick Tip</span>
-              </div>
-              <h3 className="text-3xl font-black text-white mb-4">Mastering Your Page Positions</h3>
-              <p className="text-blue-100 font-bold leading-relaxed mb-6">
-                Use <span className="text-white underline">Main Sliders</span> for high-impact visual campaigns with professional photography. 
-                Use <span className="text-white underline">Text Banners</span> for quick calls-to-action, shipping alerts, or seasonal coupons where text hierarchy is more important than visuals.
-              </p>
-              <div className="flex h-px bg-white/20 w-32 mb-6" />
-              <button 
-                onClick={() => window.open('https://help.smartshop.com/ads', '_blank')}
-                className="text-white font-black text-[10px] uppercase tracking-widest hover:pl-2 transition-all flex items-center gap-2 group"
-              >
-                View Full Placement Guide
-                <ExternalLink size={12} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
           </div>
         </div>
       </main>
@@ -357,7 +331,7 @@ const ManageAds: React.FC = () => {
         isOpen={isFormOpen} 
         onClose={() => setIsFormOpen(false)} 
         initialData={editingAd}
-        title={editingAd ? "Update Ad Campaign" : "Launch New Campaign"}
+        title={editingAd ? t('dashboard.ads.form.update_title') : t('dashboard.ads.form.launch_title')}
         onSuccess={fetchAds}
       />
 
@@ -366,8 +340,8 @@ const ManageAds: React.FC = () => {
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={handleConfirmDelete}
-        title="Archive Campaign"
-        message={`Are you sure you want to delete the "${adToDelete?.title}" campaign? This will remove it from the customer view immediately.`}
+        title={t('dashboard.ads.delete.title')}
+        message={t('dashboard.ads.delete.message', { title: adToDelete?.title })}
         isLoading={false}
       />
     </div>

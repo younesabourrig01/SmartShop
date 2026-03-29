@@ -16,12 +16,7 @@ const CategoriesPage: React.FC = () => {
     <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-900 pb-20 pt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Banner Section */}
-        <Banner
-          title={t("categories.banner.title")}
-          subtitle={t("categories.banner.subtitle")}
-          gradient="from-blue-600 via-purple-600 to-pink-500"
-          ctaText={t("categories.banner.cta")}
-        />
+        <Banner />
 
         {/* Categories Grid */}
         {loading && <PageLoader />}
@@ -55,6 +50,9 @@ const CategoriesPage: React.FC = () => {
                   <h4 className="text-2xl font-black text-slate-900 dark:text-white mb-3 group-hover:text-blue-600 transition-colors">
                     {cat.name}
                   </h4>
+                  <p className="text-slate-500 dark:text-slate-400 font-bold text-sm">
+                    {cat.products_count} {t('categories.items') || 'Items'}
+                  </p>
                   <div className="flex items-center justify-between mt-6">
                     <div className="w-12 h-12 rounded-2xl bg-slate-900 text-white flex items-center justify-center translate-x-12 opacity-0 group-hover:translate-x-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-slate-200 dark:shadow-none">
                       <ShoppingBag size={20} />

@@ -3,31 +3,31 @@ import { useTranslation } from 'react-i18next';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Quote, Star, MessageSquare } from 'lucide-react';
 
-const Commantes: React.FC = () => {
+const Comments: React.FC = () => {
   const { t, i18n } = useTranslation();
 
   const commentsData = [
     {
       id: 1,
-      name: t('commantes.list.1.name'),
+      name: t('comments.list.1.name'),
       rating: 5,
-      comment: t('commantes.list.1.comment'),
+      comment: t('comments.list.1.comment'),
       avatar:
         "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=200&auto=format&fit=crop",
     },
     {
       id: 2,
-      name: t('commantes.list.2.name'),
+      name: t('comments.list.2.name'),
       rating: 5,
-      comment: t('commantes.list.2.comment'),
+      comment: t('comments.list.2.comment'),
       avatar:
         "https://images.unsplash.com/photo-1494790108377-be9c29b29330?q=80&w=200&auto=format&fit=crop",
     },
     {
       id: 3,
-      name: t('commantes.list.3.name'),
+      name: t('comments.list.3.name'),
       rating: 5,
-      comment: t('commantes.list.3.comment'),
+      comment: t('comments.list.3.comment'),
       avatar:
         "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=200&auto=format&fit=crop",
     },
@@ -48,7 +48,7 @@ const Commantes: React.FC = () => {
   const isRtl = i18n.language === 'ar';
 
   return (
-    <section className="w-full py-24 lg:py-32 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
+    <section className="w-full py-16 lg:py-20 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
       {/* Decorative circle blobs */}
       <div className="absolute -top-24 -right-24 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-40 pointer-events-none" />
       <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-violet-100 rounded-full blur-3xl opacity-30 pointer-events-none" />
@@ -59,14 +59,14 @@ const Commantes: React.FC = () => {
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-amber-50 border border-amber-100 rounded-full mb-6">
             <MessageSquare size={13} className="text-amber-500" />
             <span className="text-xs font-bold tracking-[0.15em] uppercase text-amber-600">
-              {t('commantes.badge')}
+              {t('comments.badge')}
             </span>
           </div>
           <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight mb-4">
-            {t('commantes.title')}
+            {t('comments.title')}
           </h2>
           <p className="text-base text-slate-500 dark:text-slate-400 font-medium leading-relaxed">
-            {t('commantes.subtitle')}
+            {t('comments.subtitle')}
           </p>
         </div>
 
@@ -149,4 +149,4 @@ const Commantes: React.FC = () => {
   );
 };
 
-export default Commantes;
+export default Comments;

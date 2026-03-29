@@ -181,8 +181,8 @@ if (isDataLoading) return <PageLoader/>;
       {/* Sidebar - mobile drawer / desktop panel */}
       <aside className={`
         bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
-        fixed top-0 left-0 h-full w-72
-        lg:sticky lg:top-[88px] lg:h-[calc(100vh-88px)] lg:shadow-sm lg:z-20
+        fixed top-[48px] md:top-[64px] left-0 h-[calc(100vh-48px)] md:h-[calc(100vh-64px)] w-72
+        lg:sticky lg:top-[64px] lg:h-[calc(100vh-64px)] lg:shadow-sm lg:z-20
         ${isSidebarOpen ? 'translate-x-0 lg:w-64' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none lg:overflow-hidden'}
       `}>
         {/* Mobile sidebar close button */}
@@ -212,7 +212,7 @@ if (isDataLoading) return <PageLoader/>;
           </button>
           <button onClick={() => { navigate('/dashboard/ads'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Megaphone size={20} className="min-w-[20px]" />
-            Manage Ads
+            {t('dashboard.sidebar.ads')}
           </button>
           <button onClick={() => { navigate('/dashboard/settings'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} className="min-w-[20px]" />
@@ -233,9 +233,9 @@ if (isDataLoading) return <PageLoader/>;
       </aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative min-h-[calc(100vh-72px)] w-full">
+      <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out relative min-h-[calc(100vh-48px)] md:min-h-[calc(100vh-64px)] w-full">
         {/* Top Navbar */}
-        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
+        <header className="sticky top-[48px] md:top-[64px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-3">
             <button 
               onClick={() => setIsSidebarOpen(!isSidebarOpen)}

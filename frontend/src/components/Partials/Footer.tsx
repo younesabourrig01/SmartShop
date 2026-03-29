@@ -75,11 +75,6 @@ const Footer: React.FC = () => {
           <p className="text-slate-400 font-bold text-sm">
             © {currentYear} SmartShop. {t('footer.rights')}
           </p>
-          <div className="flex items-center gap-2 text-slate-400 font-bold text-sm">
-            <span>{t('footer.made_with')}</span>
-            <Heart size={14} className="text-red-500 fill-red-500" />
-            <span>{t('footer.for_lovers')}</span>
-          </div>
         </div>
       </div>
     </footer>

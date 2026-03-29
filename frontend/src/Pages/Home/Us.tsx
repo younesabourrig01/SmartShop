@@ -15,7 +15,7 @@ const Us: React.FC = () => {
   ];
 
   return (
-    <section className="relative w-full min-h-[92vh] flex items-center bg-transparent overflow-hidden pt-20 pb-16 lg:pt-28 lg:pb-24 z-20">
+    <section className="relative w-full min-h-[85vh] flex items-center bg-transparent overflow-hidden pt-12 pb-10 lg:pt-16 lg:pb-14 z-20">
       {/* Subtle background blobs safely offset from top edge */}
       <div className="absolute top-[18%] right-0 w-[45rem] h-[45rem] bg-blue-50 dark:bg-blue-900/30 rounded-full blur-3xl opacity-60 translate-x-1/3 pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[35rem] h-[35rem] bg-rose-50 rounded-full blur-3xl opacity-50 -translate-x-1/3 translate-y-1/3 pointer-events-none" />
@@ -126,7 +126,7 @@ const Us: React.FC = () => {
                 ))}
               </div>
               <p className="text-xs font-bold text-slate-700 dark:text-slate-200 leading-snug">
-                {t('commantes.joined')}
+                {t('comments.joined')}
               </p>
             </div>
           </motion.div>

@@ -145,8 +145,8 @@ const ManageProducts: React.FC = () => {
       {/* Sidebar - mobile drawer / desktop panel */}
       <aside className={`
         bg-white dark:bg-slate-900 border-r border-gray-200 flex flex-col z-40 shadow-xl transition-all duration-300 ease-in-out
-        fixed top-0 left-0 h-full w-72
-        lg:sticky lg:top-[88px] lg:h-[calc(100vh-88px)] lg:shadow-sm lg:z-20
+        fixed top-[48px] md:top-[64px] left-0 h-[calc(100vh-48px)] md:h-[calc(100vh-64px)] w-72
+        lg:sticky lg:top-[64px] lg:h-[calc(100vh-64px)] lg:shadow-sm lg:z-20
         ${isSidebarOpen ? 'translate-x-0 lg:w-64' : '-translate-x-full lg:translate-x-0 lg:w-0 lg:border-none lg:overflow-hidden'}
       `}>
         <div className="flex items-center justify-between p-4 border-b border-gray-100 lg:hidden">
@@ -170,9 +170,9 @@ const ManageProducts: React.FC = () => {
             <Layers size={20} />
             {t('dashboard.sidebar.categories')}
           </button>
-          <button onClick={() => { navigate('/dashboard/ads'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
+          <button onClick={() => { navigate("/dashboard/ads"); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Megaphone size={20} />
-            Manage Ads
+            {t("dashboard.sidebar.ads")}
           </button>
           <button onClick={() => { navigate('/dashboard/settings'); setIsSidebarOpen(false); }} className="flex items-center gap-3 w-full p-3 text-gray-500 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all">
             <Settings size={20} />
@@ -190,7 +190,7 @@ const ManageProducts: React.FC = () => {
       {/* Main Content Area */}
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 ease-in-out w-full">
         {/* Header */}
-        <header className="sticky top-[88px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
+        <header className="sticky top-[48px] md:top-[64px] bg-white dark:bg-slate-900/95 backdrop-blur-md border-b border-gray-100 px-4 py-4 md:px-6 flex justify-between items-center z-40">
           <div className="flex items-center gap-3">
             <button onClick={() => setIsSidebarOpen(!isSidebarOpen)} className="p-2 hover:bg-gray-100 rounded-lg transition-colors text-gray-500">
               <Menu size={22} />
@@ -312,7 +312,9 @@ const ManageProducts: React.FC = () => {
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <img 
-                            src={product.images?.[0]?.url || "https://via.placeholder.com/150"} 
+                            src={product.images?.[0]?.url 
+                              ? (product.images[0].url.startsWith('http') ? product.images[0].url : `${API_BASE_URL}${product.images[0].url}`) 
+                              : "https://via.placeholder.com/150"} 
                             alt={product.name} 
                             className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100 font-bold text-[10px] text-center"
                             onError={(e) => {

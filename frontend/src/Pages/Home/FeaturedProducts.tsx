@@ -14,7 +14,7 @@ const FeaturedProducts: React.FC = () => {
   const featured = products?.slice(0, 4) || [];
 
   return (
-    <section className="w-full py-24 lg:py-32 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
+    <section className="w-full py-16 lg:py-20 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
       {/* Subtle decorative dot grid */}
       <div
         className="absolute inset-0 opacity-[0.03] pointer-events-none"

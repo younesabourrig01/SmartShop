@@ -4,6 +4,7 @@ import { X, Upload, Trash2, Package, DollarSign, List, FileText, CheckCircle2 } 
 import Loader from '../Loader/Loader';
 import { getCategories } from "../../api/category";
 import { addProduct, updateProduct } from "../../api/products";
+import { API_BASE_URL } from "../../api/client";
 import toast from "react-hot-toast";
 
 interface ProductFormProps {
@@ -26,8 +27,17 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
   React.useEffect(() => {
     if (isOpen) {
       loadCategories();
+      if (initialData?.images) {
+        const existingPreviews = initialData.images.map((img: any) => 
+          img.url.startsWith('http') ? img.url : `${API_BASE_URL}${img.url}`
+        );
+        setPreviews(existingPreviews);
+      } else {
+        setPreviews([]);
+      }
+      setImages([]); // Reset file inputs when opening
     }
-  }, [isOpen]);
+  }, [isOpen, initialData]);
 
   const loadCategories = async () => {
     setIsCategoriesLoading(true);

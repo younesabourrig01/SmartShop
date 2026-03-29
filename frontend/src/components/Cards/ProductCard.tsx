@@ -5,13 +5,14 @@ import { Loader2, ShoppingCart } from 'lucide-react';
 import { addToCart } from '../../api/cart';
 import { useCart } from '../../context/CartContext';
 
+import { API_BASE_URL } from '../../api/client';
+
 interface ProductCardProps {
   id: string | number;
   image: string;
   title: string;
   price: string | number;
 }
-
 const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) => {
   const [isAdding, setIsAdding] = useState(false);
   const { refreshCartCount } = useCart();
@@ -43,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
           <img 
-            src={image?.startsWith('http') ? image : `http://127.0.0.1:8000${image}`} 
+            src={image?.startsWith('http') ? image : `${API_BASE_URL}${image}`} 
             alt={title} 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
