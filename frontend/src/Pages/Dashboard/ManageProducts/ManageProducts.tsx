@@ -36,7 +36,7 @@ import { deleteProduct } from "../../../api/products";
 import toast from "react-hot-toast";
 import ProductForm from "../../../components/Dashboard/ProductForm";
 import DeleteConfirm from "../../../components/Dashboard/DeleteConfirm";
-import { API_BASE_URL } from "../../../api/client";
+import { API_BASE_URL, getImageUrl } from "../../../api/client";
 
 const ManageProducts: React.FC = () => {
   const { t } = useTranslation();
@@ -312,9 +312,7 @@ const ManageProducts: React.FC = () => {
                       <td className="px-8 py-5">
                         <div className="flex items-center gap-4">
                           <img 
-                            src={product.images?.[0]?.url 
-                              ? (product.images[0].url.startsWith('http') ? product.images[0].url : `${API_BASE_URL}${product.images[0].url}`) 
-                              : "https://via.placeholder.com/150"} 
+                            src={getImageUrl(product.images?.[0]?.url)} 
                             alt={product.name} 
                             className="w-12 h-12 rounded-xl object-cover shadow-sm border border-gray-100 font-bold text-[10px] text-center"
                             onError={(e) => {

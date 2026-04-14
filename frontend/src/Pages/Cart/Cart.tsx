@@ -17,7 +17,7 @@ import Loader from "../../components/Loader/Loader";
 import { getCart, clearCart, updateCart } from "../../api/cart";
 import { createOrder, downloadInvoice } from "../../api/order";
 import { getBadge } from "../../api/auth";
-import { API_BASE_URL } from "../../api/client";
+import { API_BASE_URL, getImageUrl } from "../../api/client";
 import { useAuth } from "../../context/AuthContext";
 import { useCart } from "../../context/CartContext";
 import toast from "react-hot-toast";
@@ -226,13 +226,7 @@ const Cart: React.FC = () => {
                   {/* Product Image */}
                   <div className="w-full md:w-32 h-32 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-800 flex-shrink-0 relative group">
                     <img
-                      src={
-                        item.product?.images?.[0]?.url 
-                        ? (item.product.images[0].url.startsWith('http') 
-                          ? item.product.images[0].url 
-                          : `${API_BASE_URL}${item.product.images[0].url}`)
-                        : (item.product?.image || item.image || "https://via.placeholder.com/300")
-                      }
+                      src={getImageUrl(item.product?.images?.[0]?.url || item.product?.image || item.image)}
                       alt={item.product?.name || item.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />

@@ -4,8 +4,9 @@ import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { CategoryContext } from "../../context/CategoryContext";
 import { Link } from "react-router-dom";
+import { getImageUrl } from "../../api/client";
 
-const BASE_IMAGE = import.meta.env.VITE_BASE_IMAGE;
+
 
 const Slider: React.FC = () => {
   const { categories, loading } = useContext(CategoryContext);
@@ -96,11 +97,7 @@ const Slider: React.FC = () => {
                 >
                   {category.url && (
                     <img
-                      src={
-                        category.url.startsWith("http")
-                          ? category.url
-                          : `${BASE_IMAGE}${category.url}`
-                      }
+                      src={getImageUrl(category.url)}
                       alt={category.name}
                       className="absolute inset-0 w-full h-full object-cover opacity-85 group-hover:opacity-100 group-hover:scale-[1.08] transition-all duration-700"
                       onError={(e) => {

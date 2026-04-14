@@ -13,7 +13,7 @@ import { storeWishlist, removeFromWishlist, isInWishlist } from '../../api/wishl
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import PageLoader from '../../components/Loader/PageLoader';
-import { API_BASE_URL } from '../../api/client';
+import { API_BASE_URL, getImageUrl } from '../../api/client';
 
 const ShowProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -154,9 +154,7 @@ const ShowProduct: React.FC = () => {
                   {productImages.length > 0 ? (
                     <motion.img
                       key={selectedImage}
-                      src={productImages[selectedImage]?.url?.startsWith('http') 
-                        ? productImages[selectedImage]?.url 
-                        : `${API_BASE_URL}${productImages[selectedImage]?.url}`}
+                      src={getImageUrl(productImages[selectedImage]?.url)}
                       alt={product.name}
                       initial={{ opacity: 0, scale: 1.1 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -192,7 +190,7 @@ const ShowProduct: React.FC = () => {
                       }`}
                     >
                       <img 
-                        src={img.url?.startsWith('http') ? img.url : `${API_BASE_URL}${img.url}`} 
+                        src={getImageUrl(img.url)} 
                         alt={`${product.name} thumbnail ${index + 1}`} 
                         className="w-full h-full object-cover" 
                       />

@@ -82,10 +82,10 @@ class OrderController extends Controller
             ], 404);
         }
 
-        $subtotal = $lastOrder->orderItems->sum(function($item) {
+        $subtotal = $lastOrder->orderItems->sum(function ($item) {
             return $item->quantity * $item->price;
         });
-        
+
         $shippingCost = $lastOrder->total - $subtotal;
 
         $pdf = Pdf::loadView('invoice', [
@@ -116,31 +116,50 @@ class OrderController extends Controller
         $shippingPrice = $baseShippingPrice * (1 - $discount);
         $total = $cartTotal + $shippingPrice;
 
-        $order = $user->orders()->create([
-            'user_id' => $user->id,
-            'total' => $total,
-        ]);
+        try {
+            return \Illuminate\Support\Facades\DB::transaction(function () use ($user, $cart, $total) {
+                // Check stock for all items
+                foreach ($cart->cartItems as $item) {
+                    if ($item->product->stock < $item->quantity) {
+                        throw new \Exception("Insufficient stock for product: {$item->product->name}");
+                    }
+                }
 
-        //create order items using cartItems
-        foreach ($cart->cartItems as $item) {
+                $order = $user->orders()->create([
+                    'user_id' => $user->id,
+                    'total' => $total,
+                ]);
 
-            $order->orderItems()->create([
-                'product_id' => $item->product_id,
-                'quantity' => $item->quantity,
-                'price' => $item->product->price
-            ]);
+                //create order items using cartItems
+                foreach ($cart->cartItems as $item) {
 
+                    $order->orderItems()->create([
+                        'product_id' => $item->product_id,
+                        'quantity' => $item->quantity,
+                        'price' => $item->product->price
+                    ]);
+
+                    // Reduce product stock
+                    $item->product->decrement('stock', $item->quantity);
+
+                }
+                // return details of the command
+                $order->load('orderItems.product');
+
+                $cart->cartItems()->delete();
+
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Order created successfully',
+                    'order' => $order
+                ]);
+            });
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ], 400);
         }
-        // return details of the command
-        $order->load('orderItems.product');
-
-        $cart->cartItems()->delete();
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Order created successfully',
-            'order' => $order
-        ]);
     }
     public function orderByUser(Request $request)
     {

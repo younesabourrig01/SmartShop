@@ -5,7 +5,7 @@ import { Loader2, ShoppingCart } from 'lucide-react';
 import { addToCart } from '../../api/cart';
 import { useCart } from '../../context/CartContext';
 
-import { API_BASE_URL } from '../../api/client';
+import { API_BASE_URL, getImageUrl } from '../../api/client';
 
 interface ProductCardProps {
   id: string | number;
@@ -44,7 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) =>
         {/* Image Container */}
         <div className="relative aspect-square overflow-hidden bg-slate-50 dark:bg-slate-800">
           <img 
-            src={image?.startsWith('http') ? image : `${API_BASE_URL}${image}`} 
+            src={getImageUrl(image)} 
             alt={title} 
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />

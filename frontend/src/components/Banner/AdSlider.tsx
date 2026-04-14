@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { getAds } from '../../api/ads';
-import { API_BASE_URL } from '../../api/client';
+import { API_BASE_URL, getImageUrl } from '../../api/client';
 
 const AdSlider: React.FC = () => {
   const { i18n } = useTranslation();
@@ -63,7 +63,7 @@ const AdSlider: React.FC = () => {
         {ads.map((ad) => (
           <div key={ad.id} className="min-w-full relative h-full bg-transparent">
             <img 
-              src={ad.image?.startsWith('http') ? ad.image : `${API_BASE_URL}/storage/${ad.image}`} 
+              src={getImageUrl(ad.image)} 
               alt={ad.title} 
               className="w-full h-full object-cover"
             />

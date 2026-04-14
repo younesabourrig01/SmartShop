@@ -20,6 +20,7 @@ import Loader from "../../components/Loader/Loader";
 import { orderByUser, downloadInvoice } from "../../api/order";
 import { getBadge } from "../../api/auth";
 import PageLoader from "../../components/Loader/PageLoader";
+import { getImageUrl } from "../../api/client";
 
 interface Product {
   id: number;
@@ -137,7 +138,7 @@ const Profile: React.FC = () => {
               <div className="w-24 h-24 md:w-36 md:h-36 rounded-[2rem] border-[5px] border-white dark:border-slate-800 overflow-hidden shadow-2xl bg-white dark:bg-slate-900 transition-transform duration-500 group-hover:scale-[1.03] group-hover:rotate-2">
                 {user.image ? (
                   <img 
-                    src={`http://127.0.0.1:8000/storage/${user.image}`} 
+                    src={getImageUrl(user.image)} 
                     alt={user.name} 
                     className="w-full h-full object-cover"
                   />

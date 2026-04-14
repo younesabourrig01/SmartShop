@@ -35,6 +35,13 @@ class User extends Authenticatable
         'image',
     ];
 
+    protected $appends = ['url'];
+
+    public function getUrlAttribute()
+    {
+        return $this->image ? \Illuminate\Support\Facades\Storage::disk('public')->url($this->image) : null;
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
