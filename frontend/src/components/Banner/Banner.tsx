@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getAds } from '../../api/ads';
+import { useGetAdsQuery } from '../../store/api/adApi';
 import { API_BASE_URL } from '../../api/client';
 
 interface BannerProps {
@@ -13,29 +13,12 @@ const Banner: React.FC<BannerProps> = ({
   gradient = "from-slate-900 via-blue-900 to-blue-800" 
 }) => {
   const { t } = useTranslation();
-  const [ads, setAds] = useState<any[]>([]);
+  const { data: adsData, isLoading } = useGetAdsQuery();
+  const ads = adsData?.banners || [];
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isLoading, setIsLoading] = useState(true);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-
-  const fetchAds = useCallback(async () => {
-    try {
-      const res = await getAds();
-      if (res.data.status === 'success') {
-        const banners = res.data.data.banners || [];
-        setAds(banners);
-      }
-    } catch (error) {
-      console.error("Failed to load banner ads:", error);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    fetchAds();
-  }, [fetchAds]);
 
   const nextSlide = useCallback(() => {
     if (ads.length > 0) {

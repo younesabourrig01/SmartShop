@@ -14,24 +14,29 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import PageLoader from "../../components/Loader/PageLoader";
 import Loader from "../../components/Loader/Loader";
-import { getCart, clearCart, updateCart } from "../../api/cart";
-import { createOrder, downloadInvoice } from "../../api/order";
 import { getBadge } from "../../api/auth";
 import { API_BASE_URL, getImageUrl } from "../../api/client";
-import { useAuth } from "../../context/AuthContext";
-import { useCart } from "../../context/CartContext";
+import { useAppSelector } from "../../store/hooks";
+import { useGetCartQuery, useUpdateCartMutation, useClearCartMutation } from "../../store/api/cartApi";
+import { useCreateOrderMutation, useLazyDownloadInvoiceQuery } from "../../store/api/orderApi";
 import toast from "react-hot-toast";
 
 const Cart: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { user } = useAuth();
-  const { refreshCartCount } = useCart();
+  const { user } = useAppSelector((state) => state.auth);
+  
+  // Queries & Mutations
+  const { data: cartData, isLoading: loading } = useGetCartQuery();
+  const [updateCart] = useUpdateCartMutation();
+  const [clearCart] = useClearCartMutation();
+  const [createOrder] = useCreateOrderMutation();
+  const [triggerDownloadInvoice] = useLazyDownloadInvoiceQuery();
 
-  const [cartItems, setCartItems] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
+  const cartItems = cartData?.items || [];
+  const totalCartItems = cartData?.totalPrice || 0;
+
   const [isClearing, setIsClearing] = useState(false);
   const [isCheckingOut, setIsCheckingOut] = useState(false);
-  const [totalCartItems, setTotalCartItems] = useState(null);
   const [updatingItemId, setUpdatingItemId] = useState<number | string | null>(
     null,
   );
@@ -39,21 +44,7 @@ const Cart: React.FC = () => {
   const [isDownloading, setIsDownloading] = useState(false);
   const [badgeData, setBadgeData] = useState<any>(null);
 
-  const fetchCart = async () => {
-    try {
-      const res = await getCart();
-
-      setTotalCartItems(res.data.total);
-      setCartItems(res.data.data.cart_items);
-    } catch (err) {
-      console.error("Failed to fetch cart", err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchCart();
     const fetchBadge = async () => {
       try {
         const res = await getBadge();
@@ -68,44 +59,40 @@ const Cart: React.FC = () => {
   const handleClearCart = async () => {
     setIsClearing(true);
     try {
-      await clearCart();
-      setCartItems([]);
+      await clearCart().unwrap();
+      toast.success(t("cart.cleared") || "Cart cleared successfully!");
     } catch (err) {
       console.error("Failed to clear cart", err);
     } finally {
       setIsClearing(false);
-      refreshCartCount();
     }
   };
 
   const handleCheckout = async () => {
     setIsCheckingOut(true);
     try {
-      const res = await createOrder();
+      const res = await createOrder().unwrap();
 
-      if (res.data.status === "error") {
-        toast.error(res.data.message);
+      if (res.status === "error") {
+        toast.error(res.message);
         return;
       }
 
-      toast.success(res.data.message);
-      setCartItems([]);
-      setTotalCartItems(null);
+      toast.success(res.message || t('cart.checkout_success') || "Order placed successfully!");
       setShowInvoicePopup(true);
     } catch (err: any) {
       console.error("Failed to create order", err);
-      toast.error(err.response?.data?.message || t('cart.order_failed'));
+      toast.error(err.data?.message || t('cart.order_failed') || "Failed to place order");
     } finally {
       setIsCheckingOut(false);
-      refreshCartCount();
     }
   };
 
   const handleDownloadInvoice = async () => {
     setIsDownloading(true);
     try {
-      const response = await downloadInvoice();
-      const url = window.URL.createObjectURL(new Blob([response.data as Blob]));
+      const response = await triggerDownloadInvoice().unwrap();
+      const url = window.URL.createObjectURL(response);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', 'invoice.pdf');
@@ -127,17 +114,15 @@ const Cart: React.FC = () => {
   ) => {
     setUpdatingItemId(productId);
     try {
-      await updateCart(productId, newQuantity);
-      await fetchCart();
+      await updateCart({ productId, quantity: newQuantity }).unwrap();
       if (newQuantity === 0) {
         toast.success(t("cart.product_removed"));
       }
     } catch (err: any) {
       console.error("Failed to update cart", err);
-      toast.error(err.response?.data?.message || t('cart.cart_update_failed'));
+      toast.error(err.data?.message || t('cart.cart_update_failed'));
     } finally {
       setUpdatingItemId(null);
-      refreshCartCount();
     }
   };
 
@@ -164,7 +149,7 @@ const Cart: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (loading && cartItems.length === 0) {
     return <PageLoader />;
   }
 
@@ -226,8 +211,8 @@ const Cart: React.FC = () => {
                   {/* Product Image */}
                   <div className="w-full md:w-32 h-32 rounded-2xl overflow-hidden bg-slate-50 dark:bg-slate-800 flex-shrink-0 relative group">
                     <img
-                      src={getImageUrl(item.product?.images?.[0]?.url || item.product?.image || item.image)}
-                      alt={item.product?.name || item.name}
+                      src={getImageUrl(item.product?.images?.[0]?.url)}
+                      alt={item.product?.name}
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-blue-500/0 group-hover:bg-blue-500/5 transition-colors duration-300" />
@@ -238,11 +223,10 @@ const Cart: React.FC = () => {
                     <div className="space-y-1">
                       <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">
                         {item.product?.category?.name ||
-                          item.category ||
                           "Uncategorized"}
                       </span>
                       <h3 className="text-xl font-bold text-slate-800 dark:text-slate-100 hover:text-blue-600 transition-colors cursor-pointer leading-tight">
-                        {item.product?.name || item.name}
+                        {item.product?.name}
                       </h3>
                       <div className="flex items-center gap-2 text-slate-400 text-sm italic">
                         <ShoppingBag size={14} />
@@ -253,7 +237,7 @@ const Cart: React.FC = () => {
                     <div className="flex flex-row md:flex-col justify-between items-center md:items-end gap-4">
                       <div className="text-2xl font-black text-slate-900 dark:text-white">
                         {(
-                          (item.product?.price || item.price || 0) *
+                          (item.product?.price || 0) *
                           item.quantity
                         ).toFixed(2)} MAD
                       </div>

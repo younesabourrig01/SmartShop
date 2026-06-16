@@ -28,11 +28,11 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import Loader from "../../../components/Loader/Loader";
 import PageLoader from "../../../components/Loader/PageLoader";
-import { useAuth } from "../../../context/AuthContext";
-import { ProductContext } from "../../../context/ProductContext";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { clearAuth } from "../../../store/slices/authSlice";
+import { useGetProductsQuery, useDeleteProductMutation } from "../../../store/api/productApi";
+import { useGetCategoriesQuery } from "../../../store/api/categoryApi";
 import { logout } from "../../../api/auth";
-import { getCategories } from "../../../api/category";
-import { deleteProduct } from "../../../api/products";
 import toast from "react-hot-toast";
 import ProductForm from "../../../components/Dashboard/ProductForm";
 import DeleteConfirm from "../../../components/Dashboard/DeleteConfirm";
@@ -41,8 +41,17 @@ import { API_BASE_URL, getImageUrl } from "../../../api/client";
 const ManageProducts: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clearAuth } = useAuth();
-  const { products, loading, currentPage, lastPage, setCurrentPage, refreshProducts } = useContext(ProductContext);
+  const dispatch = useAppDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // RTK Query queries & mutations
+  const { data: productsData, isLoading: loading } = useGetProductsQuery({ page: currentPage });
+  const { data: categories = [] } = useGetCategoriesQuery();
+  const [deleteProduct] = useDeleteProductMutation();
+
+  const products = productsData?.data || [];
+  const lastPage = productsData?.last_page || 1;
+
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<any>(null);
@@ -50,7 +59,6 @@ const ManageProducts: React.FC = () => {
   const [productToDelete, setProductToDelete] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
-  const [categories, setCategories] = useState<any[]>([]);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const [isLoading, setIsLoading] = useState(false);
@@ -68,33 +76,17 @@ const ManageProducts: React.FC = () => {
     setIsDeleting(true);
     setDeletingId(productToDelete.id);
     try {
-      await deleteProduct(productToDelete.id);
+      await deleteProduct(productToDelete.id).unwrap();
       toast.success(`${productToDelete.name} deleted successfully`);
-      refreshProducts();
       setIsDeleteModalOpen(false);
       setProductToDelete(null);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to delete product");
+      toast.error(error.data?.message || "Failed to delete product");
     } finally {
       setIsDeleting(false);
       setDeletingId(null);
     }
   };
-
-  const loadCategories = async () => {
-    try {
-      const res = await getCategories();
-      if (res.data && res.data.status === "success") {
-        setCategories(res.data.data);
-      }
-    } catch (error) {
-       console.error("Failed to load categories", error);
-    }
-  };
-
-  React.useEffect(() => {
-    loadCategories();
-  }, []);
 
   const filteredProducts = products.filter((p) => {
     const matchesSearch = p.name?.toLowerCase().includes(searchQuery.toLowerCase());
@@ -115,7 +107,7 @@ const ManageProducts: React.FC = () => {
     setIsLoading(true);
     try {
       await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success("Logged out successfully");
       navigate("/login");
     } catch (error) {
@@ -484,7 +476,7 @@ const ManageProducts: React.FC = () => {
         onClose={() => setIsFormOpen(false)} 
         initialData={editingProduct}
         title={editingProduct ? "Update Product" : "Add New Product"}
-        onSuccess={refreshProducts}
+        onSuccess={() => setIsFormOpen(false)}
       />
 
       {/* Delete Confirmation Modal */}

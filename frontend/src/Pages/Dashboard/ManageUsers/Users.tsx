@@ -26,7 +26,8 @@ import {
   Calendar as CalendarIcon,
   Megaphone
 } from "lucide-react";
-import { useAuth } from "../../../context/AuthContext";
+import { useAppDispatch } from "../../../store/hooks";
+import { clearAuth } from "../../../store/slices/authSlice";
 import { getAllUsers, logout } from "../../../api/auth";
 import toast from "react-hot-toast";
 import Loader from "../../../components/Loader/Loader";
@@ -35,7 +36,7 @@ import PageLoader from "../../../components/Loader/PageLoader";
 const Users: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clearAuth } = useAuth();
+  const dispatch = useAppDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
   const [users, setUsers] = useState<any[]>([]);
@@ -88,7 +89,7 @@ const Users: React.FC = () => {
     setIsLoading(true);
     try {
       await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success("Logged out successfully");
       navigate("/login");
     } catch (error) {

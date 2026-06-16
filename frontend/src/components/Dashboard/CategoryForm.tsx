@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, Layers, FileText } from 'lucide-react';
 import Loader from '../Loader/Loader';
-import { addCategory, updateCategory } from '../../api/category';
+import { useCreateCategoryMutation, useUpdateCategoryMutation } from '../../store/api/categoryApi';
 import toast from 'react-hot-toast';
 
 interface CategoryFormProps {
@@ -20,6 +20,10 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
+
+  // RTK Query mutations
+  const [createCategory] = useCreateCategoryMutation();
+  const [updateCategory] = useUpdateCategoryMutation();
 
   useEffect(() => {
     if (initialData) {
@@ -48,16 +52,16 @@ const CategoryForm: React.FC<CategoryFormProps> = ({ isOpen, onClose, initialDat
 
     try {
         if (initialData) {
-            await updateCategory(initialData.id, formData);
+            await updateCategory({ id: initialData.id, data: formData }).unwrap();
             toast.success("Category updated successfully!");
         } else {
-            await addCategory(formData);
+            await createCategory(formData).unwrap();
             toast.success("Category created successfully!");
         }
         if (onSuccess) onSuccess();
         onClose();
     } catch (error: any) {
-        toast.error(error.response?.data?.message || "Something went wrong");
+        toast.error(error.data?.message || "Something went wrong");
     } finally {
         setIsLoading(false);
     }

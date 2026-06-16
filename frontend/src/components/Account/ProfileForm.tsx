@@ -3,7 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Upload, Trash2, User, Mail, MapPin, Phone } from "lucide-react";
 import Loader from "../Loader/Loader";
 import { updateProfile } from "../../api/auth";
-import { useAuth } from "../../context/AuthContext";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { updateUser } from "../../store/slices/authSlice";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 
@@ -21,7 +22,8 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
   title,
 }) => {
   const { t } = useTranslation();
-  const { setAuth, token } = useAuth();
+  const dispatch = useAppDispatch();
+  const token = useAppSelector((state) => state.auth.token);
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     email: initialData?.email || "",
@@ -72,9 +74,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({
         toast.success(
           response.data.message || t("profile.form.update_success"),
         );
-        if (token) {
-          setAuth(response.data.data, token);
-        }
+        dispatch(updateUser(response.data.data));
         onClose();
       }
     } catch (error: any) {

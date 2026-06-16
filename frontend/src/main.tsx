@@ -4,16 +4,17 @@ import { BrowserRouter } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import "./index.css";
 import "./i18n";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 import App from "./App.tsx";
-import { AppProviders } from "./providers/AppProviders.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Toaster position="top-right" />
-      <AppProviders>
+      <Provider store={store}>
         <App />
-      </AppProviders>
+      </Provider>
     </BrowserRouter>
   </StrictMode>,
 );

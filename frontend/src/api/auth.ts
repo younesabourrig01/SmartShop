@@ -12,8 +12,15 @@ export const login = (data: object) => {
   return API.post("/login", data);
 };
 
-export const logout = () => {
-  return API.post("/logout");
+export const logout = async () => {
+  try {
+    return await API.post("/logout");
+  } catch (error: any) {
+    if (error.response?.status === 401) {
+      return { data: { message: "Logged out" } };
+    }
+    throw error;
+  }
 };
 
 export const deleteAccount = (data: { password?: string }) => {

@@ -5,14 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Mail, Lock, LogIn, ShieldCheck, ArrowLeft, Eye, EyeOff } from "lucide-react";
 import { login } from "../../api/auth";
-import { useAuth } from "../../context/AuthContext";
+import { useAppDispatch } from "../../store/hooks";
+import { setAuth } from "../../store/slices/authSlice";
 import toast from "react-hot-toast";
 import Loader from "../../components/Loader/Loader";
 
 const Login: React.FC = () => {
   const { t, i18n } = useTranslation();
   const navigate = useNavigate();
-  const { setAuth } = useAuth();
+  const dispatch = useAppDispatch();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -54,7 +55,7 @@ const Login: React.FC = () => {
         const token = res.data.token;
         const user = res.data.user;
 
-        setAuth(user, token);
+        dispatch(setAuth({ user, token }));
 
         toast.success(res.data.message);
         setErrors({});

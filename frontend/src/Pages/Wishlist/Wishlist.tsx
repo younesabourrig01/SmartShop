@@ -4,51 +4,29 @@ import { useTranslation } from 'react-i18next';
 import { Heart, Trash2, ShoppingCart, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import PageLoader from '../../components/Loader/PageLoader';
-import { getWishlist, removeFromWishlist } from '../../api/wishlist';
-import { addToCart } from '../../api/cart';
-import { Product } from '../../context/ProductContext';
-import { useWishlist } from '../../context/WishlistContext';
-import { useCart } from '../../context/CartContext';
+import { useAppSelector } from '../../store/hooks';
+import { useGetWishlistQuery, useRemoveFromWishlistMutation } from '../../store/api/wishlistApi';
+import { useAddToCartMutation } from '../../store/api/cartApi';
+import { Product } from '../../types';
 import toast from 'react-hot-toast';
 import { getImageUrl } from '../../api/client';
 
 const Wishlist: React.FC = () => {
   const { t } = useTranslation();
+  const token = useAppSelector((state) => state.auth.token);
 
-  const [wishlistProducts, setWishlistProducts] = useState<Product[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { data: wishlistProducts = [], isLoading: loading } = useGetWishlistQuery(undefined, { skip: !token });
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+  const [addToCart] = useAddToCartMutation();
+
   const [isRemoving, setIsRemoving] = useState<number | string | null>(null);
   const [isAddingToCart, setIsAddingToCart] = useState<number | string | null>(null);
-
-  const { refreshWishlistCount } = useWishlist();
-  const { refreshCartCount } = useCart();
-
-  const fetchWishlist = () => {
-    setLoading(true);
-    getWishlist()
-      .then((res) => {
-        const data = res.data?.data || (Array.isArray(res.data) ? res.data : []);
-        setWishlistProducts(data);
-      })
-      .catch((err) => {
-        console.error("Failed to fetch wishlist", err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  };
-
-  useEffect(() => {
-    fetchWishlist();
-  }, []);
 
   const handleRemove = async (productId: number | string) => {
     setIsRemoving(productId);
     try {
-      await removeFromWishlist(productId);
+      await removeFromWishlist(productId).unwrap();
       toast.success(t('wishlist.removed_success'));
-      setWishlistProducts(prev => prev.filter(p => p.id !== productId));
-      refreshWishlistCount();
     } catch (err) {
       console.error(err);
       toast.error(t('wishlist.removed_failed'));
@@ -60,13 +38,8 @@ const Wishlist: React.FC = () => {
   const handleAddToCart = async (productId: number | string) => {
     setIsAddingToCart(productId);
     try {
-      const res = await addToCart(productId, 1);
-      if (res.data.status === 'success') {
-        toast.success(t('wishlist.added_success'));
-        refreshCartCount();
-      } else {
-        toast.error(res.data.message || t('wishlist.added_failed'));
-      }
+      await addToCart({ productId, quantity: 1 }).unwrap();
+      toast.success(t('wishlist.added_success'));
     } catch (err) {
       console.error(err);
       toast.error(t('wishlist.added_failed'));
@@ -75,7 +48,7 @@ const Wishlist: React.FC = () => {
     }
   };
 
-  if (loading) {
+  if (loading && wishlistProducts.length === 0) {
     return <PageLoader />;
   }
 

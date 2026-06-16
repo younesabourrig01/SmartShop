@@ -10,7 +10,7 @@ import {
   ShoppingBag
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { getReviewsByUser, deleteReview } from "../../api/reviews";
+import { useGetReviewsByUserQuery, useDeleteReviewMutation } from "../../store/api/reviewApi";
 import PageLoader from "../../components/Loader/PageLoader";
 import { API_BASE_URL } from "../../api/client";
 import { motion, AnimatePresence } from "framer-motion";
@@ -33,27 +33,11 @@ interface UserReview {
 
 const UserReviews: React.FC = () => {
   const { t } = useTranslation();
-  const [reviews, setReviews] = useState<UserReview[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isDeleting, setIsDeleting] = useState(false);
+  const { data: reviewsData, isLoading } = useGetReviewsByUserQuery();
+  const reviews = reviewsData?.reviews || [];
+  const [deleteReviewMutation, { isLoading: isDeleting }] = useDeleteReviewMutation();
   const [deletingReview, setDeletingReview] = useState<UserReview | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const fetchReviews = async () => {
-    try {
-      const res = await getReviewsByUser();
-      setReviews(res.data.reviews || []);
-    } catch (error) {
-      console.error("Error fetching reviews:", error);
-      toast.error("Failed to load your reviews");
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchReviews();
-  }, []);
 
   const handleDeleteClick = (review: UserReview) => {
     setDeletingReview(review);
@@ -62,20 +46,14 @@ const UserReviews: React.FC = () => {
 
   const handleConfirmDelete = async () => {
     if (!deletingReview) return;
-    
-    setIsDeleting(true);
     try {
-      const res = await deleteReview(deletingReview.product_id);
-      if (res.data.status === 'success') {
-        toast.success(res.data.message || "Review deleted successfully");
-        setReviews(reviews.filter(r => r.id !== deletingReview.id));
-        setIsModalOpen(false);
-      }
+      const res = await deleteReviewMutation(deletingReview.product_id).unwrap();
+      toast.success(res.message || "Review deleted successfully");
+      setIsModalOpen(false);
     } catch (error) {
       console.error("Error deleting review:", error);
       toast.error("Failed to delete review");
     } finally {
-      setIsDeleting(false);
       setDeletingReview(null);
     }
   };

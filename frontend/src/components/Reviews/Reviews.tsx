@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Star, Send, User, Calendar, Loader2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getProductReviews, addReview } from '../../api/reviews';
+import { useGetProductReviewsQuery, useAddReviewMutation } from '../../store/api/reviewApi';
 import toast from 'react-hot-toast';
 
 interface Review {
@@ -24,44 +24,23 @@ const Reviews: React.FC<ReviewsProps> = ({ productId }) => {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [review, setReview] = useState("");
-  const [reviews, setReviews] = useState<Review[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const fetchReviews = async () => {
-    if (!productId) return;
-    try {
-      const res = await getProductReviews(productId);
-      setReviews(res.data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchReviews();
-  }, [productId]);
+  const { data: reviews = [], isLoading: loading } = useGetProductReviewsQuery(productId as string | number, {
+    skip: !productId
+  });
+  const [addReviewMutation, { isLoading: isSubmitting }] = useAddReviewMutation();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!productId || rating === 0 || review.trim() === "") return;
 
-    setIsSubmitting(true);
     try {
-      const res = await addReview(productId, { review, rating });
-      if (res.data.status === 'success') {
-        toast.success(t('reviews.success') || 'Review added successfully!');
-        setRating(0);
-        setReview("");
-        fetchReviews(); // Refresh list
-      }
+      await addReviewMutation({ productId, review, rating }).unwrap();
+      toast.success(t('reviews.success') || 'Review added successfully!');
+      setRating(0);
+      setReview("");
     } catch (err: any) {
       console.error(err);
-      toast.error(err.response?.data?.message || 'Failed to add review. Make sure you are logged in and haven\'t already reviewed this product.');
-    } finally {
-      setIsSubmitting(false);
+      toast.error(err?.data?.message || err?.message || 'Failed to add review. Make sure you are logged in and haven\'t already reviewed this product.');
     }
   };
 

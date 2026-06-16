@@ -13,26 +13,44 @@ import {
   ChevronsLeft,
   ChevronsRight,
 } from "lucide-react";
-import { ProductContext } from "../../context/ProductContext";
+import { useGetProductsQuery } from "../../store/api/productApi";
+import { useGetCategoriesQuery } from "../../store/api/categoryApi";
 import PageLoader from "../../components/Loader/PageLoader";
 
 const Products: React.FC = () => {
   const { t } = useTranslation();
 
-  const {
-    products,
-    loading,
-    currentPage,
-    lastPage,
-    setCurrentPage,
-    categories,
-    selectedCategory,
-    sortBy,
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("min_price");
+  const [search, setSearch] = useState("");
+  const [localSearch, setLocalSearch] = useState("");
+
+  const { data: categories = [] } = useGetCategoriesQuery();
+  const { data, isLoading } = useGetProductsQuery({
+    page: currentPage,
+    categoryId: selectedCategory,
+    sort: sortBy,
     search,
-    setSelectedCategory,
-    setSortBy,
-    setSearch,
-  } = useContext(ProductContext);
+  });
+
+  const products = data?.data || [];
+  const lastPage = data?.last_page || 1;
+
+  // Debounce search input
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setSearch(localSearch);
+      setCurrentPage(1); // Reset page on filter change
+    }, 500);
+    return () => clearTimeout(handler);
+  }, [localSearch]);
+
+  // Reset page when category or sort changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [selectedCategory, sortBy]);
+
 
   return (
     <div className="min-h-screen bg-[#f0f2f5] dark:bg-slate-900 pt-6 md:pt-24 pb-12 md:pb-20 overflow-x-hidden">
@@ -59,8 +77,8 @@ const Products: React.FC = () => {
               />
               <input
                 type="text"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                value={localSearch}
+                onChange={(e) => setLocalSearch(e.target.value)}
                 className="w-full pl-11 md:pl-14 pr-4 py-3 md:py-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-bold text-base md:text-lg text-slate-800 dark:text-slate-100 placeholder-slate-400 shadow-inner"
                 placeholder={t("products.filter.search_placeholder") || "Search products..."}
               />
@@ -156,8 +174,8 @@ const Products: React.FC = () => {
             {t("products.description")}
           </motion.p>
         </header>
-        {loading && <PageLoader />}
-        {!loading && products.length === 0 ? (
+        {isLoading && <PageLoader />}
+        {!isLoading && products.length === 0 ? (
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}

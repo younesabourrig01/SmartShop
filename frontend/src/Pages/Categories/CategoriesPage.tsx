@@ -2,15 +2,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { ShoppingBag } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { CategoryContext } from "../../context/CategoryContext";
-import { useContext } from "react";
+import { useGetCategoriesQuery } from "../../store/api/categoryApi";
 import PageLoader from "../../components/Loader/PageLoader";
 import { Link } from "react-router-dom";
-import { API_BASE_URL, getImageUrl } from "../../api/client";
+import { getImageUrl } from "../../api/client";
 
 const CategoriesPage: React.FC = () => {
   const { t } = useTranslation();
-  const { categories, loading } = useContext(CategoryContext);
+  const { data: categories = [], isLoading: loading } = useGetCategoriesQuery();
+
   return (
     <div className="min-h-screen bg-[#f8fafc] dark:bg-slate-900 pb-20 pt-16">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -31,7 +31,7 @@ const CategoriesPage: React.FC = () => {
 
                 <div className="relative z-10">
                   <div
-                    className={`w-full aspect-square blue rounded-[2rem] overflow-hidden mb-8 group-hover:scale-105 transition-all duration-500`}
+                    className="w-full aspect-square blue rounded-[2rem] overflow-hidden mb-8 group-hover:scale-105 transition-all duration-500"
                   >
                     <img
                       src={getImageUrl(cat.url)} 

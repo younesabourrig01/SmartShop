@@ -2,7 +2,8 @@ import React, { useState, useEffect, useMemo } from "react";
 import { logout } from "../../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate, Link } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { clearAuth } from "../../store/slices/authSlice";
 import { useTranslation } from "react-i18next";
 import { 
   User, 
@@ -17,8 +18,8 @@ import {
   Info
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
-import { orderByUser, downloadInvoice } from "../../api/order";
-import { getBadge } from "../../api/auth";
+import { useGetUserOrdersQuery, useLazyDownloadInvoiceQuery } from "../../store/api/orderApi";
+import { useGetUserBadgeQuery } from "../../store/api/userApi";
 import PageLoader from "../../components/Loader/PageLoader";
 import { getImageUrl } from "../../api/client";
 
@@ -47,43 +48,20 @@ interface GroupedOrders {
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
-  const { user, clearAuth } = useAuth();
+  const dispatch = useAppDispatch();
+  const { user } = useAppSelector((state) => state.auth);
   const { t, i18n } = useTranslation();
   const isRtl = i18n.language === "ar";
   const [isLoading, setIsLoading] = useState(false);
-  const [groupedOrders, setGroupedOrders] = useState<GroupedOrders>({});
-  const [isOrdersLoading, setIsOrdersLoading] = useState(true);
+  
+  // RTK Query
+  const { data: ordersData, isLoading: isOrdersLoading } = useGetUserOrdersQuery();
+  const [triggerDownloadInvoice] = useLazyDownloadInvoiceQuery();
+  const { data: badgeData } = useGetUserBadgeQuery();
+  
+  const groupedOrders = ordersData?.orders || {};
   const [showAllDays, setShowAllDays] = useState(false);
   const [isDownloadingInvoice, setIsDownloadingInvoice] = useState(false);
-  const [badgeData, setBadgeData] = useState<{ badge: string; orders_count: number; wishlist_count: number; shipping_discount?: number } | null>(null);
-
-  useEffect(() => {
-    const fetchBadge = async () => {
-      try {
-        const res = await getBadge();
-        setBadgeData(res.data);
-      } catch (error) {
-        console.error("Error fetching badge:", error);
-      }
-    };
-    fetchBadge();
-  }, []);
-
-  useEffect(() => {
-    const fetchOrders = async () => {
-      try {
-        const res = await orderByUser();
-        setGroupedOrders(res.data.orders);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-        toast.error("Failed to load orders");
-      } finally {
-        setIsOrdersLoading(false);
-      }
-    };
-    
-    fetchOrders();
-  }, []);
 
   const sortedDates = useMemo(() => 
     Object.keys(groupedOrders).sort((a, b) => b.localeCompare(a)), 
@@ -95,7 +73,7 @@ const Profile: React.FC = () => {
     setIsLoading(true);
     try {
       const res = await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success(res.data.message || "Logged out successfully");
       navigate("/login");
     } catch (error) {
@@ -109,8 +87,8 @@ const Profile: React.FC = () => {
   const handleDownloadInvoice = async () => {
     setIsDownloadingInvoice(true);
     try {
-      const response = await downloadInvoice();
-      const url = window.URL.createObjectURL(new Blob([response.data as Blob]));
+      const response = await triggerDownloadInvoice().unwrap();
+      const url = window.URL.createObjectURL(response);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', 'last_invoice.pdf');

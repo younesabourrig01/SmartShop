@@ -1,11 +1,10 @@
-import React, { useState, useContext } from "react";
+import React, { useState } from "react";
 import { logout } from "../../api/auth";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useAuth } from "../../context/AuthContext";
-import { ProductContext } from "../../context/ProductContext";
-import { CategoryContext } from "../../context/CategoryContext";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { clearAuth } from "../../store/slices/authSlice";
 import { 
   LayoutDashboard, 
   Users, 
@@ -30,7 +29,9 @@ import {
 } from "lucide-react";
 import Loader from "../../components/Loader/Loader";
 import PageLoader from "../../components/Loader/PageLoader";
-import { getAllOrders, getOrdersByDate, downloadReport, updateStatus } from "../../api/order";
+import { useGetProductsQuery } from "../../store/api/productApi";
+import { useGetCategoriesQuery } from "../../store/api/categoryApi";
+import { useGetOrdersByDateQuery, useUpdateOrderStatusMutation, useLazyDownloadReportQuery } from "../../store/api/orderApi";
 import { getAllUsers } from "../../api/auth";
 
 interface Order {
@@ -46,19 +47,29 @@ interface Order {
 const Dashboard: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clearAuth } = useAuth();
-  const { totalProducts, loading: productsLoading } = useContext(ProductContext);
-  const { categories, loading: categoriesLoading } = useContext(CategoryContext);
+  const dispatch = useAppDispatch();
+  
+  // State
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
-  const [ordersLoading, setOrdersLoading] = useState(true);
   const [usersLoading, setUsersLoading] = useState(true);
-  const [orders, setOrders] = useState<Order[]>([]);
   const [totalUsers, setTotalUsers] = useState<number>(0);
   const [selectedDate, setSelectedDate] = useState<string>(new Date().toISOString().split('T')[0]);
   const [editingOrderId, setEditingOrderId] = useState<number | null>(null);
   const [tempStatus, setTempStatus] = useState<string>("");
   const [isUpdating, setIsUpdating] = useState(false);
+
+  // RTK Query
+  const { data: productsData, isLoading: productsLoading } = useGetProductsQuery();
+  const { data: categoriesData, isLoading: categoriesLoading } = useGetCategoriesQuery();
+  const { data: ordersData, isLoading: ordersLoading } = useGetOrdersByDateQuery(selectedDate);
+  const [updateOrderStatus] = useUpdateOrderStatusMutation();
+  const [triggerDownloadReport] = useLazyDownloadReportQuery();
+
+  const totalProducts = productsData?.total || 0;
+  const categories = categoriesData || [];
+  const orders = ordersData?.orders || [];
+
   const statuses = [
     { label: "pending", icon: <Clock size={14}/>, color: "text-amber-500", bg: "bg-amber-50" },
     { label: "paid", icon: <CheckCircle size={14}/>, color: "text-green-500", bg: "bg-green-50" },
@@ -82,34 +93,9 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  const fetchOrders = async (date?: string) => {
-    setOrdersLoading(true);
-    try {
-      let res;
-      if (date) {
-        res = await getOrdersByDate(date);
-        if (res.data.status === 'success') {
-          setOrders(res.data.orders);
-        }
-      } else {
-        res = await getAllOrders();
-        if (res.data.status === 'success') {
-          // Flatten grouped orders if returned that way
-          const flattened = Object.values(res.data.orders_by_day).flat() as Order[];
-          setOrders(flattened);
-        }
-      }
-    } catch (error) {
-      toast.error("Failed to fetch transactions");
-    } finally {
-      setOrdersLoading(false);
-    }
-  };
-
   React.useEffect(() => {
-    fetchOrders(selectedDate);
     fetchUsersCount();
-  }, [selectedDate]);
+  }, []);
 
   const handleDownloadReport = async () => {
     if (!selectedDate) {
@@ -118,8 +104,8 @@ const Dashboard: React.FC = () => {
     }
     const toastId = toast.loading("Generating report...");
     try {
-      const response = await downloadReport(selectedDate);
-      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const response = await triggerDownloadReport(selectedDate).unwrap();
+      const url = window.URL.createObjectURL(response);
       const link = document.createElement('a');
       link.href = url;
       link.setAttribute('download', `report-orders-${selectedDate}.pdf`);
@@ -136,7 +122,7 @@ const Dashboard: React.FC = () => {
     setIsLoading(true);
     try {
       const res = await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success(res.data.message);
       navigate("/login");
     } catch (error) {
@@ -147,16 +133,13 @@ const Dashboard: React.FC = () => {
     }
   };
 
-const handleUpdateStatus = async (orderId: number) => {
+  const handleUpdateStatus = async (orderId: number) => {
     if (!tempStatus) return;
     setIsUpdating(true);
     try {
-      const res = await updateStatus(orderId, tempStatus);
-      if (res.data.status === 'success') {
-        toast.success("Order status updated successfully");
-        setEditingOrderId(null);
-        fetchOrders(selectedDate);
-      }
+      await updateOrderStatus({ id: orderId, status: tempStatus }).unwrap();
+      toast.success("Order status updated successfully");
+      setEditingOrderId(null);
     } catch (error) {
       toast.error("Failed to update status");
     } finally {
@@ -166,7 +149,7 @@ const handleUpdateStatus = async (orderId: number) => {
 
   const isDataLoading = productsLoading || categoriesLoading || ordersLoading || usersLoading;
 
-if (isDataLoading) return <PageLoader/>;
+  if (isDataLoading) return <PageLoader/>;
 
   return (
     <div className="flex items-start bg-gray-50 dark:bg-slate-950 text-gray-800 dark:text-slate-100 font-sans relative min-h-screen w-full">
@@ -309,7 +292,7 @@ if (isDataLoading) return <PageLoader/>;
                   />
                 </div>
                 <button 
-                  onClick={() => fetchOrders()}
+                  onClick={() => setSelectedDate(new Date().toISOString().split('T')[0])}
                   className="flex items-center gap-2 px-4 py-2 bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-xl text-xs font-bold text-gray-500 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700/80 transition-all shadow-sm active:scale-95"
                 >
                   <ArrowUpDown size={14} />

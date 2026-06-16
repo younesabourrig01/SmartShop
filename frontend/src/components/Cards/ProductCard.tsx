@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { Loader2, ShoppingCart } from 'lucide-react';
-import { addToCart } from '../../api/cart';
-import { useCart } from '../../context/CartContext';
-
-import { API_BASE_URL, getImageUrl } from '../../api/client';
+import { useAppSelector } from '../../store/hooks';
+import { useAddToCartMutation } from '../../store/api/cartApi';
+import { getImageUrl } from '../../api/client';
 
 interface ProductCardProps {
   id: string | number;
@@ -13,26 +12,30 @@ interface ProductCardProps {
   title: string;
   price: string | number;
 }
+
 const ProductCard: React.FC<ProductCardProps> = ({ id, image, title, price }) => {
   const [isAdding, setIsAdding] = useState(false);
-  const { refreshCartCount } = useCart();
+  const token = useAppSelector((state) => state.auth.token);
+  const navigate = useNavigate();
+  const [addToCart] = useAddToCartMutation();
 
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
+    if (!token) {
+      toast.error('Please log in to add items to cart');
+      navigate('/login');
+      return;
+    }
+
     setIsAdding(true);
     try {
-      const response = await addToCart(id, 1);
-      if (response.data.status === 'success') {
-        toast.success(response.data.message || 'Product added to cart!');
-        refreshCartCount();
-      } else {
-        toast.error(response.data.message || 'Failed to add to cart');
-      }
-    } catch (error) {
+      await addToCart({ productId: id, quantity: 1 }).unwrap();
+      toast.success('Product added to cart!');
+    } catch (error: any) {
       console.error(error);
-      toast.error('An error occurred while adding to cart');
+      toast.error(error?.data?.message || 'An error occurred while adding to cart');
     } finally {
       setIsAdding(false);
     }

@@ -21,17 +21,18 @@ import {
   Info
 } from "lucide-react";
 import toast from "react-hot-toast";
-import { useAuth } from "../../../context/AuthContext";
+import { useAppDispatch } from "../../../store/hooks";
+import { clearAuth } from "../../../store/slices/authSlice";
+import { useGetAdsQuery, useDeleteAdMutation } from "../../../store/api/adApi";
 import { logout } from "../../../api/auth";
 import AdForm from "../../../components/Dashboard/AdForm";
 import DeleteConfirm from "../../../components/Dashboard/DeleteConfirm";
-import { getAds, deleteAd } from "../../../api/ads";
 import { API_BASE_URL } from "../../../api/client";
 
 const ManageAds: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clearAuth } = useAuth();
+  const dispatch = useAppDispatch();
   
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -41,28 +42,11 @@ const ManageAds: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'slider'>('slider');
 
   const [isLoading, setIsLoading] = useState(false);
-  const [ads, setAds] = useState<any[]>([]);
-  const [isFetchingAds, setIsFetchingAds] = useState(true);
 
-  const fetchAds = async () => {
-    setIsFetchingAds(true);
-    try {
-      const res = await getAds();
-      if (res.data.status === 'success') {
-        const { sliders } = res.data.data;
-        setAds([...sliders]);
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error(t('dashboard.ads.messages.load_failed'));
-    } finally {
-      setIsFetchingAds(false);
-    }
-  };
+  const { data: adsData, isLoading: isFetchingAds } = useGetAdsQuery();
+  const ads = adsData?.sliders || [];
 
-  React.useEffect(() => {
-    fetchAds();
-  }, []);
+  const [deleteAdMutation] = useDeleteAdMutation();
 
   const filteredAds = ads.filter(ad => ad.position === activeTab);
 
@@ -70,7 +54,7 @@ const ManageAds: React.FC = () => {
     setIsLoading(true);
     try {
       await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success(t('common.logout_success'));
       navigate("/login");
     } catch (error) {
@@ -98,10 +82,9 @@ const ManageAds: React.FC = () => {
   const handleConfirmDelete = async () => {
     if (!adToDelete) return;
     try {
-      await deleteAd(adToDelete.id);
+      await deleteAdMutation(adToDelete.id).unwrap();
       toast.success(t('dashboard.ads.messages.delete_success', { title: adToDelete.title }));
       setIsDeleteModalOpen(false);
-      fetchAds();
     } catch (err) {
       console.error(err);
       toast.error(t('dashboard.ads.messages.delete_failed'));
@@ -298,7 +281,7 @@ const ManageAds: React.FC = () => {
         onClose={() => setIsFormOpen(false)} 
         initialData={editingAd}
         title={editingAd ? t('dashboard.ads.form.update_title') : t('dashboard.ads.form.launch_title')}
-        onSuccess={fetchAds}
+        onSuccess={() => {}}
       />
 
       {/* Delete Confirmation Component */}

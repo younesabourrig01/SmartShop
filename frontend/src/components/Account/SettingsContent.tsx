@@ -4,7 +4,8 @@ import { ArrowLeft, User, Trash2, X, AlertTriangle, Lock } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import toast from "react-hot-toast";
-import { useAuth } from "../../context/AuthContext";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { clearAuth } from "../../store/slices/authSlice";
 import ProfileForm from "./ProfileForm";
 import Loader from "../Loader/Loader";
 
@@ -18,7 +19,8 @@ interface SettingsContentProps {
 const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { user, clearAuth } = useAuth();
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [password, setPassword] = useState("");
@@ -37,7 +39,7 @@ const SettingsContent: React.FC<SettingsContentProps> = ({ backLabel, backPath }
     try {
       await deleteAccount({ password });
       toast.success(t('profile.settings.delete_success'), { id: toastId });
-      clearAuth();
+      dispatch(clearAuth());
       setIsDeleteModalOpen(false);
       navigate("/register");
     } catch (error: any) {
