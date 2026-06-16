@@ -3,23 +3,31 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Search, LogIn, UserPlus, Menu, Moon, Sun, ShoppingCart, Languages, ChevronDown, Heart, User } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { useCart } from '../../context/CartContext';
-import { useWishlist } from '../../context/WishlistContext';
-import { useTheme } from '../../context/ThemeContext';
+import { useAppDispatch, useAppSelector } from '../../store/hooks';
+import { toggleDarkMode } from '../../store/slices/themeSlice';
+import { useGetCartQuery } from '../../store/api/cartApi';
+import { useGetWishlistQuery } from '../../store/api/wishlistApi';
 import logo from '../../assets/smartShopLogo.png';
 
 const Navbar: React.FC = () => {
   const { t, i18n } = useTranslation();
-  const { user } = useAuth();
-  const { cartCount } = useCart();
-  const { wishlistCount } = useWishlist();
+  const dispatch = useAppDispatch();
+  const { user, token } = useAppSelector((state) => state.auth);
+  
+  // Use RTK Query hooks, skipped if unauthenticated
+  const { data: cartData } = useGetCartQuery(undefined, { skip: !token });
+  const { data: wishlistData } = useGetWishlistQuery(undefined, { skip: !token });
+  
+  const cartCount = cartData?.items?.length || 0;
+  const wishlistCount = wishlistData?.length || 0;
+  const isDarkMode = useAppSelector((state) => state.theme.isDarkMode);
+  
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { isDarkMode, toggleDarkMode } = useTheme();
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isLinksOpen, setIsLinksOpen] = useState(false);
   const langDropdownRef = useRef<HTMLDivElement>(null);
   const linksDropdownRef = useRef<HTMLDivElement>(null);
+
 
   const languages = [
     { code: 'en', name: 'English', flag: 'https://flagcdn.com/w40/us.png' },
@@ -178,7 +186,7 @@ const Navbar: React.FC = () => {
 
         {/* Universal Theme Toggle Button */}
         <button
-          onClick={toggleDarkMode}
+          onClick={() => dispatch(toggleDarkMode())}
           className={`relative flex items-center h-[38px] lg:h-[42px] rounded-full transition-all duration-500 shrink-0 shadow-inner ${
             isDarkMode ? 'bg-black' : 'bg-[#e5e5e5]'
           } w-[42px] xl:w-[130px]`}

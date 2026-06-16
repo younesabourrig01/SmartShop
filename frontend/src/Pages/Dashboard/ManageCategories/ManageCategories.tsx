@@ -18,22 +18,22 @@ import {
   Menu,
   Megaphone,
 } from "lucide-react";
-import { useAuth } from "../../../context/AuthContext";
+import { useAppDispatch } from "../../../store/hooks";
+import { clearAuth } from "../../../store/slices/authSlice";
+import { useGetCategoriesQuery, useDeleteCategoryMutation } from "../../../store/api/categoryApi";
 import { logout } from "../../../api/auth";
 import toast from "react-hot-toast";
 import Loader from "../../../components/Loader/Loader";
 import CategoryForm from "../../../components/Dashboard/CategoryForm";
 import CategoryInfo from "../../../components/Dashboard/CategoryInfo";
 import DeleteConfirm from "../../../components/Dashboard/DeleteConfirm";
-import { CategoryContext } from "../../../context/CategoryContext";
-import { deleteCategory } from "../../../api/category";
 import PageLoader from "../../../components/Loader/PageLoader";
 import { API_BASE_URL } from "../../../api/client";
 
 const ManageCategories: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clearAuth } = useAuth();
+  const dispatch = useAppDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isFormOpen, setIsFormOpen] = useState(false);
@@ -44,11 +44,9 @@ const ManageCategories: React.FC = () => {
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { categories, loading, refreshCategories } = useContext(CategoryContext);
-
-  React.useEffect(() => {
-    refreshCategories();
-  }, []);
+  // RTK Query
+  const { data: categories = [], isLoading: loading } = useGetCategoriesQuery();
+  const [deleteCategory] = useDeleteCategoryMutation();
 
   const handleDeleteClick = (category: any) => {
     setSelectedCategory(category);
@@ -59,13 +57,12 @@ const ManageCategories: React.FC = () => {
     if (!selectedCategory) return;
     setDeletingId(selectedCategory.id);
     try {
-      await deleteCategory(selectedCategory.id);
+      await deleteCategory(selectedCategory.id).unwrap();
       toast.success(`${selectedCategory.name} deleted successfully`);
-      refreshCategories();
       setIsDeleteOpen(false);
       setSelectedCategory(null);
     } catch (error: any) {
-      toast.error(error.response?.data?.message || "Failed to delete category");
+      toast.error(error.data?.message || "Failed to delete category");
     } finally {
       setDeletingId(null);
     }
@@ -75,7 +72,7 @@ const ManageCategories: React.FC = () => {
     setIsLoading(true);
     try {
       await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success("Logged out successfully");
       navigate("/login");
     } catch (error) {
@@ -303,7 +300,6 @@ const ManageCategories: React.FC = () => {
         onClose={() => setIsFormOpen(false)}
         initialData={editingCategory}
         title={editingCategory ? "Update Category" : "Add New Category"}
-        onSuccess={refreshCategories}
       />
 
       {/* Category Info Popup */}

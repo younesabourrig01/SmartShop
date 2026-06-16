@@ -6,77 +6,58 @@ import { ShoppingCart, ArrowLeft, CheckCircle2, XCircle, Loader2, Heart } from '
 import toast from 'react-hot-toast';
 import Reviews from '../../components/Reviews/Reviews';
 import ProductCard from '../../components/Cards/ProductCard';
-import { ProductContext, type Product } from '../../context/ProductContext';
-import { getProduct } from '../../api/products';
-import { addToCart } from '../../api/cart';
-import { storeWishlist, removeFromWishlist, isInWishlist } from '../../api/wishlist';
-import { useCart } from '../../context/CartContext';
-import { useWishlist } from '../../context/WishlistContext';
+import { useAppSelector } from '../../store/hooks';
+import { useGetProductQuery, useGetProductsQuery } from '../../store/api/productApi';
+import { useGetWishlistQuery, useAddToWishlistMutation, useRemoveFromWishlistMutation } from '../../store/api/wishlistApi';
+import { useAddToCartMutation } from '../../store/api/cartApi';
+import { Product } from '../../types';
 import PageLoader from '../../components/Loader/PageLoader';
 import { API_BASE_URL, getImageUrl } from '../../api/client';
 
 const ShowProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
-  const { products: allProducts } = useContext(ProductContext);
-  
-  const [product, setProduct] = useState<Product | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const token = useAppSelector((state) => state.auth.token);
+
+  // Queries
+  const { data: product, isLoading: productLoading, isError } = useGetProductQuery(id || '');
+  const { data: productsData } = useGetProductsQuery();
+  const { data: wishlistProducts = [] } = useGetWishlistQuery(undefined, { skip: !token });
+
+  // Mutations
+  const [addToCart] = useAddToCartMutation();
+  const [addToWishlist] = useAddToWishlistMutation();
+  const [removeFromWishlist] = useRemoveFromWishlistMutation();
+
   const [selectedImage, setSelectedImage] = useState(0);
   const [isAdding, setIsAdding] = useState(false);
-  const [inWishlist, setInWishlist] = useState(false);
   const [isWishlisting, setIsWishlisting] = useState(false);
 
-  const { refreshCartCount } = useCart();
-  const { refreshWishlistCount } = useWishlist();
+  const inWishlist = wishlistProducts.some((item) => item.id.toString() === id);
 
+  // Reset selected image and scroll to top when id changes
   useEffect(() => {
-    if (!id) return;
-
-    // Reset state and scroll to top when ID changes
-    setLoading(true);
-    setError(false);
     setSelectedImage(0);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
-    getProduct(id)
-      .then((res) => {
-        if (res.data.status === 'success') {
-          setProduct(res.data.data);
-        } else {
-          setError(true);
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching product:", err);
-        setError(true);
-        setLoading(false);
-      });
-
-    // Check wishlist status
-    isInWishlist(id)
-      .then((res) => setInWishlist(res.data.in_wishlist))
-      .catch(console.error);
   }, [id]);
+
+  const allProducts = productsData?.data || [];
 
   const handleAddToCart = async () => {
     if (!product) return;
+    if (!token) {
+      toast.error(t('login.required') || 'Please log in to add items to cart');
+      return;
+    }
     
     setIsAdding(true);
     try {
-      const response = await addToCart(product.id, 1);
-      if (response.data.status === 'success') {
-        const successMessage = response.data.message || (t('product_page.added_to_cart_success') as string) || 'Product added to cart!';
-        toast.success(successMessage);
-        refreshCartCount();
-      } else {
-        toast.error((t('product_page.added_to_cart_error') as string) || response.data.message || 'Failed to add product');
-      }
-    } catch (error) {
+      await addToCart({ productId: product.id, quantity: 1 }).unwrap();
+      const successMessage = (t('product_page.added_to_cart_success') as string) || 'Product added to cart!';
+      toast.success(successMessage);
+    } catch (error: any) {
       console.error(error);
-      toast.error('An error occurred while adding to cart');
+      toast.error((t('product_page.added_to_cart_error') as string) || error?.data?.message || 'Failed to add product');
     } finally {
       setIsAdding(false);
     }
@@ -84,26 +65,28 @@ const ShowProduct: React.FC = () => {
 
   const handleToggleWishlist = async () => {
     if (!product) return;
+    if (!token) {
+      toast.error(t('login.required') || 'Please log in to save items to wishlist');
+      return;
+    }
     setIsWishlisting(true);
     try {
       if (inWishlist) {
-        await removeFromWishlist(product.id);
+        await removeFromWishlist(product.id).unwrap();
         toast.success((t('product_page.removed_from_wishlist_success') as string) || 'Removed from wishlist');
       } else {
-        await storeWishlist(product.id);
+        await addToWishlist(product.id).unwrap();
         toast.success((t('product_page.added_to_wishlist_success') as string) || 'Added to wishlist');
       }
-      setInWishlist(!inWishlist);
-      refreshWishlistCount();
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      toast.error(err?.data?.message || 'Failed to update wishlist');
     } finally {
       setIsWishlisting(false);
     }
   };
 
-  // Handle Loading State
-  if (loading) {
+  if (productLoading) {
     return (
       <div className="min-h-screen pt-24">
         <PageLoader />
@@ -112,7 +95,7 @@ const ShowProduct: React.FC = () => {
   }
 
   // Handle Error/Not Found State
-  if (error || !product) {
+  if (isError || !product) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#f0f2f5]">
         <div className="text-center">

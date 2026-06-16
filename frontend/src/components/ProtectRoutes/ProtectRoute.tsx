@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
+import { useAppSelector } from "../../store/hooks";
 
 // Regular logged-in users only — admins are redirected to dashboard
 export const UserRoute = ({ children }: any) => {
-  const { token, user } = useAuth();
+  const { token, user } = useAppSelector((state) => state.auth);
   if (!token) {
     return <Navigate to="/login" />;
   }
@@ -15,7 +15,7 @@ export const UserRoute = ({ children }: any) => {
 };
 
 export const AdminRoute = ({ children }: any) => {
-  const { user, token } = useAuth();
+  const { user, token } = useAppSelector((state) => state.auth);
 
   if (!token || !user) {
     return <Navigate to="/login" replace />;

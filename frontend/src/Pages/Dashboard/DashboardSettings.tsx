@@ -12,8 +12,9 @@ import {
   Menu,
   Megaphone
 } from "lucide-react";
-import { useAuth } from "../../context/AuthContext";
 import { logout } from "../../api/auth";
+import { useAppDispatch } from "../../store/hooks";
+import { clearAuth } from "../../store/slices/authSlice";
 import toast from "react-hot-toast";
 import Loader from "../../components/Loader/Loader";
 import SettingsContent from "../../components/Account/SettingsContent";
@@ -21,7 +22,7 @@ import SettingsContent from "../../components/Account/SettingsContent";
 const DashboardSettings: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { clearAuth } = useAuth();
+  const dispatch = useAppDispatch();
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -29,7 +30,7 @@ const DashboardSettings: React.FC = () => {
     setIsLoading(true);
     try {
       await logout();
-      clearAuth();
+      dispatch(clearAuth());
       toast.success(t('common.logout_success'));
       navigate("/login");
     } catch (error) {

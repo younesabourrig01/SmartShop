@@ -1,31 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { getAds } from '../../api/ads';
-import { API_BASE_URL, getImageUrl } from '../../api/client';
+import { useGetAdsQuery } from '../../store/api/adApi';
+import { getImageUrl } from '../../api/client';
 
 const AdSlider: React.FC = () => {
   const { i18n } = useTranslation();
-  const [ads, setAds] = useState<any[]>([]);
+  const { data, isLoading } = useGetAdsQuery();
+  const ads = data?.sliders || [];
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchAds = async () => {
-      try {
-        const res = await getAds();
-        if (res.data.status === 'success') {
-          const sliders = res.data.data.sliders;
-          setAds(sliders);
-        }
-      } catch (err) {
-        console.error('Failed to load slider ads:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchAds();
-  }, []);
 
   useEffect(() => {
     if (ads.length > 1) {

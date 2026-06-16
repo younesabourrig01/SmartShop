@@ -20,7 +20,7 @@ API.interceptors.request.use((config) => {
 export const API_BASE_URL = "http://127.0.0.1:8000";
 
 export const getImageUrl = (path?: string | null) => {
-  if (!path) return "/placeholder.png"; // Fallback to a placeholder
+  if (!path) return "/placeholder.svg"; // Fallback to a placeholder
   if (path.startsWith('http')) return path;
   
   // Ensure we don't have double slashes and starting with storage

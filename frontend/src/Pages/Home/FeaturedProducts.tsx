@@ -1,17 +1,19 @@
-import React, { useContext } from 'react';
-import { motion } from 'framer-motion';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProductContext } from '../../context/ProductContext';
+import { useGetProductsQuery } from '../../store/api/productApi';
 import ProductCard from '../../components/Cards/ProductCard';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const FeaturedProducts: React.FC = () => {
-  const { products, loading } = useContext(ProductContext);
+  const { data, isLoading } = useGetProductsQuery();
+  const products = data?.data || [];
   const { t } = useTranslation();
 
   // Show top 4 products
   const featured = products?.slice(0, 4) || [];
+
 
   return (
     <section className="w-full py-16 lg:py-20 bg-slate-50 dark:bg-slate-800 relative overflow-hidden">
@@ -55,7 +57,7 @@ const FeaturedProducts: React.FC = () => {
         </div>
 
         {/* Products Grid */}
-        {loading ? (
+        {isLoading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 lg:gap-8">
             {[1, 2, 3, 4].map(i => (
               <div

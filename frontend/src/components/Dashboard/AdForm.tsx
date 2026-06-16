@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, Megaphone, Type, FileText, Image as ImageIcon } from 'lucide-react';
 import Loader from '../Loader/Loader';
 import toast from "react-hot-toast";
-import { createAd, updateAd } from '../../api/ads';
+import { useCreateAdMutation, useUpdateAdMutation } from '../../store/api/adApi';
 
 interface AdFormProps {
   isOpen: boolean;
@@ -18,6 +18,8 @@ const AdForm: React.FC<AdFormProps> = ({ isOpen, onClose, initialData, title, on
   const [preview, setPreview] = useState<string | null>(initialData?.image || null);
   const [isLoading, setIsLoading] = useState(false);
   const [position, setPosition] = useState(initialData?.position || 'slider');
+  const [createAd] = useCreateAdMutation();
+  const [updateAd] = useUpdateAdMutation();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -45,17 +47,17 @@ const AdForm: React.FC<AdFormProps> = ({ isOpen, onClose, initialData, title, on
 
     try {
       if (initialData) {
-        await updateAd(initialData.id, formData);
+        await updateAd({ id: initialData.id, data: formData }).unwrap();
         toast.success("Advertisement updated successfully!");
       } else {
-        await createAd(formData);
+        await createAd(formData).unwrap();
         toast.success("Advertisement created successfully!");
       }
       if (onSuccess) onSuccess();
       onClose();
     } catch (err: any) {
       console.error(err);
-      toast.error(err.response?.data?.message || err.message || "An error occurred");
+      toast.error(err.data?.message || err.message || "An error occurred");
     } finally {
       setIsLoading(false);
     }

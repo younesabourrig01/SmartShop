@@ -2,8 +2,8 @@ import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Trash2, Package, DollarSign, List, FileText, CheckCircle2 } from 'lucide-react';
 import Loader from '../Loader/Loader';
-import { getCategories } from "../../api/category";
-import { addProduct, updateProduct } from "../../api/products";
+import { useGetCategoriesQuery } from "../../store/api/categoryApi";
+import { useCreateProductMutation, useUpdateProductMutation } from "../../store/api/productApi";
 import { API_BASE_URL } from "../../api/client";
 import toast from "react-hot-toast";
 
@@ -19,14 +19,16 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
   const [images, setImages] = useState<File[]>([]);
   const [previews, setPreviews] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [categories, setCategories] = useState<any[]>([]);
-  const [isCategoriesLoading, setIsCategoriesLoading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
 
+  // RTK Query
+  const { data: categories = [], isLoading: isCategoriesLoading } = useGetCategoriesQuery(undefined, { skip: !isOpen });
+  const [createProduct] = useCreateProductMutation();
+  const [updateProduct] = useUpdateProductMutation();
+
   React.useEffect(() => {
     if (isOpen) {
-      loadCategories();
       if (initialData?.images) {
         const existingPreviews = initialData.images.map((img: any) => 
           img.url.startsWith('http') ? img.url : `${API_BASE_URL}${img.url}`
@@ -38,20 +40,6 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
       setImages([]); // Reset file inputs when opening
     }
   }, [isOpen, initialData]);
-
-  const loadCategories = async () => {
-    setIsCategoriesLoading(true);
-    try {
-      const res = await getCategories();
-      if (res.data && res.data.status === "success") {
-        setCategories(res.data.data);
-      }
-    } catch (error) {
-       console.error("Failed to load categories", error);
-    } finally {
-        setIsCategoriesLoading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -75,11 +63,11 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
     try {
         if (!initialData) {
             // Create mode
-            await addProduct(formData);
+            await createProduct(formData).unwrap();
             toast.success("Product created successfully!");
         } else {
             // Update mode
-            await updateProduct(initialData.id, formData);
+            await updateProduct({ id: initialData.id, data: formData }).unwrap();
             toast.success("Product updated successfully!");
         }
         if (onSuccess) onSuccess();
@@ -88,7 +76,7 @@ const ProductForm: React.FC<ProductFormProps> = ({ isOpen, onClose, initialData,
         setImages([]);
         setPreviews([]);
     } catch (error: any) {
-        toast.error(error.response?.data?.message || "Operation failed");
+        toast.error(error.data?.message || "Operation failed");
     } finally {
         setIsLoading(false);
     }

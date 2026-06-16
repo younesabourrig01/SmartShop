@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { getCategory } from "../../api/category";
+import { useGetCategoryQuery } from "../../store/api/categoryApi";
 import { motion } from "framer-motion";
 import { ArrowLeft, ShoppingBag, Layers } from "lucide-react";
 import ProductCard from "../../components/Cards/ProductCard";
@@ -24,24 +24,10 @@ interface Category {
 
 const ShowCategory: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [category, setCategory] = useState<Category | null>(null);
-  const [loading, setLoading] = useState(true);
   const { t } = useTranslation();
-
+  const { data, isLoading: loading } = useGetCategoryQuery(id as string, { skip: !id });
+  const category = data as unknown as Category;
   const API_BASE_URL = "http://127.0.0.1:8000/storage/";
-
-  useEffect(() => {
-    if (id) {
-      getCategory(id)
-        .then((res) => {
-          setCategory(res.data.data);
-          setLoading(false);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    }
-  }, [id]);
 
   if (loading) return <PageLoader />;
   if (!category) return <div className="pt-32 text-center h-screen">Category not found</div>;

@@ -1,15 +1,13 @@
-import React, { useRef, useContext } from "react";
+import React, { useRef } from "react";
 import { ChevronRight, ChevronLeft, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
-import { CategoryContext } from "../../context/CategoryContext";
+import { useGetCategoriesQuery } from "../../store/api/categoryApi";
 import { Link } from "react-router-dom";
 import { getImageUrl } from "../../api/client";
 
-
-
 const Slider: React.FC = () => {
-  const { categories, loading } = useContext(CategoryContext);
+  const { data: categories = [], isLoading } = useGetCategoriesQuery();
   const { t, i18n } = useTranslation();
   const scrollRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +26,7 @@ const Slider: React.FC = () => {
     }
   };
 
-  if (loading || !categories?.length) return null;
+  if (isLoading || !categories?.length) return null;
 
   return (
     <section className="w-full py-16 lg:py-20 bg-white dark:bg-slate-900 relative overflow-hidden">
