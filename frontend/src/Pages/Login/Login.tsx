@@ -57,7 +57,7 @@ const Login: React.FC = () => {
 
         dispatch(setAuth({ user, token }));
 
-        toast.success(res.data.message);
+        toast.success(res.data.message || t("login.success") || "Logged in successfully!");
         setErrors({});
 
         if (user.role === "user") {

@@ -90,6 +90,28 @@ cd SmartShop-Projet-Stage
 
 ---
 
+### 2. Quick Setup with Docker (Recommended for Local Use)
+
+If you have Docker installed, you can skip the manual backend and frontend installation steps entirely! Just run the following command in the root of the project:
+
+```bash
+docker-compose up -d --build
+```
+
+This will automatically build and start the containers. You can then access:
+- **Frontend (React):** http://localhost:5173
+- **Backend API (Laravel):** http://localhost:8000
+- **Go Microservice (Password Generator):** http://localhost:8080
+
+To stop the containers, run:
+```bash
+docker-compose down
+```
+
+*(If you prefer not to use Docker, follow the manual installation steps below)*
+
+---
+
 ## Backend (Laravel)
 
 ```bash
